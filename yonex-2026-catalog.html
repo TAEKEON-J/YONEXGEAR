@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>YONEX 2026 카탈로그</title>
+<style>
+  :root{
+    --navy:#0b2a5b;
+    --navy-deep:#081c3f;
+    --blue:#1656c9;
+    --green:#4fae32;
+    --red:#c8102e;
+    --ink:#12172a;
+    --paper:#f4f6fa;
+    --card:#ffffff;
+    --line:#e2e6ef;
+    --muted:#63697c;
+    --radius:14px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);}
+  a{color:inherit;}
+  img{max-width:100%;}
+
+  /* ---------- HEADER ---------- */
+  header.top{
+    position:sticky;top:0;z-index:50;
+    background:linear-gradient(120deg,var(--navy-deep),var(--navy) 55%,var(--blue));
+    color:#fff;
+    padding:14px 16px 0;
+    box-shadow:0 6px 18px rgba(8,20,45,.25);
+  }
+  .brandrow{display:flex;align-items:center;gap:8px;}
+  .brand{display:flex;align-items:center;gap:8px;flex:0 0 auto;}
+  .brand .logo{font-weight:800;font-size:20px;letter-spacing:.5px;}
+  .brand .yr{
+    font-size:11px;background:var(--green);color:#06210a;font-weight:800;
+    padding:3px 7px;border-radius:20px;letter-spacing:.5px;line-height:1;
+    display:inline-flex;align-items:center;
+  }
+  .header-title{
+    flex:1;text-align:center;font-weight:800;font-size:15px;letter-spacing:.03em;
+    color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;
+  }
+  @media(max-width:400px){.header-title{font-size:12.5px;}}
+  .header-logo{flex:0 0 auto;display:flex;align-items:center;}
+  .header-logo img{height:20px;width:auto;display:block;}
+  @media(max-width:400px){.header-logo img{height:16px;}}
+  .searchwrap{margin:12px 0 12px;}
+  .searchbox{
+    display:flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:9px 14px;
+  }
+  .searchbox input{
+    background:transparent;border:none;outline:none;color:#fff;font-size:15px;width:100%;
+  }
+  .searchbox input::placeholder{color:#c5cfe6;}
+  .searchbox svg{flex:none;opacity:.8;}
+
+  nav.cats{
+    display:flex;gap:6px;overflow-x:auto;padding:0 0 12px;
+    scrollbar-width:none;
+  }
+  nav.cats::-webkit-scrollbar{display:none;}
+  nav.cats button{
+    flex:none;white-space:nowrap;
+    background:rgba(255,255,255,.08);color:#dbe4fa;border:1px solid rgba(255,255,255,.18);
+    padding:8px 16px;border-radius:999px;font-size:13.5px;font-weight:700;cursor:pointer;
+  }
+  nav.cats button.active{background:#fff;color:var(--navy-deep);border-color:#fff;}
+
+  nav.subcats{
+    display:flex;gap:6px;overflow-x:auto;padding:0 0 12px;margin-top:-2px;
+    scrollbar-width:none;
+  }
+  nav.subcats::-webkit-scrollbar{display:none;}
+  nav.subcats button{
+    flex:none;white-space:nowrap;background:transparent;color:#aebbdd;
+    border:none;padding:6px 4px;font-size:13px;font-weight:600;cursor:pointer;
+    border-bottom:2px solid transparent;
+  }
+  nav.subcats button.active{color:#fff;border-bottom-color:var(--green);}
+
+  /* ---------- SERIES CHIPS ---------- */
+  .serieswrap{padding:12px 16px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
+  .serieswrap::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:none;padding:6px 13px;border-radius:999px;font-size:12.5px;font-weight:700;
+    background:#fff;border:1px solid var(--line);color:var(--muted);cursor:pointer;
+  }
+  .chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  main{padding:14px 16px 60px;max-width:1100px;margin:0 auto;}
+
+  .section-title{
+    font-size:13px;font-weight:800;color:var(--navy);text-transform:uppercase;
+    letter-spacing:.06em;margin:22px 2px 10px;display:flex;align-items:center;gap:8px;
+  }
+  .section-title .bar{width:16px;height:3px;background:var(--green);border-radius:2px;}
+  .count{color:var(--muted);font-size:12px;text-align:right;margin:6px 2px 0;}
+
+  .grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+  }
+  @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);}}
+  @media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr);}}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:8px;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .card:active{transform:scale(.97);}
+  .card:hover{box-shadow:0 6px 16px rgba(20,40,90,.12);}
+  .card .thumb{
+    height:150px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:6px;color:#fff;text-align:center;padding:8px;position:relative;overflow:hidden;
+  }
+  .card .thumb svg{width:64px;height:64px;flex:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));}
+  .card .thumb .thumb-label{font-size:11px;font-weight:800;letter-spacing:.03em;opacity:.9;}
+  .sheet-hero svg{width:76px;height:76px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.3));}
+  .badge-new{
+    display:inline-flex;white-space:nowrap;flex:none;
+    background:#fff;color:#7c3aed;border:1.2px solid #7c3aed;
+    border-radius:999px;font-size:8.1px;font-weight:800;letter-spacing:-.01em;
+    padding:2.2px 7.2px;
+  }
+  .badge-new.design{color:var(--blue);border-color:var(--blue);}
+  .card-top{position:relative;}
+  .card .series-tag{font-size:10.5px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em;}
+  .card .name{font-size:14px;font-weight:800;line-height:1.25;color:var(--ink);text-transform:uppercase;}
+  .card .kr{font-size:11.5px;color:var(--muted);}
+  .card .meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px;}
+  .card .meta span{
+    font-size:10px;background:#eef1f8;color:var(--muted);padding:2px 6px;border-radius:6px;font-weight:600;
+  }
+  .card .price{margin-top:auto;font-size:13.5px;font-weight:800;color:var(--navy-deep);}
+  .card .price small{font-weight:600;color:var(--muted);font-size:10.5px;}
+
+  .empty{
+    text-align:center;padding:60px 20px;color:var(--muted);
+  }
+
+  /* ---------- MODAL ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(8,15,35,.55);z-index:100;
+    display:none;align-items:flex-end;justify-content:center;
+  }
+  .overlay.open{display:flex;}
+  @media(min-width:720px){.overlay{align-items:center;}}
+  .sheet{
+    background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;
+    max-height:88vh;overflow-y:auto;padding:0 0 24px;position:relative;
+    animation:up .18s ease-out;
+  }
+  @media(min-width:720px){.sheet{border-radius:20px;max-height:80vh;}}
+  @keyframes up{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .sheet-head{display:none;}
+  .x.floating{
+    position:absolute;top:14px;right:14px;z-index:5;
+    border:none;background:rgba(255,255,255,.9);color:var(--ink);width:34px;height:34px;border-radius:50%;
+    font-size:16px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);
+  }
+  .sheet-hero{
+    width:100%;aspect-ratio:1/1;border-radius:20px 20px 0 0;
+    display:flex;align-items:center;justify-content:center;color:#fff;overflow:hidden;
+  }
+  @media(min-width:720px){.sheet-hero{border-radius:20px 20px 0 0;}}
+  .sheet-body{padding:18px 18px 16px;}
+  .sheet-body h2{font-size:19px;margin:0 0 2px;color:var(--ink);text-transform:uppercase;}
+  .sheet-body .kr-full{color:var(--muted);font-size:13px;margin-bottom:10px;}
+  .sheet-body .price-full{font-size:18px;font-weight:800;color:var(--navy-deep);margin:8px 0 14px;}
+  .sheet-body .desc{font-size:13.5px;line-height:1.6;color:#333;background:var(--paper);padding:10px 12px;border-radius:10px;margin-bottom:14px;}
+  table.specs{width:100%;table-layout:fixed;border-collapse:collapse;font-size:13px;}
+  table.specs tr{border-bottom:1px solid var(--line);}
+  table.specs td{padding:8px 4px;vertical-align:top;word-break:break-word;overflow-wrap:anywhere;}
+  table.specs td:first-child{color:var(--muted);width:34%;font-weight:600;}
+  table.specs td:last-child{font-weight:600;color:var(--ink);}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+  .tags span{font-size:11px;background:#eaf1ff;color:var(--blue);padding:4px 9px;border-radius:8px;font-weight:700;}
+
+  footer{
+    text-align:center;color:var(--muted);font-size:11.5px;padding:30px 16px 40px;
+  }
+
+  .color-dots{display:flex;align-items:center;gap:3px;margin-top:1px;}
+  .color-dot{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex:none;}
+  .color-more{font-size:9px;color:var(--muted);font-weight:700;margin-left:1px;}
+
+  /* ---------- TECH GLOSSARY ---------- */
+  .tech-term{font-weight:700;color:var(--ink);}
+  .tech-info{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:14px;height:14px;margin-left:2px;border-radius:50%;
+    background:#eaf1ff;color:var(--blue);font-size:10px;font-weight:800;
+    cursor:pointer;vertical-align:middle;line-height:1;
+  }
+  #techPopover{
+    position:fixed;z-index:200;max-width:260px;background:var(--navy-deep);color:#fff;
+    padding:10px 12px;border-radius:10px;font-size:12.5px;line-height:1.5;
+    box-shadow:0 8px 20px rgba(0,0,0,.3);display:none;
+  }
+  #techPopover .tp-title{font-weight:800;font-size:12.5px;margin-bottom:4px;color:#8ec6ff;}
+  #techPopover .tp-close{
+    position:absolute;top:6px;right:8px;color:#9fb3d9;font-size:12px;cursor:pointer;
+  }
+
+  /* ---------- PRINT / SAVE AS PDF ---------- */
+  @media print{
+    header.top nav, header.top .searchwrap, #adminBtn, #adminOverlay, .overlay,
+    #origPdfBtn, #newOnlyBtn, #sortSelect, .serieswrap{
+      display:none !important;
+    }
+    header.top{position:static;background:#fff !important;color:var(--navy-deep);padding:6px 0;}
+    header.top .brand .logo, header.top .header-title{color:var(--navy-deep) !important;-webkit-text-fill-color:var(--navy-deep);}
+    header.top .header-logo img{filter:invert(1);}
+    body{background:#fff;}
+    main{max-width:100%;padding:0 6px;}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+    .card{break-inside:avoid;box-shadow:none !important;border:1px solid #ddd;}
+    .card:hover{box-shadow:none;}
+    .empty{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brandrow">
+    <div class="brand">
+      <span class="logo">YONEX</span>
+      <span class="yr">2026</span>
+    </div>
+    <div class="header-title">2026 GEAR CATALOGUE</div>
+    <div class="header-logo" style="gap:8px;"><a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;">카탈로그 PDF 다운</a></div>
+  </div>
+  <div class="searchwrap">
+    <div class="searchbox">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchInput" type="text" placeholder="제품명, 모델명으로 검색 (예: 아스트록스, VCORE)">
+    </div>
+  </div>
+  <nav class="cats" id="catNav"></nav>
+  <nav class="subcats" id="subNav"></nav>
+</header>
+
+<div class="serieswrap" id="seriesRow"></div>
+
+<main>
+  <div class="section-title" id="sectionTitle"><span class="bar"></span><span id="sectionTitleText">전체 제품</span></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 2px 10px;gap:8px;">
+    <div class="count" id="countLabel" style="margin:0;"></div>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <button id="newOnlyBtn" style="font-size:12.5px;font-weight:700;color:var(--muted);
+        background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer;">
+        🆕 신상품만
+      </button>
+      <select id="sortSelect" style="font-size:12.5px;font-weight:700;color:var(--navy);
+        background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 8px;">
+        <option value="default">상품 정렬</option>
+        <option value="desc">가격 높은순</option>
+        <option value="asc">가격 낮은순</option>
+      </select>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="emptyMsg" style="display:none;">검색 결과가 없습니다. 다른 키워드로 시도해 보세요.</div>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<button id="adminBtn" onclick="openAdmin()"
+  style="position:fixed;right:16px;bottom:16px;z-index:60;background:var(--navy);color:#fff;
+         border:none;border-radius:999px;padding:12px 18px;font-weight:800;font-size:13px;
+         box-shadow:0 6px 18px rgba(8,20,45,.35);cursor:pointer;">
+  🔗📷 링크·이미지 일괄 등록
+</button>
+
+<div class="overlay" id="adminOverlay">
+  <div class="sheet" id="adminSheet"></div>
+</div>
+
+<div id="techPopover"><span class="tp-close" onclick="closeTechPopover()">✕</span><div class="tp-title" id="techPopoverTitle"></div><div id="techPopoverDesc"></div></div>
+
+<footer>YONEX 2026 Product Catalog · 웹 열람용으로 재구성된 비공식 요약본 · 정확한 정보는 원본 카탈로그 및 요넥스 공식 채널을 참고하세요.</footer>
+
+<script>
+/* =============== DATA =============== */
+const GRAD = {
+  ASTROX:'linear-gradient(135deg,#7a1e1e,#e8622c)',
+  ARCSABER:'linear-gradient(135deg,#8a1420,#d43a4a)',
+  NANOFLARE:'linear-gradient(135deg,#0a6b5e,#37c8b0)',
+  SHOP:'linear-gradient(135deg,#555,#999)',
+  BADSTR:'linear-gradient(135deg,#0b3d91,#3fa9f5)',
+  SHUTTLE:'linear-gradient(135deg,#c9b458,#efe6c0)',
+  BADSHOE:'linear-gradient(135deg,#123a6b,#2f7fd1)',
+  VCORE:'linear-gradient(135deg,#7a0d1d,#c8102e)',
+  PERCEPT:'linear-gradient(135deg,#1b2a52,#3d5ba9)',
+  EZONE:'linear-gradient(135deg,#0d3f8a,#3fa9f5)',
+  ASTREL:'linear-gradient(135deg,#334155,#7c93b8)',
+  TENSTR:'linear-gradient(135deg,#0b3d91,#2f7fd1)',
+  TENSHOE:'linear-gradient(135deg,#123a6b,#4fae32)',
+  BALL:'linear-gradient(135deg,#4fae32,#a7d96c)',
+  VOLTRAGE:'linear-gradient(135deg,#7a0d1d,#c8102e)',
+  GEOBREAK:'linear-gradient(135deg,#7a1e1e,#e8622c)',
+  SOFT:'linear-gradient(135deg,#334155,#7c93b8)',
+  ACC:'linear-gradient(135deg,#4fae32,#0b6b3a)',
+  MACHINE:'linear-gradient(135deg,#374151,#0f172a)',
+};
+
+const CATS = [
+  {id:'bad', label:'배드민턴'},
+  {id:'ten', label:'테니스'},
+  {id:'soft', label:'정구'},
+  {id:'machine', label:'머신'},
+  {id:'acc', label:'액세서리'},
+];
+const SUBCATS = {
+  bad:[{id:'racquet',label:'라켓'},{id:'shoe',label:'신발'},{id:'string',label:'스트링'},{id:'shuttle',label:'셔틀콕'}],
+  ten:[{id:'racquet',label:'라켓'},{id:'shoe',label:'신발'},{id:'string',label:'스트링'},{id:'ball',label:'테니스공'}],
+  soft:[{id:'racquet',label:'라켓'},{id:'string',label:'스트링'}],
+  machine:[{id:'stringmachine',label:'스트링 머신'}],
+  acc:[{id:'grip',label:'그립'},{id:'etc',label:'기타 용품'}],
+};
+
+/*
+  HOW TO ADD YOUR OWN PHOTOS
+  --------------------------
+  1. Put image files in a folder named "images" next to this HTML file
+     (same folder as yonex-2026-catalog.html), e.g. images/astrox99.jpg
+  2. On any product below, add an "img" field pointing to that file:
+       img:'images/astrox99.jpg'
+     (You can also paste a full https:// image URL copied from Yonexmall
+     instead of a local file path — same field, either works.)
+  3. Save and reopen the file in your browser — that product will show
+     your photo instead of the icon automatically. Missing/typo'd paths
+     just fall back to the icon, so nothing breaks.
+  4. Want a DIFFERENT photo in the detail popup than on the card?
+     Add a second field called "imgDetail":
+       img:'images/astrox99-thumb.jpg', imgDetail:'images/astrox99-full.jpg'
+     If "imgDetail" is missing, the detail popup just reuses "img".
+  5. Want MULTIPLE photos in the detail popup (a small gallery)?
+     Add an "images" array instead — the first one shows big, and a
+     thumbnail strip appears below it so people can tap to switch:
+       images:['images/astrox99-1.jpg','images/astrox99-2.jpg','images/astrox99-3.jpg']
+     If "images" is present it takes priority over "img"/"imgDetail" for the popup.
+
+  HOW TO LINK A PRODUCT TO YONEXMALL (요넥스몰)
+  --------------------------------------------
+  Add a "buyUrl" field with the product's real Yonexmall page link:
+       buyUrl:'https://www.yonexmall.com/product/12345'
+  A "요넥스몰에서 보기 →" button will then appear in that product's
+  detail view, opening the real sales page in a new tab.
+*/
+// Each product: c(category) s(sub) series name kr price specs{} desc tags grad new img(optional) imgDetail(optional) images[](optional) buyUrl(optional)
+const P = [
+/* ============ BADMINTON RACQUETS - ASTROX ============ */
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 99 Pro',kr:'아스트록스 99 프로',price:329000,grad:GRAD.ASTROX,img:'images/astrox-99-pro.jpg',badge:'2025 F/W NEW PRODUCT',
+ buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=7925&category=001006',
+ specs:{'ERP코드':'ASTROX 99 PRO (2025 MODEL)','탄성':'STIFF','프레임':'HM Graphite / 2G-Namd FLEX FORCE / CFR / Tungsten','샤프트':'HM Graphite / 2G-Namd FLEX FORCE / Ultra PE Fiber','조인트':'NEW Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Black/Green','원산지':'Japan'},
+ desc:'ASTROX 시리즈 중 가장 강력한 라켓. 최대 에너지 전달로 강력한 스매시를 구사.',tags:['헤드헤비','공격형','상급']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 99 Game',kr:'아스트록스 99 게임',price:155000,grad:GRAD.ASTROX,img:'images/astrox-99-game.jpg',badge:'2025 F/W NEW PRODUCT',
+ specs:{'ERP코드':'ASTROX 99 GAME (2025 MODEL)','탄성':'MEDIUM','프레임':'HM Graphite / 2G-NANOMESH NEO / CSR / Tungsten','샤프트':'HM Graphite / 2G-NANOMESH NEO','조인트':'Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Black/Green','원산지':'Taiwan'},
+ desc:'중급자를 위한 최적의 밸런스, 합리적인 가격으로 누리는 혁신적인 성능.',tags:['헤드헤비','중급']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 100ZZ VA',kr:'아스트록스 100지지 브이에이',price:340000,grad:GRAD.ASTROX,img:'images/astrox-100zz-va.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'ASTROX 100ZZ VA','탄성':'EXTRA STIFF','프레임':'HM Graphite / Namd™ / Black Micro Core / Tungsten','샤프트':'HM Graphite / Namd™','조인트':'NEW Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Grayish Beige','원산지':'Japan'},
+ desc:'정밀한 무게 배분과 초슬림 샤프트. 빅토르 악셀센 시그니처 모델.',tags:['헤드헤비','상급','악셀센']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 88S Pro',kr:'아스트록스 88 에스 프로',price:309000,grad:GRAD.ASTROX,img:'images/astrox-88s-pro.jpg',
+ specs:{'ERP코드':'ASTROX 88S PRO (2024 MODEL)','탄성':'STIFF','프레임':'HM Graphite / CFR / Tungsten','샤프트':'HM Graphite / 2G-Namd Flex Force / ULTRA PE FIBER','조인트':'NEW Built-in T-joint','길이':'5mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Silver/Black','원산지':'Japan'},
+ desc:'더 커진 프레임으로 홀딩력을 강화, 전위 플레이어에게 용이한 라켓.',tags:['전위','상급']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 88S Game',kr:'아스트록스 88 에스 게임',price:135000,grad:GRAD.ASTROX,img:'images/astrox-88s-game.jpg',
+ specs:{'ERP코드':'ASTROX 88S GAME (2024 MODEL)','탄성':'MEDIUM','프레임':'HM Graphite / CSR / Tungsten','샤프트':'HM Graphite / 2G-NANOMESH NEO','조인트':'Built-in T-joint','길이':'5mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Silver/Black','원산지':'Taiwan'},
+ desc:'전위 플레이어를 위한 중급자용 라켓.',tags:['전위','중급']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 88D Pro',kr:'아스트록스 88 디 프로',price:309000,grad:GRAD.ASTROX,img:'images/astrox-88d-pro.jpg',
+ specs:{'ERP코드':'ASTROX 88D PRO (2024 MODEL)','탄성':'STIFF','프레임':'HM Graphite / CFR / Tungsten','샤프트':'HM Graphite / 2G-Namd Flex Force / ULTRA PE FIBER','조인트':'NEW Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Black/Silver','원산지':'Japan'},
+ desc:'컴팩트한 프레임으로 더 강력한 스매시, 후위 플레이어용.',tags:['후위','상급']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 88D Game',kr:'아스트록스 88 디 게임',price:135000,grad:GRAD.ASTROX,img:'images/astrox-88d-game.jpg',
+ specs:{'ERP코드':'ASTROX 88D GAME (2024 MODEL)','탄성':'MEDIUM','프레임':'HM Graphite / CSR / Tungsten','샤프트':'HM Graphite / 2G-NANOMESH NEO','조인트':'Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Black/Silver','원산지':'Taiwan'},
+ desc:'후위 플레이어를 위한 중급자용 콤팩트 프레임 라켓.',tags:['후위','중급']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 77 Pro',kr:'아스트록스 77 프로',price:279000,grad:GRAD.ASTROX,img:'images/astrox-77-pro.jpg',
+ specs:{'ERP코드':'ASTROX 77 PRO','탄성':'MEDIUM','프레임':'HM Graphite / FLEX Fuse / Tungsten','샤프트':'HM Graphite / Namd / ULTRA PE FIBER','조인트':'NEW Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'High Orange','원산지':'Japan'},
+ desc:'안세영 선수의 라켓. 누구나 쉽게 파워를 즐길 수 있는 라켓.',tags:['안세영','올라운드']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox Nextage',kr:'아스트록스 넥스테이지',price:199000,grad:GRAD.ASTROX,img:'images/astrox-nextage.jpg',
+ specs:{'ERP코드':'[LGR] ASTROX NEXTAGE (2025 MODEL) / [BK/G] ASTROX NEXTAGE','탄성':'MEDIUM','프레임':'Graphite / VDM / Tungsten','샤프트':'Graphite / NANOMESH NEO','조인트':'Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Light Gray, Black/Green','원산지':'Taiwan'},
+ desc:'중독성 있는 타구감과 편안한 스윙을 위해 개발된 라켓.',tags:['올라운드','중급']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 11',kr:'아스트록스 11',price:159000,grad:GRAD.ASTROX,img:'images/astrox-11.jpg',
+ specs:{'ERP코드':'ASTROX 11','탄성':'STIFF','프레임':'Graphite / Tungsten','샤프트':'Graphite, NANOMESH NEO','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 17-22lbs','색상':'Black/Green','원산지':'Taiwan'},
+ desc:'배드민턴 입문자들이 부담없이 사용하기 좋은 라켓.',tags:['입문']},
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 22 LT',kr:'아스트록스 22 엘티',price:139000,grad:GRAD.ASTROX,img:'images/astrox-22-lt.jpg',
+ specs:{'ERP코드':'ASTROX 22LT (2023 MODEL)','탄성':'MEDIUM','프레임':'HM Graphite / Tungsten','샤프트':'HM Graphite / NANOMESH NEO','조인트':'Built-in T-Joint','길이':'10mm longer','무게/그립':'3F(63g) G5 초경량','적정스트링장력':'3F 19-26lbs','색상':'Black/Red','원산지':'China'},
+ desc:'빠른 컨트롤과 스윙이 가능한 공격형 초경량(63g) 라켓.',tags:['초경량','공격형']},
+
+/* ============ ARCSABER ============ */
+{c:'bad',s:'racquet',series:'ARCSABER',name:'Arcsaber 11 Pro',kr:'아크세이버 11 프로',price:299000,grad:GRAD.ARCSABER,img:'images/arcsaber-11-pro.jpg',
+ specs:{'ERP코드':'ARCSABER 11 PRO','탄성':'STIFF','프레임':'HM Graphite / POCKETING BOOSTER','샤프트':'HM Graphite / SUPER HMG / ULTRA PE FIBER','조인트':'NEW Built-in T-Joint / T-ANCHOR','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 19-27lbs, 3U 20-28lbs','색상':'Grayish Pearl','원산지':'Japan'},
+ desc:'이븐 밸런스 라켓의 상징. 셔틀콕 홀딩력을 강화한 새로운 레벨의 컨트롤.',tags:['이븐밸런스','상급','컨트롤']},
+{c:'bad',s:'racquet',series:'ARCSABER',name:'Arcsaber 7 Pro',kr:'아크세이버 7 프로',price:270000,grad:GRAD.ARCSABER,img:'images/arcsaber-7-pro.jpg',
+ specs:{'ERP코드':'ARCSABER 7 PRO','탄성':'MEDIUM','프레임':'HM Graphite / POCKETING BOOSTER','샤프트':'HM Graphite / ULTRA PE FIBER','조인트':'NEW Built-in T-Joint / T-ANCHOR','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 19-27lbs','색상':'Gray/Yellow','원산지':'Japan'},
+ desc:'프레임 측면의 유니크한 기술력, 새로운 레벨의 셔틀콕 컨트롤.',tags:['컨트롤','상급']},
+{c:'bad',s:'racquet',series:'ARCSABER',name:'Arcsaber X7',kr:'아크세이버 엑스7',price:229000,grad:GRAD.ARCSABER,img:'images/arcsaber-x7.jpg',
+ specs:{'ERP코드':'ARCSABER X7','탄성':'HI-FLEX','프레임':'HM Graphite / POCKETING BOOSTER / VDM','샤프트':'HM Graphite / SUPER HMG','조인트':'Built-in T-Joint / T-ANCHOR','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Beige/Red','원산지':'Taiwan'},
+ desc:'한국 동호인에게 최적화된 스펙으로 개발된 X7 아크세이버 버전.',tags:['한국형','동호인']},
+{c:'bad',s:'racquet',series:'ARCSABER',name:'Arcsaber 1',kr:'아크세이버 1',price:159000,grad:GRAD.ARCSABER,img:'images/arcsaber-1.jpg',
+ specs:{'ERP코드':'ARCSABER 1','탄성':'MEDIUM','프레임':'Graphite / POCKETING BOOSTER','샤프트':'Graphite','조인트':'Built-in T-Joint / T-ANCHOR','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 17-22lbs','색상':'Magenta','원산지':'Taiwan'},
+ desc:'배드민턴 입문자들이 부담 없이 사용하기 좋은 라켓.',tags:['입문']},
+
+/* ============ NANOFLARE ============ */
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 1000 Z',kr:'나노플레어 1000 지',price:339000,grad:GRAD.NANOFLARE,img:'images/nanoflare-1000-z.jpg',
+ specs:{'ERP코드':'NANOFLARE 1000Z','탄성':'EXTRA STIFF','프레임':'HM Graphite / NANOMETRIC DR / M40X / EX-HMG','샤프트':'HM Graphite / ULTRA PE FIBER','조인트':'NEW Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Lightning Yellow','원산지':'Japan'},
+ desc:'가장 빠른 스매시 속도 565km/h 세계 신기록 보유 라켓.',tags:['최속스매시','헤드라이트','상급']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 800 Pro',kr:'나노플레어 800 프로',price:310000,grad:GRAD.NANOFLARE,img:'images/nanoflare-800-pro.jpg',
+ specs:{'ERP코드':'NANOFLARE 800 PRO','탄성':'STIFF','프레임':'HM Graphite / M40X / SUPER HMG / Copper','샤프트':'HM Graphite / SUPER HMG / ULTRA PE FIBER','조인트':'NEW Built-in T-Joint / Graphite','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Deep Green','원산지':'Japan'},
+ desc:'드라이브 속도를 극대화하도록 설계되어 카운터 드라이브가 가능한 라켓.',tags:['드라이브','상급']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 700 Pro',kr:'나노플레어 700 프로',price:305000,grad:GRAD.NANOFLARE,img:'images/nanoflare-700-pro.jpg',
+ specs:{'ERP코드':'NANOFLARE 700 PRO','탄성':'MEDIUM','프레임':'HM Graphite / M40X / SUPER HMG / SERVO FILTER','샤프트':'HM Graphite / SUPER HMG / ULTRA PE FIBER','조인트':'NEW Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g)/5U(78g) G5','적정스트링장력':'4U 20-28lbs, 5U 19-27lbs','색상':'Midnight Purple','원산지':'Japan'},
+ desc:'모든 랠리를 제어할 수 있는 조작성과 부드러움을 가진 라켓.',tags:['조작성','상급']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare Nextage',kr:'나노플레어 넥스테이지',price:199000,grad:GRAD.NANOFLARE,img:'images/nanoflare-nextage.jpg',
+ specs:{'ERP코드':'NANOFLARE NEXTAGE (2025 MODEL)','탄성':'MEDIUM','프레임':'HT Graphite / NANOCELL NEO','샤프트':'Graphite','조인트':'Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'White Gray / Dark Gray','원산지':'Taiwan'},
+ desc:'부드러우면서 빠른 반발력을 만들어내는 중급자용 라켓.',tags:['중급','올라운드']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare X7',kr:'나노플레어 엑스7',price:229000,grad:GRAD.NANOFLARE,img:'images/nanoflare-x7.jpg',badge:'2025 F/W NEW PRODUCT',
+ specs:{'ERP코드':'NANOFLARE X7 (2025 MODEL)','탄성':'HI-FLEX','프레임':'HM Graphite / NANOCELL NEO / SUPER HMG / VDM','샤프트':'HM Graphite / REXIS','조인트':'Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'White','원산지':'Taiwan'},
+ desc:'한국 동호인에 최적화된 스펙으로 개발된 X7 시리즈 4번째 모델.',tags:['한국형','동호인']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare X5',kr:'나노플레어 엑스5',price:93000,grad:GRAD.NANOFLARE,img:'images/nanoflare-x5.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'NANOFLARE X5','탄성':'HI-FLEX','프레임':'HM Graphite','샤프트':'HM Graphite','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Blue Green, Salmon Pink, Mist Purple, Ash Gray','원산지':'China'},
+ desc:'부드러운 타구감으로 입문자도 강력한 타구가 가능한 가성비 모델.',tags:['가성비','입문']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 555',kr:'나노플레어 555',price:189000,grad:GRAD.NANOFLARE,img:'images/nanoflare-555.jpg',
+ specs:{'ERP코드':'NANOFLARE 555','탄성':'STIFF','프레임':'HM Graphite / Nanocell NEO / EX-HMG / Solid Titanium','샤프트':'HM Graphite','조인트':'Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Matte White','원산지':'Taiwan'},
+ desc:'강력한 공격과 빠른 컨트롤을 지향하는 플레이어를 위한 라켓.',tags:['공격형']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 001 Ability',kr:'나노플레어 001 어빌리티',price:73000,grad:GRAD.NANOFLARE,img:'images/nanoflare-001-ability.jpg',
+ specs:{'ERP코드':'NANOFLARE 001 ABILITY (2025 MODEL)','탄성':'HI-FLEX','프레임':'Graphite','샤프트':'Graphite','길이':'10mm longer','무게/그립':'5U(78g) G5','적정스트링장력':'5U 20-27lbs','색상':'Black/Red','원산지':'China'},
+ desc:'블랙에 클래식 레드 색상이 어우러진 디자인, 부드러운 샤프트로 입문자용으로 적합한 가성비 라켓.',tags:['입문','가성비']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 001 Clear',kr:'나노플레어 001 클리어',price:73000,grad:GRAD.NANOFLARE,img:'images/nanoflare-001-clear.jpg',
+ specs:{'ERP코드':'NANOFLARE 001 CLEAR (2025 MODEL)','탄성':'HI-FLEX','프레임':'Graphite','샤프트':'Graphite','길이':'10mm longer','무게/그립':'5U(78g) G5','적정스트링장력':'5U 20-27lbs','색상':'White/Saxe','원산지':'China'},
+ desc:'화이트에 클래식 블루 색상이 어우러진 디자인, 부드러운 샤프트로 입문자용으로 적합한 가성비 라켓.',tags:['입문','가성비']},
+{c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 001 Feel',kr:'나노플레어 001 필',price:73000,grad:GRAD.NANOFLARE,img:'images/nanoflare-001-feel.jpg',
+ specs:{'ERP코드':'NANOFLARE 001 FEEL (2025 MODEL)','탄성':'HI-FLEX','프레임':'Graphite','샤프트':'Graphite','길이':'10mm longer','무게/그립':'5U(78g) G5','적정스트링장력':'5U 20-27lbs','색상':'White/Mint','원산지':'China'},
+ desc:'화이트에 클래식 민트 색상이 어우러진 디자인, 부드러운 샤프트로 입문자용으로 적합한 가성비 라켓.',tags:['입문','가성비']},
+
+/* ============ SHOP EXCLUSIVE / JUNIOR ============ */
+{c:'bad',s:'racquet',series:'SHOP EXCLUSIVE',name:'Astrox 01 Ability',kr:'아스트록스 01 어빌리티',price:0,grad:GRAD.SHOP,img:'images/astrox-01-ability.jpg',
+ specs:{'ERP코드':'ASTROX 01 ABILITY','탄성':'HI-FLEX','프레임':'Graphite','샤프트':'Graphite','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Black/Blue','비고':'대리점 전용 상품','원산지':'China'},
+ desc:'대리점 전용 가성비 입문 라켓. (블랙/블루)',tags:['대리점전용','입문']},
+{c:'bad',s:'racquet',series:'SHOP EXCLUSIVE',name:'Astrox 01 Clear',kr:'아스트록스 01 클리어',price:0,grad:GRAD.SHOP,img:'images/astrox-01-clear.jpg',
+ specs:{'ERP코드':'ASTROX 01 CLEAR','탄성':'HI-FLEX','프레임':'Graphite','샤프트':'Graphite','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'White/Mint','비고':'대리점 전용 상품','원산지':'China'},
+ desc:'대리점 전용 가성비 입문 라켓. (화이트/민트)',tags:['대리점전용','입문']},
+{c:'bad',s:'racquet',series:'SHOP EXCLUSIVE',name:'Astrox 01 Feel',kr:'아스트록스 01 필',price:0,grad:GRAD.SHOP,img:'images/astrox-01-feel.jpg',
+ specs:{'ERP코드':'ASTROX 01 FEEL','탄성':'HI-FLEX','프레임':'Graphite','샤프트':'Graphite','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'White/Pink','비고':'대리점 전용 상품','원산지':'China'},
+ desc:'대리점 전용 가성비 입문 라켓. (화이트/핑크)',tags:['대리점전용','입문']},
+{c:'bad',s:'racquet',series:'JUNIOR',name:'Muscle Power 2 Junior',kr:'엠피 투 주니어',price:35000,grad:GRAD.SHOP,img:'images/muscle-power-2-junior.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'MP2JR (2025 MODEL)','프레임':'Aluminum','샤프트':'Steel','길이':'21 in','무게/그립':'4U(83g) G5','적정스트링장력':'4U 14-18lbs','색상':'White/Lime yellow','원산지':'China'},
+ desc:'어린이를 위해 샤프트를 짧게 설계한 주니어용 배드민턴 라켓.',tags:['주니어']},
+{c:'bad',s:'racquet',series:'JUNIOR',name:'B 4000',kr:'비 4000',price:49000,grad:GRAD.SHOP,img:'images/b-4000.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'B4000 (2025 MODEL)','프레임':'Aluminum','샤프트':'Steel','무게/그립':'U(105g 이하) G4','적정스트링장력':'U 16-20lbs','색상':'White, Coral Orange','원산지':'Taiwan'},
+ desc:'누구와도 부담 없이 즐길 수 있는 가성비 좋은 세트 라켓.',tags:['세트라켓']},
+
+/* ============ BADMINTON STRINGS ============ */
+{c:'bad',s:'string',series:'EXBOLT',name:'Exbolt 68',kr:'엑스볼트 68',price:0,grad:GRAD.BADSTR,img:'images/exbolt-68.jpg',
+ specs:{'ERP코드':'[10M] EXBOLT 68 / [200M] EXBOLT 68-2','굵기':'0.68mm','중심':'고강도 나일론 멀티필라멘트','표면':'특수 편조 타원형 포지드 파이버','코팅':'엘라스티시티 아우터','길이':'10m/200m','색상':'White, Yellow, Black, Lime Green, Flare Red, Turquoise, Flare Orange','성능':'반발력10, 내구성8, 타구음9, 충격흡수력6, 컨트롤10','원산지':'Japan'},
+ desc:'새로운 표면 타원형 포지드 파이버를 적용해 충격 시 변형을 억제, 최대의 힘 전달이 가능한 굵은 두께의 스트링. 강력한 스매시와 내구성을 겸비.',tags:['고반발','내구성']},
+{c:'bad',s:'string',series:'EXBOLT',name:'Exbolt 65',kr:'엑스볼트 65',price:0,grad:GRAD.BADSTR,img:'images/exbolt-65.jpg',
+ specs:{'ERP코드':'[10M] EXBOLT 65 / [200M] EXBOLT 65-2','굵기':'0.65mm','중심':'고강도 나일론 멀티필라멘트','표면':'특수 편조 포지드 파이버','코팅':'엘라스티시티 아우터','길이':'10m/200m','색상':'White, Yellow, Black, Blue, Red, Purple, Green','성능':'반발력10, 내구성9, 타구음8, 충격흡수력10, 컨트롤10','원산지':'Japan'},
+ desc:'새로운 코팅 Elasticity Outer 적용으로 뛰어난 내구성과 충격 흡수력 제공. 임팩트 시 셔틀콕 홀딩 후 초고속의 빠른 샷을 실현하는 밸런스형 스트링.',tags:['컨트롤','내구성']},
+{c:'bad',s:'string',series:'EXBOLT',name:'Exbolt 63',kr:'엑스볼트 63',price:0,grad:GRAD.BADSTR,img:'images/exbolt-63.jpg',
+ specs:{'ERP코드':'[10M] EXBOLT 63 / [200M] EXBOLT 63-2','굵기':'0.63mm','중심':'고강도 나일론 멀티필라멘트','표면':'특수 편조 포지드 파이버','길이':'10m/200m','색상':'White, Yellow, Black, Lime Pink, Rainbow, Mint, Lavender','성능':'반발력11, 내구성7, 타구음10, 충격흡수력7, 컨트롤10','원산지':'Japan'},
+ desc:'FORGED FIBER 적용으로 얇지만 뛰어난 반발력과 우수한 내구성을 지닌 스트링. 번개와 같은 고속의 드라이브샷 구현이 가능한 최상급 라인.',tags:['고반발']},
+{c:'bad',s:'string',series:'BG',name:'BG80',kr:'비지80',price:0,grad:GRAD.BADSTR,img:'images/bg80.jpg',
+ specs:{'ERP코드':'[10M] BG80 / [200M] BG80-2','굵기':'0.68mm','중심':'고강도 나일론 멀티필라멘트, 벡트란','표면':'특수 편조 타원형 고분자 나일론 섬유','길이':'10m/200m','색상':'Black, Rebel Blue, Silver Blue, Violet, White, Yellow','성능':'반발력8, 내구성6, 타구음7, 충격흡수력6, 컨트롤6','원산지':'Japan'},
+ desc:'고기능 소재인 하이 모듈러스 벡트란 섬유가 강한 멀티필라멘트 중심을 감싸고 있는 스테디셀러 스트링.',tags:['클래식']},
+{c:'bad',s:'string',series:'BG',name:'BG80 Power',kr:'비지80 파워',price:0,grad:GRAD.BADSTR,img:'images/bg80-power.jpg',
+ specs:{'ERP코드':'[10M] BG80P / [200M] BG80P-2','굵기':'0.68mm','중심':'고강도 나일론 멀티필라멘트, 벡트란','표면':'특수 편조 고분자 나일론 섬유','길이':'10m/200m','색상':'White','성능':'반발력9, 내구성7, 타구음7, 충격흡수력6, 컨트롤6','원산지':'Japan'},
+ desc:'고강도 나일론 멀티필라멘트와 하이 모듈러스 벡트란 섬유의 조합으로 견고한 느낌과 강력한 스매시를 제공.',tags:['클래식','파워']},
+{c:'bad',s:'string',series:'BG',name:'BG66 Ultimax',kr:'비지66 울티맥스',price:0,grad:GRAD.BADSTR,img:'images/bg66-ultimax.jpg',
+ specs:{'ERP코드':'[10M] BG66UM / [200M] BG66UM-2','굵기':'0.65mm','중심':'고강도 나일론 멀티필라멘트','표면':'특수 편조 고분자 나일론 섬유','길이':'10m/200m','색상':'Neon Pink, Pink/Navy, Black, Orange, Red, Metallic White, Yellow 등','성능':'반발력10, 내구성6, 타구음10, 충격흡수력8, 컨트롤10','원산지':'Japan'},
+ desc:'세계 유명 플레이어들이 선택한 BG66UM. 0.65mm의 얇은 스트링으로 스피드, 컨트롤, 내구성의 완벽한 조화를 제공.',tags:['프로선호']},
+{c:'bad',s:'string',series:'AEROBITE',name:'Aerobite',kr:'에어로바이트',price:0,grad:GRAD.BADSTR,img:'images/aerobite.jpg',
+ specs:{'ERP코드':'[10M] BGAB / [200M] BGAB-2','굵기':'세로 0.67mm / 가로 0.61mm','중심':'고강도 나일론 멀티필라멘트','표면':'특수 편조 고분자 나일론 섬유','코팅':'세로 폴리우레탄','길이':'10m/200m','색상':'White/Blue, White/Green, White/Red','성능':'반발력10, 내구성6, 타구음9, 충격흡수력8, 컨트롤10','원산지':'Japan'},
+ desc:'요넥스 최초의 하이브리드 스트링 콤보. 헤어핀을 위한 마찰력과 결정적인 커트 샷을 위한 스냅백으로, 향상된 스매시 파워와 상대의 리듬을 깨는 강력한 헤어핀·커트 플레이를 가능하게 함.',tags:['하이브리드','스핀']},
+{c:'bad',s:'string',series:'AEROBITE',name:'Aerobite Boost',kr:'에어로바이트 부스트',price:0,grad:GRAD.BADSTR,img:'images/aerobite-boost.jpg',
+ specs:{'ERP코드':'[10M] BG AEROBITE BOOST / [200M] BG AEROBITE BOOST-2','굵기':'세로 0.72mm / 가로 0.61mm','중심':'고강도 나일론 멀티필라멘트, 벡트란(세로줄)','표면':'특수 편조 고분자 나일론 섬유, 타원형 원사(세로줄)','코팅':'세로 폴리우레탄','길이':'10m/200m','색상':'Gray/Yellow, Red','성능':'반발력8, 내구성7, 타구음7, 충격흡수력6, 컨트롤10','원산지':'Japan'},
+ desc:'독자적인 하이브리드 기술로 서로 다른 굵기·코팅의 메인과 크로스 스트링이 강력하고 빠른 스핀으로 결정적인 커트 스매시와 헤어핀을 실현.',tags:['하이브리드','스핀']},
+{c:'bad',s:'string',series:'SKYARC',name:'Skyarc',kr:'스카이아크',price:0,grad:GRAD.BADSTR,img:'images/skyarc.jpg',
+ specs:{'ERP코드':'BG SKYARC','굵기':'0.69mm','중심':'고강도 나일론 멀티필라멘트, 하이 슬링 파이버','표면':'특수 편조 고분자 나일론 섬유','코팅':'세로 폴리우레탄','길이':'10m','색상':'White','성능':'반발력8, 내구성7, 타구음6, 충격흡수력11, 컨트롤10','원산지':'Japan'},
+ desc:'요넥스 최초의 하이브리드 스트링 콤보. 결정적인 커트 스매시를 위한 강력한 스핀과 헤어핀을 위한 견고한 타구감을 제공. 부드러운 타구감과 고탄성으로 뛰어난 비거리를 원하는 초급~중급 플레이어에 적합.',tags:['초중급','비거리']},
+{c:'bad',s:'string',series:'AEROSONIC',name:'Aerosonic',kr:'에어로소닉',price:0,grad:GRAD.BADSTR,img:'images/aerosonic.jpg',
+ specs:{'ERP코드':'[10M] BG AERO SONIC / [200M] BG AERO SONIC-2','굵기':'0.61mm (요넥스 최세 스트링)','중심':'고강도 나일론 멀티필라멘트','표면':'특수 편조 고분자 나일론 섬유','길이':'10m/200m','색상':'White','성능':'반발력11, 내구성5, 타구음11, 충격흡수력7, 컨트롤9','원산지':'Japan'},
+ desc:'요넥스에서 가장 얇은 스트링으로 공기를 가르는 경쾌하고 강력한 타구음을 선사. 고반발력과 강력한 타구음을 원하는 플레이어에게 적합.',tags:['최세','타구음']},
+
+/* ============ SHUTTLECOCKS ============ */
+{c:'bad',s:'shuttle',series:'FEATHER',name:'Aerosensa 50',kr:'에어로센사 50',price:0,grad:GRAD.SHUTTLE,img:'images/aerosensa-50.jpg',
+ specs:{'ERP코드':'AS-50EX','등급':'33도 이상용','재질':'거위털','스피드':'#2, #3, #4','원산지':'China'},
+ desc:'실업부·대학부·고등부 공인 셔틀콕.',tags:['공인구','고온용']},
+{c:'bad',s:'shuttle',series:'FEATHER',name:'Aerosensa 30',kr:'에어로센사 30',price:0,grad:GRAD.SHUTTLE,img:'images/aerosensa-30.jpg',
+ specs:{'ERP코드':'AS-30EX','등급':'27~33도용','재질':'거위털','스피드':'#2, #3, #4','원산지':'China'},desc:'실업부·대학부·고등부 공인 셔틀콕.',tags:['공인구']},
+{c:'bad',s:'shuttle',series:'FEATHER',name:'Aerosensa 20',kr:'에어로센사 20',price:0,grad:GRAD.SHUTTLE,img:'images/aerosensa-20.jpg',
+ specs:{'ERP코드':'AS-20EX','등급':'22~28도용','재질':'거위털','스피드':'#3, #4','원산지':'China'},desc:'중등부·초등부 공인 셔틀콕.',tags:['공인구']},
+{c:'bad',s:'shuttle',series:'FEATHER',name:'Aerosensa 10',kr:'에어로센사 10',price:0,grad:GRAD.SHUTTLE,img:'images/aerosensa-10.jpg',
+ specs:{'ERP코드':'AS-10EX','등급':'17~23도용','재질':'거위털','스피드':'#3, #4','원산지':'China'},desc:'중등부·초등부 공인 셔틀콕.',tags:['공인구']},
+{c:'bad',s:'shuttle',series:'FEATHER',name:'Aeroclear K1',kr:'에어로클리어 케이원',price:0,grad:GRAD.SHUTTLE,img:'images/aeroclear-k1.jpg',
+ specs:{'ERP코드':'ACL-K1EX','등급':'18도 이하용','재질':'오리털','스피드':'#3, #4','원산지':'China'},desc:'동호인부 공인 셔틀콕.',tags:['동호인']},
+{c:'bad',s:'shuttle',series:'NYLON',name:'Mavis 2000',kr:'마비스 2000',price:0,grad:GRAD.SHUTTLE,img:'images/mavis-2000.jpg',
+ specs:{'ERP코드':'M2000-WM (6PCS), M2000-WF (6PCS)','소재':'나일론 (WING RIB 형상)','색상':'White','원산지':'Japan'},
+ desc:'날개 리브 형상으로 안정적인 비행을 보조하는 나일론 셔틀콕.',tags:['나일론']},
+{c:'bad',s:'shuttle',series:'NYLON',name:'Mavis 350',kr:'마비스 350',price:0,grad:GRAD.SHUTTLE,img:'images/mavis-350.jpg',
+ specs:{'ERP코드':'M350-YM (6PCS), M350-YF (6PCS)','소재':'나일론','색상':'Yellow','원산지':'Japan'},desc:'깃털 셔틀콕과 동일한 비행시간을 갖도록 설계된 나일론 셔틀콕.',tags:['나일론']},
+{c:'bad',s:'shuttle',series:'NYLON',name:'Mavis 200',kr:'마비스 200',price:0,grad:GRAD.SHUTTLE,img:'images/mavis-200.jpg',
+ specs:{'ERP코드':'M200C-YL (3PCS)','소재':'나일론','색상':'Yellow','원산지':'Taiwan'},
+ desc:'뛰어난 내구성과 정확성을 제공하는 나일론 셔틀콕.',tags:['나일론','연습용']},
+{c:'bad',s:'shuttle',series:'NYLON',name:'Mavis Field II',kr:'마비스 필드 투',price:0,grad:GRAD.SHUTTLE,img:'images/mavis-field-ii.jpg',
+ specs:{'ERP코드':'M-FIELD-YL (3PCS)','소재':'나일론','색상':'Yellow','원산지':'Taiwan'},
+ desc:'깃털 셔틀콕의 비행성에 가깝게 설계된 정확성과 내구성을 갖춘 나일론 셔틀콕.',tags:['나일론','연습용']},
+
+/* ============ BADMINTON SHOES ============ */
+{c:'bad',s:'shoe',series:'SUBAXIA',name:'Subaxia GT Men',kr:'서박시아 쥐티 맨',price:199000,grad:GRAD.BADSHOE,img:'images/subaxia-gt-men.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHB-SG1MEX','색상':'Dark Gray','사이즈':'250mm~300mm 남성용','기술':'GRPHT THRTTL, 3D 힐 쿠셔닝','원산지':'Vietnam'},
+ desc:'그라파이트 스로틀 기술로 폭발적인 추진력을 제공하는 최고 퍼포먼스 신발. (남성용)',tags:['폭발추진력','남성용']},
+{c:'bad',s:'shoe',series:'SUBAXIA',name:'Subaxia GT Women',kr:'서박시아 쥐티 우먼',price:199000,grad:GRAD.BADSHOE,img:'images/subaxia-gt-women.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHB-SG1LEX','색상':'Light Gray','사이즈':'220mm~250mm 여성용','기술':'GRPHT THRTTL, 3D 힐 쿠셔닝','원산지':'Vietnam'},
+ desc:'그라파이트 스로틀 기술로 폭발적인 추진력을 제공하는 최고 퍼포먼스 신발. (여성용)',tags:['폭발추진력','여성용']},
+{c:'bad',s:'shoe',series:'SUBAXIA',name:'Subaxia GT Wide',kr:'서박시아 쥐티 와이드',price:199000,grad:GRAD.BADSHOE,img:'images/subaxia-gt-wide.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHB-SG1WEX','색상':'Gray','사이즈':'220mm~300mm 남녀공용, 볼 넓은 모델','기술':'GRPHT THRTTL, 3D 힐 쿠셔닝','원산지':'Vietnam'},
+ desc:'그라파이트 스로틀 기술로 폭발적인 추진력을 제공하는 최고 퍼포먼스 신발. (와이드핏)',tags:['폭발추진력','와이드핏']},
+{c:'bad',s:'shoe',series:'AERUS',name:'Power Cushion Aerus Z Men',kr:'파워 쿠션 에어러스 지 맨',price:199000,grad:GRAD.BADSHOE,img:'images/power-cushion-aerus-z-men.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHB-AZ2MEX (2026)','색상':'White/Blue','사이즈':'250mm~300mm 남성용','중량':'240g 초경량(260mm 기준)','기술':'msLITE X, 이음매 없는 갑피','원산지':'China'},
+ desc:'안세영 선수가 선택한 신발. 요넥스 배드민턴화 중 가장 경량. (남성용)',tags:['안세영','초경량','남성용']},
+{c:'bad',s:'shoe',series:'AERUS',name:'Power Cushion Aerus Z Women',kr:'파워 쿠션 에어러스 지 우먼',price:199000,grad:GRAD.BADSHOE,img:'images/power-cushion-aerus-z-women.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHB-AZ2LEX (2026)','색상':'White/Orange','사이즈':'220mm~250mm 여성용','중량':'240g 초경량(260mm 기준)','기술':'msLITE X, 이음매 없는 갑피','원산지':'China'},
+ desc:'안세영 선수가 선택한 신발. 요넥스 배드민턴화 중 가장 경량. (여성용)',tags:['안세영','초경량','여성용']},
+{c:'bad',s:'shoe',series:'AERUS',name:'Power Cushion Aerus Z Wide',kr:'파워 쿠션 에어러스 지 와이드',price:199000,grad:GRAD.BADSHOE,img:'images/power-cushion-aerus-z-wide.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHB-AZ2WEX (2026)','색상':'White/Green','사이즈':'220mm~300mm 남녀공용, 볼 넓은 모델','중량':'240g 초경량(260mm 기준)','기술':'msLITE X, 이음매 없는 갑피','원산지':'China'},
+ desc:'안세영 선수가 선택한 신발. 요넥스 배드민턴화 중 가장 경량. (와이드핏)',tags:['안세영','초경량','와이드핏']},
+{c:'bad',s:'shoe',series:'ECLIPSION',name:'Power Cushion Eclipsion Z',kr:'파워 쿠션 이클립션 지',price:209000,grad:GRAD.BADSHOE,img:'images/power-cushion-eclipsion-z.jpg',
+ specs:{'ERP코드':'SHB-ELZ3MEX (2024 MODEL)','색상':'White/Gold (UNISEX)','사이즈':'220mm~300mm 남녀공용','기술':'레터럴 쉘 및 안정성 강화, 세미 원피스 솔','원산지':'Vietnam'},
+ desc:'격렬한 움직임에도 안정적인 스텝, 부드러운 착화감의 이클립션 Z. (유니섹스)',tags:['안정성','유니섹스']},
+{c:'bad',s:'shoe',series:'ECLIPSION',name:'Power Cushion Eclipsion Z Women',kr:'파워 쿠션 이클립션 지 우먼',price:209000,grad:GRAD.BADSHOE,img:'images/power-cushion-eclipsion-z-women.jpg',
+ specs:{'ERP코드':'SHB-ELZ3LEX (2024 MODEL)','색상':'White/Purple (WOMEN)','사이즈':'220mm~250mm 여성용','기술':'레터럴 쉘 및 안정성 강화, 세미 원피스 솔','원산지':'Vietnam'},
+ desc:'격렬한 움직임에도 안정적인 스텝, 부드러운 착화감의 이클립션 Z. (여성용)',tags:['안정성','여성용']},
+{c:'bad',s:'shoe',series:'ECLIPSION',name:'Power Cushion Eclipsion Z Wide',kr:'파워 쿠션 이클립션 지 와이드',price:209000,grad:GRAD.BADSHOE,img:'images/power-cushion-eclipsion-z-wide.jpg',
+ specs:{'ERP코드':'SHB-ELZ3WEX (2024 MODEL)','색상':'Light Blue (WIDE)','사이즈':'220mm~300mm 남녀공용, 볼 넓은 모델','기술':'레터럴 쉘 및 안정성 강화, 세미 원피스 솔','원산지':'Vietnam'},
+ desc:'격렬한 움직임에도 안정적인 스텝, 부드러운 착화감의 이클립션 Z. (와이드핏)',tags:['안정성','와이드핏']},
+{c:'bad',s:'shoe',series:'65',name:'Power Cushion 65 Z Men',kr:'파워 쿠션 65 지 맨',price:195000,grad:GRAD.BADSHOE,img:'images/power-cushion-65-z-men.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHB-65Z4MEX (2026 MODEL)','색상':'White','사이즈':'250mm~300mm 남성용','기술':'인체공학적 밑창, 이너 부티','원산지':'Vietnam'},
+ desc:'중급부터 상급까지 폭넓은 퍼포먼스를 지원하는 배드민턴화. (남성용)',tags:['올라운드','남성용']},
+{c:'bad',s:'shoe',series:'65',name:'Power Cushion 65 Z Women',kr:'파워 쿠션 65 지 우먼',price:195000,grad:GRAD.BADSHOE,img:'images/power-cushion-65-z-women.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHB-65Z4LEX (2026 MODEL)','색상':'White','사이즈':'220mm~250mm 여성용','기술':'인체공학적 밑창, 이너 부티','원산지':'Vietnam'},
+ desc:'중급부터 상급까지 폭넓은 퍼포먼스를 지원하는 배드민턴화. (여성용)',tags:['올라운드','여성용']},
+{c:'bad',s:'shoe',series:'65',name:'Power Cushion 65 Z Wide',kr:'파워 쿠션 65 지 와이드',price:195000,grad:GRAD.BADSHOE,img:'images/power-cushion-65-z-wide.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHB-65Z4WEX (2026 MODEL)','색상':'White','사이즈':'220mm~300mm 남녀공용, 볼 넓은 모델','기술':'인체공학적 밑창, 이너 부티','원산지':'Vietnam'},
+ desc:'중급부터 상급까지 폭넓은 퍼포먼스를 지원하는 배드민턴화. (와이드핏)',tags:['올라운드','와이드핏']},
+{c:'bad',s:'shoe',series:'65',name:'Power Cushion 65 Z VA Men',kr:'파워 쿠션 65 지 브이에이 맨',price:199000,grad:GRAD.BADSHOE,img:'images/power-cushion-65-z-va-men.jpg',
+ specs:{'ERP코드':'SHB-65VAZMEX','색상':'Grayish Beige','사이즈':'250mm~300mm 남성용','디자인':'빅토르 악셀센 디자인','원산지':'Vietnam'},
+ desc:'중급부터 상급까지 폭넓은 퍼포먼스를 지원하는, 올림픽 금메달리스트 빅토르 악셀센 디자인 배드민턴화. (남성용)',tags:['악셀센','남성용']},
+{c:'bad',s:'shoe',series:'65',name:'Power Cushion 65 Z VA Women',kr:'파워 쿠션 65 지 브이에이 우먼',price:199000,grad:GRAD.BADSHOE,img:'images/power-cushion-65-z-va-women.jpg',
+ specs:{'ERP코드':'SHB-65VAZLEX','색상':'Grayish Beige','사이즈':'220mm~250mm 여성용','디자인':'빅토르 악셀센 디자인','원산지':'Vietnam'},
+ desc:'중급부터 상급까지 폭넓은 퍼포먼스를 지원하는, 올림픽 금메달리스트 빅토르 악셀센 디자인 배드민턴화. (여성용)',tags:['악셀센','여성용']},
+{c:'bad',s:'shoe',series:'65',name:'Power Cushion 65 Z VA Wide',kr:'파워 쿠션 65 지 브이에이 와이드',price:199000,grad:GRAD.BADSHOE,img:'images/power-cushion-65-z-va-wide.jpg',
+ specs:{'ERP코드':'SHB-65VAZWEX','색상':'Grayish Beige','사이즈':'220mm~300mm 남녀공용, 볼 넓은 모델','디자인':'빅토르 악셀센 디자인','원산지':'Vietnam'},
+ desc:'중급부터 상급까지 폭넓은 퍼포먼스를 지원하는, 올림픽 금메달리스트 빅토르 악셀센 디자인 배드민턴화. (와이드핏)',tags:['악셀센','와이드핏']},
+{c:'bad',s:'shoe',series:'65',name:'Power Cushion 65 X',kr:'파워 쿠션 65 엑스',price:129000,grad:GRAD.BADSHOE,img:'images/power-cushion-65-x.jpg',
+ specs:{'ERP코드':'SHB-65X4EX','색상':'White (UNISEX)','사이즈':'220mm~300mm 남녀공용','특징':'향상된 착화감·안정성','원산지':'Indonesia'},
+ desc:'향상된 착화감과 안정성으로 빠르고 날카로운 움직임을 구현 가능한 신발.',tags:['가성비','유니섹스']},
+{c:'bad',s:'shoe',series:'65',name:'Power Cushion 65 X VA',kr:'파워 쿠션 65 엑스 브이에이',price:135000,grad:GRAD.BADSHOE,img:'images/power-cushion-65-x-va.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'SHB-65VAXEX','색상':'Grayish Beige (UNISEX)','사이즈':'220mm~300mm 남녀공용','디자인':'빅토르 악셀센 디자인','원산지':'Indonesia'},
+ desc:'향상된 착화감과 안정성으로 보다 빠르고 날카로운 움직임이 가능한, 빅토르 악셀센 디자인 배드민턴화.',tags:['악셀센','가성비']},
+{c:'bad',s:'shoe',series:'88',name:'Power Cushion 88 Dial',kr:'파워 쿠션 88 다이얼',price:195000,grad:GRAD.BADSHOE,img:'images/power-cushion-88-dial.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'SHB-88D3EX (2025 MODEL)','색상':'Dark Green (UNISEX)','사이즈':'220mm~300mm 남녀공용','기술':'BOA 핏 시스템, 듀라블 스킨 라이트','원산지':'Vietnam'},
+ desc:'BOA 테크놀로지로 미세한 조정이 가능한 최상급 착화감의 신발. (유니섹스)',tags:['BOA','상급','유니섹스']},
+{c:'bad',s:'shoe',series:'88',name:'Power Cushion 88 Dial Wide',kr:'파워 쿠션 88 다이얼 와이드',price:195000,grad:GRAD.BADSHOE,img:'images/power-cushion-88-dial-wide.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'SHB-88D3WEX (2025 MODEL)','색상':'Light Beige (WIDE)','사이즈':'220mm~300mm 남녀공용, 볼 넓은 모델','기술':'BOA 핏 시스템, 듀라블 스킨 라이트','원산지':'Vietnam'},
+ desc:'BOA 테크놀로지로 미세한 조정이 가능한 최상급 착화감의 신발. (와이드핏)',tags:['BOA','상급','와이드핏']},
+{c:'bad',s:'shoe',series:'CASCADE',name:'Power Cushion Cascade Drive',kr:'파워 쿠션 캐스케이드 드라이브',price:169000,grad:GRAD.BADSHOE,img:'images/power-cushion-cascade-drive.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHB-CD3EX','색상':'Black/Gray, Light Beige (UNISEX)','사이즈':'220mm~300mm 남녀공용','기술':'메모리 폼 인솔, 토우 어시스트 쉐이프','원산지':'China'},
+ desc:'발에 꼭 맞는 편안한 착용감으로 장시간 민첩한 발놀림을 유지할 수 있는 신발.',tags:['편안함','유니섹스']},
+{c:'bad',s:'shoe',series:'CASCADE',name:'Power Cushion Cascade Accel',kr:'파워 쿠션 캐스케이드 엑셀',price:129000,grad:GRAD.BADSHOE,img:'images/power-cushion-cascade-accel.jpg',
+ specs:{'ERP코드':'SHB-CA1EX (2025 MODEL)','색상':'White/Navy (UNISEX)','사이즈':'220mm~300mm 남녀공용','특징':'확장된 메시 영역, 부드러운 필름 소재','원산지':'China'},
+ desc:'매끄럽고 부드러운 착화감을 제공하는 캐스케이드 엑셀. (유니섹스)',tags:['가성비','유니섹스']},
+{c:'bad',s:'shoe',series:'CASCADE',name:'Power Cushion Cascade Accel Wide',kr:'파워 쿠션 캐스케이드 엑셀 와이드',price:129000,grad:GRAD.BADSHOE,img:'images/power-cushion-cascade-accel-wide.jpg',
+ specs:{'ERP코드':'SHB-CA1WEX (2025 MODEL)','색상':'White/Skyblue (WIDE)','사이즈':'220mm~300mm 남녀공용, 볼 넓은 모델','특징':'확장된 메시 영역, 부드러운 필름 소재','원산지':'China'},
+ desc:'매끄럽고 부드러운 착화감을 제공하는 캐스케이드 엑셀. (와이드핏)',tags:['가성비','와이드핏']},
+{c:'bad',s:'shoe',series:'STRIDER',name:'Power Cushion Strider Beat',kr:'파워 쿠션 스트라이더 비트',price:105000,grad:GRAD.BADSHOE,img:'images/power-cushion-strider-beat.jpg',
+ specs:{'ERP코드':'SHB-SB1EX (2025 MODEL)','색상':'Natural, Black/White, White/Orange (UNISEX)','사이즈':'220mm~300mm 남녀공용','기술':'에고쉐이프 디자인','원산지':'Indonesia'},
+ desc:'무게 중심을 잡아주는 에고쉐이프 디자인. 강렬한 풋워크에 적합한 부드럽고 가벼운 모델.',tags:['입문','가성비']},
+{c:'bad',s:'shoe',series:'STRIDER',name:'Power Cushion Strider Flow',kr:'파워 쿠션 스트라이더 플로우',price:69900,grad:GRAD.BADSHOE,img:'images/power-cushion-strider-flow.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHB-SF1EX (2026)','색상':'Light Gray, Light Beige (UNISEX)','사이즈':'220mm~300mm 남녀공용','기술':'에고쉐이프 디자인','원산지':'Indonesia'},
+ desc:'무게 중심을 잡아주는 에고쉐이프 디자인. 부담 없이 안정적인 풋워크 제공.',tags:['입문','가성비']},
+{c:'bad',s:'shoe',series:'STRIDER',name:'Power Cushion Strider Ray',kr:'파워 쿠션 스트라이더 레이',price:59000,grad:GRAD.BADSHOE,img:'images/power-cushion-strider-ray.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHB-SR1EX (2026 MODEL)','색상':'Sand Beige (UNISEX)','사이즈':'220mm~300mm 남녀공용','기술':'에고쉐이프 디자인','원산지':'Indonesia'},
+ desc:'편안하고 스트레스 없는 착용감을 제공하는 합리적인 가격의 입문자용 신발. (유니섹스)',tags:['입문','가성비','유니섹스']},
+{c:'bad',s:'shoe',series:'STRIDER',name:'Power Cushion Strider Ray Wide',kr:'파워 쿠션 스트라이더 레이 와이드',price:59000,grad:GRAD.BADSHOE,img:'images/power-cushion-strider-ray-wide.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHB-SR1WEX (2026 MODEL)','색상':'Blue Gray, Khaki (WIDE)','사이즈':'220mm~300mm 남녀공용, 볼 넓은 모델','기술':'에고쉐이프 디자인','원산지':'Indonesia'},
+ desc:'편안하고 스트레스 없는 착용감을 제공하는 합리적인 가격의 입문자용 신발. (와이드핏)',tags:['입문','가성비','와이드핏']},
+
+/* ============ TENNIS RACQUETS - VCORE ============ */
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore 98',kr:'브이코어 98',price:400000,grad:GRAD.VCORE,img:'images/vcore-98.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE 98 (2026)','색상':'Ruby Red','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER / VDM','헤드사이즈':'98 sq.in','길이':'27 in','무게':'305g/10.8oz','밸런스':'315mm','스트링패턴':'16x19','원산지':'Japan'},
+ desc:'편안한 타구감을 유지하며 강력한 스핀을 구사하려는 중/상급 플레이어용.',tags:['스핀','상급']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore 100',kr:'브이코어 100',price:400000,grad:GRAD.VCORE,img:'images/vcore-100.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE 100 (2026)','색상':'Ruby Red','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER / VDM','헤드사이즈':'100 sq.in','길이':'27 in','무게':'300g/10.6oz','밸런스':'320mm','스트링패턴':'16x19','원산지':'Japan'},
+ desc:'편안한 타구감을 유지하며 강력한 스핀을 구사하려는 올라운드 플레이어용.',tags:['스핀','올라운드']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore 95',kr:'브이코어 95',price:400000,grad:GRAD.VCORE,img:'images/vcore-95.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE 95 (2026)','색상':'Ruby Red','헤드사이즈':'95 sq.in','길이':'27 in','무게':'310g/10.9oz','스트링패턴':'16x20','원산지':'Japan'},
+ desc:'편안한 타구감을 유지하며 강력한 스핀을 구사하려는 상급 플레이어용.',tags:['상급']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore 98 Tour',kr:'브이코어 98 투어',price:400000,grad:GRAD.VCORE,img:'images/vcore-98-tour.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE 98 TOUR (2026)','색상':'Ruby Red','헤드사이즈':'98 sq.in','무게':'315g/11.1oz','스트링패턴':'16x19','원산지':'Japan'},
+ desc:'편안한 타구감의 상급 플레이어를 위한 투어 스펙 라켓.',tags:['상급','투어']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore 100+',kr:'브이코어 100 플러스',price:400000,grad:GRAD.VCORE,img:'images/vcore-100-plus.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE 100+ (2026)','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER / VDM','헤드사이즈':'100 sq.in','길이':'27.5 in','무게':'300g/10.6oz','밸런스':'330mm','그립사이즈':'G2','스트링패턴':'16x19','색상':'Ruby Red','원산지':'Japan'},
+ desc:'보다 긴 라켓을 선호하고 모든 샷에서 강력한 스핀을 구사하고자 하는 올라운드 플레이어에 적합한 라켓.',tags:['롱바디','올라운드']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore 98+',kr:'브이코어 98 플러스',price:400000,grad:GRAD.VCORE,img:'images/vcore-98-plus.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE 98+ (2026)','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER / VDM','헤드사이즈':'98 sq.in','길이':'27.5 in','무게':'305g/10.8oz','밸런스':'325mm','그립사이즈':'G2','스트링패턴':'16x19','색상':'Ruby Red','원산지':'Japan'},
+ desc:'보다 긴 라켓을 선호하고 모든 샷에서 강력한 스핀을 구사하고자 하는 중/상급 플레이어에 적합한 라켓.',tags:['롱바디','중상급']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore 100D',kr:'브이코어 100 디',price:400000,grad:GRAD.VCORE,img:'images/vcore-100d.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE 100D (2026)','색상':'Ruby Red','헤드사이즈':'100 sq.in','스트링패턴':'16x20','원산지':'Japan'},
+ desc:'편안한 타구감을 유지하며 강력한 스핀을 원하는 중/상급 플레이어용.',tags:['중상급']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore α (Alpha)',kr:'브이코어 알파',price:260000,grad:GRAD.VCORE,img:'images/vcore-alpha.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE α (2026)','색상':'Ruby Red','소재':'HM GRAPHITE / NANOMESH NEO / SERVO FILTER / VDM','헤드사이즈':'100 sq.in','무게':'275g/9.7oz','스트링패턴':'16x18','원산지':'China'},
+ desc:'편안함과 스핀을 원하는 주니어~중급 플레이어까지 적합.',tags:['중급','가벼움']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore ACE',kr:'브이코어 에이스',price:200000,grad:GRAD.VCORE,img:'images/vcore-ace.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE ACE (2026)','색상':'Ruby Red','소재':'GRAPHITE','무게':'260g/9.2oz','스트링패턴':'16x19','원산지':'China'},
+ desc:'모든 샷에 스핀을 쉽게 구사할 수 있는 초보자용 라켓.',tags:['초보']},
+{c:'ten',s:'racquet',series:'VCORE',name:'Vcore Play',kr:'브이코어 플레이',price:155000,grad:GRAD.VCORE,img:'images/vcore-play.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'VCORE PLAY (2026)','색상':'Ruby Red','소재':'GRAPHITE HYBRID','무게':'265g/9.3oz','원산지':'China'},
+ desc:'모든 샷에 안정적인 스핀을 구사할 수 있는 초보 플레이어용.',tags:['초보','가성비']},
+
+/* ============ PERCEPT ============ */
+{c:'ten',s:'racquet',series:'PERCEPT',name:'Percept 97',kr:'퍼셉트 97',price:400000,grad:GRAD.PERCEPT,img:'images/percept-97.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'[MNNB] PERCEPT 97 (2025) / [OLG] PERCEPT 97 (2023)','색상':'Midnight Navy, Olive Green','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER','헤드사이즈':'97 sq.in','무게':'310g/10.9oz','스트링패턴':'16x19','원산지':'Japan'},
+ desc:'정밀함과 타구감을 갖춘 유연한 라켓. 중/상급 플레이어용.',tags:['컨트롤']},
+{c:'ten',s:'racquet',series:'PERCEPT',name:'Percept 100',kr:'퍼셉트 100',price:400000,grad:GRAD.PERCEPT,img:'images/percept-100.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'[MNNB] PERCEPT 100 (2025) / [OLG] PERCEPT 100 (2023)','색상':'Midnight Navy, Olive Green','헤드사이즈':'100 sq.in','무게':'300g/10.6oz','스트링패턴':'16x19','원산지':'Japan'},
+ desc:'정밀한 타구감을 갖춘 유연한 라켓, 모든 플레이어에 적합.',tags:['컨트롤','올라운드']},
+{c:'ten',s:'racquet',series:'PERCEPT',name:'Percept 97D',kr:'퍼셉트 97디',price:400000,grad:GRAD.PERCEPT,img:'images/percept-97d.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'[MNNB] PERCEPT 97D (2025) / [OLG] PERCEPT 97D (2023)','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER','헤드사이즈':'97 sq.in','길이':'27 in','무게':'320g/11.3oz','밸런스':'310mm','그립사이즈':'G2, G3','스트링패턴':'18x20','색상':'Midnight Navy, Olive Green','원산지':'Japan'},
+ desc:'정밀함, 타구감, 유연함을 초점으로 하여 공격적인 플레이를 완성하길 원하는 상급 플레이어에 적합한 라켓.',tags:['공격형','상급']},
+{c:'ten',s:'racquet',series:'PERCEPT',name:'Percept 100D',kr:'퍼셉트 100디',price:400000,grad:GRAD.PERCEPT,img:'images/percept-100d.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'[MNNB] PERCEPT 100D (2025) / [OLG] PERCEPT 100D (2023)','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER','헤드사이즈':'100 sq.in','길이':'27 in','무게':'305g/10.8oz','밸런스':'315mm','그립사이즈':'G2, G3','스트링패턴':'18x19','색상':'Midnight Navy, Olive Green','원산지':'Japan'},
+ desc:'정교함, 타구감, 유연함에 특화된 라켓을 원하는 중급 및 상급 플레이어에 적합한 라켓.',tags:['공격형','중상급']},
+{c:'ten',s:'racquet',series:'PERCEPT',name:'Percept 97L',kr:'퍼셉트 97엘',price:400000,grad:GRAD.PERCEPT,img:'images/percept-97l.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'[MNNB] PERCEPT 97L (2025) / [OLG] PERCEPT 97L (2023)','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER','헤드사이즈':'97 sq.in','길이':'27 in','무게':'290g/10.2oz','밸런스':'325mm','그립사이즈':'G2','스트링패턴':'16x19','색상':'Midnight Navy, Olive Green','원산지':'Japan'},
+ desc:'정밀함, 타구감을 갖춘 가볍고 유연한 라켓을 원하는 모든 플레이어에 적합한 라켓.',tags:['가벼움']},
+{c:'ten',s:'racquet',series:'PERCEPT',name:'Percept 100L',kr:'퍼셉트 100엘',price:400000,grad:GRAD.PERCEPT,img:'images/percept-100l.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'[MNNB] PERCEPT 100L (2025) / [OLG] PERCEPT 100L (2023)','소재':'HM GRAPHITE / 2G-Namd FLEX FORCE / SERVO FILTER','헤드사이즈':'100 sq.in','길이':'27 in','무게':'280g/9.9oz','밸런스':'330mm','그립사이즈':'G2','스트링패턴':'16x19','색상':'Midnight Navy, Olive Green','원산지':'Japan'},
+ desc:'정밀함, 타구감을 갖춘 가볍고 유연한 라켓을 원하는 올라운드 플레이어에 적합한 라켓.',tags:['가벼움','올라운드']},
+{c:'ten',s:'racquet',series:'PERCEPT',name:'Percept Game',kr:'퍼셉트 게임',price:270000,grad:GRAD.PERCEPT,img:'images/percept-game.jpg',badge:'2025 F/W NEW DESIGN',
+ specs:{'ERP코드':'[MNNB] PERCEPT GAME (2025) / [OLG] PERCEPT GAME (2023)','색상':'Midnight Navy, Olive Green','소재':'HM GRAPHITE / NANOMESH NEO / SERVO FILTER','무게':'270g/9.5oz','원산지':'China'},
+ desc:'가볍고 유연한 라켓, 입문자 및 초급 플레이어에 적합.',tags:['입문']},
+
+/* ============ EZONE ============ */
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone 98',kr:'이존 98',price:370000,grad:GRAD.EZONE,img:'images/ezone-98.jpg',
+ specs:{'ERP코드':'EZONE 98 (2025)','색상':'Blast Blue','소재':'HM GRAPHITE / 2G-Namd SPEED / VDM / MINOLON','헤드사이즈':'98 sq.in','무게':'305g/10.8oz','스트링패턴':'16x19','원산지':'Japan'},
+ desc:'폭발적인 파워와 편안한 타구감을 원하는 중/상급 플레이어용.',tags:['파워']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone 100',kr:'이존 100',price:370000,grad:GRAD.EZONE,img:'images/ezone-100.jpg',
+ specs:{'ERP코드':'EZONE 100 (2025)','색상':'Blast Blue','헤드사이즈':'100 sq.in','무게':'300g/10.6oz','스트링패턴':'16x19','원산지':'Japan'},
+ desc:'폭발적인 파워와 편안한 타구감을 원하는 올라운드 플레이어용.',tags:['파워','올라운드']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone 105',kr:'이존 105',price:370000,grad:GRAD.EZONE,img:'images/ezone-105.jpg',
+ specs:{'ERP코드':'EZONE 105 (2025)','소재':'HM GRAPHITE / 2G-Namd SPEED / VDM / MINOLON','헤드사이즈':'105 sq.in','길이':'27 in','무게':'275g/9.7oz','밸런스':'330mm','그립사이즈':'G2','스트링패턴':'16x19','색상':'Blast Blue','원산지':'Japan'},
+ desc:'파워와 편안함을 갖춘 오버사이즈 헤드를 원하는 올라운드 플레이어에 적합한 라켓.',tags:['오버사이즈','올라운드']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone 110',kr:'이존 110',price:295000,grad:GRAD.EZONE,img:'images/ezone-110.jpg',
+ specs:{'ERP코드':'EZONE 110 (2025)','소재':'HM GRAPHITE / NANOCELL NEO / VDM / MINOLON','헤드사이즈':'110 sq.in','길이':'27.5 in','무게':'255g/9.0oz','밸런스':'335mm','그립사이즈':'G1, G2','스트링패턴':'16x18','색상':'Blast Blue','원산지':'China'},
+ desc:'오버사이즈 헤드와 보다 길어진 프레임이 파워와 편안함을 향상시킨, 입문자부터 중급 플레이어까지 적합한 라켓.',tags:['오버사이즈','입문','중급']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone 115',kr:'이존 115',price:295000,grad:GRAD.EZONE,img:'images/ezone-115.jpg',
+ specs:{'ERP코드':'EZONE 115 (2025)','소재':'HM GRAPHITE / NANOCELL NEO / VDM / MINOLON','헤드사이즈':'115 sq.in','길이':'27.5 in','무게':'250g/8.8oz','밸런스':'360mm','그립사이즈':'G1, G2','스트링패턴':'16x18','색상':'Blast Blue','원산지':'China'},
+ desc:'가장 넓은 오버사이즈 헤드로 파워와 편안함을 극대화한, 입문자부터 중급 플레이어까지 적합한 라켓.',tags:['오버사이즈','입문']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone α',kr:'이존 알파',price:249000,grad:GRAD.EZONE,img:'images/ezone-alpha.jpg',
+ specs:{'ERP코드':'EZONE a (2025)','소재':'HM GRAPHITE / NANOCELL NEO / VDM / MINOLON','헤드사이즈':'100 sq.in','길이':'27 in','무게':'275g/9.7oz','밸런스':'330mm','그립사이즈':'G1, G2','스트링패턴':'16x18','색상':'Blast Blue','원산지':'China'},
+ desc:'파워와 편안함을 원하는 주니어 및 입문자부터 중급 플레이어까지 모두에게 적합한 라켓.',tags:['가벼움','입문']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone αL',kr:'이존 알파 엘',price:249000,grad:GRAD.EZONE,img:'images/ezone-alpha-l.jpg',
+ specs:{'ERP코드':'EZONE a L (2025)','소재':'HM GRAPHITE / NANOCELL NEO / VDM / MINOLON','헤드사이즈':'100 sq.in','길이':'27 in','무게':'260g/9.2oz','밸런스':'335mm','그립사이즈':'G1, G2','스트링패턴':'16x18','색상':'Blast Blue','원산지':'China'},
+ desc:'보다 가볍고 파워와 편안함을 원하는 주니어 및 입문자부터 중급 플레이어까지 모두에게 적합한 라켓.',tags:['가벼움','입문']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone αSL',kr:'이존 알파 에스엘',price:249000,grad:GRAD.EZONE,img:'images/ezone-alpha-sl.jpg',
+ specs:{'ERP코드':'EZONE a SL (2025)','소재':'HM GRAPHITE / NANOCELL NEO / VDM / MINOLON','헤드사이즈':'100 sq.in','길이':'27 in','무게':'245g/8.6oz','밸런스':'340mm','그립사이즈':'G1, G2','스트링패턴':'16x18','색상':'Blast Blue','원산지':'China'},
+ desc:'경량 모델로 파워와 편안함을 원하는 주니어 및 입문자에게 적합한 라켓.',tags:['경량','입문']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone ACE',kr:'이존 에이스',price:195000,grad:GRAD.EZONE,img:'images/ezone-ace.jpg',
+ specs:{'ERP코드':'EZONE ACE (2025)','소재':'GRAPHITE','헤드사이즈':'102 sq.in','길이':'27 in','무게':'260g/9.2oz','밸런스':'345mm','그립사이즈':'G1, G2','스트링패턴':'16x19','색상':'Blast Blue','원산지':'China'},
+ desc:'파워와 편안함을 원하는 입문자부터 중급 플레이어까지 적합한 라켓.',tags:['입문']},
+{c:'ten',s:'racquet',series:'EZONE',name:'Ezone Play',kr:'이존 플레이',price:153000,grad:GRAD.EZONE,img:'images/ezone-play.jpg',
+ specs:{'ERP코드':'EZONE PLAY (2025)','소재':'GRAPHITE HYBRID','헤드사이즈':'100 sq.in','길이':'27 in','무게':'265g/9.3oz','밸런스':'335mm','그립사이즈':'G1, G2','스트링패턴':'16x19','색상':'Blast Blue','원산지':'China'},
+ desc:'쉽게 사용할 수 있고 안정적인 라켓을 원하는 플레이어에게 적합한 라켓.',tags:['입문','초보']},
+
+/* ============ ASTREL / SMASH TEAM ============ */
+{c:'ten',s:'racquet',series:'ASTREL',name:'Astrel 100',kr:'아스트렐 100',price:400000,grad:GRAD.ASTREL,img:'images/astrel-100.jpg',
+ specs:{'ERP코드':'ASTREL100 (2023)','색상':'Grayish Green','소재':'HM GRAPHITE / 2G-Namd SPEED / VIBSLAYER CARBON / VDM','헤드사이즈':'100 sq.in','무게':'280g/9.9oz','원산지':'Japan'},
+ desc:'상급 동호인을 위한 견고한 파워와 최적의 컨트롤을 갖춘 라켓.',tags:['동호인','편안함']},
+{c:'ten',s:'racquet',series:'ASTREL',name:'Astrel 105',kr:'아스트렐 105',price:400000,grad:GRAD.ASTREL,img:'images/astrel-105.jpg',
+ specs:{'ERP코드':'ASTREL105 (2023)','소재':'HM GRAPHITE / 2G-Namd SPEED / VIBSLAYER CARBON / VDM','헤드사이즈':'105 sq.in','길이':'27 in','무게':'260g/9.3oz','밸런스':'340mm','그립사이즈':'G2','스트링패턴':'16x17','색상':'Grayish Blue','원산지':'Japan'},
+ desc:'쉬운 파워 생성, 향상된 편안함을 갖춘 라켓을 원하는 중급 플레이어에 적합한 라켓.',tags:['편안함','중급']},
+{c:'ten',s:'racquet',series:'ASTREL',name:'Astrel 120',kr:'아스트렐 120',price:400000,grad:GRAD.ASTREL,img:'images/astrel-120.jpg',
+ specs:{'ERP코드':'ASTREL120 (2023)','소재':'HM GRAPHITE / 2G-Namd SPEED / VIBSLAYER CARBON / VDM','헤드사이즈':'120 sq.in','길이':'27 in','무게':'255g/9.0oz','밸런스':'355mm','그립사이즈':'G2','스트링패턴':'16x17','색상':'Grayish White','원산지':'Japan'},
+ desc:'최대 파워와 기동성을 갖춘 오버사이즈 라켓을 원하는 동호인에 적합한 라켓.',tags:['오버사이즈','동호인']},
+{c:'ten',s:'racquet',series:'SMASH TEAM',name:'Smash Team',kr:'스매시 팀',price:140000,grad:GRAD.EZONE,img:'images/smash-team.jpg',
+ specs:{'ERP코드':'SMASH TEAM (2023)','색상':'Black/White, Deep Blue, White/Silver','소재':'GRAPHITE COMPOSITE','헤드사이즈':'100 sq.in','무게':'290g/10.2oz','원산지':'China'},
+ desc:'우수한 성능에 합리적인 가격을 가진 입문자용 라켓.',tags:['입문','가성비']},
+
+/* ============ TENNIS STRINGS ============ */
+{c:'ten',s:'string',series:'POLYTOUR',name:'Polytour Pro',kr:'폴리투어 프로',price:0,grad:GRAD.TENSTR,img:'images/polytour-pro.jpg',
+ specs:{'ERP코드':'[12M] PTGP115, PTGP120, PTGP125 / [200M] PTP120-2, PTP125-2','규격':'18(1.15mm), 17(1.20mm), 16L(1.25mm)','소재':'Polyester (Monofilament)','길이':'12m/200m(릴)','색상':'Midnight Purple, Flash Yellow, Blue, Graphite','원산지':'Japan'},
+ desc:'견고한 힘, 스핀, 팔의 피로를 감소시키는 편안한 타구감을 갖춘 스트링. 모든 스윙 속도의 플레이어가 원하는 올라운드형 스트링.',tags:['올라운드']},
+{c:'ten',s:'string',series:'POLYTOUR',name:'Polytour Rev',kr:'폴리투어 레브',price:0,grad:GRAD.TENSTR,img:'images/polytour-rev.jpg',
+ specs:{'ERP코드':'[12M] PTGR120, PTGR125 / [200M] PTR120-2, PTR125-2','규격':'17(1.20mm), 16L(1.25mm)','소재':'Polyester (Monofilament), SIF Technology','길이':'12m/200m(릴)','색상':'Mint, Purple, White, Bright Orange','원산지':'Japan'},
+ desc:'SIF(Silicone Infused Filament) 기술로 뛰어난 볼 홀딩과 컨트롤이 가능. 8각형 모양의 스트링이 볼을 잡아 최강의 스핀과 빠른 스윙 스피드를 실현하는 베이스라이너용 스트링.',tags:['컨트롤','스핀']},
+{c:'ten',s:'string',series:'POLYTOUR',name:'Polytour Fire',kr:'폴리투어 파이어',price:0,grad:GRAD.TENSTR,img:'images/polytour-fire.jpg',
+ specs:{'ERP코드':'[12M] PTGF120, PTGF125 / [200M] PTGF120-2, PTGF125-2','규격':'17(1.20mm), 16L(1.25mm)','소재':'Polyester (Monofilament), SIF Technology','길이':'12m/200m(릴)','색상':'Red','원산지':'Japan'},
+ desc:'SIF 기술로 인한 뛰어난 스냅백과 반응력. 중상급의 강한 타격형 플레이어에게 적합한 스트링.',tags:['스냅백','강타형']},
+{c:'ten',s:'string',series:'POLYTOUR',name:'Polytour Force',kr:'폴리투어 포스',price:0,grad:GRAD.TENSTR,img:'images/polytour-force.jpg',
+ specs:{'ERP코드':'[12M] PTGFO120, PTFGO125 / [200M] PTFO20-2, PTFO25-2','규격':'17(1.20mm), 16L(1.25mm)','소재':'Polyester (Monofilament)','길이':'12m/200m(릴)','색상':'Black, Bright Red','원산지':'Japan'},
+ desc:'일관된 볼 홀드감(포켓팅)과 높은 반발력을 제공. 텐션 유지력과 즉각적인 파워를 원하는 중·고속 스윙 스피드의 플레이어에게 적합.',tags:['반발력','텐션유지']},
+{c:'ten',s:'string',series:'POLYTOUR',name:'Polytour Spin',kr:'폴리투어 스핀',price:0,grad:GRAD.TENSTR,img:'images/polytour-spin.jpg',
+ specs:{'ERP코드':'POLYTOUR SPIN 120 [12M]PTGSPN(120mm)/[200M]PTGSPN(120mm)-2, POLYTOUR SPIN 125 [12M]PTGSPN/[200M]PTGSPN-2','규격':'17(1.20mm), 16L(1.25mm)','소재':'Polyester (Pentagon Monofilament)','길이':'12m/200m(릴)','색상':'Cobalt Blue, Black','원산지':'Japan'},
+ desc:'5각형 모양의 스트링 단면으로 단단한 타구감과 강력한 스핀을 제공. 공격적인 스윙 스피드를 가진 선수들에게 적합한 스트링.',tags:['스핀','공격형']},
+{c:'ten',s:'string',series:'POLYTOUR',name:'Polytour Air',kr:'폴리투어 에어',price:0,grad:GRAD.TENSTR,img:'images/polytour-air.jpg',
+ specs:{'ERP코드':'[12M] PTGA125 / [200M] PTA125-2','규격':'16L(1.25mm)','소재':'Polyester (Monofilament), HR-Elastomer','길이':'12m/200m(릴)','색상':'Sky Blue','원산지':'Japan'},
+ desc:'HR-엘라스토머 소재가 팔의 피로를 감소시키는 뛰어난 충격 흡수력으로 손쉽게 파워를 생성. 중간 정도의 스윙 속도로 부드러운 타구감을 원하는 플레이어에게 적합.',tags:['편안함','충격흡수']},
+{c:'ten',s:'string',series:'REXIS',name:'Rexis Feel',kr:'렉시스 필',price:0,grad:GRAD.TENSTR,img:'images/rexis-feel.jpg',
+ specs:{'ERP코드':'REXIS FEEL 125, REXIS FEEL 130','소재':'Nylon (Multifilament), Rubber Polymer Capsule, FORTIMO™','규격':'16L(1.25mm), 16(1.30mm)','길이':'12m','색상':'White','원산지':'Japan'},
+ desc:'뛰어난 볼 홀딩력과 향상된 컨트롤을 원하는 모든 스윙 속도의 플레이어에게 적합.',tags:['컨트롤','멀티필라멘트']},
+{c:'ten',s:'string',series:'REXIS',name:'Rexis Comfort',kr:'렉시스 컴포트',price:0,grad:GRAD.TENSTR,img:'images/rexis-comfort.jpg',
+ specs:{'ERP코드':'REXIS COMFORT 125, REXIS COMFORT 130','소재':'Nylon (Multifilament), FORTIMO™','규격':'16L(1.25mm), 16(1.30mm)','길이':'12m','색상':'Cool White','원산지':'Japan'},
+ desc:'편안함, 타구감, 볼 홀딩력의 완벽한 조합을 원하는 모든 스윙 속도의 플레이어에게 적합.',tags:['편안함','멀티필라멘트']},
+{c:'ten',s:'string',series:'REXIS',name:'Rexis Speed',kr:'렉시스 스피드',price:0,grad:GRAD.TENSTR,img:'images/rexis-speed.jpg',
+ specs:{'ERP코드':'REXIS SPEED 125, REXIS SPEED 130','소재':'Nylon, Polyester (Multifilament), FORTIMO™','규격':'16L(1.25mm), 16(1.30mm)','길이':'12m','색상':'White','원산지':'Japan'},
+ desc:'빠른 반응력과 강력한 파워, 보다 빠른 속도의 고반발력 스트링을 원하는 플레이어에게 적합.',tags:['고반발','멀티필라멘트']},
+
+/* ============ TENNIS SHOES / BALLS ============ */
+{c:'ten',s:'shoe',series:'ECLIPSION 5',name:'Power Cushion Eclipsion 5',kr:'파워 쿠션 이클립션 5',price:210000,grad:GRAD.TENSHOE,img:'images/power-cushion-eclipsion-5.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-E5MACEX (ECLIPSION5 AC)','색상':'Blue/White, Ruby Red, White/Brown','무게':'365g/12.9oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'올코트용','원산지':'Vietnam'},
+ desc:'안정성에 특화된 라인업, 상급/중급 플레이어에 적합한 올코트용 모델.',tags:['안정성','올코트']},
+{c:'ten',s:'shoe',series:'ECLIPSION 5',name:'Power Cushion Eclipsion 5 Clay',kr:'파워 쿠션 이클립션 5 클레이',price:210000,grad:GRAD.TENSHOE,img:'images/power-cushion-eclipsion-5-clay.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-E5MGCEX (ECLIPSION5 CL)','색상':'Silver Orange, Ruby Red','무게':'365g/12.9oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'인조잔디/클레이코트용','원산지':'Vietnam'},
+ desc:'안정성에 특화된 라인업, 상급/중급 플레이어에 적합한 클레이코트용 모델.',tags:['안정성','클레이코트']},
+{c:'ten',s:'shoe',series:'ECLIPSION 5',name:'Power Cushion Eclipsion 5 Women',kr:'파워 쿠션 이클립션 5 우먼',price:210000,grad:GRAD.TENSHOE,img:'images/power-cushion-eclipsion-5-women.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-E5MACEX (ECLIPSION5 AC LADIES)','색상':'Champagne','무게':'330g/11.6oz (245mm 기준)','사이즈':'230mm~255mm 여성용','코트타입':'올코트용','원산지':'Vietnam'},
+ desc:'여성용 발볼과 사이즈에 맞춘 이클립션 5 올코트용 모델.',tags:['여성용','올코트']},
+{c:'ten',s:'shoe',series:'ECLIPSION 5',name:'Power Cushion Eclipsion 5 Clay Women',kr:'파워 쿠션 이클립션 5 클레이 우먼',price:210000,grad:GRAD.TENSHOE,img:'images/power-cushion-eclipsion-5-clay-women.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-E5LGCEX (ECLIPSION5 CL LADIES)','색상':'Pale Blue','무게':'330g/11.6oz (245mm 기준)','사이즈':'230mm~255mm 여성용','코트타입':'인조잔디/클레이코트용','원산지':'Vietnam'},
+ desc:'여성용 발볼과 사이즈에 맞춘 이클립션 5 클레이코트용 모델.',tags:['여성용','클레이코트']},
+{c:'ten',s:'shoe',series:'AD-ACCEL',name:'Power Cushion AD-Accel',kr:'파워 쿠션 에이디 엑셀',price:170000,grad:GRAD.TENSHOE,img:'images/power-cushion-ad-accel.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-AAMAEX (AD-ACCEL AC)','색상':'[2026] Fresh Lime / [2025] White Orange, White Black','무게':'335g/11.8oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'올코트용','원산지':'Vietnam'},
+ desc:'향상된 가속력으로 경기 속도를 업그레이드하는 스피드 모델. (올코트용)',tags:['스피드','올코트']},
+{c:'ten',s:'shoe',series:'AD-ACCEL',name:'Power Cushion AD-Accel Clay',kr:'파워 쿠션 에이디 엑셀 클레이',price:170000,grad:GRAD.TENSHOE,img:'images/power-cushion-ad-accel-clay.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-AAMGEX (AD-ACCEL CL)','색상':'[2026] Teal Green / [2025] Black','무게':'335g/11.8oz (260mm 기준)','사이즈':'230mm~285mm 남녀공용','코트타입':'인조잔디/클레이코트용','원산지':'Vietnam'},
+ desc:'향상된 가속력으로 경기 속도를 업그레이드하는 스피드 모델. (클레이코트용)',tags:['스피드','클레이코트']},
+{c:'ten',s:'shoe',series:'AD-ACCEL',name:'Power Cushion AD-Accel Women',kr:'파워 쿠션 에이디 엑셀 우먼',price:170000,grad:GRAD.TENSHOE,img:'images/power-cushion-ad-accel-women.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-AALAEX (AD-ACCEL AC LADIES)','색상':'[2026] Sunny Lime / [2025] White','무게':'315g/11.1oz (245mm 기준)','사이즈':'230mm~255mm 여성용','코트타입':'올코트용','원산지':'Vietnam'},
+ desc:'여성용 발볼과 사이즈에 맞춘 AD-Accel 올코트용 모델.',tags:['여성용','올코트']},
+{c:'ten',s:'shoe',series:'AD-ACCEL',name:'Power Cushion AD-Accel Clay Women',kr:'파워 쿠션 에이디 엑셀 클레이 우먼',price:170000,grad:GRAD.TENSHOE,img:'images/power-cushion-ad-accel-clay-women.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-AALGEX (AD-ACCEL CL LADIES)','색상':'Sherbet Orange','무게':'315g/11.1oz (245mm 기준)','사이즈':'230mm~270mm 여성용','코트타입':'인조잔디/클레이코트용','원산지':'Vietnam'},
+ desc:'여성용 발볼과 사이즈에 맞춘 AD-Accel 클레이코트용 모델.',tags:['여성용','클레이코트']},
+{c:'ten',s:'shoe',series:'AD-ACCEL',name:'Power Cushion AD-Accel Wide',kr:'파워 쿠션 에이디 엑셀 와이드',price:170000,grad:GRAD.TENSHOE,img:'images/power-cushion-ad-accel-wide.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-AAWAEX (AD-ACCEL AC WIDE)','색상':'White/Purple','무게':'340g/12oz (260mm 기준)','사이즈':'230mm~285mm 남녀공용','코트타입':'올코트용','원산지':'Vietnam'},
+ desc:'발볼이 넓은 와이드핏, 올코트용 AD-Accel 모델.',tags:['와이드핏','올코트']},
+{c:'ten',s:'shoe',series:'SONICAGE',name:'Power Cushion Sonicage',kr:'파워 쿠션 소니케이지',price:155000,grad:GRAD.TENSHOE,img:'images/power-cushion-sonicage.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-SCMAEX AC (SONICAGE AC)','색상':'[2026] Dark Red, Black/Mocha Gray / [2025] White','무게':'295g/10.2oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'올코트용','원산지':'Vietnam'},
+ desc:'부드러운 착화감과 편안함에 특화된 컴포트 모델. (올코트용)',tags:['편안함','올코트']},
+{c:'ten',s:'shoe',series:'SONICAGE',name:'Power Cushion Sonicage Clay',kr:'파워 쿠션 소니케이지 클레이',price:155000,grad:GRAD.TENSHOE,img:'images/power-cushion-sonicage-clay.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-SCMGEX CL (SONICAGE CL)','색상':'Pale Blue','무게':'295g/10.2oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'인조잔디/클레이코트용','원산지':'Vietnam'},
+ desc:'부드러운 착화감과 편안함에 특화된 컴포트 모델. (클레이코트용)',tags:['편안함','클레이코트']},
+{c:'ten',s:'shoe',series:'SONICAGE',name:'Power Cushion Sonicage Women',kr:'파워 쿠션 소니케이지 우먼',price:155000,grad:GRAD.TENSHOE,img:'images/power-cushion-sonicage-women.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-SCLAEX AC LADIES (SONICAGE AC LADIES)','색상':'[2026] Dark Green, Black/Mocha Gray / [2025] White/Gray','무게':'275g/9.7oz (245mm 기준)','사이즈':'230mm~255mm 여성용','코트타입':'올코트용','원산지':'Vietnam'},
+ desc:'여성용 발볼과 사이즈에 맞춘 소니케이지 올코트용 모델.',tags:['여성용','올코트']},
+{c:'ten',s:'shoe',series:'SONICAGE',name:'Power Cushion Sonicage Clay Women',kr:'파워 쿠션 소니케이지 클레이 우먼',price:155000,grad:GRAD.TENSHOE,img:'images/power-cushion-sonicage-clay-women.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-SCLGEX CL LADIES (SONICAGE CL LADIES)','색상':'Pale Pink','무게':'275g/9.7oz (245mm 기준)','사이즈':'230mm~255mm 여성용','코트타입':'인조잔디/클레이코트용','원산지':'Vietnam'},
+ desc:'여성용 발볼과 사이즈에 맞춘 소니케이지 클레이코트용 모델.',tags:['여성용','클레이코트']},
+{c:'ten',s:'shoe',series:'SONICAGE',name:'Power Cushion Sonicage Wide',kr:'파워 쿠션 소니케이지 와이드',price:155000,grad:GRAD.TENSHOE,img:'images/power-cushion-sonicage-wide.jpg',badge:'2026 S/S NEW DESIGN',
+ specs:{'ERP코드':'SHT-SCWAEX AC WIDE (SONICAGE AC WIDE)','색상':'[2026] Dark Navy / [2025] Black, White','무게':'305g/10.8oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'올코트용','원산지':'Vietnam'},
+ desc:'발볼이 넓은 와이드핏, 올코트용 소니케이지 모델.',tags:['와이드핏','올코트']},
+{c:'ten',s:'shoe',series:'PRO-MOVE',name:'Power Cushion Pro-Move Classic',kr:'파워 쿠션 프로-무브 클래식',price:119000,grad:GRAD.TENSHOE,img:'images/power-cushion-pro-move-classic.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHT-PAEX (PRO MOVE CLASSIC) AC','색상':'White/Navy/Red, White/Sax, White/Green','무게':'320g/11.3oz (260mm 기준)','사이즈':'230mm~285mm 남녀공용','코트타입':'올코트용','원산지':'Indonesia'},
+ desc:'올코트 대응 가성비 올라운드 테니스화. (올코트용)',tags:['가성비','올코트']},
+{c:'ten',s:'shoe',series:'PRO-MOVE',name:'Power Cushion Pro-Move Classic Wide',kr:'파워 쿠션 프로-무브 클래식 와이드',price:119000,grad:GRAD.TENSHOE,img:'images/power-cushion-pro-move-classic-wide.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHT-PAEX (PRO MOVE CLASSIC) WIDE','색상':'Black/Brown, White/Red','무게':'320g/11.3oz (260mm 기준)','사이즈':'220mm~290mm 남녀공용','코트타입':'올코트용','원산지':'Indonesia'},
+ desc:'발볼이 넓은 와이드핏의 가성비 올라운드 테니스화.',tags:['가성비','와이드핏']},
+{c:'ten',s:'shoe',series:'PRO-MOVE',name:'Power Cushion Pro-Move Classic Clay',kr:'파워 쿠션 프로-무브 클래식 클레이',price:119000,grad:GRAD.TENSHOE,img:'images/power-cushion-pro-move-classic-clay.jpg',badge:'2026 S/S NEW PRODUCT',
+ specs:{'ERP코드':'SHT-PAEX (PRO MOVE CLASSIC) CL','색상':'White','무게':'320g/11.3oz (260mm 기준)','사이즈':'220mm~290mm 남녀공용','코트타입':'인조잔디/클레이코트용','원산지':'Indonesia'},
+ desc:'가성비 올라운드 테니스화의 클레이코트용 모델.',tags:['가성비','클레이코트']},
+{c:'ten',s:'ball',series:'BALLS',name:'Tour Platinum',kr:'투어 플래티넘',price:14000,grad:GRAD.BALL,img:'images/tour-platinum.jpg',
+ specs:{'ERP코드':'TB-TP4PEX','소재':'Wool/Nylon/Polyester/Rubber','수량':'1캔 4구','용도':'압력구, 경기용','인증':'ITF','원산지':'Thailand'},
+ desc:'높은 내구성과 최상급 품질의 올코트용 우븐 펠트 테니스공.',tags:['ITF인증']},
+{c:'ten',s:'ball',series:'BALLS',name:'Tour',kr:'투어',price:9500,grad:GRAD.BALL,img:'images/tour.jpg',
+ specs:{'ERP코드':'TB-TR3NEX','소재':'Wool/Nylon/Polyester/Rubber','수량':'1캔 3구','용도':'압력구, 경기용','인증':'ITF','원산지':'Thailand'},
+ desc:'높은 내구성의 올코트용 테니스공 우븐 펠트.',tags:['ITF인증']},
+{c:'ten',s:'ball',series:'BALLS',name:'Championship',kr:'챔피언십',price:8500,grad:GRAD.BALL,img:'images/championship.jpg',
+ specs:{'ERP코드':'[3 Balls] TB-CS3EX, [4 Balls] TB-CS4EX','소재':'Wool/Nylon/Polyester/Rubber','수량':'1캔 3구 (8,500원) / 1캔 4구 (10,000원)','용도':'압력구, 경기용','인증':'ITF','원산지':'Thailand'},
+ desc:'높은 내구성의 올코트용 테니스공 니들 펠트.',tags:['ITF인증']},
+{c:'ten',s:'ball',series:'BALLS',name:'NP (연습볼)',kr:'연습볼',price:139000,grad:GRAD.BALL,img:'images/np.jpg',
+ specs:{'ERP코드':'TB-NP60','소재':'Wool/Nylon/Polyester/Rubber/Synthetic Rubber','수량':'1가방 60구(무압구)','원산지':'Thailand'},
+ desc:'내구성 좋은 연습용 무압 테니스공 60개입.',tags:['연습용']},
+
+/* ============ SOFT TENNIS ============ */
+{c:'soft',s:'racquet',series:'VOLTRAGE',name:'Voltrage 8S',kr:'볼트레이지 8에스',price:310000,grad:GRAD.VOLTRAGE,img:'images/voltrage-8s.jpg',
+ specs:{'ERP코드':'VOLTRAGE 8S (2025)','소재':'고강도 카본 / 고탄성 카본 / 리액트 레진 / 2G-Namd Speed / M40X / VDM','사이즈':'UL1 (85 inch²)','색상':'Sherry Silver','장력':'25-35lbs','대상 플레이어':'올라운드용','원산지':'Japan'},
+ desc:'날카로운 타격, 폭발적인 스피드의 강력한 샷. 스트로크 중시 모델.',tags:['최강스피드','스트로크']},
+{c:'soft',s:'racquet',series:'VOLTRAGE',name:'Voltrage 8V',kr:'볼트레이지 8브이',price:310000,grad:GRAD.VOLTRAGE,img:'images/voltrage-8v.jpg',
+ specs:{'ERP코드':'VOLTRAGE 8V (2025)','소재':'고강도 카본 / 고탄성 카본 / 2G-Namd Speed / M40X / VDM','사이즈':'UL1 (85 inch²)','색상':'Sherry Silver','장력':'25-35lbs','대상 플레이어':'후위용','원산지':'Japan'},
+ desc:'날카로운 타격, 폭발적인 스피드의 강력한 샷. 발리 중시 모델.',tags:['최강스피드','발리']},
+{c:'soft',s:'racquet',series:'VOLTRAGE',name:'Voltrage 7 Versus',kr:'볼트레이지 7 버서스',price:330000,grad:GRAD.VOLTRAGE,img:'images/voltrage-7-versus.jpg',
+ specs:{'ERP코드':'VOLTRAGE 7VS FREG (2025) FREG 0G1','소재':'고강도 카본 / 고탄성 카본 / 리액트 레진 / Namd / M40X / VDM','사이즈':'UL1','색상':'Fresh Green','장력':'25-35lbs','대상 플레이어':'올라운드용','원산지':'Japan'},
+ desc:'폭발적인 타구음의 강력한 스피드 샷. 올라운드용 모델.',tags:['스피드','올라운드']},
+{c:'soft',s:'racquet',series:'VOLTRAGE',name:'Voltrage 7S',kr:'볼트레이지 7에스',price:330000,grad:GRAD.VOLTRAGE,img:'images/voltrage-7s.jpg',
+ specs:{'ERP코드':'VOLTRAGE 7S FREG (2025) FREG 0G1','소재':'고강도 카본 / 고탄성 카본 / 리액트 레진 / Namd / M40X / VDM','사이즈':'UL1','색상':'Fresh Green','장력':'25-35lbs','대상 플레이어':'후위용','원산지':'Japan'},
+ desc:'폭발적인 타구음의 강력한 스피드 샷. 스트로크 중시 모델.',tags:['스피드','스트로크']},
+{c:'soft',s:'racquet',series:'VOLTRAGE',name:'Voltrage 7V',kr:'볼트레이지 7브이',price:330000,grad:GRAD.VOLTRAGE,img:'images/voltrage-7v.jpg',
+ specs:{'ERP코드':'VOLTRAGE 7V FREG (2025) FREG 0G1','소재':'고강도 카본 / 고탄성 카본 / 리액트 레진 / Namd / M40X / VDM','사이즈':'UL1','색상':'Fresh Green','장력':'25-35lbs','대상 플레이어':'전위용','원산지':'Japan'},
+ desc:'폭발적인 타구음의 강력한 스피드 샷. 발리 중시 모델.',tags:['스피드','발리']},
+{c:'soft',s:'racquet',series:'VOLTRAGE',name:'Voltrage 5 Versus',kr:'볼트레이지 5 버서스',price:250000,grad:GRAD.VOLTRAGE,img:'images/voltrage-5-versus.jpg',
+ specs:{'ERP코드':'VOLTRAGE 5VS (2025)','소재':'고강도 카본 / 고탄성 카본 / 리액트 레진 / M40X / VDM','사이즈':'UL1','색상':'Grayish White','장력':'25-35lbs','대상 플레이어':'올라운드용','원산지':'Japan'},
+ desc:'폭발적인 스피드 샷을 손쉽게 실현. 올라운드용 모델.',tags:['입문상급','올라운드']},
+{c:'soft',s:'racquet',series:'VOLTRAGE',name:'Voltrage 5S',kr:'볼트레이지 5에스',price:250000,grad:GRAD.VOLTRAGE,img:'images/voltrage-5s.jpg',
+ specs:{'ERP코드':'VOLTRAGE 5S (2025)','소재':'고강도 카본 / 고탄성 카본 / 리액트 레진 / M40X / VDM','사이즈':'UL1','색상':'Grayish White','장력':'25-35lbs','대상 플레이어':'후위용','원산지':'Japan'},
+ desc:'폭발적인 스피드 샷을 손쉽게 실현. 스트로크 중시 모델.',tags:['입문상급','스트로크']},
+{c:'soft',s:'racquet',series:'VOLTRAGE',name:'Voltrage 5V',kr:'볼트레이지 5브이',price:250000,grad:GRAD.VOLTRAGE,img:'images/voltrage-5v.jpg',
+ specs:{'ERP코드':'VOLTRAGE 5V (2025)','소재':'고강도 카본 / 고탄성 카본 / 리액트 레진 / M40X / VDM','사이즈':'UL1','색상':'Grayish White','장력':'25-35lbs','대상 플레이어':'전위용','원산지':'Japan'},
+ desc:'폭발적인 스피드 샷을 손쉽게 실현. 발리 중시 모델.',tags:['입문상급','발리']},
+{c:'soft',s:'racquet',series:'GEOBREAK',name:'Geobreak 70 Versus',kr:'지오브레이크 70 버서스',price:320000,grad:GRAD.GEOBREAK,img:'images/geobreak-70-versus.jpg',
+ specs:{'ERP코드':'GEOBREAK 70VS (2025)','소재':'고강도 카본 / 리액트 레진 / 2G-Namd™Flex Force / SERVO FILTER','사이즈':'UL1','색상':'Tango Red','장력':'25-35lbs','대상 플레이어':'올라운드용','원산지':'Japan'},
+ desc:'새로운 차원의 강력한 파워 샷. 올라운드형 모델.',tags:['자이로버스트','파괴력','올라운드']},
+{c:'soft',s:'racquet',series:'GEOBREAK',name:'Geobreak 70S',kr:'지오브레이크 70에스',price:320000,grad:GRAD.GEOBREAK,img:'images/geobreak-70s.jpg',
+ specs:{'ERP코드':'GEOBREAK 70S (2025)','소재':'고강도 카본 / 리액트 레진 / 2G-Namd™Flex Force / SERVO FILTER','사이즈':'UL1','색상':'Tango Red','장력':'25-35lbs','대상 플레이어':'후위용','원산지':'Japan'},
+ desc:'새로운 차원의 강력한 파워 샷. 스트로크 중시 모델.',tags:['자이로버스트','스트로크']},
+{c:'soft',s:'racquet',series:'GEOBREAK',name:'Geobreak 70V',kr:'지오브레이크 70브이',price:320000,grad:GRAD.GEOBREAK,img:'images/geobreak-70v.jpg',
+ specs:{'ERP코드':'GEOBREAK 70V (2025)','소재':'고강도 카본 / 리액트 레진 / 2G-Namd™Flex Force / SERVO FILTER','사이즈':'UL1','색상':'Tango Red','장력':'25-35lbs','대상 플레이어':'발리용','원산지':'Japan'},
+ desc:'새로운 차원의 강력한 파워 샷. 발리 중시 모델.',tags:['자이로버스트','발리']},
+{c:'soft',s:'racquet',series:'NANOFORCE',name:'Nanoforce 8V Rev',kr:'나노포스 8브이 레브',price:260000,grad:GRAD.GEOBREAK,img:'images/nanoforce-8v-rev.jpg',
+ specs:{'ERP코드':'NANOFORCE 8V REV (2024)','소재':'고강도 카본 / 고탄성 카본 / X-풀러린 / 고무메탈','사이즈':'G1','색상':'Gloss Blue','장력':'25-35lbs','대상 플레이어':'전위용','원산지':'Japan'},
+ desc:'랠리를 결정짓는 강력한 공격, 세련되고 시원한 타구감. 스피드한 조작성을 제공하는 전위용 라켓.',tags:['전위']},
+{c:'soft',s:'racquet',series:'AIRIDE',name:'Airide',kr:'에어라이드',price:170000,grad:GRAD.SOFT,img:'images/airide.jpg',
+ specs:{'ERP코드':'AIRIDE (2025)','소재':'고강도 카본 / 유리섬유 / VDM','사이즈':'95 inch²','그립사이즈':'G01','색상':'Navy/Red, Lime/Yellow','장력':'20-30lbs','대상 플레이어':'올라운드용','원산지':'China'},
+ desc:'반발력이 좋은 경량 모델. 신소재 VDM을 그립 부분에 적용해 진동을 완화, 편안한 타구감을 실현한 입문자용 기본 라켓.',tags:['입문','경량']},
+{c:'soft',s:'string',series:'SOFT STRING',name:'Cyber Natural Sharp',kr:'사이버 내츄럴 샤프',price:18000,grad:GRAD.SOFT,img:'images/cyber-natural-sharp.jpg',
+ specs:{'ERP코드':'CSG550SP','색상':'White','구조':'모노필라멘트','길이':'11m','소재':'심사/하이폴리머 나일론, 측사/하이폴리머 나일론 + 실리콘 혼합(와인딩 가공)','코팅':'PU복합 파워 그립 코팅','원산지':'Japan'},
+ desc:'날카로운 반발력의 소프트테니스 베스트셀러 스트링.',tags:['베스트셀러']},
+{c:'soft',s:'string',series:'SOFT STRING',name:'Poly Action 125',kr:'폴리액션 125',price:16000,grad:GRAD.SOFT,img:'images/poly-action-125.jpg',
+ specs:{'ERP코드':'PSGA125','색상':'Royal Blue','구조':'모노필라멘트','규격':'1.25mm','길이':'11m','소재':'하이폴리머 폴리에스테르 (5각형 모노필라멘트)','원산지':'Japan'},
+ desc:'오각형 단면형태로 강력한 드라이브가 가능한 스트링.',tags:['드라이브']},
+{c:'soft',s:'string',series:'SOFT STRING',name:'Poly Action Pro',kr:'폴리액션 프로',price:26000,grad:GRAD.SOFT,img:'images/poly-action-pro.jpg',
+ specs:{'ERP코드':'SGPP','색상':'Cool Black','구조':'모노필라멘트','규격':'1.25mm','길이':'11m','소재':'하이폴리머 폴리에스테르 (5각형 모노필라멘트)','원산지':'Japan'},
+ desc:'오각형 단면형태로 압도적인 스트로크가 가능한 스트링.',tags:['스트로크']},
+
+/* ============ ACCESSORIES ============ */
+{c:'acc',s:'grip',series:'GRIP',name:'Super Grap (3EA)',kr:'슈퍼 그립 (3개입)',price:11500,grad:GRAD.ACC,img:'images/super-grap-3ea.jpg',
+ specs:{'ERP코드':'AC102EX','소재':'폴리우레탄','너비':'25mm','길이':'1,200mm','두께':'0.6mm','포장':'3개입','비고':'1987년 출시, 스테디셀러','원산지':'Indonesia'},
+ desc:'라켓 충격과 손바닥의 땀을 흡수해 뛰어난 그립감과 컨트롤을 제공하는 요넥스 베스트셀러 오버그립.',tags:['베스트셀러']},
+{c:'acc',s:'grip',series:'GRIP',name:'Super Grap (12EA)',kr:'슈퍼 그립 (12개입)',price:42900,grad:GRAD.ACC,img:'images/super-grap-12ea.jpg',
+ specs:{'ERP코드':'AC102EX(12)','소재':'폴리우레탄','너비':'25mm','길이':'1,200mm','두께':'0.6mm','포장':'12개입','원산지':'Indonesia'},
+ desc:'라켓 충격과 손바닥의 땀을 흡수해 뛰어난 그립감과 컨트롤을 제공하는 슈퍼 그립의 다량 구성.',tags:['베스트셀러']},
+{c:'acc',s:'grip',series:'GRIP',name:'Super Grap (30EA)',kr:'슈퍼 그립 (30개입)',price:77900,grad:GRAD.ACC,img:'images/super-grap-30ea.jpg',
+ specs:{'ERP코드':'AC102EX(30)','소재':'폴리우레탄','너비':'25mm','길이':'1,200mm','두께':'0.6mm','포장':'30개입','원산지':'Indonesia'},
+ desc:'라켓 충격과 손바닥의 땀을 흡수해 뛰어난 그립감과 컨트롤을 제공하는 슈퍼 그립의 대용량 구성.',tags:['베스트셀러']},
+{c:'acc',s:'grip',series:'GRIP',name:'Super Grap Pure',kr:'슈퍼 그립 퓨어',price:2500,grad:GRAD.ACC,img:'images/super-grap-pure.jpg',
+ specs:{'ERP코드':'AC108EX','소재':'폴리우레탄','너비':'25mm','길이':'1,200mm','두께':'0.6mm','포장':'1개입','원산지':'Indonesia'},
+ desc:'흡수력과 그립감에 집중한 슈퍼 그립의 순정 버전.',tags:['흡수력']},
+{c:'acc',s:'grip',series:'GRIP',name:'Super Grap Premium (30EA)',kr:'슈퍼 그립 프리미엄 (30개입)',price:129000,grad:GRAD.ACC,img:'images/super-grap-premium-30ea.jpg',
+ specs:{'ERP코드':'AC148EX(30)','포장':'30개입','원산지':'Japan'},
+ desc:'슈퍼 그립 라인업 중 프리미엄 사양의 대용량 구성.',tags:['프리미엄']},
+{c:'acc',s:'grip',series:'GRIP',name:'Dry Grap (3EA)',kr:'드라이 그립 (3개입)',price:16000,grad:GRAD.ACC,img:'images/dry-grap-3ea.jpg',
+ specs:{'ERP코드':'AC149EX(3)','소재':'폴리우레탄','두께':'0.6mm','포장':'3개입','원산지':'Japan'},
+ desc:'뛰어난 흡수력을 자랑하는 드라이 타입 오버그립.',tags:['흡수력']},
+{c:'acc',s:'grip',series:'GRIP',name:'Dry Grap (30EA)',kr:'드라이 그립 (30개입)',price:119000,grad:GRAD.ACC,img:'images/dry-grap-30ea.jpg',
+ specs:{'ERP코드':'AC149EX(30)','소재':'폴리우레탄','두께':'0.6mm','포장':'30개입','원산지':'Japan'},
+ desc:'뛰어난 흡수력을 자랑하는 드라이 타입 오버그립의 대용량 구성.',tags:['흡수력']},
+{c:'acc',s:'grip',series:'GRIP',name:'Wave Grap Pure',kr:'웨이브 그립 퓨어',price:4500,grad:GRAD.ACC,img:'images/wave-grap-pure.jpg',
+ specs:{'ERP코드':'AC108WEX','포장':'1개입','원산지':'Indonesia'},
+ desc:'끈적한 느낌과 고무 소재의 중심 스트립으로 뛰어난 접착력을 제공하는 웨이브형 그립.',tags:['접착력']},
+{c:'acc',s:'grip',series:'GRIP',name:'Strong Grap',kr:'스트롱 그립',price:7500,grad:GRAD.ACC,img:'images/strong-grap.jpg',
+ specs:{'ERP코드':'AC133','포장':'1개입','원산지':'Indonesia'},
+ desc:'뛰어난 접착력 및 내구성을 자랑하는 그립.',tags:['내구성']},
+{c:'acc',s:'grip',series:'GRIP',name:'Towel Grap',kr:'타월 그립',price:6000,grad:GRAD.ACC,img:'images/towel-grap.jpg',
+ specs:{'ERP코드':'AC402DX','소재':'면 100%','너비':'32mm','길이':'660mm','두께':'1.35mm','포장':'1개입','원산지':'Japan'},
+ desc:'흡수력이 좋은 면 100% 소재에 항균가공을 더한 타월 그립.',tags:['흡수력']},
+{c:'acc',s:'grip',series:'GRIP',name:'Clean Grap',kr:'클린 그립',price:5500,grad:GRAD.ACC,img:'images/clean-grap.jpg',
+ specs:{'ERP코드':'AC146 (CLEAN GRAP)','소재':'폴리우레탄, 오더리스','너비':'25mm','길이':'1,200mm','두께':'0.6mm','포장':'1개입','원산지':'Japan'},
+ desc:'포스트 코로나 시대를 위한 항균 및 탈취 기능이 강화된 클린 그립.',tags:['항균']},
+{c:'acc',s:'grip',series:'GRIP',name:'Synthetic Leather Grap',kr:'합성 가죽 그립',price:15000,grad:GRAD.ACC,img:'images/synthetic-leather-grap.jpg',
+ specs:{'ERP코드':'AC126EX','소재':'폴리우레탄','너비':'25mm','길이':'1,200mm','두께':'1.5mm','포장':'1개입','비고':'테니스용','원산지':'Taiwan'},
+ desc:'합성 가죽 소재의 테니스용 그립.',tags:['테니스용']},
+{c:'acc',s:'grip',series:'GRIP',name:'Premium Leather Grap',kr:'프리미엄 가죽 그립',price:27000,grad:GRAD.ACC,img:'images/premium-leather-grap.jpg',
+ specs:{'ERP코드':'AC221','소재':'소가죽','너비':'27mm','길이':'1,000mm','두께':'1.4mm','포장':'1개입','비고':'테니스용','원산지':'Taiwan'},
+ desc:'소가죽 소재의 테니스용 프리미엄 그립.',tags:['가죽','테니스용']},
+{c:'acc',s:'grip',series:'GRIP',name:'Grip Band',kr:'그립밴드',price:3500,grad:GRAD.ACC,img:'images/grip-band.jpg',
+ specs:{'ERP코드':'AC173EX','소재':'실리콘 고무','색상':'다양한 컬러, 14구성 우수','포장':'1개입','원산지':'China'},
+ desc:'다양한 컬러의 14구성 실리콘 고무 그립밴드.',tags:['악세서리']},
+{c:'acc',s:'etc',series:'ACC',name:'Power Cushion+ Insole',kr:'파워 쿠션+ 인솔',price:19900,grad:GRAD.ACC,img:'images/power-cushion-insole.jpg',
+ specs:{'ERP코드':'AC195, POWER CUSHION+ INSOLE','사이즈':'[S] 220-240mm, [M] 245-265mm, [L] 270-290mm','소재':'POWER CUSHION+','색상':'Yellow','원산지':'China'},
+ desc:'충격 흡수력을 더해주는 파워 쿠션+ 인솔.',tags:['인솔']},
+{c:'acc',s:'etc',series:'ACC',name:'Cushion Wrap',kr:'쿠션랩',price:9900,grad:GRAD.ACC,img:'images/cushion-wrap.jpg',
+ specs:{'ERP코드':'AC381','소재':'폴리우레탄','너비':'70mm','길이':'30m','색상':'Red, Yellow, Black','원산지':'China'},
+ desc:'라켓 그립 하단이나 손잡이 보강에 사용하는 쿠션랩.',tags:['악세서리']},
+{c:'acc',s:'etc',series:'ACC',name:'Grip Powder',kr:'그립 파우더',price:14000,grad:GRAD.ACC,img:'images/grip-powder.jpg',
+ specs:{'ERP코드':'AC470','소재':'송진 + 탄산칼슘 + 탄산마그네슘','색상':'White','원산지':'Japan'},
+ desc:'손의 미끄러움을 방지해주는 그립 파우더.',tags:['악세서리']},
+{c:'acc',s:'etc',series:'ACC',name:'Vibration Stopper (2EA)',kr:'바이브레이션 스토퍼 (2개입)',price:9000,grad:GRAD.ACC,img:'images/vibration-stopper-2ea.jpg',
+ specs:{'ERP코드':'AC165EX','소재':'진동 흡수 고무','색상':'Red, Blue, Yellow, Clear, Black','포장':'2개입','원산지':'Taiwan'},
+ desc:'타구 시 발생하는 원치 않는 진동을 흡수해 편안한 타구감을 제공하는 스토퍼.',tags:['진동방지']},
+{c:'acc',s:'etc',series:'ACC',name:'Vibration Stopper (1EA)',kr:'바이브레이션 스토퍼 (1개입)',price:4000,grad:GRAD.ACC,img:'images/vibration-stopper-1ea.jpg',
+ specs:{'ERP코드':'AC166EX','소재':'진동 흡수 고무','색상':'Lemon Yellow, Black/Orange, Rose Pink, Black/Magenta','포장':'1개입','원산지':'Japan'},
+ desc:'타구 시 발생하는 원치 않는 진동을 흡수해 편안한 타구감을 제공하는 스토퍼.',tags:['진동방지']},
+{c:'acc',s:'etc',series:'ACC',name:'Ball Holder',kr:'볼 홀더 (테니스, 정구용)',price:12000,grad:GRAD.ACC,img:'images/ball-holder.jpg',
+ specs:{'ERP코드':'AC471','색상':'Silver, Blue, Pink','원산지':'Japan'},
+ desc:'테니스·정구용 볼 홀더.',tags:['훈련용품']},
+{c:'acc',s:'etc',series:'ACC',name:'Stencil Ink',kr:'스텐실 잉크',price:22000,grad:GRAD.ACC,img:'images/stencil-ink.jpg',
+ specs:{'ERP코드':'AC414','소재':'에멀젼 고분자','용량':'30ml','색상':'Red, Black, White','원산지':'Japan'},
+ desc:'스트링 위에 로고를 찍는 스텐실 잉크.',tags:['악세서리']},
+{c:'acc',s:'etc',series:'ACC',name:'Stencil Card (Badminton)',kr:'스텐실 카드 (배드민턴용)',price:10000,grad:GRAD.ACC,img:'images/stencil-card-badminton.jpg',
+ specs:{'ERP코드':'AC418','원산지':'Japan'},
+ desc:'배드민턴 라켓용 스텐실 카드.',tags:['악세서리']},
+{c:'acc',s:'etc',series:'ACC',name:'Stencil Card (Tennis)',kr:'스텐실 카드 (테니스용)',price:14000,grad:GRAD.ACC,img:'images/stencil-card-tennis.jpg',
+ specs:{'ERP코드':'[90-99 SQ.IN.] AC502A, [100-130 SQ.IN.] AC502B','원산지':'Japan'},
+ desc:'헤드사이즈별로 나뉜 테니스 라켓용 스텐실 카드.',tags:['악세서리']},
+{c:'acc',s:'etc',series:'ACC',name:'Badminton Awl',kr:'배드민턴용 송곳',price:30000,grad:GRAD.ACC,img:'images/badminton-awl.jpg',
+ specs:{'ERP코드':'AC620BB(송곳)','소재':'강철 + 셀룰로오스 + 아세테이트','크기':'144mm','색상':'Yellow','원산지':'Japan'},
+ desc:'배드민턴 라켓 스트링 작업에 사용하는 송곳.',tags:['스트링작업']},
+{c:'acc',s:'etc',series:'ACC',name:'Stringing Kit',kr:'스트링 키트',price:660000,grad:GRAD.ACC,img:'images/stringing-kit.jpg',
+ specs:{'ERP코드':'AC620, STRINGING KIT','크기':'170 x 240 x 60mm','색상':'Red','원산지':'Japan'},
+ desc:'스트링 작업에 필요한 도구가 모두 담긴 스트링 키트.',tags:['스트링작업']},
+{c:'acc',s:'etc',series:'ACC',name:'String Clamp',kr:'스트링 고정 집게',price:69000,grad:GRAD.ACC,img:'images/string-clamp.jpg',
+ specs:{'ERP코드':'AC607','소재':'알루미늄 합금 + 플라스틱','색상':'Black','원산지':'Japan'},
+ desc:'스트링 작업 시 스트링을 고정하는 집게.',tags:['스트링작업']},
+{c:'acc',s:'etc',series:'ACC',name:'Badminton Net Pole (Movable)',kr:'배드민턴 네트 폴 (이동식)',price:0,grad:GRAD.ACC,img:'images/badminton-net-pole-1.jpg',
+ specs:{'ERP코드':'AC355','구성':'2poles','높이':'1,550mm','무게':'90kg/198lbs (1폴 당)','소재':'Steel (폴)','인증':'BWF Approved','원산지':'Taiwan'},
+ desc:'이동이 편리한 배드민턴 네트 폴 세트.',tags:['코트장비']},
+{c:'acc',s:'etc',series:'ACC',name:'Badminton Net Pole (Movable) II',kr:'배드민턴 네트 폴 (이동식) II',price:0,grad:GRAD.ACC,img:'images/badminton-net-pole-2.jpg',
+ specs:{'ERP코드':'AC357-1','구성':'2poles','높이':'1,550mm','무게':'100kg/200lbs (1폴 당)','폴 커버 크기':'너비 680mm, 깊이 330mm, 높이 250mm','소재':'2ABS Resin','인증':'BWF Approved','원산지':'Japan'},
+ desc:'폴 커버가 포함된 배드민턴 네트 폴 세트.',tags:['코트장비']},
+{c:'acc',s:'etc',series:'ACC',name:'Court Mat',kr:'코트매트',price:0,grad:GRAD.ACC,img:'images/court-mat.jpg',
+ specs:{'ERP코드':'AC367','크기':'7.2 x 15.4m','구성':'4Rolls','두께':'3mm','소재':'PVC','색상':'Green','원산지':'Japan'},
+ desc:'배드민턴 코트용 매트.',tags:['코트장비']},
+{c:'acc',s:'etc',series:'ACC',name:'Score Board',kr:'스코어 보드 (배드민턴용)',price:0,grad:GRAD.ACC,img:'images/score-board.jpg',
+ specs:{'ERP코드':'AC375','소재':'[본체] 폴리우레탄, [카드] 폴리프로필렌, [링] 폴리에틸렌','크기':'폭 460 x 깊이 1,700 x 높이 240mm','색상':'Black','비고':'최대 30점까지 카운트 가능, 수납케이스 포함','원산지':'China'},
+ desc:'최대 30점까지 카운트 가능한 배드민턴 경기용 스코어 보드.',tags:['코트장비']},
+{c:'acc',s:'etc',series:'ACC',name:'Badminton Net',kr:'배드민턴 네트',price:0,grad:GRAD.ACC,img:'images/badminton-net-1.jpg',
+ specs:{'ERP코드':'AC340 BADMINTON NET','높이':'0.76m','용량':'540g','원산지':'Japan'},
+ desc:'표준 배드민턴 네트.',tags:['코트장비']},
+{c:'acc',s:'etc',series:'ACC',name:'Badminton Net II',kr:'배드민턴 네트 II',price:0,grad:GRAD.ACC,img:'images/badminton-net-2.jpg',
+ specs:{'ERP코드':'AC141EX BADMINTON NET','높이':'0.76m','용량':'540g','원산지':'Taiwan'},
+ desc:'표준 배드민턴 네트.',tags:['코트장비']},
+{c:'acc',s:'etc',series:'ACC',name:'Edge Guard',kr:'엣지가드',price:5000,grad:GRAD.ACC,img:'images/edge-guard.jpg',
+ specs:{'ERP코드':'AC158-1P','소재':'폴리우레탄','폭/길이':'14 x 43mm','색상':'Red, Black, Light Blue, Clear','포장':'2개입','원산지':'Japan'},
+ desc:'라켓 헤드의 마모를 방지해주는 여러가지 색으로 빛나는 요넥스 홀로그램 엣지가드.',tags:['라켓보호']},
+{c:'acc',s:'etc',series:'ACC',name:'Tennis Ball Bag',kr:'테니스 볼 백',price:95000,grad:GRAD.ACC,img:'images/tennis-ball-bag.jpg',
+ specs:{'ERP코드':'AC373B','소재':'폴리에스테르','색상':'Black','비고':'볼 100개 보관 가능 (볼 미포함 판매)','원산지':'Taiwan'},
+ desc:'훈련용 테니스공 보관/운반을 위한 볼 백.',tags:['훈련용품']},
+{c:'acc',s:'etc',series:'ACC',name:'Tennis Ball Cart',kr:'테니스 볼 카트',price:215000,grad:GRAD.ACC,img:'images/tennis-ball-cart.jpg',
+ specs:{'ERP코드':'AC373EX','크기':'900 x 410 x 540mm','무게':'약 3.9kg','비고':'볼 100개 보관 가능 (볼 미포함 판매)','원산지':'Taiwan'},
+ desc:'훈련용 테니스공 보관/운반을 위한 이동식 볼 카트.',tags:['훈련용품']},
+{c:'acc',s:'etc',series:'ACC',name:'Racquet Stand',kr:'라켓 거치대',price:0,grad:GRAD.ACC,img:'images/racquet-stand.jpg',
+ specs:{'ERP코드':'AC311EX','크기':'너비 950 x 높이 910 x 깊이 390mm','원산지':'Taiwan'},
+ desc:'매장/훈련장용 라켓 거치대.',tags:['매장용']},
+{c:'machine',s:'stringmachine',series:'PRECISION',name:'Precision 9.0',kr:'프리시전 9.0',price:0,grad:GRAD.MACHINE,img:'images/precision-9-0.jpg',
+ specs:{'ERP코드':'PRECISION 9.0W 스트링머신','용도':'자동 배드민턴, 테니스&정구 스트링 머신','크기':'약 1,070mm(W) x 660mm(D)','무게':'약 73kg/161lbs','높이':'1,070~1,370mm','최대속도':'9 speeds','장력범위':'10-88lbs, 4.4-39.4kg','프리-스트레치':'1-20%','원산지':'Japan'},
+ desc:'낮아진 라켓 포스트와 콤팩트한 턴테이블로 부드러운 스트링 작업이 가능하고, 향상된 그립감의 클램프로 스트링 손상을 줄여주는 최상위 모델.',tags:['스트링머신','최상위']},
+{c:'machine',s:'stringmachine',series:'PRECISION',name:'Precision 8.0',kr:'프리시전 8.0',price:0,grad:GRAD.MACHINE,img:'images/precision-8-0.jpg',
+ specs:{'ERP코드':'PRECISION 8.0W 스트링머신','용도':'자동 배드민턴, 테니스&정구 스트링 머신','크기':'약 1,070mm(W) x 640mm(D)','무게':'약 54kg/119lbs','높이':'1,110~1,360mm','최대속도':'9 speeds','장력범위':'10-88lbs, 4.4-39.4kg','프리-스트레치':'1-20%','원산지':'Japan'},
+ desc:'더 얇고 인체공학적인 디자인의 클램프, 수동으로 조절 가능한 메인 포스트, 확장된 베이스로 안정성이 향상된 스트링 머신.',tags:['스트링머신']},
+{c:'machine',s:'stringmachine',series:'PRECISION',name:'Precision 5.2',kr:'프리시전 5.2',price:0,grad:GRAD.MACHINE,img:'images/precision-5-2.jpg',
+ specs:{'ERP코드':'PRECISION 5.2 스트링머신','용도':'자동 배드민턴, 테니스&정구 스트링 머신','크기':'약 1,169mm(W) x 685mm(D)','무게':'약 74kg/163lbs','높이':'1,093~1,273mm','최대속도':'3 speeds','장력범위':'11-82lbs, 5-37kg','프리-스트레치':'0, 5, 10, 15, 20%','원산지':'Taiwan'},
+ desc:'가벼운 알루미늄 클램프와 베어링이 적용된 부드러운 텐션 유닛으로 장시간 작업에도 피로를 줄여주는 스트링 머신.',tags:['스트링머신']},
+{c:'machine',s:'stringmachine',series:'PRECISION',name:'Precision 3.2',kr:'프리시전 3.2',price:0,grad:GRAD.MACHINE,img:'images/precision-3-2.jpg',
+ specs:{'ERP코드':'PRECISION 3.2 스트링머신 (배드민턴 전용)','용도':'자동 배드민턴 스트링 머신','크기':'약 1,036mm(W) x 459mm(D)','무게':'약 58kg/128lbs','높이':'1,080~1,280mm','최대속도':'3 speeds','장력범위':'11-46lbs, 5-21kg','프리-스트레치':'0, 5, 10, 15%','원산지':'Taiwan'},
+ desc:'스탠드 없이 테이블 위에서 사용할 수 있도록 설계된 배드민턴 전용 보급형 스트링 머신.',tags:['스트링머신','배드민턴전용']},
+{c:'machine',s:'stringmachine',series:'PRECISION',name:'Precision Scan',kr:'프리시전 스캔',price:0,grad:GRAD.MACHINE,img:'images/precision-scan.jpg',
+ specs:{'ERP코드':'PRECISION SCAN (SWING WEIGHT)','용도':'테니스/배드민턴 라켓무게 및 밸런스 측정 전자동 기계','크기':'약 700mm(W) x 453mm(D)','무게':'약 15kg/33lbs','높이':'283mm','원산지':'Taiwan'},
+ desc:'라켓을 올려놓고 버튼 하나로 총 중량, 밸런스, 스윙 웨이트, 실질적 스윙 웨이트까지 종합적으로 측정하는 전자동 라켓 스캔 기기.',tags:['측정기기']},
+];
+
+/* =============== ICONS =============== */
+const ICONS = {
+  racquet: `<svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="30" cy="22" rx="15" ry="19"/>
+      <line x1="30" y1="6" x2="30" y2="38"/>
+      <line x1="20" y1="8" x2="20" y2="36"/>
+      <line x1="40" y1="8" x2="40" y2="36"/>
+      <line x1="16" y1="14" x2="44" y2="14"/>
+      <line x1="15" y1="22" x2="45" y2="22"/>
+      <line x1="16" y1="30" x2="44" y2="30"/>
+      <line x1="30" y1="41" x2="30" y2="56" stroke-width="3.2"/>
+      <rect x="27" y="55" width="6" height="6" rx="1.5" fill="white" stroke="none"/>
+    </svg>`,
+  string: `<svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round">
+      <circle cx="32" cy="32" r="20"/>
+      <circle cx="32" cy="32" r="7"/>
+      <line x1="32" y1="12" x2="32" y2="25"/>
+      <line x1="32" y1="39" x2="32" y2="52"/>
+      <line x1="12" y1="32" x2="25" y2="32"/>
+      <line x1="39" y1="32" x2="52" y2="32"/>
+      <line x1="18" y1="18" x2="26" y2="26"/>
+      <line x1="38" y1="38" x2="46" y2="46"/>
+      <line x1="46" y1="18" x2="38" y2="26"/>
+      <line x1="26" y1="38" x2="18" y2="46"/>
+    </svg>`,
+  shuttle: `<svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="32" cy="14" r="7" fill="white" stroke="none"/>
+      <path d="M22 20 L14 52 M27 19 L21 53 M32 19 L32 54 M37 19 L43 53 M42 20 L50 52"/>
+      <path d="M14 52 L50 52" stroke-dasharray="2 3"/>
+    </svg>`,
+  shoe: `<svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 44c0-6 4-9 9-11l14-6c4-2 7-5 9-9 2 3 6 5 10 5 6 0 12 3 12 10v6c0 3-2 5-5 5H12c-2 0-4-1-4-4z"/>
+      <path d="M8 44h48" />
+      <path d="M21 27c2 3 5 5 8 6M31 22c1 3 3 5 5 6"/>
+    </svg>`,
+  ball: `<svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round">
+      <circle cx="32" cy="32" r="20"/>
+      <path d="M14 22c8 4 8 14 0 20"/>
+      <path d="M50 22c-8 4-8 14 0 20"/>
+    </svg>`,
+  grip: `<svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round">
+      <circle cx="26" cy="26" r="16"/>
+      <circle cx="26" cy="26" r="6"/>
+      <path d="M37 37 L54 54" stroke-width="8" stroke-linecap="round" opacity=".9"/>
+    </svg>`,
+  etc: `<svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="14" y="14" width="36" height="36" rx="6"/>
+      <path d="M14 26h36M26 14v36"/>
+    </svg>`,
+};
+function iconFor(sub){ return ICONS[sub] || ICONS.etc; }
+
+// If a product has an "img" path set (e.g. img:'images/astrox99.jpg'),
+// show that photo. If the file is missing/broken, it falls back to the icon automatically.
+function thumbContent(p){
+  if(p.img){
+    return `<img src="${p.img}" alt="${p.name}"
+              style="width:100%;height:100%;object-fit:cover;border-radius:10px;"
+              onerror="this.replaceWith(Object.assign(document.createElement('div'),{innerHTML:iconFor('${p.s}')+'<span class=\\'thumb-label\\'>${p.series}</span>',style:'display:flex;flex-direction:column;align-items:center;gap:4px;'}))">`;
+  }
+  return `${iconFor(p.s)}<span class="thumb-label">${p.series}</span>`;
+}
+function sheetHeroContent(p){
+  const imgs = galleryList(p);
+  const src = imgs[0];
+  if(src){
+    return `<img id="sheetHeroImg" src="${src}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;"
+              onerror="this.replaceWith(Object.assign(document.createElement('div'),{innerHTML:iconFor('${p.s}'),style:'display:flex;align-items:center;justify-content:center;height:100%;'}))">`;
+  }
+  return iconFor(p.s);
+}
+
+/* =============== COLOR DOTS (tennis shoes with multiple colorways) =============== */
+const COLOR_MAP = {
+  'ruby red':'#9b1c31','dark red':'#8b1a1a','red':'#d0342c',
+  'white':'#ffffff','black':'#111111',
+  'blue':'#2563eb','navy':'#1e2a4a','dark navy':'#141c33',
+  'sky blue':'#7ec8e3','sax':'#8fc1e3','pale blue':'#cfe3f7',
+  'green':'#2e8b57','dark green':'#1f5c3a','teal green':'#0f766e',
+  'lime':'#a3d63f','fresh lime':'#b6e23a','sunny lime':'#cdeb4a',
+  'orange':'#f0632a','sherbet orange':'#ffb37a','white orange':'#f5a35a',
+  'purple':'#7c3aed','pink':'#f4a6c6','pale pink':'#fbd6e6',
+  'brown':'#6b4a34','mocha gray':'#8a7a6d','mocha grey':'#8a7a6d',
+  'gray':'#9aa0a8','grey':'#9aa0a8','silver':'#c8ccd1','silver orange':'#e8c39a',
+  'gold':'#caa64d','champagne':'#f0dfc0','khaki':'#8f8757','sand beige':'#d8c39a',
+  'yellow':'#f2d024','mint':'#8fe3c0',
+};
+function colorToHex(word){
+  const key = (word||'').trim().toLowerCase();
+  if(!key) return '#cbd5e1';
+  if(COLOR_MAP[key]) return COLOR_MAP[key];
+  const parts = key.split(' ');
+  for(let i=parts.length-1;i>=0;i--){
+    if(COLOR_MAP[parts[i]]) return COLOR_MAP[parts[i]];
+  }
+  return '#cbd5e1';
+}
+function extractColorGroups(raw){
+  if(!raw) return [];
+  const bracketRe = /\[(\d{4})\]\s*([^\[]*)/g;
+  let m, groups = [], matched = false;
+  while((m = bracketRe.exec(raw))){
+    matched = true;
+    const content = m[2].replace(/\/\s*$/,'').trim();
+    content.split(',').map(s=>s.trim()).filter(Boolean).forEach(t=>groups.push(t));
+  }
+  if(!matched){
+    raw.split(',').map(s=>s.trim()).filter(Boolean).forEach(t=>groups.push(t));
+  }
+  return groups;
+}
+function colorDotHtml(token){
+  token = token.replace(/\/\s*$/,'').trim();
+  const subs = token.split('/').map(s=>s.trim()).filter(Boolean);
+  const esc = token.replace(/"/g,'&quot;');
+  if(subs.length>=2){
+    const c1 = colorToHex(subs[0]), c2 = colorToHex(subs[1]);
+    return `<span class="color-dot" title="${esc}" style="background:linear-gradient(135deg, ${c1} 50%, ${c2} 50%);"></span>`;
+  }
+  const c = colorToHex(subs[0]||token);
+  return `<span class="color-dot" title="${esc}" style="background:${c};"></span>`;
+}
+function colorDotsRow(p){
+  const eligible = p.s==='shoe' || p.s==='racquet' || (p.c==='ten' && p.s==='string');
+  if(!eligible) return '';
+  const raw = p.specs && p.specs['색상'];
+  const groups = extractColorGroups(raw);
+  if(groups.length<2) return '';
+  const maxDots = 4;
+  const shown = groups.slice(0,maxDots).map(colorDotHtml).join('');
+  const extra = groups.length>maxDots? `<span class="color-more">+${groups.length-maxDots}</span>` : '';
+  return `<div class="color-dots">${shown}${extra}</div>`;
+}
+
+/* =============== SLUG (matches image-checklist.md filenames) =============== */
+function slugify(name){
+  return name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+// build a lookup once: slug -> product
+const SLUG_MAP = {};
+P.forEach(p=> SLUG_MAP[slugify(p.name)] = p );
+
+/* =============== ADMIN: BULK LINK IMPORT =============== */
+let ORIGINAL_HTML = null;
+window.addEventListener('load', ()=>{ ORIGINAL_HTML = document.documentElement.outerHTML; });
+
+function openAdmin(){
+  const sheet = document.getElementById('adminSheet');
+  sheet.innerHTML = `
+    <div class="sheet-head">
+      <div style="font-weight:800;font-size:16px;">🔗📷 링크 & 이미지 일괄 등록</div>
+      <button class="x" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="desc" style="margin-bottom:10px;">
+        <b>image-checklist.md</b>의 '파일명' 열과, 아래 둘 중 하나를 나란히 붙여넣으세요.<br>
+        엑셀/구글시트에서 두 칸을 함께 복사해서 붙여넣으면 탭으로 자동 구분됩니다.<br>
+        · <b>요넥스몰 링크</b>: <code>파일명 → https://...</code><br>
+        · <b>사진 1장</b>: <code>파일명 → 사진파일명.jpg</code><br>
+        · <b>사진 여러 장(갤러리)</b>: <code>파일명 → 사진1.jpg;사진2.jpg;사진3.jpg</code> (세미콜론으로 구분)<br>
+        한 줄에 하나씩, 링크와 사진을 섞어서 붙여넣어도 자동으로 구분돼요.
+      </div>
+      <textarea id="bulkInput" rows="10" style="width:100%;border:1px solid var(--line);border-radius:10px;
+        padding:10px;font-size:13px;font-family:monospace;resize:vertical;"
+        placeholder="astrox-99-pro	https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=7925&category=001006
+vcore-98	vcore98-1.jpg;vcore98-2.jpg;vcore98-3.jpg
+ezone-100	ezone100-main.jpg"></textarea>
+      <div id="bulkResult" style="font-size:13px;color:var(--muted);margin-top:8px;"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button onclick="applyBulkLinks()" style="flex:1;background:var(--navy);color:#fff;border:none;
+          padding:12px;border-radius:10px;font-weight:800;cursor:pointer;">적용하기</button>
+        <button onclick="exportUpdatedHtml()" style="flex:1;background:var(--green);color:#06210a;border:none;
+          padding:12px;border-radius:10px;font-weight:800;cursor:pointer;">파일로 저장 (다운로드)</button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5;">
+        1) 적용하기 → 지금 화면에서 미리 확인 (버튼이 상세보기에 바로 생겨요)<br>
+        2) 파일로 저장 → 링크가 저장된 새 HTML 파일을 다운로드 (이 파일을 팀원에게 다시 공유하면 됩니다)
+      </div>
+    </div>
+  `;
+  document.getElementById('adminOverlay').classList.add('open');
+}
+function closeAdmin(){ document.getElementById('adminOverlay').classList.remove('open'); }
+document.getElementById('adminOverlay').addEventListener('click', e=>{
+  if(e.target.id==='adminOverlay') closeAdmin();
+});
+
+function applyBulkLinks(){
+  const raw = document.getElementById('bulkInput').value.trim();
+  if(!raw){ document.getElementById('bulkResult').textContent='붙여넣은 내용이 없어요.'; return; }
+  const lines = raw.split('\n').map(l=>l.trim()).filter(Boolean);
+  let okLinks=0, okImages=0, fail=[];
+  lines.forEach(line=>{
+    // split only on the FIRST tab (or comma if no tab) so multiple image names
+    // separated by semicolons later in the value are never cut off
+    const tabIdx = line.indexOf('\t');
+    let key, value;
+    if(tabIdx > -1){
+      key = line.slice(0, tabIdx).trim();
+      value = line.slice(tabIdx+1).trim();
+    } else {
+      const commaIdx = line.indexOf(',');
+      if(commaIdx === -1){ fail.push(line); return; }
+      key = line.slice(0, commaIdx).trim();
+      value = line.slice(commaIdx+1).trim();
+    }
+    if(!key || !value){ fail.push(line); return; }
+    key = key.replace(/^images\//,'').replace(/\.(jpg|jpeg|png|webp)$/i,'');
+    const slug = slugify(key);
+    const product = SLUG_MAP[slug];
+    if(!product){ fail.push(line); return; }
+
+    if(/^https?:\/\//i.test(value)){
+      // a single URL -> Yonexmall link
+      product.buyUrl = value;
+      okLinks++;
+    } else {
+      // one or more image filenames, separated by ; (or a single one alone)
+      const files = value.split(';').map(s=>s.trim()).filter(Boolean)
+        .map(f=> /^https?:\/\//i.test(f) ? f : (f.startsWith('images/') ? f : 'images/'+f));
+      if(files.length===0){ fail.push(line); return; }
+      if(files.length===1){
+        product.img = files[0];
+      } else {
+        product.images = files;
+        product.img = files[0];
+      }
+      okImages++;
+    }
+  });
+  document.getElementById('bulkResult').innerHTML =
+    `✅ 링크 ${okLinks}개, 이미지 ${okImages}개 적용 완료.` +
+    (fail.length? `<br>⚠️ 매칭 실패 ${fail.length}개 (파일명 확인 필요): <br>` + fail.slice(0,8).map(f=>`<code>${f}</code>`).join('<br>') : '');
+  renderGrid(); // refresh so buy buttons are ready to preview immediately
+}
+
+function exportUpdatedHtml(){
+  if(!ORIGINAL_HTML){ alert('페이지가 아직 완전히 로드되지 않았어요. 잠시 후 다시 시도해주세요.'); return; }
+  const newArrayText = 'const P = ' + JSON.stringify(P) + ';';
+  const patched = ORIGINAL_HTML.replace(/const P = \[[\s\S]*?\n\];/, newArrayText);
+  if(patched === ORIGINAL_HTML){
+    alert('내보내기에 실패했어요. 페이지를 새로고침한 뒤 다시 시도해주세요.');
+    return;
+  }
+  const blob = new Blob(['<!DOCTYPE html>\n'+patched], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'yonex-2026-catalog-updated.html';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+/* =============== TECH GLOSSARY (참고: 원본 카탈로그 44-45p RACQUET TECHNOLOGY) =============== */
+const TECH_GLOSSARY = [
+  {keys:['2G-Namd™ FLEX FORCE','2G-Namd FLEX FORCE','2G-Namd Flex Force'], label:'2G-Namd™ Flex Force', desc:'빠르게 휘었다가 빠르게 스냅백(회복)하는 새로운 그라파이트. 카본 나노튜브와 결합해 에너지 손실을 줄이고 탄성을 향상시킵니다.'},
+  {keys:['2G-Namd SPEED','2G-Namd Speed'], label:'2G-Namd™ Speed', desc:'고강도·고탄성 그라파이트로, 소재 고유의 특성을 통해 프레임의 안정성과 유연성을 절묘하게 조합합니다.'},
+  {keys:['Namd™','Namd'], label:'Namd™ (엔-암드)', desc:'세계 최초로 개발된 그라파이트 소재. 빠른 스냅백으로 큰 유연성을 발휘해 극적인 파워를 만들어냅니다.'},
+  {keys:['NANOMETRIC DR'], label:'나노메트릭 DR', desc:'나노사이언스 기술 기반의 향상된 그라파이트로, 셔틀콕 홀딩력과 반발력을 극대화합니다.'},
+  {keys:['NANOMETRIC'], label:'나노메트릭', desc:'단단히 결합된 섬유가 라켓 강도를 높이고, 타구 시 라켓의 비틀림을 최소화합니다.'},
+  {keys:['2G-NANOMESH NEO'], label:'2G-나노메시 네오', desc:'빠르게 휘었다가 스냅백(회복)하여 샷 파워를 극대화하는 소재입니다.'},
+  {keys:['NANOMESH NEO'], label:'나노메시 네오', desc:'보다 강력하고 유연한 프레임을 보장하고 샤프트의 유연성을 향상시켜 파워를 최대화합니다.'},
+  {keys:['NANOCELL NEO'], label:'나노셀 네오', desc:'놀라울 정도로 유연하면서도 복원력이 뛰어난 그라파이트 소재로 향상된 파워를 제공합니다.'},
+  {keys:['M40X'], label:'M40X', desc:'도레이사가 개발한 차세대 고강도·고탄성 탄소 섬유. 프레임에 적용되어 반발력과 안정성을 높입니다.'},
+  {keys:['VDM'], label:'VDM (Vibration Dampening Mesh)', desc:'스노보드에 처음 적용된 신축성 있는 메시 소재로, 그립 내에서 원치 않는 진동을 걸러내 편안한 타구감을 만듭니다.'},
+  {keys:['SERVO FILTER'], label:'서보 필터', desc:'유연성과 진동 감쇠 특성을 가진 에폭시 수지 필름. 원치 않는 진동을 제거해 깔끔하고 부드러운 타구감을 선사합니다.'},
+  {keys:['POCKETING BOOSTER'], label:'포켓팅 부스터', desc:'프레임 상단에 적용된 독점적 고무 유사 소재로, 프레임의 유연성에 탄성을 더해줍니다.'},
+  {keys:['T-ANCHOR','T-앵커'], label:'T-앵커', desc:'컨트롤 어시스트 범퍼에 포함된 초소형 테트라포드로, 수직 스트링 고정을 도와 정확도를 높입니다.'},
+  {keys:['CONTROL SUPPORT CAP'], label:'컨트롤 서포트 캡', desc:'넓고 평평한 캡 표면으로 라켓 컨트롤을 향상시킵니다.'},
+  {keys:['ENERGY BOOST CAP'], label:'에너지 부스트 캡(플러스)', desc:'샤프트의 성능을 극대화하도록 설계된 독특한 캡 디자인으로 라켓 면을 안정화합니다.'},
+  {keys:['LIGHTWEIGHT END CAP'], label:'경량 엔드 캡', desc:'내부 무게를 제거해 더 가볍게 설계된 캡으로, 헤드-헤비 밸런스를 강화합니다.'},
+  {keys:['ULTRA PE FIBER','ULTRA PEF'], label:'울트라 PEF', desc:'불필요한 충격과 진동을 흡수하면서도 강력한 힘을 견딜 수 있는 경량 섬유입니다.'},
+  {keys:['VIBSLAYER CARBON'], label:'Vibslayer Carbon', desc:'진동을 흡수해 편안한 타구감을 만드는 아스트렐 시리즈 전용 카본 소재입니다.'},
+  {keys:['벡트란','Vectran'], label:'벡트란(Vectran)', desc:'나일론보다 두 배 이상 강한 신축성을 가진 슈퍼 섬유로, 스트링이 늘어나는 것을 방지합니다.'},
+  {keys:['포지드 파이버','Forged Fiber'], label:'포지드 파이버', desc:'일반 나일론보다 1.5배 높은 내열성을 지닌 강력한 분자 결합 소재로, 반발력과 내구성을 함께 높입니다.'},
+  {keys:['하이 슬링 파이버','High Sling Fiber','하이-슬링 파이버'], label:'하이 슬링 파이버', desc:'부드러운 타구감과 고탄성으로 뛰어난 비거리를 제공하는 신소재입니다.'},
+  {keys:['엘라스티시티 아우터','Elasticity Outer'], label:'엘라스티시티 아우터', desc:'나일론에 나노알로이 기술을 적용해 유연성을 향상시킨 코팅으로, 빠른 반발력과 내구성을 결합합니다.'},
+  {keys:['텅스텐','Tungsten'], label:'텅스텐(Tungsten)', desc:'인장 강도가 높은 금속으로, 프레임 하단에 배치되어 파워와 안정성을 더합니다.'},
+  {keys:['EX-HMG','SUPER HMG','HYPER-MG','HYPER MG'], label:'EX-HMG / 슈퍼 HMG', desc:'세 가지 초탄성 소재 계열 중 하나로, 모든 샷에 강렬한 파워를 제공합니다.'},
+  {keys:['CFR'], label:'CFR', desc:'고강성 그라파이트로 임팩트 시 라켓 면의 안정성을 높여주는 보강 소재입니다.'},
+  {keys:['FORTIMO™','FORTIMO'], label:'FORTIMO™', desc:'고탄성 폴리우레탄으로, 스트링이 유연하면서도 높은 반발력을 갖게 해 볼 홀딩력과 속도를 향상시킵니다.'},
+  {keys:['MINOLON'], label:'미노론(MINOLON)', desc:'가방벌레가 방사한 실처럼 미세한 가닥이 그물 모양으로 결합된 소재로, 부드럽고 매끄러운 타구감을 만듭니다.'},
+  {keys:['아이소메트릭','ISOMETRIC'], label:'아이소메트릭(ISOMETRIC™)', desc:'요넥스 고유 기술로, 라켓의 사각 프레임 헤드 형상이 세로줄과 가로줄의 교차 면을 극대화해 유효 타구면을 넓혀줍니다.'},
+  {keys:['로테이셔널 제너레이터 시스템','Rotational Generator System'], label:'로테이셔널 제너레이터 시스템', desc:'카운터 밸런스 이론을 적용해 그립 끝, 프레임 상단, 조인트로 무게를 분배하여 라켓 조작성을 최대화합니다.'},
+  {keys:['소닉 플레어 시스템','Sonic Flare System'], label:'소닉 플레어 시스템', desc:'혁신적인 M40X 그라파이트를 프레임 하단에 적용해 최고의 셔틀콕 가속을 위한 파워와 안정성을 제공합니다.'},
+  {keys:['GRPHT THRTTL','그라파이트 스로틀'], label:'그라파이트 스로틀(GRPHT THRTTL)', desc:'그라파이트 기술과 첨단 쿠셔닝을 결합해 신발 솔의 핵심 부위로 에너지를 집중 전달, 반발력과 안정성을 동시에 구현합니다.'},
+  {keys:['POWER CUSHION+','파워 쿠션+','Power Cushion Plus'], label:'파워 쿠션+', desc:'충격 하중을 받은 후 빠르게 원래 형태로 복원되며, 충격 에너지를 전력으로 전환하는 요넥스 독자 소재입니다.'},
+  {keys:['POWER CUSHION','파워 쿠션'], label:'파워 쿠션', desc:'요넥스가 독자 개발한 경량 충격 흡수 소재로, 빠르고 가벼운 풋워크를 실현시켜 줍니다.'},
+  {keys:['msLITE X','ms라이트 엑스'], label:'msLITE X', desc:'요넥스에서 가장 가벼운 중창 소재로, 일반 EVA보다 약 30% 가볍습니다.'},
+  {keys:['FLEX Fuse','플렉스 퓨즈'], label:'플렉스 퓨즈(Flex Fuse)', desc:'조인트에 충격 흡수 합성수지를 사용해 편안한 타구감을 제공합니다.'},
+  {keys:['Black Micro Core','블랙 마이크로 코어'], label:'블랙 마이크로 코어', desc:'프레임 상단의 단단한 고밀도 진동 완화 소재로, 타구 시 견고한 타구감과 파워를 제공합니다.'},
+  {keys:['HR-Elastomer','HR-엘라스토머'], label:'HR-엘라스토머', desc:'팔의 피로를 줄여주는 뛰어난 충격 흡수력을 지닌 소재로, 손쉽게 파워를 생성하도록 돕습니다.'},
+  {keys:['SIF Technology','SIF'], label:'SIF (Silicone Infused Filament)', desc:'스트링 고분자에 실리콘 오일을 깊숙이 주입해 매끄러운 표면을 만드는 기술로, 마찰력을 줄여 볼 속도와 스핀을 향상시킵니다.'},
+  {keys:['X-풀러린','X-Fullerene'], label:'X-풀러린', desc:'나노포스 시리즈에 적용된 고탄성 카본 소재입니다.'},
+  {keys:['Solid Titanium','솔리드 티타늄'], label:'솔리드 티타늄', desc:'프레임에 적용되어 강성과 임팩트 후 원상 복원력을 높이는 금속 소재입니다.'},
+  {keys:['Copper','구리'], label:'구리(Copper)', desc:'프레임 하단에 적용되어 강성을 높이고 반발력을 향상시켜 강력한 드라이브를 만듭니다.'},
+  {keys:['리액트 레진','React Resin'], label:'리액트 레진', desc:'소프트테니스 라켓에 적용된 요넥스 독자 개발 수지로, 타구감과 반발력에 관여하는 소재입니다.'},
+  {keys:['BOA 핏 시스템','BOA Fit System'], label:'BOA 핏 시스템', desc:'신발끈 없이 다이얼로 발목과 발가락을 안정적으로 고정시켜 최상의 착화감을 제공합니다.'},
+  {keys:['3D 힐 쿠셔닝','3D Heel Cushioning'], label:'3D 힐 쿠셔닝', desc:'뒤꿈치 충격 방향으로 쿠션 두께를 강화해 충격 흡수와 반발력을 동시에 향상시킵니다.'},
+  {keys:['듀라블 스킨 라이트','Durable Skin Light'], label:'듀라블 스킨 라이트', desc:'얇으면서도 내구성이 뛰어난 이음매 없는 필름 소재로, 부드러운 착화감과 민첩한 풋워크를 지지합니다.'},
+  {keys:['레터럴 쉘','Lateral Shell'], label:'레터럴 쉘', desc:'측면 흔들림을 감소시키고 안정성을 높이기 위해 부담이 큰 부위를 지지하는 강화된 쉘 형태의 구조입니다.'},
+  {keys:['메모리 폼 인솔','Memory Foam Insole'], label:'메모리 폼 인솔', desc:'발바닥 형태에 맞게 밀착되는 편안한 착용감을 제공하며, 착지 시 충격을 흡수해 스트레스를 줄여줍니다.'},
+  {keys:['세미 원피스 솔','Semi One-Piece Sole','세미 원-피스 솔'], label:'세미 원피스 솔', desc:'고무 밑창이 발가락부터 뒤꿈치까지 하나로 결합되어 안정성과 접지력을 높입니다.'},
+  {keys:['이너 부티','Inner Bootie'], label:'이너 부티', desc:'중족부부터 발뒤꿈치까지 유연한 소재로 감싸 더욱 부드러운 착화감을 제공합니다.'},
+  {keys:['이음매 없는 갑피','Seamless Upper'], label:'이음매 없는 갑피', desc:'마찰에도 견디는 내마모성 소재와 부위별 필름 보강으로, 가벼운 무게와 높은 통기성·지지력을 동시에 제공합니다.'},
+  {keys:['인체공학적 밑창','Ergonomic Shaped Outsole'], label:'인체공학적 밑창', desc:'밑창 고무의 상승 구조를 최적화해 유연성을 향상시키고, 발과 일체된 듯한 착화감으로 빠른 풋워크를 돕습니다.'},
+  {keys:['토우 어시스트 쉐이프','Toe Assist Shape'], label:'토우 어시스트 쉐이프', desc:'엄지발가락에 가해지는 압력을 줄이고 중족부·뒤꿈치 지지력을 강화해 안정성과 민첩한 풋워크를 높입니다.'},
+  {keys:['에고쉐이프','Ergoshape'], label:'에고쉐이프(Ergoshape)', desc:'무게 중심을 엄지발가락 쪽으로 옮겨주는 디자인으로, 편안한 착화감과 더 빠른 풋워크를 가능하게 합니다.'},
+  {keys:['확장된 메시 영역','더블 러셀 메시','Double Raschel Mesh'], label:'더블 러셀 메시 / 확장된 메시 영역', desc:'초미세 통기성 메시가 습기를 빠르게 배출해 플레이 중 발의 쾌적함을 유지시켜 줍니다.'},
+  {keys:['HM Graphite','HM 그라파이트'], label:'HM Graphite (고탄성률 그라파이트)', desc:'High Modulus, 즉 탄성률이 높은 탄소섬유 소재로, 프레임의 강성과 반발력을 높여줍니다.'},
+  {keys:['HT Graphite','HT 그라파이트'], label:'HT Graphite (고인장강도 그라파이트)', desc:'High Tenacity, 즉 인장 강도가 높은 탄소섬유 소재로, 내구성과 안정성을 강화해줍니다.'},
+  {keys:['Graphite','그라파이트'], label:'그라파이트(탄소섬유)', desc:'가볍고 강한 성질의 탄소섬유 소재로, 대부분의 요넥스 라켓 프레임·샤프트의 기본 재료입니다.'},
+  {keys:['Aluminum','알루미늄'], label:'알루미늄', desc:'가볍고 가공이 쉬운 금속 소재로, 입문용·주니어 라켓 프레임에 주로 사용됩니다.'},
+  {keys:['Steel','스틸','강철'], label:'스틸(강철)', desc:'내구성이 뛰어난 금속 소재로, 저렴한 입문용·주니어 라켓의 샤프트에 주로 사용됩니다.'},
+  {keys:['CSR'], label:'CSR', desc:'요넥스 라켓 프레임에 적용되는 복합 보강 소재로, 프레임 강성 보강에 관여합니다.'},
+];
+
+function escapeRegex(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+function annotateTech(text){
+  if(!text) return text;
+  let allKeys = [];
+  TECH_GLOSSARY.forEach((entry, idx)=>{
+    entry.keys.forEach(k=> allKeys.push({key:k, idx}));
+  });
+  allKeys.sort((a,b)=> b.key.length - a.key.length);
+
+  let segments = [{text: text, isTag:false}];
+  allKeys.forEach(({key, idx})=>{
+    const re = new RegExp(escapeRegex(key), 'gi');
+    segments = segments.flatMap(seg=>{
+      if(seg.isTag) return [seg];
+      let out = [];
+      let lastIndex = 0, m;
+      re.lastIndex = 0;
+      while((m = re.exec(seg.text))){
+        if(m.index > lastIndex) out.push({text:seg.text.slice(lastIndex, m.index), isTag:false});
+        out.push({isTag:true, html:`<span class="tech-term">${m[0]}</span><span class="tech-info" data-tech="${idx}" onclick="showTechPopover(event,${idx})">i</span>`});
+        lastIndex = m.index + m[0].length;
+        if(re.lastIndex === m.index) re.lastIndex++;
+      }
+      out.push({text:seg.text.slice(lastIndex), isTag:false});
+      return out;
+    });
+  });
+  return segments.map(s=> s.isTag? s.html : s.text).join('');
+}
+
+function showTechPopover(evt, idx){
+  evt.stopPropagation();
+  const entry = TECH_GLOSSARY[idx];
+  const pop = document.getElementById('techPopover');
+  document.getElementById('techPopoverTitle').textContent = entry.label;
+  document.getElementById('techPopoverDesc').textContent = entry.desc;
+  const rect = evt.target.getBoundingClientRect();
+  const popW = 260;
+  let left = rect.left - popW/2 + rect.width/2;
+  left = Math.max(10, Math.min(left, window.innerWidth - popW - 10));
+  let top = rect.bottom + 8;
+  if(top > window.innerHeight - 100) top = rect.top - 90;
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+  pop.style.display = 'block';
+}
+function closeTechPopover(){
+  document.getElementById('techPopover').style.display = 'none';
+}
+document.addEventListener('click', (e)=>{
+  const pop = document.getElementById('techPopover');
+  if(pop.style.display === 'block' && !pop.contains(e.target) && !e.target.classList.contains('tech-info')){
+    closeTechPopover();
+  }
+});
+
+/* =============== STATE =============== */
+let state = {cat:'bad', sub:'racquet', series:null, q:'', sort:'default', newOnly:false};
+
+/* =============== RENDER =============== */
+function fmtPrice(p){
+  if(!p) return '';
+  return p.toLocaleString('ko-KR')+'원';
+}
+
+function renderCatNav(){
+  const el = document.getElementById('catNav');
+  el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}" class="${c.id===state.cat?'active':''}">${c.label}</button>`).join('');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    state.cat=b.dataset.cat; state.sub=SUBCATS[state.cat][0].id; state.series=null; state.q='';
+    document.getElementById('searchInput').value='';
+    renderAll();
+  });
+}
+function renderSubNav(){
+  const el = document.getElementById('subNav');
+  const subs = SUBCATS[state.cat];
+  el.innerHTML = subs.map(s=>`<button data-sub="${s.id}" class="${s.id===state.sub?'active':''}">${s.label}</button>`).join('');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    state.sub=b.dataset.sub; state.series=null; renderAll();
+  });
+}
+function renderSeriesRow(){
+  const el = document.getElementById('seriesRow');
+  if(state.q){ el.innerHTML=''; return; }
+  const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
+  const seriesList = [...new Set(items.map(p=>p.series))];
+  if(seriesList.length<=1){ el.innerHTML=''; return; }
+  el.innerHTML = `<button class="chip ${!state.series?'active':''}" data-series="">전체</button>` +
+    seriesList.map(s=>`<button class="chip ${state.series===s?'active':''}" data-series="${s}">${s}</button>`).join('');
+  el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    state.series = b.dataset.series || null; renderGrid();
+    el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+}
+
+function currentList(){
+  let list;
+  if(state.q){
+    const q = state.q.toLowerCase();
+    list = P.filter(p=> (p.name+p.kr+p.series).toLowerCase().includes(q));
+  } else {
+    list = P.filter(p=>p.c===state.cat && p.s===state.sub);
+    if(state.series) list = list.filter(p=>p.series===state.series);
+  }
+  if(state.newOnly){
+    list = list.filter(p=>p.badge);
+  }
+  if(state.sort==='desc' || state.sort==='asc'){
+    list = list.slice().sort((a,b)=>{
+      const av = a.price||0, bv = b.price||0;
+      if(av===0 && bv===0) return 0;
+      if(av===0) return 1;   // unknown price sinks to the bottom either way
+      if(bv===0) return -1;
+      return state.sort==='desc' ? bv-av : av-bv;
+    });
+  }
+  return list;
+}
+
+function renderGrid(){
+  const list = currentList();
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('emptyMsg');
+  document.getElementById('countLabel').textContent = list.length + '개 제품';
+  document.getElementById('sectionTitleText').textContent = state.q
+    ? `"${state.q}" 검색 결과`
+    : (CATS.find(c=>c.id===state.cat).label + ' · ' + SUBCATS[state.cat].find(s=>s.id===state.sub).label);
+
+  if(list.length===0){ grid.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+
+  grid.innerHTML = list.map((p,idx)=>`
+    <div class="card" data-idx="${P.indexOf(p)}">
+      <div class="card-top">
+        <div class="thumb" style="background:${p.grad}">${thumbContent(p)}</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;width:100%;gap:4px 6px;">
+        <div class="series-tag">${p.series}</div>
+        ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}">${p.badge}</span>`:''}
+      </div>
+      <div class="name">${p.name}</div>
+      <div class="kr">${p.kr}</div>
+      <div class="meta">${metaTags(p)}</div>
+      ${colorDotsRow(p)}
+      <div class="price">${fmtPrice(p.price)}${p.price?'<small> 소비자가</small>':''}</div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.card').forEach(card=>{
+    card.onclick = ()=> openSheet(P[card.dataset.idx]);
+  });
+}
+
+function formatMetaValue(v){
+  const weightMatches = v.match(/\d+U/g);
+  if(weightMatches && weightMatches.length>1){
+    return [...new Set(weightMatches)].join('/');
+  }
+  return v.split(',')[0].split('(')[0].trim();
+}
+function metaTags(p){
+  const rules = {
+    'bad|racquet': ['무게/그립','색상','원산지'],
+    'bad|shoe':    ['사이즈','색상'],
+    'ten|racquet': ['헤드사이즈','무게','색상'],
+    'ten|shoe':    ['사이즈','코트타입','색상'],
+  };
+  const keys = rules[p.c+'|'+p.s] || Object.keys(p.specs).slice(0,2);
+  return keys
+    .filter(k=>p.specs[k])
+    .map(k=>`<span>${formatMetaValue(p.specs[k])}</span>`)
+    .join('');
+}
+
+function renderAll(){
+  renderCatNav(); renderSubNav(); renderSeriesRow(); renderGrid();
+}
+
+function galleryList(p){
+  if(Array.isArray(p.images) && p.images.length) return p.images;
+  const arr = [];
+  if(p.imgDetail) arr.push(p.imgDetail);
+  if(p.img && p.img!==p.imgDetail) arr.push(p.img);
+  return arr;
+}
+function galleryStripHtml(p){
+  const imgs = galleryList(p);
+  if(imgs.length<2) return '';
+  return `<div style="display:flex;gap:6px;overflow-x:auto;padding:10px 18px 0;">
+    ${imgs.map((src,i)=>`<img src="${src}" onclick="setHeroImage('${src}',this)"
+      style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex:none;cursor:pointer;
+      border:2px solid ${i===0?'var(--navy)':'transparent'};" class="gallery-thumb">`).join('')}
+  </div>`;
+}
+function setHeroImage(src, thumbEl){
+  const hero = document.getElementById('sheetHeroImg');
+  if(hero) hero.src = src;
+  document.querySelectorAll('.gallery-thumb').forEach(t=> t.style.border = '2px solid transparent');
+  if(thumbEl) thumbEl.style.border = '2px solid var(--navy)';
+}
+function openSheet(p){
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  const rows = Object.entries(p.specs).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  sheet.innerHTML = `
+    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
+    ${galleryStripHtml(p)}
+    <div class="sheet-body">
+      ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}" style="margin-bottom:8px;">${p.badge}</span><br>`:''}
+      <h2>${p.name}</h2>
+      <div class="kr-full">${p.kr}</div>
+      <div class="price-full">${fmtPrice(p.price)}</div>
+      <div class="desc">${p.desc}</div>
+      <table class="specs">${rows}</table>
+      <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
+      ${buyButtonHtml(p)}
+    </div>
+  `;
+  overlay.classList.add('open');
+}
+function buyButtonHtml(p){
+  if(!p.buyUrl) return '';
+  return `<a href="${p.buyUrl}" target="_blank" rel="noopener"
+            style="display:block;text-align:center;background:var(--navy);color:#fff;
+                   font-weight:800;font-size:14px;padding:12px;border-radius:10px;
+                   text-decoration:none;margin-top:14px;">요넥스몰에서 보기 →</a>`;
+}
+function closeSheet(){ document.getElementById('overlay').classList.remove('open'); }
+document.getElementById('overlay').addEventListener('click', e=>{
+  if(e.target.id==='overlay') closeSheet();
+});
+
+document.getElementById('searchInput').addEventListener('input', e=>{
+  state.q = e.target.value.trim();
+  renderSeriesRow();
+  renderGrid();
+});
+document.getElementById('sortSelect').addEventListener('change', e=>{
+  state.sort = e.target.value;
+  renderGrid();
+});
+const newOnlyBtn = document.getElementById('newOnlyBtn');
+newOnlyBtn.addEventListener('click', ()=>{
+  state.newOnly = !state.newOnly;
+  newOnlyBtn.style.background = state.newOnly ? 'var(--navy)' : '#fff';
+  newOnlyBtn.style.color = state.newOnly ? '#fff' : 'var(--muted)';
+  newOnlyBtn.style.borderColor = state.newOnly ? 'var(--navy)' : 'var(--line)';
+  renderGrid();
+});
+
+renderAll();
+</script>
+</body>
+</html>
