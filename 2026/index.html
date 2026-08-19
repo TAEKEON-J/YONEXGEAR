@@ -109,6 +109,19 @@
   .searchbox input::placeholder{color:#c5cfe6;}
   .searchbox svg{flex:none;opacity:.8;}
 
+  .float-search{
+    position:fixed;left:16px;right:16px;bottom:16px;z-index:60;max-width:520px;margin:0 auto;
+    opacity:0;transform:translateY(14px);pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .float-search.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .float-search .searchbox{
+    background:#000;border:1px solid rgba(255,255,255,.18);border-radius:999px;
+    padding:13px 18px;box-shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  .float-search .searchbox input::placeholder{color:#8a8a8a;}
+  @media print{ .float-search{display:none !important;} }
+
   nav.cats{
     display:flex;gap:8px;overflow-x:auto;padding:0 0 10px;
     scrollbar-width:none;
@@ -372,6 +385,13 @@
 <div id="techPopover"><span class="tp-close" onclick="closeTechPopover()">✕</span><div class="tp-title" id="techPopoverTitle"></div><div id="techPopoverDesc"></div></div>
 
 <footer>YONEX 2026 Product Catalog · 웹 열람용으로 재구성된 비공식 요약본 · 정확한 정보는 원본 카탈로그 및 요넥스 공식 채널을 참고하세요.</footer>
+
+<div class="float-search" id="floatSearch">
+  <div class="searchbox">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="floatSearchInput" type="text" placeholder="제품명, 모델명으로 검색">
+  </div>
+</div>
 
 <script>
 /* =============== DATA =============== */
@@ -1635,6 +1655,7 @@ function scrollToCatalog(){
   document.body.classList.remove('hero-active');
   window.scrollTo(0,0);
   setTimeout(()=>{ hero.style.display='none'; }, 600);
+  if(typeof syncFloatSearch === 'function') syncFloatSearch();
 }
 function renderHero(){
   const countEl = document.getElementById('heroCount');
@@ -1711,7 +1732,22 @@ document.getElementById('searchInput').addEventListener('input', e=>{
   state.q = e.target.value.trim();
   renderSeriesRow();
   renderGrid();
+  if(floatSearchInput.value !== e.target.value) floatSearchInput.value = e.target.value;
 });
+
+/* =============== FLOATING BOTTOM SEARCH =============== */
+const floatSearch = document.getElementById('floatSearch');
+const floatSearchInput = document.getElementById('floatSearchInput');
+const mainSearchInput = document.getElementById('searchInput');
+floatSearchInput.addEventListener('input', e=>{
+  mainSearchInput.value = e.target.value;
+  mainSearchInput.dispatchEvent(new Event('input'));
+});
+function syncFloatSearch(){
+  if(document.body.classList.contains('hero-active')){ floatSearch.classList.remove('show'); return; }
+  floatSearch.classList.toggle('show', window.scrollY > 220);
+}
+window.addEventListener('scroll', syncFloatSearch, {passive:true});
 document.getElementById('sortSelect').addEventListener('change', e=>{
   state.sort = e.target.value;
   renderGrid();
