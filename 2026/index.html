@@ -1523,7 +1523,7 @@ function renderGrid(){
   grid.innerHTML = list.map((p,idx)=>{
     let divider = '';
     if(showDividers && p.series!==lastSeries){
-      if(lastSeries!==null) divider = seriesDividerHtml(p.series);
+      if(lastSeries!==null && SERIES_BANNERS[p.series]) divider = seriesDividerHtml(p.series);
       lastSeries = p.series;
     }
     return divider + `
