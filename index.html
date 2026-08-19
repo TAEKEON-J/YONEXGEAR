@@ -25,16 +25,19 @@
   img{max-width:100%;}
 
   /* ---------- HERO / LANDING ---------- */
+  body.hero-active{overflow:hidden;}
   .hero{
-    position:relative;overflow:hidden;isolation:isolate;
-    min-height:100vh;min-height:100dvh;
+    position:fixed;inset:0;z-index:300;overflow-y:auto;isolation:isolate;
+    height:100vh;height:100dvh;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;color:#fff;padding:48px 20px 70px;
     background:
       radial-gradient(circle at 12% 18%,rgba(79,174,50,.35),transparent 45%),
       radial-gradient(circle at 88% 78%,rgba(22,86,201,.5),transparent 50%),
       linear-gradient(160deg,var(--navy-deep),var(--navy) 55%,var(--blue));
+    transition:transform .55s cubic-bezier(.65,0,.35,1), opacity .45s ease;
   }
+  .hero.hide{transform:translateY(-100%);opacity:0;pointer-events:none;}
   .hero::before{
     content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
     background-image:repeating-radial-gradient(circle at 50% 0%,rgba(255,255,255,.05) 0 2px,transparent 2px 42px);
@@ -61,42 +64,53 @@
   .hero-cats button:hover{background:rgba(255,255,255,.22);}
   .hero-scroll{
     position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
-    color:rgba(255,255,255,.65);font-size:10.5px;letter-spacing:.1em;
+    color:rgba(255,255,255,.65);font-size:20px;letter-spacing:.1em;
     display:flex;flex-direction:column;align-items:center;gap:5px;
     animation:bob 1.8s ease-in-out infinite;
+    background:none;border:none;cursor:pointer;padding:8px;
   }
   @keyframes bob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,7px);}}
   @media print{ .hero{display:none !important;} }
 
   /* ---------- HEADER ---------- */
   header.top{
-    position:sticky;top:0;z-index:50;
+    position:sticky;top:0;z-index:50;overflow:hidden;
     background:linear-gradient(120deg,var(--navy-deep),var(--navy) 55%,var(--blue));
     color:#fff;
-    padding:14px 16px 0;
+    padding:26px 16px 0;
     box-shadow:0 6px 18px rgba(8,20,45,.25);
   }
-  .brandrow{display:flex;align-items:center;gap:8px;}
-  .brand{display:flex;align-items:center;gap:8px;flex:0 0 auto;}
-  .brand .logo{font-weight:800;font-size:20px;letter-spacing:.5px;}
+  header.top .header-photo{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.55;
+  }
+  header.top .header-overlay{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(120deg,rgba(8,20,63,.88),rgba(11,42,91,.82) 55%,rgba(22,86,201,.76));
+  }
+  header.top .brandrow, header.top .searchwrap, header.top nav.cats, header.top nav.subcats{
+    position:relative;z-index:2;
+  }
+  .brandrow{display:flex;align-items:center;gap:10px;}
+  .brand{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
+  .brand .logo{font-weight:800;font-size:26px;letter-spacing:.5px;}
   .brand .yr{
-    font-size:11px;background:var(--green);color:#06210a;font-weight:800;
-    padding:3px 7px;border-radius:20px;letter-spacing:.5px;line-height:1;
+    font-size:12px;background:var(--green);color:#06210a;font-weight:800;
+    padding:4px 9px;border-radius:20px;letter-spacing:.5px;line-height:1;
     display:inline-flex;align-items:center;
   }
   .header-title{
-    flex:1;text-align:center;font-weight:800;font-size:15px;letter-spacing:.03em;
+    flex:1;text-align:center;font-weight:800;font-size:16px;letter-spacing:.03em;
     color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;
   }
-  @media(max-width:400px){.header-title{font-size:12.5px;}}
+  @media(max-width:400px){.header-title{font-size:13px;}}
   .header-logo{flex:0 0 auto;display:flex;align-items:center;}
   .header-logo img{height:20px;width:auto;display:block;}
   @media(max-width:400px){.header-logo img{height:16px;}}
-  .searchwrap{margin:12px 0 12px;}
+  .searchwrap{margin:20px 0 14px;}
   .searchbox{
     display:flex;align-items:center;gap:8px;
     background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
-    border-radius:999px;padding:9px 14px;
+    border-radius:999px;padding:12px 16px;
   }
   .searchbox input{
     background:transparent;border:none;outline:none;color:#fff;font-size:15px;width:100%;
@@ -284,10 +298,12 @@
   <p class="hero-stats" id="heroCount">전체 제품 · 실시간 검색 지원</p>
   <button class="hero-cta" onclick="scrollToCatalog()">카탈로그 보기 ↓</button>
   <div class="hero-cats" id="heroCatBtns"></div>
-  <div class="hero-scroll">SCROLL<br>▾</div>
+  <button class="hero-scroll" onclick="scrollToCatalog()" aria-label="카탈로그 보기">▾</button>
 </section>
 
 <header class="top">
+  <img class="header-photo" src="images/header-banner.jpg" alt="" onerror="this.remove()">
+  <div class="header-overlay"></div>
   <div class="brandrow">
     <div class="brand">
       <span class="logo">YONEX</span>
@@ -1524,7 +1540,12 @@ function renderAll(){
 
 /* =============== HERO / LANDING =============== */
 function scrollToCatalog(){
-  document.querySelector('header.top').scrollIntoView({behavior:'smooth', block:'start'});
+  const hero = document.getElementById('heroSection');
+  if(!hero || hero.classList.contains('hide')) return;
+  hero.classList.add('hide');
+  document.body.classList.remove('hero-active');
+  window.scrollTo(0,0);
+  setTimeout(()=>{ hero.style.display='none'; }, 600);
 }
 function renderHero(){
   const countEl = document.getElementById('heroCount');
@@ -1539,6 +1560,7 @@ function renderHero(){
     scrollToCatalog();
   });
 }
+document.body.classList.add('hero-active');
 renderHero();
 
 function galleryList(p){
