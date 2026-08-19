@@ -24,6 +24,50 @@
   a{color:inherit;}
   img{max-width:100%;}
 
+  /* ---------- HERO / LANDING ---------- */
+  .hero{
+    position:relative;overflow:hidden;isolation:isolate;
+    min-height:100vh;min-height:100dvh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;color:#fff;padding:48px 20px 70px;
+    background:
+      radial-gradient(circle at 12% 18%,rgba(79,174,50,.35),transparent 45%),
+      radial-gradient(circle at 88% 78%,rgba(22,86,201,.5),transparent 50%),
+      linear-gradient(160deg,var(--navy-deep),var(--navy) 55%,var(--blue));
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background-image:repeating-radial-gradient(circle at 50% 0%,rgba(255,255,255,.05) 0 2px,transparent 2px 42px);
+  }
+  .hero-shuttle{position:absolute;opacity:.14;filter:drop-shadow(0 10px 20px rgba(0,0,0,.3));pointer-events:none;z-index:-1;}
+  .hero-shuttle.s1{width:150px;top:8%;left:-30px;transform:rotate(-18deg);}
+  .hero-shuttle.s2{width:110px;bottom:10%;right:-20px;transform:rotate(24deg);}
+  .hero-badge-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+  .hero-logo{font-weight:900;font-size:clamp(36px,9vw,52px);letter-spacing:1px;}
+  .hero-yr{font-size:13px;font-weight:800;background:var(--green);color:#06210a;padding:5px 12px;border-radius:999px;letter-spacing:.5px;}
+  .hero-title{font-size:clamp(20px,5.5vw,28px);font-weight:800;line-height:1.35;margin:4px 0 12px;max-width:480px;}
+  .hero-sub{font-size:14.5px;color:#cfe0ff;max-width:420px;line-height:1.65;margin-bottom:10px;}
+  .hero-stats{font-size:12.5px;color:#9db3dd;margin-bottom:30px;}
+  .hero-cta{
+    background:#fff;color:var(--navy-deep);font-weight:800;font-size:15px;
+    padding:14px 30px;border-radius:999px;border:none;cursor:pointer;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:36px;
+  }
+  .hero-cats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:460px;}
+  .hero-cats button{
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;
+    padding:9px 17px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .hero-cats button:hover{background:rgba(255,255,255,.22);}
+  .hero-scroll{
+    position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+    color:rgba(255,255,255,.65);font-size:10.5px;letter-spacing:.1em;
+    display:flex;flex-direction:column;align-items:center;gap:5px;
+    animation:bob 1.8s ease-in-out infinite;
+  }
+  @keyframes bob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,7px);}}
+  @media print{ .hero{display:none !important;} }
+
   /* ---------- HEADER ---------- */
   header.top{
     position:sticky;top:0;z-index:50;
@@ -227,6 +271,21 @@
 </style>
 </head>
 <body>
+
+<section class="hero" id="heroSection">
+  <svg class="hero-shuttle s1" viewBox="0 0 100 140" fill="none"><path d="M50 90 L20 20 M50 90 L35 15 M50 90 L50 12 M50 90 L65 15 M50 90 L80 20" stroke="#fff" stroke-width="2"/><circle cx="50" cy="98" r="12" fill="#fff"/></svg>
+  <svg class="hero-shuttle s2" viewBox="0 0 100 140" fill="none"><path d="M50 90 L20 20 M50 90 L35 15 M50 90 L50 12 M50 90 L65 15 M50 90 L80 20" stroke="#fff" stroke-width="2"/><circle cx="50" cy="98" r="12" fill="#fff"/></svg>
+  <div class="hero-badge-row">
+    <span class="hero-logo">YONEX</span>
+    <span class="hero-yr">2026</span>
+  </div>
+  <h1 class="hero-title">2026 GEAR CATALOGUE</h1>
+  <p class="hero-sub">라켓 · 신발 · 스트링 · 셔틀콕 · 액세서리<br>요넥스 전 제품 디지털 카탈로그</p>
+  <p class="hero-stats" id="heroCount">전체 제품 · 실시간 검색 지원</p>
+  <button class="hero-cta" onclick="scrollToCatalog()">카탈로그 보기 ↓</button>
+  <div class="hero-cats" id="heroCatBtns"></div>
+  <div class="hero-scroll">SCROLL<br>▾</div>
+</section>
 
 <header class="top">
   <div class="brandrow">
@@ -1462,6 +1521,25 @@ function metaTags(p){
 function renderAll(){
   renderCatNav(); renderSubNav(); renderSeriesRow(); renderGrid();
 }
+
+/* =============== HERO / LANDING =============== */
+function scrollToCatalog(){
+  document.querySelector('header.top').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function renderHero(){
+  const countEl = document.getElementById('heroCount');
+  if(countEl) countEl.textContent = `전체 ${P.length}개 제품 · 실시간 검색 지원`;
+  const el = document.getElementById('heroCatBtns');
+  if(!el) return;
+  el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}">${c.label}</button>`).join('');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    state.cat = b.dataset.cat; state.sub = SUBCATS[state.cat][0].id; state.series=null; state.q='';
+    document.getElementById('searchInput').value='';
+    renderAll();
+    scrollToCatalog();
+  });
+}
+renderHero();
 
 function galleryList(p){
   if(Array.isArray(p.images) && p.images.length) return p.images;
