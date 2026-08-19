@@ -360,7 +360,7 @@
 </div>
 
 <button id="adminBtn" onclick="openAdmin()"
-  style="position:fixed;right:16px;bottom:16px;z-index:60;background:var(--navy);color:#fff;
+  style="display:none;position:fixed;right:16px;bottom:16px;z-index:60;background:var(--navy);color:#fff;
          border:none;border-radius:999px;padding:12px 18px;font-weight:800;font-size:13px;
          box-shadow:0 6px 18px rgba(8,20,45,.35);cursor:pointer;">
   🔗📷 링크·이미지 일괄 등록
@@ -1726,6 +1726,12 @@ newOnlyBtn.addEventListener('click', ()=>{
 });
 
 renderAll();
+
+/* Admin-only bulk register button: hidden by default, only shows with ?admin=1
+   in the URL, so links shared with customers/reps stay clean. */
+if(new URLSearchParams(location.search).get('admin')==='1'){
+  document.getElementById('adminBtn').style.display='block';
+}
 </script>
 </body>
 </html>
