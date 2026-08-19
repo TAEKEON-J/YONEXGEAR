@@ -77,7 +77,7 @@
     position:sticky;top:0;z-index:50;overflow:hidden;
     background:linear-gradient(120deg,var(--navy-deep),var(--navy) 55%,var(--blue));
     color:#fff;
-    padding:26px 16px 0;
+    padding:44px 20px 0;
     box-shadow:0 6px 18px rgba(8,20,45,.25);
   }
   header.top .header-photo{
@@ -90,54 +90,54 @@
   header.top .brandrow, header.top .searchwrap, header.top nav.cats, header.top nav.subcats{
     position:relative;z-index:2;
   }
-  .brandrow{display:flex;align-items:center;gap:10px;}
-  .brand{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
-  .brand .logo{font-weight:800;font-size:26px;letter-spacing:.5px;}
+  .brandrow{display:flex;align-items:center;gap:12px;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:12px;flex:0 0 auto;}
+  .brand .logo{font-weight:800;font-size:34px;letter-spacing:.5px;}
   .brand .yr{
-    font-size:12px;background:var(--green);color:#06210a;font-weight:800;
-    padding:4px 9px;border-radius:20px;letter-spacing:.5px;line-height:1;
+    font-size:14px;background:var(--green);color:#06210a;font-weight:800;
+    padding:5px 12px;border-radius:20px;letter-spacing:.5px;line-height:1;
     display:inline-flex;align-items:center;
   }
   .header-title{
-    flex:1;text-align:center;font-weight:800;font-size:16px;letter-spacing:.03em;
+    flex:1;text-align:center;font-weight:800;font-size:19px;letter-spacing:.03em;
     color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;
   }
-  @media(max-width:400px){.header-title{font-size:13px;}}
+  @media(max-width:480px){.header-title{display:none;}}
   .header-logo{flex:0 0 auto;display:flex;align-items:center;}
   .header-logo img{height:20px;width:auto;display:block;}
   @media(max-width:400px){.header-logo img{height:16px;}}
-  .searchwrap{margin:20px 0 14px;}
+  .searchwrap{margin:30px 0 18px;}
   .searchbox{
-    display:flex;align-items:center;gap:8px;
+    display:flex;align-items:center;gap:10px;
     background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
-    border-radius:999px;padding:12px 16px;
+    border-radius:999px;padding:15px 20px;
   }
   .searchbox input{
-    background:transparent;border:none;outline:none;color:#fff;font-size:15px;width:100%;
+    background:transparent;border:none;outline:none;color:#fff;font-size:16px;width:100%;
   }
   .searchbox input::placeholder{color:#c5cfe6;}
   .searchbox svg{flex:none;opacity:.8;}
 
   nav.cats{
-    display:flex;gap:6px;overflow-x:auto;padding:0 0 12px;
+    display:flex;gap:8px;overflow-x:auto;padding:0 0 16px;
     scrollbar-width:none;
   }
   nav.cats::-webkit-scrollbar{display:none;}
   nav.cats button{
     flex:none;white-space:nowrap;
     background:rgba(255,255,255,.08);color:#dbe4fa;border:1px solid rgba(255,255,255,.18);
-    padding:8px 16px;border-radius:999px;font-size:13.5px;font-weight:700;cursor:pointer;
+    padding:10px 19px;border-radius:999px;font-size:14.5px;font-weight:700;cursor:pointer;
   }
   nav.cats button.active{background:#fff;color:var(--navy-deep);border-color:#fff;}
 
   nav.subcats{
-    display:flex;gap:6px;overflow-x:auto;padding:0 0 12px;margin-top:-2px;
+    display:flex;gap:8px;overflow-x:auto;padding:0 0 16px;margin-top:-2px;
     scrollbar-width:none;
   }
   nav.subcats::-webkit-scrollbar{display:none;}
   nav.subcats button{
     flex:none;white-space:nowrap;background:transparent;color:#aebbdd;
-    border:none;padding:6px 4px;font-size:13px;font-weight:600;cursor:pointer;
+    border:none;padding:7px 5px;font-size:14px;font-weight:600;cursor:pointer;
     border-bottom:2px solid transparent;
   }
   nav.subcats button.active{color:#fff;border-bottom-color:var(--green);}
