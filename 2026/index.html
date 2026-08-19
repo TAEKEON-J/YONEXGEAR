@@ -96,11 +96,6 @@
     padding:4px 9px;border-radius:20px;letter-spacing:.5px;line-height:1;
     display:inline-flex;align-items:center;
   }
-  .header-title{
-    flex:1;text-align:center;font-weight:800;font-size:19px;letter-spacing:.03em;
-    color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;
-  }
-  @media(max-width:480px){.header-title{display:none;}}
   .header-logo{flex:0 0 auto;display:flex;align-items:center;}
   .header-logo img{height:20px;width:auto;display:block;}
   @media(max-width:400px){.header-logo img{height:16px;}}
@@ -286,7 +281,7 @@
       display:none !important;
     }
     header.top{position:static;background:#fff !important;color:var(--navy-deep);padding:6px 0;}
-    header.top .brand .logo, header.top .header-title{color:var(--navy-deep) !important;-webkit-text-fill-color:var(--navy-deep);}
+    header.top .brand .logo{color:var(--navy-deep) !important;-webkit-text-fill-color:var(--navy-deep);}
     header.top .header-logo img{filter:invert(1);}
     body{background:#fff;}
     main{max-width:100%;padding:0 6px;}
@@ -322,7 +317,6 @@
       <span class="logo">YONEX</span>
       <span class="yr">2026</span>
     </a>
-    <div class="header-title">2026 GEAR CATALOGUE</div>
     <div class="header-logo" style="gap:8px;">
       <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;">PDF 다운</a>
       <button id="shareBtn" onclick="shareCatalog()" style="font-size:11px;font-weight:700;color:#fff;white-space:nowrap;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;cursor:pointer;">링크 공유</button>
