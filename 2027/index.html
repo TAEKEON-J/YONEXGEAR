@@ -1145,6 +1145,7 @@ const ICONS = {
     </svg>`,
 };
 function iconFor(sub){ return ICONS[sub] || ICONS.etc; }
+function badgeLabel(b){ return b ? b.replace(/^20(\d{2})/, '$1') : b; }
 
 // If a product has an "img" path set (e.g. img:'images/astrox99.jpg'),
 // show that photo. If the file is missing/broken, it falls back to the icon automatically.
@@ -1560,7 +1561,7 @@ function renderGrid(){
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;width:100%;gap:4px 6px;">
         <div class="series-tag">${p.series}</div>
-        ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}">${p.badge}</span>`:''}
+        ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}">${badgeLabel(p.badge)}</span>`:''}
       </div>
       <div class="name">${p.name}</div>
       <div class="kr">${p.kr}</div>
@@ -1666,7 +1667,7 @@ function openSheet(p){
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
-      ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}" style="margin-bottom:8px;">${p.badge}</span><br>`:''}
+      ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}" style="margin-bottom:8px;">${badgeLabel(p.badge)}</span><br>`:''}
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
