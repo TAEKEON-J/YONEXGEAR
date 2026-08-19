@@ -20,7 +20,7 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);overflow-x:hidden;}
   a{color:inherit;}
   img{max-width:100%;}
 
@@ -204,9 +204,10 @@
   /* ---------- SERIES DIVIDER ---------- */
   .series-divider{
     grid-column:1 / -1;position:relative;overflow:hidden;
-    border-radius:var(--radius);min-height:240px;
+    aspect-ratio:3/1;min-height:240px;max-height:480px;
     display:flex;align-items:center;justify-content:center;
-    margin:8px 0 0;color:#fff;text-align:center;
+    color:#fff;text-align:center;
+    width:100vw;margin:8px calc(50% - 50vw) 0;
   }
   .series-divider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
   .series-divider .sd-overlay{position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,0,0,.32),rgba(0,0,0,.1));}
@@ -1547,7 +1548,7 @@ function renderGrid(){
   grid.innerHTML = list.map((p,idx)=>{
     let divider = '';
     if(showDividers && p.series!==lastSeries){
-      if(lastSeries!==null) divider = seriesDividerHtml(p.series);
+      if(lastSeries!==null && SERIES_BANNERS[p.series]) divider = seriesDividerHtml(p.series);
       lastSeries = p.series;
     }
     return divider + `
