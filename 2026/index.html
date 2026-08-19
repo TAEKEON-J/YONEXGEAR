@@ -440,26 +440,31 @@ const SUBCATS = {
   the 2026/ and 2027/ folders at the top of the repo) so a product
   that carries over to next year doesn't need its photo re-uploaded --
   every year's catalog reads from the same file.
-  1. Put image files in that shared folder, named after the product's
-     slug (see image-checklist.csv), e.g. shared-images/astrox-99-pro.jpg
-  2. On any product below, add an "img" field pointing to it with a
-     "../" prefix (this file lives one folder down from shared-images):
+
+  ONE SIMPLE NAMING RULE: the plain slug filename (see the "slug"
+  column in image-checklist.csv) is ALWAYS the main/representative
+  photo -- the one used as the card thumbnail AND as the first photo
+  in the detail-page gallery. No "-detail"/"-thumb"/"-full" suffixes.
+  Extra gallery photos just get "-2", "-3", etc. appended.
+    shared-images/astrox-99-pro.jpg     <- main photo (thumbnail + gallery #1)
+    shared-images/astrox-99-pro-2.jpg   <- extra gallery photo
+    shared-images/astrox-99-pro-3.jpg   <- extra gallery photo
+
+  1. Just a thumbnail, no gallery? Add an "img" field with the "../" prefix
+     (this file lives one folder down from shared-images):
        img:'../shared-images/astrox-99-pro.jpg'
      (You can also paste a full https:// image URL copied from Yonexmall
      instead of a local file path — same field, either works.)
-  3. Save and reopen the file in your browser — that product will show
+  2. Save and reopen the file in your browser — that product will show
      your photo instead of the icon automatically. Missing/typo'd paths
      just fall back to the icon, so nothing breaks.
-  4. Want a DIFFERENT photo in the detail popup than on the card?
-     Add a second field called "imgDetail":
-       img:'../shared-images/astrox-99-pro.jpg', imgDetail:'../shared-images/astrox-99-pro-detail.jpg'
-     If "imgDetail" is missing, the detail popup just reuses "img".
-  5. Want MULTIPLE photos in the detail popup (a small gallery)?
-     Add an "images" array instead — the first one shows big, and a
-     thumbnail strip appears below it so people can tap to switch:
-       images:['../shared-images/astrox-99-pro-1.jpg','../shared-images/astrox-99-pro-2.jpg','../shared-images/astrox-99-pro-3.jpg']
-     If "images" is present it takes priority over "img"/"imgDetail" for the popup.
-  6. A product that's discontinued next year just doesn't get copied into
+  3. Want a gallery on the detail page? Add an "images" array, starting
+     with the main photo again, then the extra ones in order:
+       img:'../shared-images/astrox-99-pro.jpg',
+       images:['../shared-images/astrox-99-pro.jpg','../shared-images/astrox-99-pro-2.jpg','../shared-images/astrox-99-pro-3.jpg']
+     If "images" is present it takes priority over "img" for the popup
+     (but "img" is still what shows on the card, so keep both).
+  4. A product that's discontinued next year just doesn't get copied into
      next year's list -- its shared photo can stay in the folder unused,
      or you can delete it if you're sure no other year references it.
 
@@ -473,7 +478,8 @@ const SUBCATS = {
 // Each product: c(category) s(sub) series name kr price specs{} desc tags grad new img(optional) imgDetail(optional) images[](optional) buyUrl(optional)
 const P = [
 /* ============ BADMINTON RACQUETS - ASTROX ============ */
-{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 99 Pro',kr:'아스트록스 99 프로',price:329000,grad:GRAD.ASTROX,img:'../shared-images/astrox-99-pro.jpg',badge:'2025 F/W NEW PRODUCT',
+{c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 99 Pro',kr:'아스트록스 99 프로',price:329000,grad:GRAD.ASTROX,img:'../shared-images/astrox-99-pro.jpg',
+ images:['../shared-images/astrox-99-pro.jpg','../shared-images/astrox-99-pro-2.jpg','../shared-images/astrox-99-pro-3.jpg'],badge:'2025 F/W NEW PRODUCT',
  buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=7925&category=001006',
  specs:{'ERP코드':'ASTROX 99 PRO (2025 MODEL)','탄성':'STIFF','프레임':'HM Graphite / 2G-Namd FLEX FORCE / CFR / Tungsten','샤프트':'HM Graphite / 2G-Namd FLEX FORCE / Ultra PE Fiber','조인트':'NEW Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Black/Green','원산지':'Japan'},
  desc:'ASTROX 시리즈 중 가장 강력한 라켓. 최대 에너지 전달로 강력한 스매시를 구사.',tags:['헤드헤비','공격형','상급']},
