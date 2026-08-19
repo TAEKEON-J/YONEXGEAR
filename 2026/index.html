@@ -6,17 +6,17 @@
 <title>YONEX 2026 카탈로그</title>
 <style>
   :root{
-    --navy:#0b2a5b;
-    --navy-deep:#081c3f;
+    --navy:#111111;
+    --navy-deep:#000000;
     --blue:#1656c9;
-    --green:#4fae32;
-    --red:#c8102e;
-    --ink:#12172a;
-    --paper:#f4f6fa;
+    --green:#8cff5c;
+    --red:#e01130;
+    --ink:#0a0a0a;
+    --paper:#ffffff;
     --card:#ffffff;
-    --line:#e2e6ef;
-    --muted:#63697c;
-    --radius:14px;
+    --line:#e6e6e6;
+    --muted:#6f6f6f;
+    --radius:8px;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
   }
   *{box-sizing:border-box;}
@@ -31,35 +31,33 @@
     height:100vh;height:100dvh;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;color:#fff;padding:48px 20px 70px;
-    background:
-      radial-gradient(circle at 12% 18%,rgba(79,174,50,.35),transparent 45%),
-      radial-gradient(circle at 88% 78%,rgba(22,86,201,.5),transparent 50%),
-      linear-gradient(160deg,var(--navy-deep),var(--navy) 55%,var(--blue));
+    background:linear-gradient(180deg,#000000,#141414);
     transition:transform .55s cubic-bezier(.65,0,.35,1), opacity .45s ease;
   }
   .hero.hide{transform:translateY(-100%);opacity:0;pointer-events:none;}
-  .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;}
+  .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(.7) saturate(1.05) brightness(.75);}
   .hero-photo-overlay{
     position:absolute;inset:0;z-index:-2;
-    background:linear-gradient(160deg,rgba(8,28,63,.82),rgba(11,42,91,.72) 55%,rgba(22,86,201,.65));
+    background:linear-gradient(180deg,rgba(0,0,0,.62),rgba(0,0,0,.88));
   }
-  .hero-badge-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+  .hero-badge-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
   .hero-logo{font-weight:900;font-size:clamp(36px,9vw,52px);letter-spacing:1px;}
-  .hero-yr{font-size:13px;font-weight:800;background:var(--green);color:#06210a;padding:5px 12px;border-radius:999px;letter-spacing:.5px;}
-  .hero-title{font-size:clamp(20px,5.5vw,28px);font-weight:800;line-height:1.35;margin:4px 0 12px;max-width:480px;}
-  .hero-sub{font-size:14.5px;color:#cfe0ff;max-width:420px;line-height:1.65;margin-bottom:10px;}
-  .hero-stats{font-size:12.5px;color:#9db3dd;margin-bottom:30px;}
+  .hero-yr{font-size:13px;font-weight:800;background:var(--green);color:#06210a;padding:6px 13px;border-radius:999px;letter-spacing:.5px;}
+  .hero-title{font-size:clamp(22px,5.5vw,30px);font-weight:800;line-height:1.4;margin:6px 0 16px;max-width:480px;letter-spacing:-.01em;}
+  .hero-rule{width:46px;height:3px;background:var(--green);margin:0 auto 16px;border-radius:2px;}
+  .hero-sub{font-size:14.5px;color:#c4c4c4;max-width:420px;line-height:1.7;margin-bottom:4px;}
+  .hero-stats{font-size:12.5px;color:#888;margin-bottom:34px;}
   .hero-cta{
     background:#fff;color:var(--navy-deep);font-weight:800;font-size:15px;
-    padding:14px 30px;border-radius:999px;border:none;cursor:pointer;
-    box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:36px;
+    padding:15px 34px;border-radius:999px;border:none;cursor:pointer;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:38px;
   }
-  .hero-cats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:460px;}
+  .hero-cats{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:300px;}
   .hero-cats button{
-    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;
-    padding:9px 17px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;
+    background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;
+    padding:6px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;
   }
-  .hero-cats button:hover{background:rgba(255,255,255,.22);}
+  .hero-cats button:hover{background:rgba(255,255,255,.1);border-color:#fff;}
   .hero-scroll{
     position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
     color:rgba(255,255,255,.65);font-size:20px;letter-spacing:.1em;
@@ -73,17 +71,17 @@
   /* ---------- HEADER ---------- */
   header.top{
     position:sticky;top:0;z-index:50;overflow:hidden;
-    background:linear-gradient(120deg,var(--navy-deep),var(--navy) 55%,var(--blue));
+    background:#000;
     color:#fff;
-    padding:18px 20px 0;
-    box-shadow:0 6px 18px rgba(8,20,45,.25);
+    padding:20px 20px 0;
+    box-shadow:0 4px 16px rgba(0,0,0,.3);
   }
   header.top .header-photo{
     position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
   }
   header.top .header-overlay{
     position:absolute;inset:0;z-index:1;
-    background:linear-gradient(120deg,rgba(8,20,63,.78),rgba(11,42,91,.72) 55%,rgba(22,86,201,.66));
+    background:linear-gradient(120deg,rgba(0,0,0,.85),rgba(0,0,0,.72) 55%,rgba(0,0,0,.62));
   }
   header.top .brandrow, header.top .searchwrap, header.top nav.cats, header.top nav.subcats{
     position:relative;z-index:2;
@@ -93,17 +91,17 @@
   .brand .logo{font-weight:800;font-size:22px;letter-spacing:.5px;}
   .brand .yr{
     font-size:11.5px;background:var(--green);color:#06210a;font-weight:800;
-    padding:4px 9px;border-radius:20px;letter-spacing:.5px;line-height:1;
+    padding:5px 11px;border-radius:999px;letter-spacing:.5px;line-height:1;
     display:inline-flex;align-items:center;
   }
   .header-logo{flex:0 0 auto;display:flex;align-items:center;}
   .header-logo img{height:20px;width:auto;display:block;}
   @media(max-width:400px){.header-logo img{height:16px;}}
-  .searchwrap{margin:14px 0 12px;}
+  .searchwrap{margin:18px 0 16px;}
   .searchbox{
     display:flex;align-items:center;gap:10px;
-    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
-    border-radius:999px;padding:10px 16px;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);
+    border-radius:8px;padding:12px 16px;
   }
   .searchbox input{
     background:transparent;border:none;outline:none;color:#fff;font-size:16px;width:100%;
@@ -119,18 +117,18 @@
   nav.cats button{
     flex:none;white-space:nowrap;
     background:rgba(255,255,255,.08);color:#dbe4fa;border:1px solid rgba(255,255,255,.18);
-    padding:10px 19px;border-radius:999px;font-size:14.5px;font-weight:700;cursor:pointer;
+    padding:6px 19px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;
   }
   nav.cats button.active{background:#fff;color:var(--navy-deep);border-color:#fff;}
 
   nav.subcats{
-    display:flex;gap:8px;overflow-x:auto;padding:0 0 10px;margin-top:-2px;
+    display:flex;gap:27px;overflow-x:auto;padding:0 0 14px;margin-top:0;
     scrollbar-width:none;
   }
   nav.subcats::-webkit-scrollbar{display:none;}
   nav.subcats button{
-    flex:none;white-space:nowrap;background:transparent;color:#aebbdd;
-    border:none;padding:7px 5px;font-size:14px;font-weight:600;cursor:pointer;
+    flex:none;white-space:nowrap;background:transparent;color:#8a8a8a;
+    border:none;padding:6px 2px;font-size:13.5px;font-weight:600;cursor:pointer;
     border-bottom:2px solid transparent;
   }
   nav.subcats button.active{color:#fff;border-bottom-color:var(--green);}
@@ -147,27 +145,27 @@
   main{padding:14px 16px 60px;max-width:1100px;margin:0 auto;}
 
   .section-title{
-    font-size:13px;font-weight:800;color:var(--navy);text-transform:uppercase;
-    letter-spacing:.06em;margin:22px 2px 10px;display:flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:800;color:var(--ink);text-transform:uppercase;
+    letter-spacing:.07em;margin:26px 2px 12px;display:flex;align-items:center;gap:9px;
   }
-  .section-title .bar{width:16px;height:3px;background:var(--green);border-radius:2px;}
+  .section-title .bar{width:18px;height:3px;background:var(--green);border-radius:2px;}
   .count{color:var(--muted);font-size:12px;text-align:right;margin:6px 2px 0;}
 
   .grid{
-    display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+    display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
   }
   @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);}}
   @media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr);}}
 
   .card{
     background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:8px;
-    transition:transform .12s ease, box-shadow .12s ease;
+    padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:9px;
+    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
   }
   .card:active{transform:scale(.97);}
-  .card:hover{box-shadow:0 6px 16px rgba(20,40,90,.12);}
+  .card:hover{box-shadow:0 10px 24px rgba(0,0,0,.08);border-color:#cfcfcf;}
   .card .thumb{
-    aspect-ratio:1/1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    aspect-ratio:1/1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;
     color:#fff;text-align:center;position:relative;overflow:hidden;
   }
   .card .thumb .thumb-icon-wrap{
@@ -186,13 +184,13 @@
   .badge-new.design{color:var(--blue);border-color:var(--blue);}
   .card-top{position:relative;}
   .card .series-tag{font-size:10.5px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em;}
-  .card .name{font-size:14px;font-weight:800;line-height:1.25;color:var(--ink);text-transform:uppercase;}
-  .card .kr{font-size:11.5px;color:var(--muted);}
-  .card .meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px;}
+  .card .name{font-size:14px;font-weight:800;line-height:1.3;color:var(--ink);text-transform:uppercase;margin-top:2px;}
+  .card .kr{font-size:11.5px;color:var(--muted);margin-top:-4px;}
+  .card .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
   .card .meta span{
-    font-size:10px;background:#eef1f8;color:var(--muted);padding:2px 6px;border-radius:6px;font-weight:600;
+    font-size:10px;background:#f4f4f4;color:var(--muted);padding:3.5px 8px;border-radius:5px;font-weight:600;
   }
-  .card .price{margin-top:auto;font-size:13.5px;font-weight:800;color:var(--navy-deep);}
+  .card .price{margin-top:auto;padding-top:4px;font-size:14px;font-weight:800;color:var(--ink);}
   .card .price small{font-weight:600;color:var(--muted);font-size:10.5px;}
 
   .empty{
@@ -302,7 +300,8 @@
     <span class="hero-yr">2026</span>
   </a>
   <h1 class="hero-title">2026 GEAR CATALOGUE</h1>
-  <p class="hero-sub">요넥스 용품 디지털 카탈로그</p>
+  <div class="hero-rule"></div>
+  <p class="hero-sub">요넥스 용품 E-카탈로그</p>
   <p class="hero-stats" id="heroCount">전체 제품 · 실시간 검색 지원</p>
   <button class="hero-cta" onclick="scrollToCatalog()">카탈로그 보기 ↓</button>
   <div class="hero-cats" id="heroCatBtns"></div>
@@ -318,8 +317,8 @@
       <span class="yr">2026</span>
     </a>
     <div class="header-logo" style="gap:8px;">
-      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;">PDF 다운</a>
-      <button id="shareBtn" onclick="shareCatalog()" style="font-size:11px;font-weight:700;color:#fff;white-space:nowrap;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;cursor:pointer;">링크 공유</button>
+      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:10px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap;background:transparent;border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:5px 9px;">PDF 다운</a>
+      <button id="shareBtn" onclick="shareCatalog()" style="font-size:10px;font-weight:800;color:#06210a;white-space:nowrap;background:var(--green);border:1px solid var(--green);border-radius:6px;padding:5px 9px;cursor:pointer;">링크 공유</button>
     </div>
   </div>
   <div class="searchwrap">
@@ -339,12 +338,12 @@
   <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 2px 10px;gap:8px;">
     <div class="count" id="countLabel" style="margin:0;"></div>
     <div style="display:flex;align-items:center;gap:6px;">
-      <button id="newOnlyBtn" style="font-size:12.5px;font-weight:700;color:var(--muted);
-        background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer;">
+      <button id="newOnlyBtn" style="font-size:12.5px;font-weight:700;color:var(--ink);
+        background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 11px;cursor:pointer;">
         🆕 신상품만
       </button>
-      <select id="sortSelect" style="font-size:12.5px;font-weight:700;color:var(--navy);
-        background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 8px;">
+      <select id="sortSelect" style="font-size:12.5px;font-weight:700;color:var(--ink);
+        background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 10px;">
         <option value="default">상품 정렬</option>
         <option value="desc">가격 높은순</option>
         <option value="asc">가격 낮은순</option>
