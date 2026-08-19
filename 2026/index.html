@@ -278,7 +278,7 @@
   /* ---------- PRINT / SAVE AS PDF ---------- */
   @media print{
     header.top nav, header.top .searchwrap, #adminBtn, #adminOverlay, .overlay,
-    #origPdfBtn, #newOnlyBtn, #sortSelect, .serieswrap{
+    #origPdfBtn, #shareBtn, #newOnlyBtn, #sortSelect, .serieswrap{
       display:none !important;
     }
     header.top{position:static;background:#fff !important;color:var(--navy-deep);padding:6px 0;}
@@ -319,7 +319,10 @@
       <span class="yr">2026</span>
     </a>
     <div class="header-title">2026 GEAR CATALOGUE</div>
-    <div class="header-logo" style="gap:8px;"><a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;">카탈로그 PDF 다운</a></div>
+    <div class="header-logo" style="gap:8px;">
+      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;">PDF 다운</a>
+      <button id="shareBtn" onclick="shareCatalog()" style="font-size:11px;font-weight:700;color:#fff;white-space:nowrap;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;cursor:pointer;">링크 공유</button>
+    </div>
   </div>
   <div class="searchwrap">
     <div class="searchbox">
@@ -1433,6 +1436,22 @@ function showTechPopover(evt, idx){
 }
 function closeTechPopover(){
   document.getElementById('techPopover').style.display = 'none';
+}
+function shareCatalog(){
+  const url = window.location.href;
+  if(navigator.share){
+    navigator.share({title:document.title, url}).catch(()=>{});
+    return;
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(()=>{
+      alert('링크가 복사되었습니다.');
+    }).catch(()=>{
+      prompt('아래 링크를 복사하세요:', url);
+    });
+    return;
+  }
+  prompt('아래 링크를 복사하세요:', url);
 }
 document.addEventListener('click', (e)=>{
   const pop = document.getElementById('techPopover');
