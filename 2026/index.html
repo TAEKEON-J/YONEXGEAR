@@ -42,6 +42,11 @@
     content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
     background-image:repeating-radial-gradient(circle at 50% 0%,rgba(255,255,255,.05) 0 2px,transparent 2px 42px);
   }
+  .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;}
+  .hero-photo-overlay{
+    position:absolute;inset:0;z-index:-2;
+    background:linear-gradient(160deg,rgba(8,28,63,.82),rgba(11,42,91,.72) 55%,rgba(22,86,201,.65));
+  }
   .hero-shuttle{position:absolute;opacity:.14;filter:drop-shadow(0 10px 20px rgba(0,0,0,.3));pointer-events:none;z-index:-1;}
   .hero-shuttle.s1{width:150px;top:8%;left:-30px;transform:rotate(-18deg);}
   .hero-shuttle.s2{width:110px;bottom:10%;right:-20px;transform:rotate(24deg);}
@@ -297,6 +302,8 @@
 <body>
 
 <section class="hero" id="heroSection">
+  <img class="hero-photo" src="images/hero-cover.jpg" alt="" onerror="this.remove()">
+  <div class="hero-photo-overlay"></div>
   <svg class="hero-shuttle s1" viewBox="0 0 100 140" fill="none"><path d="M50 90 L20 20 M50 90 L35 15 M50 90 L50 12 M50 90 L65 15 M50 90 L80 20" stroke="#fff" stroke-width="2"/><circle cx="50" cy="98" r="12" fill="#fff"/></svg>
   <svg class="hero-shuttle s2" viewBox="0 0 100 140" fill="none"><path d="M50 90 L20 20 M50 90 L35 15 M50 90 L50 12 M50 90 L65 15 M50 90 L80 20" stroke="#fff" stroke-width="2"/><circle cx="50" cy="98" r="12" fill="#fff"/></svg>
   <a href="../" class="hero-badge-row" style="text-decoration:none;">
@@ -304,7 +311,7 @@
     <span class="hero-yr">2026</span>
   </a>
   <h1 class="hero-title">2026 GEAR CATALOGUE</h1>
-  <p class="hero-sub">라켓 · 신발 · 스트링 · 셔틀콕 · 액세서리<br>요넥스 전 제품 디지털 카탈로그</p>
+  <p class="hero-sub">요넥스 용품 디지털 카탈로그</p>
   <p class="hero-stats" id="heroCount">전체 제품 · 실시간 검색 지원</p>
   <button class="hero-cta" onclick="scrollToCatalog()">카탈로그 보기 ↓</button>
   <div class="hero-cats" id="heroCatBtns"></div>
