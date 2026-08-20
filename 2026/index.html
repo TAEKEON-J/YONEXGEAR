@@ -190,20 +190,20 @@
   .badge-new{
     display:inline-flex;white-space:nowrap;flex:none;
     background:#fff;color:#7c3aed;border:1.2px solid #7c3aed;
-    border-radius:999px;font-size:8.1px;font-weight:800;letter-spacing:-.01em;
-    padding:2.2px 7.2px;
+    border-radius:999px;font-size:11px;font-weight:800;letter-spacing:-.01em;
+    padding:2.8px 8px;
   }
   .badge-new.design{color:var(--blue);border-color:var(--blue);}
   .card-top{position:relative;}
-  .card .series-tag{font-size:10.5px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em;}
+  .card .series-tag{font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em;}
   .card .name{font-size:14px;font-weight:800;line-height:1.3;color:var(--ink);text-transform:uppercase;margin-top:2px;}
   .card .kr{font-size:11.5px;color:var(--muted);margin-top:-4px;}
   .card .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
   .card .meta span{
-    font-size:10px;background:#f4f4f4;color:var(--muted);padding:3.5px 8px;border-radius:5px;font-weight:600;
+    font-size:11px;background:#f4f4f4;color:var(--muted);padding:3.5px 8px;border-radius:5px;font-weight:600;
   }
   .card .price{margin-top:auto;padding-top:4px;font-size:14px;font-weight:800;color:var(--ink);}
-  .card .price small{font-weight:600;color:var(--muted);font-size:10.5px;}
+  .card .price small{font-weight:600;color:var(--muted);font-size:11px;}
 
   .empty{
     text-align:center;padding:60px 20px;color:var(--muted);
@@ -396,6 +396,7 @@ const GRAD = {
   ARCSABER:'linear-gradient(135deg,#8a1420,#d43a4a)',
   NANOFLARE:'linear-gradient(135deg,#0a6b5e,#37c8b0)',
   SHOP:'linear-gradient(135deg,#555,#999)',
+  JUNIOR:'linear-gradient(135deg,#1a5c3a,#8cff5c)',
   BADSTR:'linear-gradient(135deg,#0b3d91,#3fa9f5)',
   SHUTTLE:'linear-gradient(135deg,#c9b458,#efe6c0)',
   BADSHOE:'linear-gradient(135deg,#123a6b,#2f7fd1)',
@@ -512,22 +513,27 @@ const P = [
  specs:{'ERP코드':'ASTROX 88S PRO (2024 MODEL)','탄성':'STIFF','프레임':'HM Graphite / CFR / Tungsten','샤프트':'HM Graphite / 2G-Namd Flex Force / ULTRA PE FIBER','조인트':'NEW Built-in T-joint','길이':'5mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Silver/Black','원산지':'Japan'},
  desc:'더 커진 프레임으로 홀딩력을 강화, 전위 플레이어에게 용이한 라켓.',tags:['전위','상급']},
 {c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 88S Game',kr:'아스트록스 88 에스 게임',price:135000,grad:GRAD.ASTROX,img:'../shared-images/astrox-88s-game.jpg',
+ images:['../shared-images/astrox-88s-game.jpg','../shared-images/astrox-88s-game-2.jpg','../shared-images/astrox-88s-game-3.jpg'],
  buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=6861&category=001006',
  specs:{'ERP코드':'ASTROX 88S GAME (2024 MODEL)','탄성':'MEDIUM','프레임':'HM Graphite / CSR / Tungsten','샤프트':'HM Graphite / 2G-NANOMESH NEO','조인트':'Built-in T-joint','길이':'5mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Silver/Black','원산지':'Taiwan'},
  desc:'전위 플레이어를 위한 중급자용 라켓.',tags:['전위','중급']},
 {c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 88D Pro',kr:'아스트록스 88 디 프로',price:309000,grad:GRAD.ASTROX,img:'../shared-images/astrox-88d-pro.jpg',
+ images:['../shared-images/astrox-88d-pro.jpg','../shared-images/astrox-88d-pro-2.jpg','../shared-images/astrox-88d-pro-3.jpg'],
  buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=6862&category=001006',
  specs:{'ERP코드':'ASTROX 88D PRO (2024 MODEL)','탄성':'STIFF','프레임':'HM Graphite / CFR / Tungsten','샤프트':'HM Graphite / 2G-Namd Flex Force / ULTRA PE FIBER','조인트':'NEW Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Black/Silver','원산지':'Japan'},
  desc:'컴팩트한 프레임으로 더 강력한 스매시, 후위 플레이어용.',tags:['후위','상급']},
 {c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 88D Game',kr:'아스트록스 88 디 게임',price:135000,grad:GRAD.ASTROX,img:'../shared-images/astrox-88d-game.jpg',
+ images:['../shared-images/astrox-88d-game.jpg','../shared-images/astrox-88d-game-2.jpg','../shared-images/astrox-88d-game-3.jpg'],
  buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=6863&category=001006',
  specs:{'ERP코드':'ASTROX 88D GAME (2024 MODEL)','탄성':'MEDIUM','프레임':'HM Graphite / CSR / Tungsten','샤프트':'HM Graphite / 2G-NANOMESH NEO','조인트':'Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Black/Silver','원산지':'Taiwan'},
  desc:'후위 플레이어를 위한 중급자용 콤팩트 프레임 라켓.',tags:['후위','중급']},
 {c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 77 Pro',kr:'아스트록스 77 프로',price:279000,grad:GRAD.ASTROX,img:'../shared-images/astrox-77-pro.jpg',
+ images:['../shared-images/astrox-77-pro.jpg','../shared-images/astrox-77-pro-2.jpg','../shared-images/astrox-77-pro-3.jpg'],
  buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=6263&category=025001',
  specs:{'ERP코드':'ASTROX 77 PRO','탄성':'MEDIUM','프레임':'HM Graphite / FLEX Fuse / Tungsten','샤프트':'HM Graphite / Namd / ULTRA PE FIBER','조인트':'NEW Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'High Orange','원산지':'Japan'},
  desc:'안세영 선수의 라켓. 누구나 쉽게 파워를 즐길 수 있는 라켓.',tags:['안세영','올라운드']},
 {c:'bad',s:'racquet',series:'ASTROX',name:'Astrox Nextage',kr:'아스트록스 넥스테이지',price:199000,grad:GRAD.ASTROX,img:'../shared-images/astrox-nextage.jpg',
+ images:['../shared-images/astrox-nextage.jpg','../shared-images/astrox-nextage-2.jpg','../shared-images/astrox-nextage-3.jpg'],
  buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=7368&category=001006',
  specs:{'ERP코드':'[LGR] ASTROX NEXTAGE (2025 MODEL) / [BK/G] ASTROX NEXTAGE','탄성':'MEDIUM','프레임':'Graphite / VDM / Tungsten','샤프트':'Graphite / NANOMESH NEO','조인트':'Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Light Gray, Black/Green','원산지':'Taiwan'},
  desc:'중독성 있는 타구감과 편안한 스윙을 위해 개발된 라켓.',tags:['올라운드','중급']},
@@ -596,10 +602,10 @@ const P = [
 {c:'bad',s:'racquet',series:'SHOP EXCLUSIVE',name:'Astrox 01 Feel',kr:'아스트록스 01 필',price:0,grad:GRAD.SHOP,img:'../shared-images/astrox-01-feel.jpg',
  specs:{'ERP코드':'ASTROX 01 FEEL','탄성':'HI-FLEX','프레임':'Graphite','샤프트':'Graphite','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'White/Pink','비고':'대리점 전용 상품','원산지':'China'},
  desc:'대리점 전용 가성비 입문 라켓. (화이트/핑크)',tags:['대리점전용','입문']},
-{c:'bad',s:'racquet',series:'JUNIOR',name:'Muscle Power 2 Junior',kr:'엠피 투 주니어',price:35000,grad:GRAD.SHOP,img:'../shared-images/muscle-power-2-junior.jpg',badge:'2025 F/W NEW DESIGN',
+{c:'bad',s:'racquet',series:'JUNIOR',name:'Muscle Power 2 Junior',kr:'엠피 투 주니어',price:35000,grad:GRAD.JUNIOR,img:'../shared-images/muscle-power-2-junior.jpg',badge:'2025 F/W NEW DESIGN',
  specs:{'ERP코드':'MP2JR (2025 MODEL)','프레임':'Aluminum','샤프트':'Steel','길이':'21 in','무게/그립':'4U(83g) G5','적정스트링장력':'4U 14-18lbs','색상':'White/Lime yellow','원산지':'China'},
  desc:'어린이를 위해 샤프트를 짧게 설계한 주니어용 배드민턴 라켓.',tags:['주니어']},
-{c:'bad',s:'racquet',series:'JUNIOR',name:'B 4000',kr:'비 4000',price:49000,grad:GRAD.SHOP,img:'../shared-images/b-4000.jpg',badge:'2025 F/W NEW DESIGN',
+{c:'bad',s:'racquet',series:'JUNIOR',name:'B 4000',kr:'비 4000',price:49000,grad:GRAD.JUNIOR,img:'../shared-images/b-4000.jpg',badge:'2025 F/W NEW DESIGN',
  specs:{'ERP코드':'B4000 (2025 MODEL)','프레임':'Aluminum','샤프트':'Steel','무게/그립':'U(105g 이하) G4','적정스트링장력':'U 16-20lbs','색상':'White, Coral Orange','원산지':'Taiwan'},
  desc:'누구와도 부담 없이 즐길 수 있는 가성비 좋은 세트 라켓.',tags:['세트라켓']},
 
