@@ -262,6 +262,23 @@
   .cmp-toggle svg{opacity:.55;}
   .cmp-toggle.active svg{opacity:1;}
   .cmp-toggle.muted{opacity:.3;}
+  .cmp-coach{
+    display:none;position:absolute;z-index:65;max-width:200px;
+    align-items:center;gap:6px;background:var(--ink);color:#fff;
+    padding:9px 10px 9px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.3);
+    font-size:11.5px;font-weight:700;line-height:1.4;
+    animation:cmpCoachIn .25s ease-out;
+  }
+  @keyframes cmpCoachIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+  .cmp-coach-arrow{
+    position:absolute;bottom:-6px;width:12px;height:12px;background:var(--ink);
+    transform:rotate(45deg);border-radius:2px;
+  }
+  .cmp-coach-close{
+    flex:none;background:none;border:none;color:rgba(255,255,255,.6);font-size:11px;
+    cursor:pointer;padding:2px;line-height:1;
+  }
+  .cmp-coach-close:hover{color:#fff;}
   .card .series-tag{font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em;}
   .card .name{font-size:14px;font-weight:900;line-height:1.25;color:var(--ink);text-transform:uppercase;letter-spacing:-.01em;margin-top:2px;}
   .card .kr{font-size:11.5px;color:var(--muted);margin-top:-4px;}
@@ -593,6 +610,12 @@
     <button class="cb-cta" id="compareCta" onclick="openCompareSheet()" disabled>2개 이상 선택</button>
     <button class="cb-clear" onclick="clearCompare()" aria-label="비교 목록 비우기">✕</button>
   </div>
+</div>
+
+<div class="cmp-coach" id="cmpCoach">
+  <div class="cmp-coach-arrow" id="cmpCoachArrow"></div>
+  <span class="cmp-coach-text">여기를 눌러 라켓을 비교해보세요</span>
+  <button class="cmp-coach-close" onclick="dismissCmpCoach()" aria-label="닫기">✕</button>
 </div>
 
 <script>
@@ -1827,6 +1850,7 @@ function renderGrid(){
   grid.querySelectorAll('.card').forEach(card=>{
     card.onclick = ()=> openSheet(P[card.dataset.idx]);
   });
+  maybeShowCmpCoach();
 }
 
 function seriesDividerHtml(series){
@@ -1848,7 +1872,7 @@ function scrollToCatalog(){
   hero.classList.add('hide');
   document.body.classList.remove('hero-active');
   window.scrollTo(0,0);
-  setTimeout(()=>{ hero.style.display='none'; }, 600);
+  setTimeout(()=>{ hero.style.display='none'; maybeShowCmpCoach(); }, 600);
   if(typeof syncToTopBtn === 'function') syncToTopBtn();
 }
 function renderHero(){
@@ -1932,8 +1956,40 @@ function closeSheet(fromPopstate){
 
 /* =============== COMPARE =============== */
 let cmpLimitTimeout;
+let cmpCoachTimeout;
 function groupKey(p){ return p.c+'_'+p.s; }
+function maybeShowCmpCoach(){
+  if(localStorage.getItem('cmpCoachSeen')) return;
+  if(document.body.classList.contains('hero-active')) return;
+  if(!(state.cat==='bad' && state.sub==='racquet')) return;
+  const firstToggle = document.querySelector('.cmp-toggle');
+  const coach = document.getElementById('cmpCoach');
+  if(!firstToggle || !coach) return;
+  const rect = firstToggle.getBoundingClientRect();
+  if(rect.width===0) return;
+  localStorage.setItem('cmpCoachSeen','1');
+  coach.style.display = 'flex';
+  coach.style.visibility = 'hidden';
+  const coachWidth = 200;
+  let left = rect.left + window.scrollX - 20;
+  left = Math.max(12, Math.min(left, window.innerWidth - coachWidth - 12));
+  coach.style.left = left + 'px';
+  const h = coach.offsetHeight;
+  const top = rect.top + window.scrollY - 10 - h;
+  coach.style.top = Math.max(8, top) + 'px';
+  const arrowLeft = (rect.left + window.scrollX + rect.width/2) - left - 6;
+  document.getElementById('cmpCoachArrow').style.left = Math.max(10, Math.min(arrowLeft, coachWidth-20)) + 'px';
+  coach.style.visibility = 'visible';
+  clearTimeout(cmpCoachTimeout);
+  cmpCoachTimeout = setTimeout(dismissCmpCoach, 4000);
+}
+function dismissCmpCoach(){
+  const coach = document.getElementById('cmpCoach');
+  if(coach) coach.style.display = 'none';
+  clearTimeout(cmpCoachTimeout);
+}
 function toggleCompare(idx){
+  dismissCmpCoach();
   const i = state.compare.indexOf(idx);
   if(i>-1){
     state.compare.splice(i,1);
