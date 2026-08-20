@@ -592,10 +592,10 @@
 <div class="finder-promo-wrap">
   <div class="finder-promo" id="finderPromo" style="display:none;">
     <div class="fp-text">
-      <span class="fp-eyebrow">RACQUET FINDER</span>
-      <span class="fp-title">🏸 당신의 플레이를 완성할 <b>라켓</b>을 찾아보세요!</span>
+      <span class="fp-eyebrow" id="fpEyebrow">RACQUET FINDER</span>
+      <span class="fp-title" id="fpTitle">🏸 당신의 플레이를 완성할 <b>라켓</b>을 찾아보세요!</span>
     </div>
-    <button class="fp-cta" onclick="openFinderSheet()">시작하기</button>
+    <button class="fp-cta" onclick="openAnyFinderSheet()">시작하기</button>
   </div>
 </div>
 
@@ -1854,7 +1854,19 @@ function renderGrid(){
   const grid = document.getElementById('grid');
   const empty = document.getElementById('emptyMsg');
   const finderPromo = document.getElementById('finderPromo');
-  if(finderPromo) finderPromo.style.display = (state.cat==='bad' && state.sub==='racquet') ? 'flex' : 'none';
+  if(finderPromo){
+    if(state.cat==='bad' && state.sub==='racquet'){
+      finderPromo.style.display = 'flex';
+      document.getElementById('fpEyebrow').textContent = 'RACQUET FINDER';
+      document.getElementById('fpTitle').innerHTML = '🏸 당신의 플레이를 완성할 <b>라켓</b>을 찾아보세요!';
+    } else if(state.cat==='bad' && state.sub==='string'){
+      finderPromo.style.display = 'flex';
+      document.getElementById('fpEyebrow').textContent = 'STRING FINDER';
+      document.getElementById('fpTitle').innerHTML = '🧵 내 플레이에 맞는 <b>스트링</b>을 찾아보세요!';
+    } else {
+      finderPromo.style.display = 'none';
+    }
+  }
   document.getElementById('countLabel').textContent = list.length + '개 제품';
   document.getElementById('sectionTitleText').textContent = state.q
     ? `"${state.q}" 검색 결과`
@@ -2455,6 +2467,172 @@ function finderShowDetail(idx){
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
     <button class="back floating" onclick="renderFinderResults()">← 진단 결과</button>
+    <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
+    ${galleryStripHtml(p)}
+    <div class="sheet-body">
+      ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}" style="margin-bottom:8px;">${badgeLabel(p.badge)}</span><br>`:''}
+      <h2>${p.name}</h2>
+      <div class="kr-full">${p.kr}</div>
+      <div class="price-full">${fmtPrice(p.price)}</div>
+      <div class="desc">${p.desc}</div>
+      <table class="specs">${rows}</table>
+      <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
+      ${buyButtonHtml(p)}
+    </div>
+  `;
+}
+function openAnyFinderSheet(){
+  if(state.sub === 'string') openStringFinderSheet();
+  else openFinderSheet();
+}
+
+/* =============== STRING FINDER =============== */
+const STRING_FINDER_STEPS = [
+  {key:'primary', q:'스트링에서 가장 중요하게 생각하는 특성은?', opts:[
+    {v:'반발력', label:'반발력', desc:'강력한 스매시와 빠른 셔틀 스피드'},
+    {v:'컨트롤', label:'컨트롤', desc:'정교한 셔틀콕 컨트롤'},
+    {v:'내구성', label:'내구성', desc:'끊어짐 없이 오래 쓰는 스트링'},
+    {v:'충격흡수력', label:'충격흡수력', desc:'팔꿈치·손목 부담을 줄여주는 타구감'},
+    {v:'타구음', label:'타구음', desc:'경쾌하고 강렬한 타구음'},
+  ]},
+  {key:'secondary', q:'그 다음으로 중요한 특성은?', opts:[]},
+  {key:'gauge', q:'선호하는 스트링 굵기는요?', opts:[
+    {v:'얇은', label:'얇은 스트링', desc:'예민한 타구감, 스핀에 유리 (0.63mm 이하)'},
+    {v:'보통', label:'보통 굵기', desc:'가장 대중적인 선택 (0.64~0.68mm)'},
+    {v:'두꺼운', label:'두꺼운 스트링', desc:'튼튼하고 오래 쓰기 좋음 (0.69mm 이상)'},
+  ]},
+];
+let stringFinderState = {step:0, primary:null, secondary:null, gauge:null};
+function stringGaugeMm(p){
+  const g = (p.specs && p.specs['굵기']) || '';
+  const m = g.match(/(\d+\.\d+)mm/);
+  return m ? parseFloat(m[1]) : null;
+}
+function stringGaugeBucket(mm){
+  if(mm==null) return null;
+  if(mm<=0.63) return '얇은';
+  if(mm<=0.68) return '보통';
+  return '두꺼운';
+}
+function scoreString(p, ans){
+  const metrics = stringAxisScore(p);
+  if(!metrics) return -1;
+  const primaryScore = metrics[ans.primary] || 0;
+  const secondaryScore = metrics[ans.secondary] || 0;
+  const bucket = stringGaugeBucket(stringGaugeMm(p));
+  const gaugeScore = bucket===ans.gauge ? 1 : (bucket ? 0.4 : 0.5);
+  return primaryScore*0.55 + secondaryScore*0.25 + gaugeScore*0.2;
+}
+function computeStringFinderResults(){
+  const candidates = P.filter(p=>p.c==='bad' && p.s==='string' && stringAxisScore(p));
+  return candidates
+    .map(p=>({p, score:scoreString(p, stringFinderState)}))
+    .filter(r=>r.score>=0)
+    .sort((a,b)=>b.score-a.score)
+    .slice(0,3);
+}
+function openStringFinderSheet(){
+  stringFinderState = {step:0, primary:null, secondary:null, gauge:null};
+  const overlay = document.getElementById('overlay');
+  renderStringFinderStep();
+  overlay.classList.add('open');
+  history.pushState({sheetOpen:true}, '', location.href);
+  sheetHistoryPushed = true;
+}
+function renderStringFinderStep(){
+  const sheet = document.getElementById('sheet');
+  sheet.classList.remove('cmp-mode');
+  const stepDef = STRING_FINDER_STEPS[stringFinderState.step];
+  let opts = stepDef.opts;
+  if(stepDef.key === 'secondary'){
+    opts = STRING_FINDER_STEPS[0].opts.filter(o=>o.v !== stringFinderState.primary);
+  }
+  const picked = stringFinderState[stepDef.key];
+  const progress = STRING_FINDER_STEPS.map((s,i)=>`<i class="${i<=stringFinderState.step?'done':''}"></i>`).join('');
+  const optsHtml = opts.map(o=>`
+    <div class="finder-opt${picked===o.v?' picked':''}" data-value="${o.v}" onclick="pickStringFinderOption('${stepDef.key}','${o.v}')">
+      <div>
+        <div>${o.label}</div>
+        <div class="fo-desc">${o.desc}</div>
+      </div>
+      <span class="fo-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+    </div>`).join('');
+  sheet.innerHTML = `
+    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="finder-wrap">
+      <div class="finder-progress">${progress}</div>
+      <div class="finder-step-label">STEP ${stringFinderState.step+1} / ${STRING_FINDER_STEPS.length}</div>
+      <div class="finder-q">${stepDef.q}</div>
+      <div class="finder-opts">${optsHtml}</div>
+      <div class="finder-nav">
+        ${stringFinderState.step>0 ? `<button class="finder-btn prev" onclick="stringFinderPrev()">이전</button>` : ''}
+        <button class="finder-btn next${stringFinderState.step===STRING_FINDER_STEPS.length-1?' gold':''}" onclick="stringFinderNext()" ${picked?'':'disabled'}>
+          ${stringFinderState.step===STRING_FINDER_STEPS.length-1 ? '결과 보기' : '다음'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+function pickStringFinderOption(key, value){
+  stringFinderState[key] = value;
+  const stepDef = STRING_FINDER_STEPS[stringFinderState.step];
+  if(stepDef.key !== key){ renderStringFinderStep(); return; }
+  document.querySelectorAll('.finder-opt').forEach(opt=>{
+    opt.classList.toggle('picked', opt.dataset.value === value);
+  });
+  const nextBtn = document.querySelector('.finder-btn.next');
+  if(nextBtn) nextBtn.disabled = false;
+}
+function stringFinderPrev(){
+  if(stringFinderState.step>0){ stringFinderState.step--; renderStringFinderStep(); }
+}
+function stringFinderNext(){
+  const stepDef = STRING_FINDER_STEPS[stringFinderState.step];
+  if(!stringFinderState[stepDef.key]) return;
+  if(stringFinderState.step < STRING_FINDER_STEPS.length-1){
+    stringFinderState.step++;
+    renderStringFinderStep();
+  } else {
+    renderStringFinderResults();
+  }
+}
+function renderStringFinderResults(){
+  const sheet = document.getElementById('sheet');
+  sheet.classList.remove('cmp-mode');
+  const results = computeStringFinderResults();
+  const maxScore = results.length ? results[0].score : 1;
+  const cards = results.map((r,i)=>{
+    const p = r.p;
+    const pct = Math.max(1, Math.round((r.score/maxScore)*100));
+    return `
+    <div class="finder-result-card" onclick="stringFinderShowDetail(${P.indexOf(p)})">
+      <div class="fr-rank">${i+1}</div>
+      <div class="fr-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
+      <div class="fr-body">
+        <div class="fr-name">${p.name}</div>
+        <div class="fr-match">매칭도 ${pct}%</div>
+        <div class="fr-price">${fmtPrice(p.price)}</div>
+      </div>
+    </div>`;
+  }).join('');
+  sheet.innerHTML = `
+    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="finder-wrap finder-results">
+      <h2>당신에게 맞는 스트링 TOP ${results.length}</h2>
+      <p class="fr-sub">${stringFinderState.primary} 우선 · ${stringFinderState.secondary} 다음 · ${stringFinderState.gauge} 굵기 기준 추천</p>
+      ${cards || '<p style="color:var(--muted);font-size:13px;">조건에 맞는 스트링을 찾지 못했어요.</p>'}
+      <button class="finder-restart" onclick="openStringFinderSheet()">다시 진단하기</button>
+    </div>
+  `;
+}
+function stringFinderShowDetail(idx){
+  const p = P[idx];
+  const rows = Object.entries(p.specs).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  const sheet = document.getElementById('sheet');
+  sheet.classList.remove('cmp-mode');
+  sheet.innerHTML = `
+    <button class="x floating" onclick="closeSheet()">✕</button>
+    <button class="back floating" onclick="renderStringFinderResults()">← 진단 결과</button>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
