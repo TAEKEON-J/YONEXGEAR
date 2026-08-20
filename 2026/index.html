@@ -191,7 +191,7 @@
   nav.subcats button{
     flex:none;white-space:nowrap;background:transparent;color:#8a8a8a;
     border:none;padding:6px 2px;font-size:13.5px;font-weight:600;cursor:pointer;
-    border-bottom:2px solid transparent;transition:color .15s ease;
+    border-bottom:2px solid transparent;transition:color .15s ease,border-bottom-color .15s ease;
   }
   nav.subcats button:hover{color:#dbdbdb;}
   nav.subcats button.active{color:#fff;border-bottom-color:var(--green);}
@@ -264,7 +264,7 @@
     width:26px;height:26px;border-radius:50%;
     background:rgba(255,255,255,.9);border:1.5px solid rgba(0,0,0,.12);color:var(--ink);
     display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;
-    transition:background .15s ease,border-color .15s ease,transform .1s ease;
+    transition:background .15s ease,border-color .15s ease,transform .1s ease,opacity .15s ease;
   }
   .cmp-toggle:hover{background:#fff;}
   .cmp-toggle:active{transform:scale(.9);}
@@ -278,7 +278,10 @@
     padding:9px 10px 9px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.3);
     font-size:11.5px;font-weight:700;line-height:1.4;
     animation:cmpCoachIn .25s ease-out;
+    opacity:1;transform:translateY(0);
+    transition:opacity .18s ease,transform .18s ease;
   }
+  .cmp-coach.leaving{opacity:0;transform:translateY(-4px);}
   @keyframes cmpCoachIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
   .cmp-coach-arrow{
     position:absolute;bottom:-6px;width:12px;height:12px;background:var(--ink);
@@ -580,7 +583,8 @@
     <div class="count" id="countLabel" style="margin:0;white-space:nowrap;"></div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
       <button id="newOnlyBtn" style="font-size:12.5px;font-weight:700;color:var(--ink);white-space:nowrap;
-        background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 11px;cursor:pointer;">
+        background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 11px;cursor:pointer;
+        transition:background .15s ease,color .15s ease,border-color .15s ease;">
         🆕 신상품만
       </button>
       <select id="sortSelect" style="font-size:12.5px;font-weight:700;color:var(--ink);
@@ -1866,11 +1870,12 @@ function renderGrid(){
   });
 
   const listKey = list.map(p=>P.indexOf(p)).join(',');
-  if(listKey !== lastGridListKey){
-    lastGridListKey = listKey;
-    grid.querySelectorAll('.card').forEach((card,i)=>{
-      card.style.animationDelay = Math.min(i*42,400)+'ms';
-      card.classList.add('card-enter');
+  const isNewList = listKey !== lastGridListKey;
+  lastGridListKey = listKey;
+  if(isNewList && !state.q){
+    grid.querySelectorAll('.card, .series-divider').forEach((el,i)=>{
+      el.style.animationDelay = Math.min(i*42,400)+'ms';
+      el.classList.add('card-enter');
     });
   }
   maybeShowCmpCoach();
@@ -1992,6 +1997,7 @@ function maybeShowCmpCoach(){
   const rect = firstToggle.getBoundingClientRect();
   if(rect.width===0) return;
   localStorage.setItem('cmpCoachSeen','1');
+  coach.classList.remove('leaving');
   coach.style.display = 'flex';
   coach.style.visibility = 'hidden';
   const coachWidth = 200;
@@ -2009,7 +2015,10 @@ function maybeShowCmpCoach(){
 }
 function dismissCmpCoach(){
   const coach = document.getElementById('cmpCoach');
-  if(coach) coach.style.display = 'none';
+  if(coach && coach.style.display!=='none'){
+    coach.classList.add('leaving');
+    setTimeout(()=>{ coach.style.display='none'; coach.classList.remove('leaving'); }, 180);
+  }
   clearTimeout(cmpCoachTimeout);
 }
 function toggleCompare(idx){
