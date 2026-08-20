@@ -2138,14 +2138,20 @@ function productAxisScore(p){
   return {power, control, speed};
 }
 const CMP_COLORS = ['#3fae2a','#2f6fed','#e8632a'];
-function feelCompareRows(products){
-  const scores = products.map(productAxisScore);
-  if(scores.some(s=>!s)) return '';
-  const metrics = [['power','POWER'],['control','CONTROL'],['speed','SPEED']];
+function stringAxisScore(p){
+  const perf = p.specs && p.specs['성능'];
+  if(!perf) return null;
+  const out = {};
+  for(const m of perf.matchAll(/([가-힣]+)(\d+)/g)){
+    out[m[1]] = clamp01(+m[2] / 11);
+  }
+  return out;
+}
+function buildFeelRows(products, scores, metrics){
   const sectionRow = `<tr class="feel-section-row"><td colspan="${products.length+1}">체감 비교</td></tr>`;
   const metricRows = metrics.map(([key,label],mi)=>{
     const cells = products.map((p,i)=>{
-      const pct = Math.round(scores[i][key]*100);
+      const pct = Math.round((scores[i][key]||0)*100);
       return `<td><div class="feel-bar-track"><div class="feel-bar-fill" data-pct="${pct}" style="background:${CMP_COLORS[i]}"></div></div></td>`;
     }).join('');
     const isLast = mi===metrics.length-1;
@@ -2153,6 +2159,23 @@ function feelCompareRows(products){
   }).join('');
   const spacerRow = `<tr class="feel-spacer-row"><td colspan="${products.length+1}"></td></tr>`;
   return sectionRow + metricRows + spacerRow;
+}
+function feelCompareRows(products){
+  const key = groupKey(products[0]);
+  if(key === 'bad_racquet'){
+    const scores = products.map(productAxisScore);
+    if(scores.some(s=>!s)) return '';
+    return buildFeelRows(products, scores, [['power','POWER'],['control','CONTROL'],['speed','SPEED']]);
+  }
+  if(key === 'bad_string'){
+    const scores = products.map(stringAxisScore);
+    if(scores.some(s=>!s)) return '';
+    return buildFeelRows(products, scores, [
+      ['반발력','고반발력'],['내구성','내구성'],['타구음','타구음'],
+      ['충격흡수력','충격흡수력'],['컨트롤','컨트롤'],
+    ]);
+  }
+  return '';
 }
 function openCompareSheet(){
   if(state.compare.length<2) return;
