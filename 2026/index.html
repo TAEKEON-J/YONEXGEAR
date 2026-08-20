@@ -135,6 +135,30 @@
   .to-top:active{background:#000;box-shadow:0 4px 12px rgba(0,0,0,.4);}
   @media print{ .to-top{display:none !important;} }
 
+  .compare-bar{
+    position:fixed;left:16px;right:74px;bottom:16px;z-index:59;
+    background:#000;border:1px solid rgba(255,255,255,.18);border-radius:999px;
+    padding:8px 8px 8px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    box-shadow:0 10px 24px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(10px);pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .compare-bar.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .compare-bar .cb-label{color:#fff;font-size:12px;font-weight:700;white-space:nowrap;transition:color .15s ease;}
+  .compare-bar .cb-cta{
+    background:var(--green);color:#06210a;font-weight:800;font-size:12px;
+    border:none;border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;
+    transition:opacity .15s ease,transform .1s ease;
+  }
+  .compare-bar .cb-cta:active{transform:scale(.96);}
+  .compare-bar .cb-cta:disabled{opacity:.35;cursor:default;}
+  .compare-bar .cb-clear{
+    background:transparent;border:none;color:#8a8a8a;font-size:15px;line-height:1;cursor:pointer;
+    padding:6px 8px;flex:none;
+  }
+  .compare-bar .cb-clear:hover{color:#fff;}
+  @media print{ .compare-bar{display:none !important;} }
+
   nav.cats{
     display:flex;gap:8px;overflow-x:auto;padding:0 0 10px;
     scrollbar-width:none;
@@ -224,6 +248,20 @@
   }
   .badge-new.design{color:var(--blue);border-color:var(--blue);}
   .card-top{position:relative;}
+  .card.cmp-selected{box-shadow:0 0 0 2px var(--green),0 1px 2px rgba(0,0,0,.04),0 6px 16px rgba(0,0,0,.05);}
+  .cmp-toggle{
+    position:absolute;top:8px;right:8px;z-index:2;
+    width:26px;height:26px;border-radius:50%;
+    background:rgba(255,255,255,.9);border:1.5px solid rgba(0,0,0,.12);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;
+    transition:background .15s ease,border-color .15s ease,transform .1s ease;
+  }
+  .cmp-toggle:hover{background:#fff;}
+  .cmp-toggle:active{transform:scale(.9);}
+  .cmp-toggle.active{background:var(--green);border-color:var(--green);}
+  .cmp-toggle svg{opacity:.55;}
+  .cmp-toggle.active svg{opacity:1;}
+  .cmp-toggle.muted{opacity:.3;}
   .card .series-tag{font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em;}
   .card .name{font-size:14px;font-weight:900;line-height:1.25;color:var(--ink);text-transform:uppercase;letter-spacing:-.01em;margin-top:2px;}
   .card .kr{font-size:11.5px;color:var(--muted);margin-top:-4px;}
@@ -282,6 +320,110 @@
   table.specs td:last-child{font-weight:600;color:var(--ink);}
   .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
   .tags span{font-size:11px;background:#eaf1ff;color:var(--blue);padding:4px 9px;border-radius:8px;font-weight:700;}
+
+  /* ---------- COMPARE TABLE ---------- */
+  .cmp-wrap{padding:20px 18px 24px;}
+  .cmp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .cmp-header h2{font-size:18px;font-weight:900;margin:0;color:var(--ink);text-transform:uppercase;}
+  .cmp-clear-all{font-size:12px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;padding:4px;}
+  .cmp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;}
+  table.cmp-table{border-collapse:collapse;width:100%;min-width:460px;}
+  table.cmp-table th,table.cmp-table td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:12px;text-align:left;}
+  table.cmp-table th:first-child,table.cmp-table td:first-child{
+    position:sticky;left:0;background:#fff;font-weight:700;color:var(--muted);white-space:nowrap;z-index:1;padding-right:14px;
+  }
+  .cmp-col-head{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:104px;}
+  .cmp-col-head .cmp-thumb{width:60px;height:60px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;flex:none;}
+  .cmp-col-head .cmp-thumb img{width:100%;height:100%;object-fit:cover;}
+  .cmp-col-head .cmp-thumb svg{width:28px;height:28px;}
+  .cmp-col-head .cmp-thumb .thumb-icon-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;height:100%;padding:4px;}
+  .cmp-col-head .cmp-thumb .thumb-label{font-size:7px;font-weight:800;letter-spacing:.02em;opacity:.9;}
+  .cmp-col-head .cmp-name{font-size:11px;font-weight:800;text-align:center;line-height:1.3;text-transform:uppercase;color:var(--ink);}
+  .cmp-col-head .cmp-price{font-size:12px;font-weight:900;color:var(--ink);}
+  .cmp-col-head .cmp-remove{font-size:10px;font-weight:700;color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:3px 9px;cursor:pointer;}
+  .cmp-col-head .cmp-remove:hover{border-color:var(--muted);color:var(--ink);}
+  table.cmp-table td{color:var(--ink);font-weight:600;word-break:break-word;}
+
+  /* ---------- FEEL COMPARE (RACQUETS ONLY) ---------- */
+  tr.feel-section-row td{
+    background:#f4f5f3 !important;font-size:10px;font-weight:800;color:var(--muted) !important;
+    text-transform:uppercase;letter-spacing:.06em;padding:11px 10px 5px;border-bottom:none !important;
+  }
+  tr.feel-section-row td{border-radius:12px 12px 0 0;}
+  tr.feel-row td{padding:9px 10px;vertical-align:middle;background:#f4f5f3;border-bottom:none !important;}
+  tr.feel-row td:first-child{color:var(--ink) !important;font-weight:800 !important;font-size:10px;letter-spacing:.02em;background:#f4f5f3 !important;}
+  tr.feel-row.feel-row-last td{padding-bottom:13px;}
+  tr.feel-row.feel-row-last td:first-child{border-radius:0 0 0 12px;}
+  tr.feel-row.feel-row-last td:last-child{border-radius:0 0 12px 0;}
+  tr.feel-spacer-row td{padding:0;border:none !important;background:transparent !important;height:16px;}
+  .cmp-table thead th{border-bottom:none;}
+  .feel-bar-track{width:130px;flex:none;height:7px;border-radius:999px;background:#e0e1de;overflow:hidden;}
+  .feel-bar-fill{height:100%;border-radius:999px;}
+
+  /* ---------- RACQUET FINDER ---------- */
+  .back.floating{
+    position:absolute;top:14px;left:14px;z-index:5;
+    border:none;background:rgba(255,255,255,.9);color:var(--ink);
+    border-radius:999px;padding:8px 14px;font-size:12px;font-weight:800;
+    cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);
+  }
+
+  .finder-wrap{padding:22px 20px 26px;}
+  .finder-progress{display:flex;gap:6px;margin-bottom:18px;}
+  .finder-progress i{flex:1;height:3px;border-radius:3px;background:var(--line);}
+  .finder-progress i.done{background:var(--green);}
+  .finder-step-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+  .finder-q{font-size:19px;font-weight:900;color:var(--ink);margin:0 0 18px;line-height:1.4;}
+  .finder-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+  .finder-opt{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:15px 16px;border:1.5px solid var(--line);border-radius:12px;
+    background:#fff;cursor:pointer;font-size:14px;font-weight:700;color:var(--ink);
+    transition:border-color .15s ease,background .15s ease;
+  }
+  .finder-opt:hover{border-color:#c4c4c4;}
+  .finder-opt.picked{border-color:var(--ink);background:#f5f5f5;}
+  .finder-opt .fo-desc{font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px;}
+  .finder-opt .fo-check{
+    flex:none;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .finder-opt.picked .fo-check{background:var(--ink);border-color:var(--ink);}
+  .finder-nav{display:flex;gap:10px;}
+  .finder-btn{flex:1;padding:13px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;border:none;}
+  .finder-btn.prev{background:#f0f0f0;color:var(--ink);}
+  .finder-btn.next{background:var(--ink);color:#fff;}
+  .finder-btn.next:disabled{opacity:.35;cursor:default;}
+  .finder-btn.next.gold{background:var(--green);color:#06210a;}
+
+  .finder-results h2{font-size:18px;font-weight:900;margin:0 0 4px;color:var(--ink);text-transform:uppercase;}
+  .finder-results .fr-sub{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  .finder-result-card{
+    display:flex;gap:12px;align-items:center;padding:14px;border:1.5px solid var(--line);
+    border-radius:12px;margin-bottom:10px;cursor:pointer;background:#fff;
+    transition:border-color .15s ease;
+  }
+  .finder-result-card:hover{border-color:var(--ink);}
+  .finder-result-card .fr-rank{
+    flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;
+    font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;
+  }
+  .finder-result-card .fr-thumb{
+    flex:none;width:56px;height:56px;border-radius:9px;overflow:hidden;display:flex;
+    align-items:center;justify-content:center;color:#fff;
+  }
+  .finder-result-card .fr-thumb img{width:100%;height:100%;object-fit:cover;}
+  .finder-result-card .fr-thumb svg{width:24px;height:24px;}
+  .finder-result-card .fr-thumb .thumb-icon-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;height:100%;padding:4px;}
+  .finder-result-card .fr-thumb .thumb-label{font-size:6.5px;font-weight:800;letter-spacing:.02em;opacity:.9;}
+  .finder-result-card .fr-body{flex:1;min-width:0;}
+  .finder-result-card .fr-name{font-size:13.5px;font-weight:800;color:var(--ink);text-transform:uppercase;}
+  .finder-result-card .fr-match{font-size:11px;font-weight:700;color:#3f8f2a;margin-top:2px;}
+  .finder-result-card .fr-price{font-size:12.5px;font-weight:800;color:var(--ink);margin-top:3px;}
+  .finder-restart{
+    display:block;width:100%;margin-top:8px;padding:12px;border-radius:10px;border:1.5px solid var(--line);
+    background:#fff;color:var(--muted);font-weight:700;font-size:13px;cursor:pointer;
+  }
 
   footer{
     text-align:center;color:var(--muted);font-size:11.5px;padding:30px 16px 56px;
@@ -372,10 +514,14 @@
 
 <main>
   <div class="section-title" id="sectionTitle"><span class="bar"></span><span id="sectionTitleText">전체 제품</span></div>
-  <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 2px 10px;gap:8px;">
-    <div class="count" id="countLabel" style="margin:0;"></div>
-    <div style="display:flex;align-items:center;gap:6px;">
-      <button id="newOnlyBtn" style="font-size:12.5px;font-weight:700;color:var(--ink);
+  <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 2px 10px;gap:8px;flex-wrap:wrap;">
+    <div class="count" id="countLabel" style="margin:0;white-space:nowrap;"></div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+      <button id="finderPillBtn" onclick="openFinderSheet()" style="display:none;font-size:12.5px;font-weight:800;color:#06210a;
+        background:var(--green);border:1px solid var(--green);border-radius:6px;padding:7px 11px;cursor:pointer;white-space:nowrap;">
+        🏸 라켓 찾기
+      </button>
+      <button id="newOnlyBtn" style="font-size:12.5px;font-weight:700;color:var(--ink);white-space:nowrap;
         background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 11px;cursor:pointer;">
         🆕 신상품만
       </button>
@@ -413,6 +559,14 @@
 <button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+
+<div class="compare-bar" id="compareBar">
+  <span class="cb-label" id="compareLabel">0개 선택됨</span>
+  <div style="display:flex;align-items:center;gap:4px;">
+    <button class="cb-cta" id="compareCta" onclick="openCompareSheet()" disabled>2개 이상 선택</button>
+    <button class="cb-clear" onclick="clearCompare()" aria-label="비교 목록 비우기">✕</button>
+  </div>
+</div>
 
 <script>
 /* =============== DATA =============== */
@@ -1531,7 +1685,7 @@ document.addEventListener('click', (e)=>{
 });
 
 /* =============== STATE =============== */
-let state = {cat:'bad', sub:'racquet', series:null, q:'', sort:'default', newOnly:false};
+let state = {cat:'bad', sub:'racquet', series:null, q:'', sort:'default', newOnly:false, compare:[]};
 
 /* =============== RENDER =============== */
 function fmtPrice(p){
@@ -1600,6 +1754,8 @@ function renderGrid(){
   const list = currentList();
   const grid = document.getElementById('grid');
   const empty = document.getElementById('emptyMsg');
+  const finderPillBtn = document.getElementById('finderPillBtn');
+  if(finderPillBtn) finderPillBtn.style.display = (state.cat==='bad' && state.sub==='racquet') ? 'inline-block' : 'none';
   document.getElementById('countLabel').textContent = list.length + '개 제품';
   document.getElementById('sectionTitleText').textContent = state.q
     ? `"${state.q}" 검색 결과`
@@ -1616,10 +1772,18 @@ function renderGrid(){
       if(lastSeries!==null && SERIES_BANNERS[p.series]) divider = seriesDividerHtml(p.series);
       lastSeries = p.series;
     }
+    const pIdx = P.indexOf(p);
+    const isCmp = state.compare.includes(pIdx);
+    const cmpBlocked = !isCmp && state.compare.length>0 && groupKey(p)!==groupKey(P[state.compare[0]]);
     return divider + `
-    <div class="card" data-idx="${P.indexOf(p)}">
+    <div class="card${isCmp?' cmp-selected':''}" data-idx="${pIdx}">
       <div class="card-top">
         <div class="thumb" style="background:${p.grad}">${thumbContent(p)}</div>
+        <button class="cmp-toggle${isCmp?' active':''}${cmpBlocked?' muted':''}" onclick="event.stopPropagation();toggleCompare(${pIdx})" aria-label="${isCmp?'비교 목록에서 제거':'비교 목록에 담기'}">
+          ${isCmp
+            ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06210a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+            : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'}
+        </button>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;width:100%;gap:4px 6px;">
         <div class="series-tag">${p.series}</div>
@@ -1738,6 +1902,373 @@ function closeSheet(fromPopstate){
     sheetHistoryPushed = false;
   }
 }
+
+/* =============== COMPARE =============== */
+let cmpLimitTimeout;
+function groupKey(p){ return p.c+'_'+p.s; }
+function toggleCompare(idx){
+  const i = state.compare.indexOf(idx);
+  if(i>-1){
+    state.compare.splice(i,1);
+  } else {
+    if(state.compare.length>=3){ flashCompareLimit(); return; }
+    if(state.compare.length>0 && groupKey(P[idx])!==groupKey(P[state.compare[0]])){
+      flashCompareMismatch();
+      return;
+    }
+    state.compare.push(idx);
+  }
+  renderGrid();
+  syncCompareBar();
+}
+function removeFromCompare(idx){
+  const i = state.compare.indexOf(idx);
+  if(i>-1) state.compare.splice(i,1);
+  renderGrid();
+  syncCompareBar();
+  if(state.compare.length>=2) openCompareSheet();
+  else closeSheet();
+}
+function clearCompare(){
+  state.compare = [];
+  renderGrid();
+  syncCompareBar();
+  const overlay = document.getElementById('overlay');
+  if(overlay.classList.contains('open')) closeSheet();
+}
+function syncCompareBar(){
+  const bar = document.getElementById('compareBar');
+  const count = state.compare.length;
+  bar.classList.toggle('show', count>0);
+  document.getElementById('compareLabel').textContent = `${count}개 선택됨`;
+  const cta = document.getElementById('compareCta');
+  cta.disabled = count<2;
+  cta.textContent = count<2 ? '2개 이상 선택' : `비교하기 (${count}/3)`;
+}
+function flashCompareLimit(){ flashCompareMsg('최대 3개까지 비교 가능'); }
+function flashCompareMismatch(){ flashCompareMsg('같은 종류 상품끼리만 비교할 수 있어요'); }
+function flashCompareMsg(msg){
+  const label = document.getElementById('compareLabel');
+  clearTimeout(cmpLimitTimeout);
+  label.textContent = msg;
+  label.style.color = '#ff8a7a';
+  cmpLimitTimeout = setTimeout(()=>{
+    label.style.color = '';
+    syncCompareBar();
+  }, 1400);
+}
+function clamp01(x){ return Math.max(0, Math.min(1,x)); }
+function productAxisScore(p){
+  const axis = axisForProduct(p);
+  if(!axis) return null;
+  let power = axis.power, control = axis.control, speed = axis.speed;
+  const flex = (p.specs && p.specs['탄성']) || 'MEDIUM';
+  const flexBoost = {'HI-FLEX':-0.15,'MEDIUM':0,'STIFF':0.12,'EXTRA STIFF':0.22}[flex] || 0;
+  power = clamp01(power + flexBoost*0.6);
+  control = clamp01(control + flexBoost*0.3);
+  speed = clamp01(speed - flexBoost*0.3);
+  const weights = racquetWeights(p);
+  const w0 = weights.length ? weights[0] : 83;
+  const weightBoost = (w0-83)/20;
+  power = clamp01(power + weightBoost*0.4);
+  speed = clamp01(speed - weightBoost*0.4);
+  return {power, control, speed};
+}
+const CMP_COLORS = ['#3fae2a','#2f6fed','#e8632a'];
+function feelCompareRows(products){
+  const scores = products.map(productAxisScore);
+  if(scores.some(s=>!s)) return '';
+  const metrics = [['power','POWER'],['control','CONTROL'],['speed','SPEED']];
+  const sectionRow = `<tr class="feel-section-row"><td colspan="${products.length+1}">체감 비교</td></tr>`;
+  const metricRows = metrics.map(([key,label],mi)=>{
+    const cells = products.map((p,i)=>{
+      const pct = Math.round(scores[i][key]*100);
+      return `<td><div class="feel-bar-track"><div class="feel-bar-fill" style="width:${pct}%;background:${CMP_COLORS[i]}"></div></div></td>`;
+    }).join('');
+    const isLast = mi===metrics.length-1;
+    return `<tr class="feel-row${isLast?' feel-row-last':''}"><td>${label}</td>${cells}</tr>`;
+  }).join('');
+  const spacerRow = `<tr class="feel-spacer-row"><td colspan="${products.length+1}"></td></tr>`;
+  return sectionRow + metricRows + spacerRow;
+}
+function openCompareSheet(){
+  if(state.compare.length<2) return;
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  const products = state.compare.map(i=>P[i]);
+
+  const keys = [];
+  products.forEach(p=>{
+    Object.keys(p.specs||{}).forEach(k=>{ if(!keys.includes(k)) keys.push(k); });
+  });
+
+  const headCells = products.map((p,ci)=>`
+    <th>
+      <div class="cmp-col-head">
+        <div class="cmp-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
+        <div class="cmp-name">${p.name}</div>
+        <div class="cmp-price">${fmtPrice(p.price)}</div>
+        <button class="cmp-remove" onclick="removeFromCompare(${state.compare[ci]})">제거</button>
+      </div>
+    </th>`).join('');
+
+  const rows = keys.map(k=>`
+    <tr>
+      <td>${k}</td>
+      ${products.map(p=>`<td>${p.specs && p.specs[k] ? String(p.specs[k]) : '–'}</td>`).join('')}
+    </tr>
+  `).join('');
+
+  sheet.innerHTML = `
+    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="cmp-wrap">
+      <div class="cmp-header">
+        <h2>제품 비교</h2>
+        <button class="cmp-clear-all" onclick="clearCompare()">전체 지우기</button>
+      </div>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table">
+          <thead><tr><th></th>${headCells}</tr></thead>
+          <tbody>
+            ${feelCompareRows(products)}
+            ${rows}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  overlay.classList.add('open');
+  history.pushState({sheetOpen:true}, '', location.href);
+  sheetHistoryPushed = true;
+}
+
+/* =============== RACQUET FINDER =============== */
+const FINDER_STEPS = [
+  {key:'level', q:'실력이 어느 정도이신가요?', opts:[
+    {v:'초급', label:'초급', desc:'배드민턴을 시작한 지 얼마 안 됐어요'},
+    {v:'중급', label:'중급', desc:'기본기는 있고 랠리를 즐겨요'},
+    {v:'상급', label:'상급', desc:'대회·동호인 상위권에서 활동해요'},
+  ]},
+  {key:'style', q:'플레이 스타일은 어떤가요?', opts:[
+    {v:'공격형', label:'공격형', desc:'스매시로 끝내는 걸 좋아해요'},
+    {v:'수비형', label:'수비형', desc:'리시브와 랠리로 버티는 편이에요'},
+    {v:'올라운드', label:'올라운드', desc:'상황에 따라 유연하게 플레이해요'},
+  ]},
+  {key:'want', q:'라켓에서 가장 원하는 건 무엇인가요?', opts:[
+    {v:'파워', label:'파워', desc:'강력한 스매시와 타구감'},
+    {v:'컨트롤', label:'컨트롤', desc:'정교한 셔틀콕 컨트롤'},
+    {v:'스피드', label:'스피드', desc:'빠른 스윙과 반응 속도'},
+    {v:'안정성', label:'안정성', desc:'꾸준하고 안정적인 타구'},
+  ]},
+  {key:'weight', q:'선호하는 라켓 무게는요?', opts:[
+    {v:'가벼운', label:'가벼운 라켓', desc:'빠른 스윙, 손목 부담 적음 (78g 이하)'},
+    {v:'보통', label:'보통 무게', desc:'가장 대중적인 무게 (83g 전후)'},
+    {v:'묵직한', label:'묵직한 라켓', desc:'스매시에 힘 실림 (88g 이상)'},
+  ]},
+];
+let finderState = {step:0, level:null, style:null, want:null, weight:null};
+
+const SERIES_AXIS = {
+  ASTROX:{power:1,control:.35,speed:.35},
+  ARCSABER:{power:.4,control:1,speed:.45},
+  NANOFLARE:{power:.35,control:.45,speed:1},
+};
+const STYLE_AXIS = {
+  '공격형':{power:1,control:.3,speed:.4},
+  '수비형':{power:.3,control:.6,speed:.8},
+  '올라운드':{power:.5,control:.9,speed:.5},
+};
+const WANT_AXIS = {
+  '파워':{power:1,control:.2,speed:.3},
+  '컨트롤':{power:.2,control:1,speed:.2},
+  '스피드':{power:.3,control:.2,speed:1},
+  '안정성':{power:.2,control:.8,speed:.3},
+};
+function axisForProduct(p){
+  const n = (p.name||'').toUpperCase();
+  if(n.includes('ASTROX')) return SERIES_AXIS.ASTROX;
+  if(n.includes('ARCSABER')) return SERIES_AXIS.ARCSABER;
+  if(n.includes('NANOFLARE')) return SERIES_AXIS.NANOFLARE;
+  return null;
+}
+function racquetWeights(p){
+  const s = (p.specs && p.specs['무게/그립']) || '';
+  return [...s.matchAll(/\((\d+)g/g)].map(m=>+m[1]);
+}
+function weightBucket(g){
+  if(g<=80) return '가벼운';
+  if(g<=85) return '보통';
+  return '묵직한';
+}
+function racquetLevel(p){
+  const tags = p.tags || [];
+  if(tags.includes('초급') || tags.includes('입문')) return '초급';
+  if(tags.includes('중급')) return '중급';
+  if(tags.includes('상급')) return '상급';
+  const flex = (p.specs && p.specs['탄성']) || '';
+  if(flex==='HI-FLEX') return '초급';
+  if(flex==='MEDIUM') return '중급';
+  if(flex==='STIFF' || flex==='EXTRA STIFF') return '상급';
+  return '중급';
+}
+const LEVEL_ORDER = ['초급','중급','상급'];
+function levelScore(p, wanted){
+  const lv = racquetLevel(p);
+  const diff = Math.abs(LEVEL_ORDER.indexOf(lv) - LEVEL_ORDER.indexOf(wanted));
+  return diff===0 ? 1 : diff===1 ? 0.55 : 0.15;
+}
+const WEIGHT_ORDER = ['가벼운','보통','묵직한'];
+function weightScoreOf(p, wanted){
+  const weights = racquetWeights(p);
+  if(!weights.length) return 0.5;
+  const buckets = weights.map(weightBucket);
+  if(buckets[0]===wanted) return 1;
+  let best = 0;
+  buckets.forEach(b=>{
+    const diff = Math.abs(WEIGHT_ORDER.indexOf(b) - WEIGHT_ORDER.indexOf(wanted));
+    const s = diff===0 ? 1 : diff===1 ? 0.5 : 0.1;
+    if(s>best) best = s;
+  });
+  return best * 0.85;
+}
+function styleWantScore(p, style, want){
+  const axis = axisForProduct(p);
+  if(!axis) return 0;
+  const sv = STYLE_AXIS[style], wv = WANT_AXIS[want];
+  const uv = {
+    power:   sv.power*0.4   + wv.power*0.6,
+    control: sv.control*0.4 + wv.control*0.6,
+    speed:   sv.speed*0.4   + wv.speed*0.6,
+  };
+  const dot = uv.power*axis.power + uv.control*axis.control + uv.speed*axis.speed;
+  const magU = Math.sqrt(uv.power**2+uv.control**2+uv.speed**2);
+  const magA = Math.sqrt(axis.power**2+axis.control**2+axis.speed**2);
+  let score = dot/(magU*magA || 1);
+  const tags = p.tags||[];
+  if(tags.includes(style)) score += 0.06;
+  if(tags.includes(want)) score += 0.06;
+  return score;
+}
+function scoreRacquet(p, ans){
+  const axis = axisForProduct(p);
+  if(!axis) return -1;
+  const sw = styleWantScore(p, ans.style, ans.want);
+  const lv = levelScore(p, ans.level);
+  const wt = weightScoreOf(p, ans.weight);
+  return sw*0.4 + lv*0.2 + wt*0.4;
+}
+function computeFinderResults(){
+  const candidates = P.filter(p=>p.c==='bad' && p.s==='racquet' && p.series!=='JUNIOR');
+  return candidates
+    .map(p=>({p, score:scoreRacquet(p, finderState)}))
+    .filter(r=>r.score>=0)
+    .sort((a,b)=>b.score-a.score)
+    .slice(0,3);
+}
+function openFinderSheet(){
+  finderState = {step:0, level:null, style:null, want:null, weight:null};
+  const overlay = document.getElementById('overlay');
+  renderFinderStep();
+  overlay.classList.add('open');
+  history.pushState({sheetOpen:true}, '', location.href);
+  sheetHistoryPushed = true;
+}
+function renderFinderStep(){
+  const sheet = document.getElementById('sheet');
+  const stepDef = FINDER_STEPS[finderState.step];
+  const picked = finderState[stepDef.key];
+  const progress = FINDER_STEPS.map((s,i)=>`<i class="${i<=finderState.step?'done':''}"></i>`).join('');
+  const opts = stepDef.opts.map(o=>`
+    <div class="finder-opt${picked===o.v?' picked':''}" onclick="pickFinderOption('${stepDef.key}','${o.v}')">
+      <div>
+        <div>${o.label}</div>
+        <div class="fo-desc">${o.desc}</div>
+      </div>
+      <span class="fo-check">${picked===o.v?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>':''}</span>
+    </div>`).join('');
+  sheet.innerHTML = `
+    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="finder-wrap">
+      <div class="finder-progress">${progress}</div>
+      <div class="finder-step-label">STEP ${finderState.step+1} / ${FINDER_STEPS.length}</div>
+      <div class="finder-q">${stepDef.q}</div>
+      <div class="finder-opts">${opts}</div>
+      <div class="finder-nav">
+        ${finderState.step>0 ? `<button class="finder-btn prev" onclick="finderPrev()">이전</button>` : ''}
+        <button class="finder-btn next${finderState.step===FINDER_STEPS.length-1?' gold':''}" onclick="finderNext()" ${picked?'':'disabled'}>
+          ${finderState.step===FINDER_STEPS.length-1 ? '결과 보기' : '다음'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+function pickFinderOption(key, value){
+  finderState[key] = value;
+  renderFinderStep();
+}
+function finderPrev(){
+  if(finderState.step>0){ finderState.step--; renderFinderStep(); }
+}
+function finderNext(){
+  const stepDef = FINDER_STEPS[finderState.step];
+  if(!finderState[stepDef.key]) return;
+  if(finderState.step < FINDER_STEPS.length-1){
+    finderState.step++;
+    renderFinderStep();
+  } else {
+    renderFinderResults();
+  }
+}
+function renderFinderResults(){
+  const sheet = document.getElementById('sheet');
+  const results = computeFinderResults();
+  const maxScore = results.length ? results[0].score : 1;
+  const cards = results.map((r,i)=>{
+    const p = r.p;
+    const pct = Math.max(1, Math.round((r.score/maxScore)*100));
+    return `
+    <div class="finder-result-card" onclick="finderShowDetail(${P.indexOf(p)})">
+      <div class="fr-rank">${i+1}</div>
+      <div class="fr-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
+      <div class="fr-body">
+        <div class="fr-name">${p.name}</div>
+        <div class="fr-match">매칭도 ${pct}%</div>
+        <div class="fr-price">${fmtPrice(p.price)}</div>
+      </div>
+    </div>`;
+  }).join('');
+  sheet.innerHTML = `
+    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="finder-wrap finder-results">
+      <h2>당신에게 맞는 라켓 TOP ${results.length}</h2>
+      <p class="fr-sub">${finderState.level} · ${finderState.style} · ${finderState.want} 선호 · ${finderState.weight} 라켓 기준 추천</p>
+      ${cards || '<p style="color:var(--muted);font-size:13px;">조건에 맞는 라켓을 찾지 못했어요.</p>'}
+      <button class="finder-restart" onclick="openFinderSheet()">다시 진단하기</button>
+    </div>
+  `;
+}
+function finderShowDetail(idx){
+  const p = P[idx];
+  const rows = Object.entries(p.specs).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  const sheet = document.getElementById('sheet');
+  sheet.innerHTML = `
+    <button class="x floating" onclick="closeSheet()">✕</button>
+    <button class="back floating" onclick="renderFinderResults()">← 진단 결과</button>
+    <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
+    ${galleryStripHtml(p)}
+    <div class="sheet-body">
+      ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}" style="margin-bottom:8px;">${badgeLabel(p.badge)}</span><br>`:''}
+      <h2>${p.name}</h2>
+      <div class="kr-full">${p.kr}</div>
+      <div class="price-full">${fmtPrice(p.price)}</div>
+      <div class="desc">${p.desc}</div>
+      <table class="specs">${rows}</table>
+      <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
+      ${buyButtonHtml(p)}
+    </div>
+  `;
+}
+
 document.getElementById('overlay').addEventListener('click', e=>{
   if(e.target.id==='overlay') closeSheet();
 });
