@@ -17,6 +17,7 @@
     --ink:#0a0a0a;
     --muted:#8a8a8a;
     --lime:#8cff5c;
+    --ease:cubic-bezier(.22,1,.36,1);
     font-family:'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
   }
   *{box-sizing:border-box;}
@@ -69,6 +70,13 @@
   }
 
   footer{margin-top:52px;color:#767676;font-size:11.5px;line-height:1.7;}
+
+  @keyframes textIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .badge-row{animation:textIn .7s var(--ease) both;}
+  h1{animation:textIn .7s var(--ease) .1s both;}
+  .sub{animation:textIn .7s var(--ease) .2s both;}
+  .years{animation:textIn .7s var(--ease) .3s both;}
+  footer{animation:textIn .7s var(--ease) .4s both;}
 </style>
 </head>
 <body>
