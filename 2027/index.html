@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>YONEX 2027 카탈로그</title>
+<meta name="description" content="요넥스 2027 배드민턴·테니스 용품 디지털 카탈로그 — 라켓, 신발, 스트링, 셔틀콕 전체 상품을 한눈에 검색하고 비교하세요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YONEX 2027 GEAR CATALOGUE">
+<meta property="og:description" content="요넥스 2027 배드민턴·테니스 용품 디지털 카탈로그">
+<meta property="og:image" content="images/header-banner.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000'/><text x='50' y='69' font-family='Arial,sans-serif' font-weight='900' font-size='58' fill='%238cff5c' text-anchor='middle'>Y</text></svg>">
 <style>
   :root{
     --navy:#0b2a5b;
@@ -55,7 +61,10 @@
     background:#fff;color:var(--navy-deep);font-weight:800;font-size:15px;
     padding:14px 30px;border-radius:999px;border:none;cursor:pointer;
     box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:36px;
+    transition:transform .15s ease,box-shadow .15s ease;
   }
+  .hero-cta:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(0,0,0,.32);}
+  .hero-cta:active{transform:translateY(0) scale(.98);}
   .hero-cats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:460px;}
   .hero-cats button{
     background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;
@@ -123,6 +132,8 @@
     transition:opacity .2s ease, transform .2s ease;
   }
   .to-top.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .to-top:hover{background:var(--navy);}
+  .to-top:active{background:var(--navy-deep);box-shadow:0 4px 12px rgba(0,0,0,.4);}
   @media print{ .to-top{display:none !important;} }
 
   nav.cats{
@@ -134,8 +145,12 @@
     flex:none;white-space:nowrap;
     background:rgba(255,255,255,.08);color:#dbe4fa;border:1px solid rgba(255,255,255,.18);
     padding:10px 19px;border-radius:999px;font-size:14.5px;font-weight:700;cursor:pointer;
+    transition:background .15s ease,transform .1s ease;
   }
+  nav.cats button:hover{background:rgba(255,255,255,.16);}
+  nav.cats button:active{transform:scale(.96);}
   nav.cats button.active{background:#fff;color:var(--navy-deep);border-color:#fff;}
+  nav.cats button.active:hover{background:#f0f0f0;}
 
   nav.subcats{
     display:flex;gap:8px;overflow-x:auto;padding:0 0 16px;margin-top:-2px;
@@ -145,8 +160,9 @@
   nav.subcats button{
     flex:none;white-space:nowrap;background:transparent;color:#aebbdd;
     border:none;padding:7px 5px;font-size:14px;font-weight:600;cursor:pointer;
-    border-bottom:2px solid transparent;
+    border-bottom:2px solid transparent;transition:color .15s ease;
   }
+  nav.subcats button:hover{color:#fff;}
   nav.subcats button.active{color:#fff;border-bottom-color:var(--green);}
 
   /* ---------- SERIES CHIPS ---------- */
@@ -155,8 +171,16 @@
   .chip{
     flex:none;padding:6px 13px;border-radius:999px;font-size:12.5px;font-weight:700;
     background:#fff;border:1px solid var(--line);color:var(--muted);cursor:pointer;
+    transition:border-color .15s ease,color .15s ease;
   }
+  .chip:hover{border-color:var(--muted);color:var(--ink);}
   .chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .chip.active:hover{border-color:var(--navy);color:#fff;}
+
+  :focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+  #origPdfBtn, #shareBtn{transition:opacity .15s ease,transform .1s ease;}
+  #origPdfBtn:hover, #shareBtn:hover{opacity:.85;}
+  #origPdfBtn:active, #shareBtn:active{transform:scale(.96);}
 
   main{padding:14px 16px 60px;max-width:1100px;margin:0 auto;}
 
