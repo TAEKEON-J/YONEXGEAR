@@ -64,7 +64,7 @@
     transition:transform .15s ease,box-shadow .15s ease;
   }
   .hero-cta:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(0,0,0,.32);}
-  .hero-cta:active{transform:translateY(0) scale(.98);}
+  .hero-cta:active{transform:translateY(0) scale(.96);}
   .hero-cats{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:300px;}
   .hero-cats button{
     background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;
@@ -197,6 +197,11 @@
   nav.subcats button.active{color:#fff;border-bottom-color:var(--green);}
   nav.subcats button.active:hover{color:#fff;}
 
+  nav.cats.has-more, nav.subcats.has-more, .serieswrap.has-more{
+    -webkit-mask-image:linear-gradient(to right, black calc(100% - 28px), transparent);
+    mask-image:linear-gradient(to right, black calc(100% - 28px), transparent);
+  }
+
   /* ---------- SERIES CHIPS ---------- */
   .serieswrap{padding:12px 16px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
   .serieswrap::-webkit-scrollbar{display:none;}
@@ -237,11 +242,12 @@
   }
   .card.card-enter{animation:cardIn .85s var(--ease) both;}
   @keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .card:active{transform:translateY(0) scale(.98);}
+  .card:active{transform:translateY(0) scale(.96);}
   .card:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(0,0,0,.06),0 16px 32px rgba(0,0,0,.1);}
   .card .thumb{
     aspect-ratio:1/1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;
     color:#fff;text-align:center;position:relative;overflow:hidden;
+    outline:1px solid oklch(0 0 0 / 0.1);outline-offset:-1px;
   }
   .card .thumb .thumb-icon-wrap{
     display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -267,11 +273,17 @@
     transition:background .15s ease,border-color .15s ease,transform .1s ease,opacity .15s ease;
   }
   .cmp-toggle:hover{background:#fff;}
-  .cmp-toggle:active{transform:scale(.9);}
-  .cmp-toggle.active{background:var(--green);border-color:var(--green);}
-  .cmp-toggle svg{opacity:.55;}
-  .cmp-toggle.active svg{opacity:1;}
+  .cmp-toggle:active{transform:scale(.96);}
+  .cmp-toggle.active{background:var(--green);border-color:var(--green);color:#06210a;}
   .cmp-toggle.muted{opacity:.3;}
+  .cmp-icon{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    opacity:.55;transform:scale(1);filter:blur(0);
+    transition:opacity .2s cubic-bezier(.2,0,0,1),transform .2s cubic-bezier(.2,0,0,1),filter .2s cubic-bezier(.2,0,0,1);
+  }
+  .cmp-icon-check{opacity:0;transform:scale(.25);filter:blur(4px);}
+  .cmp-toggle.active .cmp-icon-plus{opacity:0;transform:scale(.25);filter:blur(4px);}
+  .cmp-toggle.active .cmp-icon-check{opacity:1;transform:scale(1);filter:blur(0);}
   .cmp-coach{
     display:none;position:absolute;z-index:65;max-width:200px;
     align-items:center;gap:6px;background:var(--ink);color:#fff;
@@ -330,6 +342,7 @@
   @media(min-width:720px){.sheet{border-radius:20px;max-height:80vh;}}
   @keyframes up{from{transform:translateY(16px) scale(.99);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
   .finder-wrap,.cmp-wrap{animation:panelIn .6s var(--ease);}
+  .sheet-reveal-2{animation:panelIn .5s var(--ease) .1s both;}
   @keyframes panelIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
   .sheet-head{display:none;}
   .x.floating{
@@ -340,6 +353,7 @@
   .sheet-hero{
     width:100%;aspect-ratio:1/1;border-radius:20px 20px 0 0;
     display:flex;align-items:center;justify-content:center;color:#fff;overflow:hidden;
+    outline:1px solid oklch(0 0 0 / 0.1);outline-offset:-1px;
   }
   @media(min-width:720px){.sheet-hero{border-radius:20px 20px 0 0;}}
   .sheet-body{padding:18px 18px 16px;}
@@ -367,7 +381,7 @@
     position:sticky;left:0;background:#fff;font-weight:700;color:var(--muted);white-space:nowrap;z-index:1;padding-right:14px;
   }
   .cmp-col-head{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:104px;}
-  .cmp-col-head .cmp-thumb{width:60px;height:60px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;flex:none;}
+  .cmp-col-head .cmp-thumb{width:60px;height:60px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;flex:none;outline:1px solid oklch(0 0 0 / 0.1);outline-offset:-1px;}
   .cmp-col-head .cmp-thumb img{width:100%;height:100%;object-fit:cover;}
   .cmp-col-head .cmp-thumb svg{width:28px;height:28px;}
   .cmp-col-head .cmp-thumb .thumb-icon-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;height:100%;padding:4px;}
@@ -441,11 +455,18 @@
   .finder-opt .fo-desc{font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px;}
   .finder-opt .fo-check{
     flex:none;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    transition:background .15s ease,border-color .15s ease;
   }
   .finder-opt.picked .fo-check{background:var(--ink);border-color:var(--ink);}
+  .fo-check svg{
+    opacity:0;transform:scale(.25);filter:blur(4px);
+    transition:opacity .2s cubic-bezier(.2,0,0,1),transform .2s cubic-bezier(.2,0,0,1),filter .2s cubic-bezier(.2,0,0,1);
+  }
+  .finder-opt.picked .fo-check svg{opacity:1;transform:scale(1);filter:blur(0);}
   .finder-nav{display:flex;gap:10px;}
-  .finder-btn{flex:1;padding:13px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;border:none;}
+  .finder-btn{flex:1;padding:13px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;border:none;transition:transform .1s ease;}
+  .finder-btn:active{transform:scale(.96);}
   .finder-btn.prev{background:#f0f0f0;color:var(--ink);}
   .finder-btn.next{background:var(--ink);color:#fff;}
   .finder-btn.next:disabled{opacity:.35;cursor:default;}
@@ -456,9 +477,10 @@
   .finder-result-card{
     display:flex;gap:12px;align-items:center;padding:14px;border:1.5px solid var(--line);
     border-radius:12px;margin-bottom:10px;cursor:pointer;background:#fff;
-    transition:border-color .15s ease;
+    transition:border-color .15s ease,transform .1s ease;
   }
   .finder-result-card:hover{border-color:var(--ink);}
+  .finder-result-card:active{transform:scale(.98);}
   .finder-result-card .fr-rank{
     flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;
     font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;
@@ -466,6 +488,7 @@
   .finder-result-card .fr-thumb{
     flex:none;width:56px;height:56px;border-radius:9px;overflow:hidden;display:flex;
     align-items:center;justify-content:center;color:#fff;
+    outline:1px solid oklch(0 0 0 / 0.1);outline-offset:-1px;
   }
   .finder-result-card .fr-thumb img{width:100%;height:100%;object-fit:cover;}
   .finder-result-card .fr-thumb svg{width:24px;height:24px;}
@@ -581,7 +604,7 @@
   <div class="section-title" id="sectionTitle"><span class="bar"></span><span id="sectionTitleText">전체 제품</span></div>
   <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 2px 10px;gap:8px;flex-wrap:wrap;">
     <div class="count" id="countLabel" style="margin:0;white-space:nowrap;"></div>
-    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
       <button id="newOnlyBtn" style="font-size:12.5px;font-weight:700;color:var(--ink);white-space:nowrap;
         background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 11px;cursor:pointer;
         transition:background .15s ease,color .15s ease,border-color .15s ease;">
@@ -1762,6 +1785,10 @@ function fmtPrice(p){
   return p.toLocaleString('ko-KR')+'원';
 }
 
+function syncScrollFade(el){
+  if(!el) return;
+  el.classList.toggle('has-more', el.scrollWidth > el.clientWidth + 1);
+}
 function renderCatNav(){
   const el = document.getElementById('catNav');
   el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}" class="${c.id===state.cat?'active':''}">${c.label}</button>`).join('');
@@ -1770,6 +1797,7 @@ function renderCatNav(){
     document.getElementById('searchInput').value='';
     renderAll();
   });
+  syncScrollFade(el);
 }
 function renderSubNav(){
   const el = document.getElementById('subNav');
@@ -1778,13 +1806,14 @@ function renderSubNav(){
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
     state.sub=b.dataset.sub; state.series=null; renderAll();
   });
+  syncScrollFade(el);
 }
 function renderSeriesRow(){
   const el = document.getElementById('seriesRow');
-  if(state.q){ el.innerHTML=''; return; }
+  if(state.q){ el.innerHTML=''; syncScrollFade(el); return; }
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
   const seriesList = [...new Set(items.map(p=>p.series))];
-  if(seriesList.length<=1){ el.innerHTML=''; return; }
+  if(seriesList.length<=1){ el.innerHTML=''; syncScrollFade(el); return; }
   el.innerHTML = `<button class="chip ${!state.series?'active':''}" data-series="">전체</button>` +
     seriesList.map(s=>`<button class="chip ${state.series===s?'active':''}" data-series="${s}">${s}</button>`).join('');
   el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
@@ -1792,6 +1821,7 @@ function renderSeriesRow(){
     el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
   });
+  syncScrollFade(el);
 }
 
 function currentList(){
@@ -1847,10 +1877,9 @@ function renderGrid(){
     <div class="card${isCmp?' cmp-selected':''}" data-idx="${pIdx}">
       <div class="card-top">
         <div class="thumb" style="background:${p.grad}">${thumbContent(p)}</div>
-        <button class="cmp-toggle${isCmp?' active':''}${cmpBlocked?' muted':''}" onclick="event.stopPropagation();toggleCompare(${pIdx})" aria-label="${isCmp?'비교 목록에서 제거':'비교 목록에 담기'}">
-          ${isCmp
-            ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06210a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
-            : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'}
+        <button class="cmp-toggle${isCmp?' active':''}${cmpBlocked?' muted':''}" data-idx="${pIdx}" onclick="event.stopPropagation();toggleCompare(${pIdx})" aria-label="${isCmp?'비교 목록에서 제거':'비교 목록에 담기'}">
+          <span class="cmp-icon cmp-icon-plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          <span class="cmp-icon cmp-icon-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
         </button>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;width:100%;gap:4px 6px;">
@@ -1956,9 +1985,11 @@ function openSheet(p){
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
       <div class="desc">${p.desc}</div>
-      <table class="specs">${rows}</table>
-      <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
-      ${buyButtonHtml(p)}
+      <div class="sheet-reveal-2">
+        <table class="specs">${rows}</table>
+        <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
+        ${buyButtonHtml(p)}
+      </div>
     </div>
   `;
   overlay.classList.add('open');
@@ -2034,20 +2065,34 @@ function toggleCompare(idx){
     }
     state.compare.push(idx);
   }
-  renderGrid();
+  syncCardCompareUI();
   syncCompareBar();
+}
+function syncCardCompareUI(){
+  document.querySelectorAll('.card[data-idx]').forEach(card=>{
+    const pIdx = +card.dataset.idx;
+    const p = P[pIdx];
+    const isCmp = state.compare.includes(pIdx);
+    const cmpBlocked = !isCmp && state.compare.length>0 && groupKey(p)!==groupKey(P[state.compare[0]]);
+    card.classList.toggle('cmp-selected', isCmp);
+    const btn = card.querySelector('.cmp-toggle');
+    if(!btn) return;
+    btn.classList.toggle('active', isCmp);
+    btn.classList.toggle('muted', cmpBlocked);
+    btn.setAttribute('aria-label', isCmp?'비교 목록에서 제거':'비교 목록에 담기');
+  });
 }
 function removeFromCompare(idx){
   const i = state.compare.indexOf(idx);
   if(i>-1) state.compare.splice(i,1);
-  renderGrid();
+  syncCardCompareUI();
   syncCompareBar();
   if(state.compare.length>=2) openCompareSheet();
   else closeSheet();
 }
 function clearCompare(){
   state.compare = [];
-  renderGrid();
+  syncCardCompareUI();
   syncCompareBar();
   const overlay = document.getElementById('overlay');
   if(overlay.classList.contains('open')) closeSheet();
@@ -2300,12 +2345,12 @@ function renderFinderStep(){
   const picked = finderState[stepDef.key];
   const progress = FINDER_STEPS.map((s,i)=>`<i class="${i<=finderState.step?'done':''}"></i>`).join('');
   const opts = stepDef.opts.map(o=>`
-    <div class="finder-opt${picked===o.v?' picked':''}" onclick="pickFinderOption('${stepDef.key}','${o.v}')">
+    <div class="finder-opt${picked===o.v?' picked':''}" data-value="${o.v}" onclick="pickFinderOption('${stepDef.key}','${o.v}')">
       <div>
         <div>${o.label}</div>
         <div class="fo-desc">${o.desc}</div>
       </div>
-      <span class="fo-check">${picked===o.v?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>':''}</span>
+      <span class="fo-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
     </div>`).join('');
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
@@ -2325,7 +2370,13 @@ function renderFinderStep(){
 }
 function pickFinderOption(key, value){
   finderState[key] = value;
-  renderFinderStep();
+  const stepDef = FINDER_STEPS[finderState.step];
+  if(stepDef.key !== key) { renderFinderStep(); return; }
+  document.querySelectorAll('.finder-opt').forEach(opt=>{
+    opt.classList.toggle('picked', opt.dataset.value === value);
+  });
+  const nextBtn = document.querySelector('.finder-btn.next');
+  if(nextBtn) nextBtn.disabled = false;
 }
 function finderPrev(){
   if(finderState.step>0){ finderState.step--; renderFinderStep(); }
