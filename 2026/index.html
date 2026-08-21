@@ -416,7 +416,7 @@
   .perf-row:last-child{margin-bottom:0;}
   .perf-label{width:68px;flex:none;font-size:12px;font-weight:800;color:var(--ink);}
   .perf-bar-track{flex:1;height:7px;border-radius:999px;background:#e0e1de;overflow:hidden;}
-  .perf-bar-fill{height:100%;border-radius:999px;background:var(--green);width:0;transition:width 1s var(--ease);}
+  .perf-bar-fill{height:100%;border-radius:999px;background:#3fae2a;width:0;transition:width 1s var(--ease);}
   .perf-val{width:20px;flex:none;text-align:right;font-size:12px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums;}
 
   /* ---------- RACQUET FINDER ---------- */
@@ -2201,17 +2201,24 @@ function stringAxisScore(p){
   }
   return out;
 }
+function stringPerfColor(p){
+  const s = (p.series||'').toUpperCase();
+  if(s.startsWith('EXBOLT')) return CMP_COLORS[2];
+  if(s.startsWith('BG')) return CMP_COLORS[1];
+  return CMP_COLORS[0];
+}
 function stringPerfInfographicHtml(p){
   if(p.c!=='bad' || p.s!=='string') return '';
   const perf = p.specs && p.specs['성능'];
   if(!perf) return '';
+  const color = stringPerfColor(p);
   const metrics = [['반발력','반발력'],['내구성','내구성'],['타구음','타구음'],['충격흡수력','충격흡수력'],['컨트롤','컨트롤']];
   const rows = metrics.map(([key,label])=>{
     const m = perf.match(new RegExp(key+'(\\d+)'));
     if(!m) return '';
     const val = +m[1];
     const pct = Math.round(clamp01(val/11)*100);
-    return `<div class="perf-row"><div class="perf-label">${label}</div><div class="perf-bar-track"><div class="perf-bar-fill" data-pct="${pct}"></div></div><div class="perf-val">${val}</div></div>`;
+    return `<div class="perf-row"><div class="perf-label">${label}</div><div class="perf-bar-track"><div class="perf-bar-fill" data-pct="${pct}" style="background:${color}"></div></div><div class="perf-val">${val}</div></div>`;
   }).join('');
   if(!rows) return '';
   return `<div class="perf-card"><div class="perf-title">성능</div>${rows}</div>`;
