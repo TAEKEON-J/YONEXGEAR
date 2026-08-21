@@ -423,7 +423,7 @@
   .reco-trigger{
     display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--ink);
     background:#f4f5f3;border:1px solid var(--line);border-radius:999px;padding:7px 13px;
-    cursor:pointer;margin:2px 0 12px;transition:background .15s ease,border-color .15s ease;
+    cursor:pointer;flex:none;white-space:nowrap;margin:0;transition:background .15s ease,border-color .15s ease;
   }
   .reco-trigger:hover{border-color:var(--muted);}
   #recoPopover{
@@ -2040,11 +2040,14 @@ function galleryList(p){
 }
 function galleryStripHtml(p){
   const imgs = galleryList(p);
-  if(imgs.length<2) return '';
-  return `<div style="display:flex;gap:6px;overflow-x:auto;padding:10px 18px 0;">
-    ${imgs.map((src,i)=>`<img src="${src}" onclick="setHeroImage('${src}',this)"
+  const recoHtml = recoButtonHtml(p);
+  if(imgs.length<2 && !recoHtml) return '';
+  const thumbs = imgs.length<2 ? '' : imgs.map((src,i)=>`<img src="${src}" onclick="setHeroImage('${src}',this)"
       style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex:none;cursor:pointer;
-      border:2px solid ${i===0?'var(--navy)':'transparent'};" class="gallery-thumb">`).join('')}
+      border:2px solid ${i===0?'var(--navy)':'transparent'};" class="gallery-thumb">`).join('');
+  return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 18px 0;">
+    <div style="display:flex;gap:6px;overflow-x:auto;flex:1;min-width:0;">${thumbs}</div>
+    ${recoHtml}
   </div>`;
 }
 function setHeroImage(src, thumbEl){
@@ -2068,7 +2071,6 @@ function openSheet(p){
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
-      ${recoButtonHtml(p)}
       <div class="desc">${p.desc}</div>
       <div class="sheet-reveal-2">
         ${perfHtml}
@@ -2574,7 +2576,6 @@ function finderShowDetail(idx){
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
-      ${recoButtonHtml(p)}
       <div class="desc">${p.desc}</div>
       ${perfHtml}
       <table class="specs">${rows}</table>
@@ -2672,7 +2673,8 @@ function showRecoPopover(evt, idx){
   let left, top;
   if(rightSpace >= popW + 28){
     left = sheetRect.right + 16;
-    top = Math.max(16, Math.min(rect.top, window.innerHeight - popH - 16));
+    top = sheetRect.bottom - popH;
+    top = Math.max(16, Math.min(top, window.innerHeight - popH - 16));
   } else {
     left = Math.max(10, Math.min(rect.left, window.innerWidth - popW - 10));
     top = rect.bottom + 8;
