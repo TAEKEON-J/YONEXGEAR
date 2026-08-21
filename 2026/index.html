@@ -359,6 +359,12 @@
     border:none;background:rgba(255,255,255,.9);color:var(--ink);width:34px;height:34px;border-radius:50%;
     font-size:16px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);
   }
+  .prev.floating{
+    position:absolute;top:14px;right:56px;z-index:5;
+    border:none;background:rgba(255,255,255,.9);color:var(--ink);
+    border-radius:999px;padding:8px 14px;font-size:12px;font-weight:800;
+    cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);
+  }
   .sheet-hero{
     width:100%;aspect-ratio:1/1;border-radius:20px 20px 0 0;
     display:flex;align-items:center;justify-content:center;color:#fff;overflow:hidden;
@@ -565,6 +571,7 @@
     flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;
     font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;
   }
+  .finder-result-card .fr-rank.top{background:var(--green);color:#06210a;}
   .finder-result-card .fr-thumb{
     flex:none;width:56px;height:56px;border-radius:9px;overflow:hidden;display:flex;
     align-items:center;justify-content:center;color:#fff;
@@ -578,15 +585,11 @@
   .finder-result-card .fr-name{font-size:13.5px;font-weight:800;color:var(--ink);text-transform:uppercase;}
   .finder-result-card .fr-match{font-size:11px;font-weight:700;color:#3f8f2a;margin-top:2px;}
   .finder-result-card .fr-price{font-size:12.5px;font-weight:800;color:var(--ink);margin-top:3px;}
-  .finder-restart-row{display:flex;gap:10px;margin-top:8px;}
   .finder-restart{
-    flex:1;padding:12px;border-radius:10px;border:1.5px solid var(--line);
+    display:block;width:100%;margin-top:8px;padding:12px;border-radius:10px;border:1.5px solid var(--line);
     background:#fff;color:var(--muted);font-weight:700;font-size:13px;cursor:pointer;
   }
-  .fr-section-label{
-    font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;
-    margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line);
-  }
+  .fr-section-divider{margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line);}
 
   footer{
     text-align:center;color:var(--muted);font-size:11.5px;padding:30px 16px 56px;
@@ -2128,7 +2131,6 @@ function renderGrid(){
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;width:100%;gap:4px 6px;">
         <div class="series-tag">${p.series}</div>
-        ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}">${badgeLabel(p.badge)}</span>`:''}
       </div>
       <div class="name">${p.name}</div>
       <div class="kr">${p.kr}</div>
@@ -2229,7 +2231,6 @@ function openSheet(p){
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
-      ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}" style="margin-bottom:8px;">${badgeLabel(p.badge)}</span><br>`:''}
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
@@ -2731,7 +2732,7 @@ function renderFinderResults(){
     const pct = Math.max(1, Math.round((r.score/maxScore)*100));
     return `
     <div class="finder-result-card" onclick="finderShowDetail(${P.indexOf(p)})">
-      <div class="fr-rank">${i+1}</div>
+      <div class="fr-rank${i<3?' top':''}">${i+1}</div>
       <div class="fr-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
       <div class="fr-body">
         <div class="fr-name">${p.name}</div>
@@ -2744,15 +2745,13 @@ function renderFinderResults(){
   const restCards = rest.map((r,i)=>cardHtml(r,i+3)).join('');
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
+    <button class="prev floating" onclick="finderResultsBack()">← 이전</button>
     <div class="finder-wrap finder-results">
       <h2>당신에게 맞는 라켓 TOP ${top3.length}</h2>
       <p class="fr-sub">${finderState.level} · ${finderState.style} · ${finderState.want} 선호 · ${finderState.weight} 라켓 기준 추천</p>
       ${cards || '<p style="color:var(--muted);font-size:13px;">조건에 맞는 라켓을 찾지 못했어요.</p>'}
-      ${restCards ? `<div class="fr-section-label">전체 라인업</div>${restCards}` : ''}
-      <div class="finder-restart-row">
-        <button class="finder-restart" onclick="finderResultsBack()">← 뒤로가기</button>
-        <button class="finder-restart" onclick="openFinderSheet()">다시 진단하기</button>
-      </div>
+      ${restCards ? `<div class="fr-section-divider"></div>${restCards}` : ''}
+      <button class="finder-restart" onclick="openFinderSheet()">다시 진단하기</button>
     </div>
   `;
 }
@@ -3021,7 +3020,7 @@ function renderStringFinderResults(){
     const pct = Math.max(1, Math.round((r.score/maxScore)*100));
     return `
     <div class="finder-result-card" onclick="stringFinderShowDetail(${P.indexOf(p)})">
-      <div class="fr-rank">${i+1}</div>
+      <div class="fr-rank${i<3?' top':''}">${i+1}</div>
       <div class="fr-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
       <div class="fr-body">
         <div class="fr-name">${p.name}</div>
@@ -3034,15 +3033,13 @@ function renderStringFinderResults(){
   const restCards = rest.map((r,i)=>cardHtml(r,i+3)).join('');
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
+    <button class="prev floating" onclick="stringFinderResultsBack()">← 이전</button>
     <div class="finder-wrap finder-results">
       <h2>당신에게 맞는 스트링 TOP ${top3.length}</h2>
       <p class="fr-sub">${stringFinderState.primary} 우선 · ${stringFinderState.secondary} 다음 · ${stringFinderState.gauge} 굵기 기준 추천</p>
       ${cards || '<p style="color:var(--muted);font-size:13px;">조건에 맞는 스트링을 찾지 못했어요.</p>'}
-      ${restCards ? `<div class="fr-section-label">전체 라인업</div>${restCards}` : ''}
-      <div class="finder-restart-row">
-        <button class="finder-restart" onclick="stringFinderResultsBack()">← 뒤로가기</button>
-        <button class="finder-restart" onclick="openStringFinderSheet()">다시 진단하기</button>
-      </div>
+      ${restCards ? `<div class="fr-section-divider"></div>${restCards}` : ''}
+      <button class="finder-restart" onclick="openStringFinderSheet()">다시 진단하기</button>
     </div>
   `;
 }
