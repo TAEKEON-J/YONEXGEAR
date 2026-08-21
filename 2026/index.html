@@ -396,7 +396,7 @@
     transition:border-color .15s ease;
   }
   .cmp-add-btn:hover{border-color:var(--muted);}
-  .cmp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;}
+  .cmp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;overflow-anchor:none;}
   table.cmp-table{border-collapse:separate;border-spacing:0;width:100%;min-width:460px;table-layout:fixed;}
   table.cmp-table th,table.cmp-table td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:12px;text-align:left;}
   table.cmp-table th:first-child,table.cmp-table td:first-child{
@@ -2536,8 +2536,11 @@ function openCompareSheet(){
   overlay.classList.add('open');
   history.pushState({sheetOpen:true}, '', location.href);
   sheetHistoryPushed = true;
+  sheet.querySelectorAll('.cmp-table-wrap').forEach(w=>{ w.scrollLeft = 0; });
   requestAnimationFrame(()=>{
+    sheet.querySelectorAll('.cmp-table-wrap').forEach(w=>{ w.scrollLeft = 0; });
     requestAnimationFrame(()=>{
+      sheet.querySelectorAll('.cmp-table-wrap').forEach(w=>{ w.scrollLeft = 0; });
       sheet.querySelectorAll('.feel-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
     });
   });
