@@ -372,9 +372,16 @@
 
   /* ---------- COMPARE TABLE ---------- */
   .cmp-wrap{padding:20px 18px 24px;}
-  .cmp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .cmp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;}
   .cmp-header h2{font-size:18px;font-weight:900;margin:0;color:var(--ink);text-transform:uppercase;}
+  .cmp-header-actions{display:flex;align-items:center;gap:14px;flex:none;}
   .cmp-clear-all{font-size:12px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;padding:4px;}
+  .cmp-add-btn{
+    font-size:12px;font-weight:800;color:var(--ink);white-space:nowrap;
+    background:#f4f5f3;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;
+    transition:border-color .15s ease;
+  }
+  .cmp-add-btn:hover{border-color:var(--muted);}
   .cmp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;}
   table.cmp-table{border-collapse:collapse;width:100%;min-width:460px;table-layout:fixed;}
   table.cmp-table th,table.cmp-table td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:12px;text-align:left;}
@@ -393,21 +400,16 @@
   .cmp-col-head .cmp-remove:hover{border-color:var(--muted);color:var(--ink);}
   table.cmp-table td{color:var(--ink);font-weight:600;word-break:break-word;}
 
-  /* ---------- FEEL COMPARE (RACQUETS ONLY) ---------- */
-  tr.feel-section-row td{
-    background:#f4f5f3 !important;font-size:10px;font-weight:800;color:var(--muted) !important;
-    text-transform:uppercase;letter-spacing:.06em;padding:11px 10px 5px;border-bottom:none !important;
-  }
-  tr.feel-section-row td{border-radius:12px 12px 0 0;}
-  tr.feel-row td{padding:9px 10px;vertical-align:middle;background:#f4f5f3;border-bottom:none !important;}
-  tr.feel-row td:first-child{color:var(--ink) !important;font-weight:800 !important;font-size:10px;letter-spacing:.02em;background:#f4f5f3 !important;}
-  tr.feel-row.feel-row-last td{padding-bottom:13px;}
-  tr.feel-row.feel-row-last td:first-child{border-radius:0 0 0 12px;}
-  tr.feel-row.feel-row-last td:last-child{border-radius:0 0 12px 0;}
-  tr.feel-spacer-row td{padding:0;border:none !important;background:transparent !important;height:16px;}
+  /* ---------- FEEL COMPARE (TRANSPOSED BOX) ---------- */
   .cmp-table thead th{border-bottom:none;}
-  .feel-bar-track{width:130px;flex:none;height:7px;border-radius:999px;background:#e0e1de;overflow:hidden;}
-  .feel-bar-fill{height:100%;border-radius:999px;width:0;transition:width 1.2s var(--ease);}
+  .feel-box{background:#f4f5f3;border:1px solid var(--line);border-radius:14px;padding:16px 18px 14px;margin:0 auto 18px;max-width:480px;}
+  .feel-box-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;text-align:center;}
+  .feel-grid{display:grid;row-gap:12px;column-gap:6px;align-items:center;}
+  .feel-grid .feel-head{font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.02em;text-align:center;}
+  .feel-grid .feel-name{font-size:11px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .feel-grid .feel-dot{width:8px;height:8px;border-radius:50%;flex:none;}
+  .feel-cell .feel-bar-track{width:100%;height:6px;border-radius:999px;background:#e0e1de;overflow:hidden;}
+  .feel-cell .feel-bar-fill{height:100%;border-radius:999px;width:0;transition:width 1s var(--ease);}
 
   /* ---------- STRING PERFORMANCE INFOGRAPHIC (DETAIL SHEET) ---------- */
   .perf-card{background:#f4f5f3;border-radius:14px;padding:14px 16px 12px;margin-bottom:14px;}
@@ -452,6 +454,34 @@
   #recoPopover .rp-thumb .thumb-icon-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:100%;height:100%;padding:3px;}
   #recoPopover .rp-thumb .thumb-label{font-size:5.5px;font-weight:800;letter-spacing:.02em;opacity:.9;}
   #recoPopover .rp-name{font-size:12.5px;font-weight:800;color:var(--ink);}
+
+  #cmpAddPopover{
+    position:fixed;z-index:200;width:260px;background:#fff;color:var(--ink);
+    padding:14px;border-radius:16px;font-size:13px;
+    box-shadow:0 20px 48px rgba(0,0,0,.16),0 2px 10px rgba(0,0,0,.06);
+    border:1px solid var(--line);display:none;
+  }
+  .cmp-add-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .cmp-add-header input{
+    flex:1;min-width:0;font-size:13px;font-family:inherit;padding:8px 10px;border-radius:8px;
+    border:1px solid var(--line);outline:none;
+  }
+  .cmp-add-header input:focus{border-color:var(--ink);}
+  #cmpAddPopover .rp-close{position:static;flex:none;}
+  .cmp-add-list{max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+  .cmp-add-item{display:flex;align-items:center;gap:10px;padding:6px 4px;border-radius:8px;cursor:pointer;transition:background .12s ease;}
+  .cmp-add-item:hover{background:#f4f5f3;}
+  .cmp-add-thumb{
+    width:38px;height:38px;flex:none;border-radius:8px;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    outline:1px solid oklch(0 0 0 / 0.1);outline-offset:-1px;
+  }
+  .cmp-add-thumb img{width:100%;height:100%;object-fit:cover;}
+  .cmp-add-thumb svg{width:16px;height:16px;}
+  .cmp-add-thumb .thumb-icon-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:100%;height:100%;padding:2px;}
+  .cmp-add-thumb .thumb-label{font-size:4.5px;font-weight:800;letter-spacing:.02em;opacity:.9;}
+  .cmp-add-name{font-size:12.5px;font-weight:700;color:var(--ink);}
+  .cmp-add-empty{padding:14px 4px;color:var(--muted);font-size:12.5px;text-align:center;}
 
   /* ---------- RACQUET FINDER ---------- */
   .finder-promo-wrap{max-width:1100px;margin:0 auto;padding:14px 16px 0;}
@@ -688,6 +718,13 @@
 
 <div id="techPopover"><span class="tp-close" onclick="closeTechPopover()">✕</span><div class="tp-title" id="techPopoverTitle"></div><div id="techPopoverDesc"></div></div>
 <div id="recoPopover"><span class="rp-close" onclick="closeRecoPopover()">✕</span><div class="rp-title">추천 스트링</div><div id="recoPopoverBody"></div></div>
+<div id="cmpAddPopover">
+  <div class="cmp-add-header">
+    <input type="text" id="cmpAddSearch" placeholder="상품 검색..." oninput="filterCmpAddList()">
+    <span class="rp-close" onclick="closeCmpAddPopover()">✕</span>
+  </div>
+  <div id="cmpAddList" class="cmp-add-list"></div>
+</div>
 
 <footer>YONEX 2026 Product Catalog · 웹 열람용으로 재구성된 비공식 요약본 · 정확한 정보는 원본 카탈로그 및 요넥스 공식 채널을 참고하세요.</footer>
 
@@ -2264,31 +2301,37 @@ function stringPerfInfographicHtml(p){
   if(!rows) return '';
   return `<div class="perf-card"><div class="perf-title">성능</div>${rows}</div>`;
 }
-function buildFeelRows(products, scores, metrics){
-  const sectionRow = `<tr class="feel-section-row"><td colspan="${products.length+1}">체감 비교</td></tr>`;
-  const metricRows = metrics.map(([key,label],mi)=>{
-    const cells = products.map((p,i)=>{
+function buildFeelBox(products, scores, metrics){
+  const headCols = metrics.map(([key,label])=>`<div class="feel-head">${label}</div>`).join('');
+  const rows = products.map((p,i)=>{
+    const nameCell = `<div class="feel-name"><span class="feel-dot" style="background:${CMP_COLORS[i]}"></span>${p.name}</div>`;
+    const cells = metrics.map(([key])=>{
       const pct = Math.round((scores[i][key]||0)*100);
-      return `<td><div class="feel-bar-track"><div class="feel-bar-fill" data-pct="${pct}" style="background:${CMP_COLORS[i]}"></div></div></td>`;
+      return `<div class="feel-cell"><div class="feel-bar-track"><div class="feel-bar-fill" data-pct="${pct}" style="background:${CMP_COLORS[i]}"></div></div></div>`;
     }).join('');
-    const isLast = mi===metrics.length-1;
-    return `<tr class="feel-row${isLast?' feel-row-last':''}"><td>${label}</td>${cells}</tr>`;
+    return nameCell + cells;
   }).join('');
-  const spacerRow = `<tr class="feel-spacer-row"><td colspan="${products.length+1}"></td></tr>`;
-  return sectionRow + metricRows + spacerRow;
+  const nameW = metrics.length <= 3 ? 110 : 76;
+  return `<div class="feel-box">
+    <div class="feel-box-title">체감 비교</div>
+    <div class="feel-grid" style="grid-template-columns:${nameW}px repeat(${metrics.length},1fr);">
+      <div class="feel-head"></div>${headCols}
+      ${rows}
+    </div>
+  </div>`;
 }
 function feelCompareRows(products){
   const key = groupKey(products[0]);
   if(key === 'bad_racquet'){
     const scores = products.map(productAxisScore);
     if(scores.some(s=>!s)) return '';
-    return buildFeelRows(products, scores, [['power','POWER'],['control','CONTROL'],['speed','SPEED']]);
+    return buildFeelBox(products, scores, [['power','POWER'],['control','CONTROL'],['speed','SPEED']]);
   }
   if(key === 'bad_string'){
     const scores = products.map(stringAxisScore);
     if(scores.some(s=>!s)) return '';
-    return buildFeelRows(products, scores, [
-      ['반발력','고반발력'],['내구성','내구성'],['타구음','타구음'],
+    return buildFeelBox(products, scores, [
+      ['반발력','반발력'],['내구성','내구성'],['타구음','타구음'],
       ['충격흡수력','충격흡수력'],['컨트롤','컨트롤'],
     ]);
   }
@@ -2328,13 +2371,16 @@ function openCompareSheet(){
     <div class="cmp-wrap">
       <div class="cmp-header">
         <h2>제품 비교</h2>
-        <button class="cmp-clear-all" onclick="clearCompare()">전체 지우기</button>
+        <div class="cmp-header-actions">
+          ${state.compare.length<3 ? `<button class="cmp-add-btn" onclick="showCmpAddPopover(event)">+ 상품 추가</button>` : ''}
+          <button class="cmp-clear-all" onclick="clearCompare()">전체 지우기</button>
+        </div>
       </div>
+      ${feelCompareRows(products)}
       <div class="cmp-table-wrap">
         <table class="cmp-table">
           <thead><tr><th></th>${headCells}</tr></thead>
           <tbody>
-            ${feelCompareRows(products)}
             ${rows}
           </tbody>
         </table>
@@ -2707,6 +2753,61 @@ document.addEventListener('click', (e)=>{
   const pop = document.getElementById('recoPopover');
   if(pop.style.display === 'block' && !pop.contains(e.target) && !e.target.classList.contains('reco-trigger')){
     closeRecoPopover();
+  }
+});
+function showCmpAddPopover(evt){
+  evt.stopPropagation();
+  const pop = document.getElementById('cmpAddPopover');
+  document.getElementById('cmpAddSearch').value = '';
+  renderCmpAddList('');
+  const rect = evt.target.getBoundingClientRect();
+  const popW = 260;
+  pop.style.visibility = 'hidden';
+  pop.style.display = 'block';
+  const popH = pop.offsetHeight;
+  pop.style.visibility = '';
+  let left = Math.max(10, Math.min(rect.left, window.innerWidth - popW - 10));
+  let top = rect.bottom + 8;
+  if(top + popH > window.innerHeight - 10) top = Math.max(10, rect.top - popH - 8);
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+  pop.style.display = 'block';
+  document.getElementById('cmpAddSearch').focus();
+}
+function closeCmpAddPopover(){
+  document.getElementById('cmpAddPopover').style.display = 'none';
+}
+function renderCmpAddList(q){
+  const list = document.getElementById('cmpAddList');
+  if(!state.compare.length){ list.innerHTML = ''; return; }
+  const gk = groupKey(P[state.compare[0]]);
+  const query = q.trim().toLowerCase();
+  const candidates = P.filter((p,idx)=> groupKey(p)===gk && !state.compare.includes(idx) &&
+    (!query || p.name.toLowerCase().includes(query) || (p.kr||'').toLowerCase().includes(query)));
+  if(!candidates.length){ list.innerHTML = '<div class="cmp-add-empty">검색 결과가 없어요</div>'; return; }
+  list.innerHTML = candidates.map(p=>{
+    const idx = P.indexOf(p);
+    return `<div class="cmp-add-item" onclick="addToCompareFromPopover(${idx})">
+      <div class="cmp-add-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
+      <div class="cmp-add-name">${p.name}</div>
+    </div>`;
+  }).join('');
+}
+function filterCmpAddList(){
+  renderCmpAddList(document.getElementById('cmpAddSearch').value);
+}
+function addToCompareFromPopover(idx){
+  if(state.compare.length>=3) return;
+  state.compare.push(idx);
+  syncCardCompareUI();
+  syncCompareBar();
+  closeCmpAddPopover();
+  openCompareSheet();
+}
+document.addEventListener('click', (e)=>{
+  const pop = document.getElementById('cmpAddPopover');
+  if(pop.style.display === 'block' && !pop.contains(e.target) && !e.target.classList.contains('cmp-add-btn')){
+    closeCmpAddPopover();
   }
 });
 function openStringFinderSheet(){
