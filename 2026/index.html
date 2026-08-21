@@ -2277,9 +2277,13 @@ let cmpLimitTimeout;
 let cmpCoachTimeout;
 function groupKey(p){ return p.c+'_'+p.s; }
 function maybeShowCmpCoach(){
+  if(!(state.cat==='bad' && state.sub==='racquet')){
+    const coach = document.getElementById('cmpCoach');
+    if(coach && coach.style.display!=='none') dismissCmpCoach();
+    return;
+  }
   if(localStorage.getItem('cmpCoachSeen')) return;
   if(document.body.classList.contains('hero-active')) return;
-  if(!(state.cat==='bad' && state.sub==='racquet')) return;
   const firstToggle = document.querySelector('.cmp-toggle');
   const coach = document.getElementById('cmpCoach');
   if(!firstToggle || !coach) return;
