@@ -513,9 +513,6 @@
   .finder-btn{flex:1;padding:13px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;border:none;transition:transform .1s ease;}
   .finder-btn:active{transform:scale(.96);}
   .finder-btn.prev{background:#f0f0f0;color:var(--ink);}
-  .finder-btn.next{background:var(--ink);color:#fff;}
-  .finder-btn.next:disabled{opacity:.35;cursor:default;}
-  .finder-btn.next.gold{background:var(--green);color:#06210a;}
 
   .finder-results h2{font-size:18px;font-weight:900;margin:0 0 4px;color:var(--ink);text-transform:uppercase;}
   .finder-results .fr-sub{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
@@ -543,9 +540,14 @@
   .finder-result-card .fr-name{font-size:13.5px;font-weight:800;color:var(--ink);text-transform:uppercase;}
   .finder-result-card .fr-match{font-size:11px;font-weight:700;color:#3f8f2a;margin-top:2px;}
   .finder-result-card .fr-price{font-size:12.5px;font-weight:800;color:var(--ink);margin-top:3px;}
+  .finder-restart-row{display:flex;gap:10px;margin-top:8px;}
   .finder-restart{
-    display:block;width:100%;margin-top:8px;padding:12px;border-radius:10px;border:1.5px solid var(--line);
+    flex:1;padding:12px;border-radius:10px;border:1.5px solid var(--line);
     background:#fff;color:var(--muted);font-weight:700;font-size:13px;cursor:pointer;
+  }
+  .fr-section-label{
+    font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;
+    margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line);
   }
 
   footer{
@@ -2098,6 +2100,8 @@ function buyButtonHtml(p){
 }
 let sheetHistoryPushed = false;
 function closeSheet(fromPopstate){
+  clearTimeout(finderAdvanceTimer);
+  clearTimeout(stringFinderAdvanceTimer);
   document.getElementById('overlay').classList.remove('open');
   if(sheetHistoryPushed && !fromPopstate){
     sheetHistoryPushed = false;
@@ -2467,10 +2471,15 @@ function computeFinderResults(){
   return candidates
     .map(p=>({p, score:scoreRacquet(p, finderState)}))
     .filter(r=>r.score>=0)
-    .sort((a,b)=>b.score-a.score)
-    .slice(0,3);
+    .sort((a,b)=>b.score-a.score);
+}
+function matchTierLabel(pct){
+  if(pct>=80) return '매칭도 높음';
+  if(pct>=55) return '매칭도 중간';
+  return '매칭도 낮음';
 }
 function openFinderSheet(){
+  clearTimeout(finderAdvanceTimer);
   finderState = {step:0, level:null, style:null, want:null, weight:null};
   const overlay = document.getElementById('overlay');
   renderFinderStep();
@@ -2499,15 +2508,11 @@ function renderFinderStep(){
       <div class="finder-step-label">STEP ${finderState.step+1} / ${FINDER_STEPS.length}</div>
       <div class="finder-q">${stepDef.q}</div>
       <div class="finder-opts">${opts}</div>
-      <div class="finder-nav">
-        ${finderState.step>0 ? `<button class="finder-btn prev" onclick="finderPrev()">이전</button>` : ''}
-        <button class="finder-btn next${finderState.step===FINDER_STEPS.length-1?' gold':''}" onclick="finderNext()" ${picked?'':'disabled'}>
-          ${finderState.step===FINDER_STEPS.length-1 ? '결과 보기' : '다음'}
-        </button>
-      </div>
+      ${finderState.step>0 ? `<div class="finder-nav"><button class="finder-btn prev" onclick="finderPrev()">이전</button></div>` : ''}
     </div>
   `;
 }
+let finderAdvanceTimer = null;
 function pickFinderOption(key, value){
   finderState[key] = value;
   const stepDef = FINDER_STEPS[finderState.step];
@@ -2515,10 +2520,11 @@ function pickFinderOption(key, value){
   document.querySelectorAll('.finder-opt').forEach(opt=>{
     opt.classList.toggle('picked', opt.dataset.value === value);
   });
-  const nextBtn = document.querySelector('.finder-btn.next');
-  if(nextBtn) nextBtn.disabled = false;
+  clearTimeout(finderAdvanceTimer);
+  finderAdvanceTimer = setTimeout(finderNext, 380);
 }
 function finderPrev(){
+  clearTimeout(finderAdvanceTimer);
   if(finderState.step>0){ finderState.step--; renderFinderStep(); }
 }
 function finderNext(){
@@ -2534,9 +2540,11 @@ function finderNext(){
 function renderFinderResults(){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
-  const results = computeFinderResults();
-  const maxScore = results.length ? results[0].score : 1;
-  const cards = results.map((r,i)=>{
+  const allResults = computeFinderResults();
+  const top3 = allResults.slice(0,3);
+  const rest = allResults.slice(3);
+  const maxScore = allResults.length ? allResults[0].score : 1;
+  const cardHtml = (r,i)=>{
     const p = r.p;
     const pct = Math.max(1, Math.round((r.score/maxScore)*100));
     return `
@@ -2545,20 +2553,30 @@ function renderFinderResults(){
       <div class="fr-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
       <div class="fr-body">
         <div class="fr-name">${p.name}</div>
-        <div class="fr-match">매칭도 ${pct}%</div>
+        <div class="fr-match">${matchTierLabel(pct)}</div>
         <div class="fr-price">${fmtPrice(p.price)}</div>
       </div>
     </div>`;
-  }).join('');
+  };
+  const cards = top3.map(cardHtml).join('');
+  const restCards = rest.map((r,i)=>cardHtml(r,i+3)).join('');
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
     <div class="finder-wrap finder-results">
-      <h2>당신에게 맞는 라켓 TOP ${results.length}</h2>
+      <h2>당신에게 맞는 라켓 TOP ${top3.length}</h2>
       <p class="fr-sub">${finderState.level} · ${finderState.style} · ${finderState.want} 선호 · ${finderState.weight} 라켓 기준 추천</p>
       ${cards || '<p style="color:var(--muted);font-size:13px;">조건에 맞는 라켓을 찾지 못했어요.</p>'}
-      <button class="finder-restart" onclick="openFinderSheet()">다시 진단하기</button>
+      ${restCards ? `<div class="fr-section-label">전체 라인업</div>${restCards}` : ''}
+      <div class="finder-restart-row">
+        <button class="finder-restart" onclick="finderResultsBack()">← 뒤로가기</button>
+        <button class="finder-restart" onclick="openFinderSheet()">다시 진단하기</button>
+      </div>
     </div>
   `;
+}
+function finderResultsBack(){
+  finderState.step = FINDER_STEPS.length - 1;
+  renderFinderStep();
 }
 function finderShowDetail(idx){
   const p = P[idx];
@@ -2572,7 +2590,6 @@ function finderShowDetail(idx){
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
-      ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}" style="margin-bottom:8px;">${badgeLabel(p.badge)}</span><br>`:''}
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
@@ -2636,8 +2653,7 @@ function computeStringFinderResults(){
   return candidates
     .map(p=>({p, score:scoreString(p, stringFinderState)}))
     .filter(r=>r.score>=0)
-    .sort((a,b)=>b.score-a.score)
-    .slice(0,3);
+    .sort((a,b)=>b.score-a.score);
 }
 function recoButtonHtml(p){
   if(!p.reco) return '';
@@ -2694,6 +2710,7 @@ document.addEventListener('click', (e)=>{
   }
 });
 function openStringFinderSheet(){
+  clearTimeout(stringFinderAdvanceTimer);
   stringFinderState = {step:0, primary:null, secondary:null, gauge:null};
   const overlay = document.getElementById('overlay');
   renderStringFinderStep();
@@ -2726,15 +2743,11 @@ function renderStringFinderStep(){
       <div class="finder-step-label">STEP ${stringFinderState.step+1} / ${STRING_FINDER_STEPS.length}</div>
       <div class="finder-q">${stepDef.q}</div>
       <div class="finder-opts">${optsHtml}</div>
-      <div class="finder-nav">
-        ${stringFinderState.step>0 ? `<button class="finder-btn prev" onclick="stringFinderPrev()">이전</button>` : ''}
-        <button class="finder-btn next${stringFinderState.step===STRING_FINDER_STEPS.length-1?' gold':''}" onclick="stringFinderNext()" ${picked?'':'disabled'}>
-          ${stringFinderState.step===STRING_FINDER_STEPS.length-1 ? '결과 보기' : '다음'}
-        </button>
-      </div>
+      ${stringFinderState.step>0 ? `<div class="finder-nav"><button class="finder-btn prev" onclick="stringFinderPrev()">이전</button></div>` : ''}
     </div>
   `;
 }
+let stringFinderAdvanceTimer = null;
 function pickStringFinderOption(key, value){
   stringFinderState[key] = value;
   const stepDef = STRING_FINDER_STEPS[stringFinderState.step];
@@ -2742,10 +2755,11 @@ function pickStringFinderOption(key, value){
   document.querySelectorAll('.finder-opt').forEach(opt=>{
     opt.classList.toggle('picked', opt.dataset.value === value);
   });
-  const nextBtn = document.querySelector('.finder-btn.next');
-  if(nextBtn) nextBtn.disabled = false;
+  clearTimeout(stringFinderAdvanceTimer);
+  stringFinderAdvanceTimer = setTimeout(stringFinderNext, 380);
 }
 function stringFinderPrev(){
+  clearTimeout(stringFinderAdvanceTimer);
   if(stringFinderState.step>0){ stringFinderState.step--; renderStringFinderStep(); }
 }
 function stringFinderNext(){
@@ -2761,9 +2775,11 @@ function stringFinderNext(){
 function renderStringFinderResults(){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
-  const results = computeStringFinderResults();
-  const maxScore = results.length ? results[0].score : 1;
-  const cards = results.map((r,i)=>{
+  const allResults = computeStringFinderResults();
+  const top3 = allResults.slice(0,3);
+  const rest = allResults.slice(3);
+  const maxScore = allResults.length ? allResults[0].score : 1;
+  const cardHtml = (r,i)=>{
     const p = r.p;
     const pct = Math.max(1, Math.round((r.score/maxScore)*100));
     return `
@@ -2772,20 +2788,30 @@ function renderStringFinderResults(){
       <div class="fr-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
       <div class="fr-body">
         <div class="fr-name">${p.name}</div>
-        <div class="fr-match">매칭도 ${pct}%</div>
+        <div class="fr-match">${matchTierLabel(pct)}</div>
         <div class="fr-price">${fmtPrice(p.price)}</div>
       </div>
     </div>`;
-  }).join('');
+  };
+  const cards = top3.map(cardHtml).join('');
+  const restCards = rest.map((r,i)=>cardHtml(r,i+3)).join('');
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
     <div class="finder-wrap finder-results">
-      <h2>당신에게 맞는 스트링 TOP ${results.length}</h2>
+      <h2>당신에게 맞는 스트링 TOP ${top3.length}</h2>
       <p class="fr-sub">${stringFinderState.primary} 우선 · ${stringFinderState.secondary} 다음 · ${stringFinderState.gauge} 굵기 기준 추천</p>
       ${cards || '<p style="color:var(--muted);font-size:13px;">조건에 맞는 스트링을 찾지 못했어요.</p>'}
-      <button class="finder-restart" onclick="openStringFinderSheet()">다시 진단하기</button>
+      ${restCards ? `<div class="fr-section-label">전체 라인업</div>${restCards}` : ''}
+      <div class="finder-restart-row">
+        <button class="finder-restart" onclick="stringFinderResultsBack()">← 뒤로가기</button>
+        <button class="finder-restart" onclick="openStringFinderSheet()">다시 진단하기</button>
+      </div>
     </div>
   `;
+}
+function stringFinderResultsBack(){
+  stringFinderState.step = STRING_FINDER_STEPS.length - 1;
+  renderStringFinderStep();
 }
 function stringFinderShowDetail(idx){
   const p = P[idx];
@@ -2799,7 +2825,6 @@ function stringFinderShowDetail(idx){
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
-      ${p.badge?`<span class="badge-new${p.badge.includes('DESIGN')?' design':''}" style="margin-bottom:8px;">${badgeLabel(p.badge)}</span><br>`:''}
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
