@@ -400,11 +400,11 @@
   table.cmp-table{border-collapse:separate;border-spacing:0;width:100%;table-layout:fixed;}
   @media(min-width:480px){ table.cmp-table{min-width:460px;} }
   table.cmp-table th,table.cmp-table td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:12px;text-align:left;}
-  table.cmp-table th:first-child,table.cmp-table td:first-child{
+  table.cmp-table:not(.cmp-table-head) th:first-child,table.cmp-table:not(.cmp-table-head) td:first-child{
     position:sticky;left:0;background:#fff;font-weight:700;color:var(--muted);white-space:nowrap;z-index:1;padding-right:10px;width:76px;
     box-shadow:6px 0 8px -6px rgba(0,0,0,.12);
   }
-  @media(min-width:480px){ table.cmp-table th:first-child,table.cmp-table td:first-child{padding-right:14px;width:96px;} }
+  @media(min-width:480px){ table.cmp-table:not(.cmp-table-head) th:first-child,table.cmp-table:not(.cmp-table-head) td:first-child{padding-right:14px;width:96px;} }
   .cmp-col-head{display:flex;flex-direction:column;align-items:center;gap:6px;}
   @media(min-width:480px){ .cmp-col-head{min-width:164px;} }
   .cmp-col-head .cmp-thumb{position:relative;width:100%;max-width:120px;height:0;padding-top:100%;border-radius:12px;overflow:hidden;color:#fff;flex:none;outline:1px solid oklch(0 0 0 / 0.1);outline-offset:-1px;}
@@ -2523,8 +2523,8 @@ function openCompareSheet(){
         </div>
       </div>
       <div class="cmp-table-wrap">
-        <table class="cmp-table">
-          <thead><tr><th></th>${headCells}</tr></thead>
+        <table class="cmp-table cmp-table-head">
+          <thead><tr>${headCells}</tr></thead>
         </table>
       </div>
       ${feelCompareRows(products)}
