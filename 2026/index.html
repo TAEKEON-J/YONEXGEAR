@@ -409,6 +409,16 @@
   .feel-bar-track{width:130px;flex:none;height:7px;border-radius:999px;background:#e0e1de;overflow:hidden;}
   .feel-bar-fill{height:100%;border-radius:999px;width:0;transition:width 1.2s var(--ease);}
 
+  /* ---------- STRING PERFORMANCE INFOGRAPHIC (DETAIL SHEET) ---------- */
+  .perf-card{background:#f4f5f3;border-radius:14px;padding:14px 16px 12px;margin-bottom:14px;}
+  .perf-card .perf-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+  .perf-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+  .perf-row:last-child{margin-bottom:0;}
+  .perf-label{width:68px;flex:none;font-size:12px;font-weight:800;color:var(--ink);}
+  .perf-bar-track{flex:1;height:7px;border-radius:999px;background:#e0e1de;overflow:hidden;}
+  .perf-bar-fill{height:100%;border-radius:999px;background:var(--green);width:0;transition:width 1s var(--ease);}
+  .perf-val{width:20px;flex:none;text-align:right;font-size:12px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums;}
+
   /* ---------- RACQUET FINDER ---------- */
   .finder-promo-wrap{max-width:1100px;margin:0 auto;padding:14px 16px 0;}
   .finder-promo{
@@ -2011,7 +2021,8 @@ function openSheet(p){
   const overlay = document.getElementById('overlay');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
-  const rows = Object.entries(p.specs).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  const perfHtml = stringPerfInfographicHtml(p);
+  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
@@ -2023,6 +2034,7 @@ function openSheet(p){
       <div class="price-full">${fmtPrice(p.price)}</div>
       <div class="desc">${p.desc}</div>
       <div class="sheet-reveal-2">
+        ${perfHtml}
         <table class="specs">${rows}</table>
         <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
         ${buyButtonHtml(p)}
@@ -2032,6 +2044,13 @@ function openSheet(p){
   overlay.classList.add('open');
   history.pushState({sheetOpen:true}, '', location.href);
   sheetHistoryPushed = true;
+  if(perfHtml){
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
+      });
+    });
+  }
 }
 function buyButtonHtml(p){
   if(!p.buyUrl) return '';
@@ -2181,6 +2200,21 @@ function stringAxisScore(p){
     out[m[1]] = clamp01(+m[2] / 11);
   }
   return out;
+}
+function stringPerfInfographicHtml(p){
+  if(p.c!=='bad' || p.s!=='string') return '';
+  const perf = p.specs && p.specs['성능'];
+  if(!perf) return '';
+  const metrics = [['반발력','반발력'],['내구성','내구성'],['타구음','타구음'],['충격흡수력','충격흡수력'],['컨트롤','컨트롤']];
+  const rows = metrics.map(([key,label])=>{
+    const m = perf.match(new RegExp(key+'(\\d+)'));
+    if(!m) return '';
+    const val = +m[1];
+    const pct = Math.round(clamp01(val/11)*100);
+    return `<div class="perf-row"><div class="perf-label">${label}</div><div class="perf-bar-track"><div class="perf-bar-fill" data-pct="${pct}"></div></div><div class="perf-val">${val}</div></div>`;
+  }).join('');
+  if(!rows) return '';
+  return `<div class="perf-card"><div class="perf-title">성능</div>${rows}</div>`;
 }
 function buildFeelRows(products, scores, metrics){
   const sectionRow = `<tr class="feel-section-row"><td colspan="${products.length+1}">체감 비교</td></tr>`;
@@ -2484,7 +2518,8 @@ function renderFinderResults(){
 }
 function finderShowDetail(idx){
   const p = P[idx];
-  const rows = Object.entries(p.specs).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  const perfHtml = stringPerfInfographicHtml(p);
+  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
@@ -2498,11 +2533,19 @@ function finderShowDetail(idx){
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
       <div class="desc">${p.desc}</div>
+      ${perfHtml}
       <table class="specs">${rows}</table>
       <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
       ${buyButtonHtml(p)}
     </div>
   `;
+  if(perfHtml){
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
+      });
+    });
+  }
 }
 function openAnyFinderSheet(){
   if(state.sub === 'string') openStringFinderSheet();
@@ -2650,7 +2693,8 @@ function renderStringFinderResults(){
 }
 function stringFinderShowDetail(idx){
   const p = P[idx];
-  const rows = Object.entries(p.specs).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  const perfHtml = stringPerfInfographicHtml(p);
+  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
@@ -2664,11 +2708,19 @@ function stringFinderShowDetail(idx){
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
       <div class="desc">${p.desc}</div>
+      ${perfHtml}
       <table class="specs">${rows}</table>
       <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
       ${buyButtonHtml(p)}
     </div>
   `;
+  if(perfHtml){
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
+      });
+    });
+  }
 }
 
 document.getElementById('overlay').addEventListener('click', e=>{
