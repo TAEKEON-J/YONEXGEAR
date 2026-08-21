@@ -420,18 +420,22 @@
   .perf-val{width:20px;flex:none;text-align:right;font-size:12px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums;}
 
   /* ---------- RECOMMENDED STRINGS (RACQUET DETAIL) ---------- */
-  .reco-section{margin-top:16px;}
-  .reco-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
-  .reco-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:2px;}
-  .reco-card{flex:none;width:100px;cursor:pointer;transition:transform .1s ease;}
-  .reco-card:active{transform:scale(.97);}
-  .reco-thumb{width:100px;height:100px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;outline:1px solid oklch(0 0 0 / 0.1);outline-offset:-1px;margin-bottom:6px;}
-  .reco-thumb img{width:100%;height:100%;object-fit:cover;}
-  .reco-thumb svg{width:24px;height:24px;}
-  .reco-thumb .thumb-icon-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;height:100%;padding:4px;}
-  .reco-thumb .thumb-label{font-size:9px;font-weight:800;letter-spacing:.02em;opacity:.9;}
-  .reco-name{font-size:11px;font-weight:800;color:var(--ink);text-transform:uppercase;line-height:1.25;}
-  .reco-reason{font-size:10.5px;color:var(--muted);margin-top:2px;}
+  .reco-trigger{
+    display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--ink);
+    background:#f4f5f3;border:1px solid var(--line);border-radius:999px;padding:7px 13px;
+    cursor:pointer;margin:2px 0 12px;transition:background .15s ease,border-color .15s ease;
+  }
+  .reco-trigger:hover{border-color:var(--muted);}
+  #recoPopover{
+    position:fixed;z-index:200;width:220px;background:#fff;color:var(--ink);
+    padding:14px 16px;border-radius:12px;font-size:13px;line-height:1.5;
+    box-shadow:0 10px 28px rgba(0,0,0,.22);border:1px solid var(--line);display:none;
+  }
+  #recoPopover .rp-close{position:absolute;top:8px;right:10px;color:var(--muted);font-size:13px;cursor:pointer;}
+  #recoPopover .rp-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+  #recoPopover .rp-group{font-weight:700;color:var(--muted);margin-top:8px;}
+  #recoPopover .rp-group:first-child{margin-top:0;}
+  #recoPopover .rp-link{display:block;color:var(--blue);font-weight:700;text-decoration:underline;cursor:pointer;margin-top:1px;}
 
   /* ---------- RACQUET FINDER ---------- */
   .finder-promo-wrap{max-width:1100px;margin:0 auto;padding:14px 16px 0;}
@@ -665,6 +669,7 @@
 </div>
 
 <div id="techPopover"><span class="tp-close" onclick="closeTechPopover()">✕</span><div class="tp-title" id="techPopoverTitle"></div><div id="techPopoverDesc"></div></div>
+<div id="recoPopover"><span class="rp-close" onclick="closeRecoPopover()">✕</span><div class="rp-title">추천 스트링</div><div id="recoPopoverBody"></div></div>
 
 <footer>YONEX 2026 Product Catalog · 웹 열람용으로 재구성된 비공식 요약본 · 정확한 정보는 원본 카탈로그 및 요넥스 공식 채널을 참고하세요.</footer>
 
@@ -791,6 +796,7 @@ const P = [
 /* ============ BADMINTON RACQUETS - ASTROX ============ */
 {c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 99 Pro',kr:'아스트록스 99 프로',price:329000,grad:GRAD.ASTROX,img:'../shared-images/astrox-99-pro.jpg',
  images:['../shared-images/astrox-99-pro.jpg','../shared-images/astrox-99-pro-2.jpg','../shared-images/astrox-99-pro-3.jpg'],badge:'2025 F/W NEW PRODUCT',
+ reco:{'Control Players':['Aerobite'],'Hard Hitters':['Exbolt 68']},
  buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=7925&category=001006',
  specs:{'ERP코드':'ASTROX 99 PRO (2025 MODEL)','탄성':'STIFF','프레임':'HM Graphite / 2G-Namd FLEX FORCE / CFR / Tungsten','샤프트':'HM Graphite / 2G-Namd FLEX FORCE / Ultra PE Fiber','조인트':'NEW Built-in T-joint','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 20-28lbs, 3U 21-29lbs','색상':'Black/Green','원산지':'Japan'},
  desc:'ASTROX 시리즈 중 가장 강력한 라켓. 최대 에너지 전달로 강력한 스매시를 구사.',tags:['헤드헤비','공격형','상급']},
@@ -2046,13 +2052,13 @@ function openSheet(p){
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
+      ${recoButtonHtml(p)}
       <div class="desc">${p.desc}</div>
       <div class="sheet-reveal-2">
         ${perfHtml}
         <table class="specs">${rows}</table>
         <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
         ${buyButtonHtml(p)}
-        ${recoStringsHtml(p)}
       </div>
     </div>
   `;
@@ -2552,12 +2558,12 @@ function finderShowDetail(idx){
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
       <div class="price-full">${fmtPrice(p.price)}</div>
+      ${recoButtonHtml(p)}
       <div class="desc">${p.desc}</div>
       ${perfHtml}
       <table class="specs">${rows}</table>
       <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
       ${buyButtonHtml(p)}
-      ${recoStringsHtml(p)}
     </div>
   `;
   if(perfHtml){
@@ -2616,41 +2622,44 @@ function computeStringFinderResults(){
     .sort((a,b)=>b.score-a.score)
     .slice(0,3);
 }
-const RACQUET_STRING_TRAITS = {
-  power:{primary:'반발력', secondary:'내구성'},
-  control:{primary:'컨트롤', secondary:'충격흡수력'},
-  speed:{primary:'타구음', secondary:'컨트롤'},
-};
-function recommendedStringsFor(racquet){
-  const axis = productAxisScore(racquet);
-  if(!axis) return [];
-  const [topAxis] = Object.keys(RACQUET_STRING_TRAITS).sort((a,b)=>axis[b]-axis[a]);
-  const {primary, secondary} = RACQUET_STRING_TRAITS[topAxis];
-  const candidates = P.filter(p=>p.c==='bad' && p.s==='string' && stringAxisScore(p));
-  return candidates
-    .map(p=>({p, score:scoreString(p, {primary, secondary, gauge:'보통'})}))
-    .filter(r=>r.score>=0)
-    .sort((a,b)=>b.score-a.score)
-    .slice(0,3)
-    .map(r=>({...r, reason:`${primary}·${secondary} 중심`}));
+function recoButtonHtml(p){
+  if(!p.reco) return '';
+  const idx = P.indexOf(p);
+  return `<button class="reco-trigger" onclick="showRecoPopover(event,${idx})">🧵 추천 스트링</button>`;
 }
-function recoStringsHtml(p){
-  if(p.c!=='bad' || p.s!=='racquet') return '';
-  const recs = recommendedStringsFor(p);
-  if(!recs.length) return '';
-  const cards = recs.map(({p:sp, reason})=>{
-    const idx = P.indexOf(sp);
-    return `<div class="reco-card" onclick="openSheet(P[${idx}])">
-      <div class="reco-thumb" style="background:${sp.grad}">${thumbContent(sp)}</div>
-      <div class="reco-name">${sp.name}</div>
-      <div class="reco-reason">${reason}</div>
-    </div>`;
+function showRecoPopover(evt, idx){
+  evt.stopPropagation();
+  const p = P[idx];
+  const pop = document.getElementById('recoPopover');
+  const groups = Object.entries(p.reco).map(([label, names])=>{
+    const links = names.map(name=>{
+      const sp = P.find(x=>x.c==='bad' && x.s==='string' && x.name===name);
+      if(!sp) return '';
+      const spIdx = P.indexOf(sp);
+      return `<a class="rp-link" onclick="closeRecoPopover();openSheet(P[${spIdx}])">${name}</a>`;
+    }).join('');
+    return `<div class="rp-group">${label}:</div>${links}`;
   }).join('');
-  return `<div class="reco-section">
-    <div class="reco-title">이 라켓에 어울리는 스트링</div>
-    <div class="reco-strip">${cards}</div>
-  </div>`;
+  document.getElementById('recoPopoverBody').innerHTML = groups;
+  const rect = evt.target.getBoundingClientRect();
+  const popW = 220;
+  let left = rect.left;
+  left = Math.max(10, Math.min(left, window.innerWidth - popW - 10));
+  let top = rect.bottom + 8;
+  if(top > window.innerHeight - 140) top = rect.top - 130;
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+  pop.style.display = 'block';
 }
+function closeRecoPopover(){
+  document.getElementById('recoPopover').style.display = 'none';
+}
+document.addEventListener('click', (e)=>{
+  const pop = document.getElementById('recoPopover');
+  if(pop.style.display === 'block' && !pop.contains(e.target) && !e.target.classList.contains('reco-trigger')){
+    closeRecoPopover();
+  }
+});
 function openStringFinderSheet(){
   stringFinderState = {step:0, primary:null, secondary:null, gauge:null};
   const overlay = document.getElementById('overlay');
