@@ -203,6 +203,14 @@
   }
 
   /* ---------- SERIES CHIPS ---------- */
+  .filter-mode-tabs{padding:12px 16px 0;display:flex;gap:18px;}
+  .filter-mode-tabs:empty{padding:0;}
+  .filter-mode-tabs button{
+    background:none;border:none;padding:2px 0 6px;font-size:12.5px;font-weight:700;color:var(--muted);
+    cursor:pointer;border-bottom:2px solid transparent;transition:color .15s ease,border-bottom-color .15s ease;
+  }
+  .filter-mode-tabs button:hover{color:var(--ink);}
+  .filter-mode-tabs button.active{color:var(--ink);border-bottom-color:var(--navy);}
   .serieswrap{padding:12px 16px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
   .serieswrap::-webkit-scrollbar{display:none;}
   .chip{
@@ -609,7 +617,7 @@
   /* ---------- PRINT / SAVE AS PDF ---------- */
   @media print{
     header.top nav, header.top .searchwrap, #adminBtn, #adminOverlay, .overlay,
-    #origPdfBtn, #shareBtn, #newOnlyBtn, #sortSelect, .serieswrap{
+    #origPdfBtn, #shareBtn, #newOnlyBtn, #sortSelect, .serieswrap, #filterModeTabs{
       display:none !important;
     }
     header.top{position:static;background:#fff !important;color:var(--navy-deep);padding:6px 0;}
@@ -675,6 +683,7 @@
   </div>
 </div>
 
+<div class="filter-mode-tabs" id="filterModeTabs"></div>
 <div class="serieswrap" id="seriesRow"></div>
 
 <main>
@@ -1885,7 +1894,7 @@ document.addEventListener('click', (e)=>{
 });
 
 /* =============== STATE =============== */
-let state = {cat:'bad', sub:'racquet', series:null, q:'', sort:'default', newOnly:false, compare:[]};
+let state = {cat:'bad', sub:'racquet', series:null, filterMode:'series', weightFilter:null, flexFilter:null, q:'', sort:'default', newOnly:false, compare:[]};
 
 /* =============== RENDER =============== */
 function fmtPrice(p){
@@ -1902,7 +1911,8 @@ function renderCatNav(){
   const el = document.getElementById('catNav');
   el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}" class="${c.id===state.cat?'active':''}">${c.label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    state.cat=b.dataset.cat; state.sub=SUBCATS[state.cat][0].id; state.series=null; state.q='';
+    state.cat=b.dataset.cat; state.sub=SUBCATS[state.cat][0].id; state.series=null;
+    state.filterMode='series'; state.weightFilter=null; state.flexFilter=null; state.q='';
     document.getElementById('searchInput').value='';
     renderAll();
   });
@@ -1913,14 +1923,69 @@ function renderSubNav(){
   const subs = SUBCATS[state.cat];
   el.innerHTML = subs.map(s=>`<button data-sub="${s.id}" class="${s.id===state.sub?'active':''}">${s.label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    state.sub=b.dataset.sub; state.series=null; renderAll();
+    state.sub=b.dataset.sub; state.series=null;
+    state.filterMode='series'; state.weightFilter=null; state.flexFilter=null;
+    renderAll();
   });
   syncScrollFade(el);
+}
+function racquetFlex(p){
+  return (p.specs && p.specs['탄성']) || null;
+}
+function renderFilterModeTabs(){
+  const el = document.getElementById('filterModeTabs');
+  if(!el) return;
+  const eligible = state.cat==='bad' && state.sub==='racquet' && !state.q;
+  if(!eligible){ el.innerHTML=''; return; }
+  const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
+  const hasWeight = items.some(p=>racquetWeights(p).length);
+  const hasFlex = items.some(p=>racquetFlex(p));
+  if(!hasWeight && !hasFlex){ el.innerHTML=''; return; }
+  const modes = [['series','시리즈']];
+  if(hasWeight) modes.push(['weight','무게']);
+  if(hasFlex) modes.push(['flex','탄성']);
+  if(modes.length<=1){ el.innerHTML=''; return; }
+  el.innerHTML = modes.map(([m,label])=>`<button data-mode="${m}" class="${state.filterMode===m?'active':''}">${label}</button>`).join('');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    state.filterMode = b.dataset.mode;
+    state.series=null; state.weightFilter=null; state.flexFilter=null;
+    renderSeriesRow(); renderGrid();
+    el.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
 }
 function renderSeriesRow(){
   const el = document.getElementById('seriesRow');
   if(state.q){ el.innerHTML=''; syncScrollFade(el); return; }
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
+  const mode = (state.cat==='bad' && state.sub==='racquet') ? state.filterMode : 'series';
+
+  if(mode==='weight'){
+    const buckets = ['가벼운','보통','묵직한'].filter(w=> items.some(p=>racquetWeights(p).map(weightBucket).includes(w)));
+    el.innerHTML = `<button class="chip ${!state.weightFilter?'active':''}" data-weight="">전체</button>` +
+      buckets.map(w=>`<button class="chip ${state.weightFilter===w?'active':''}" data-weight="${w}">${w}</button>`).join('');
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+      state.weightFilter = b.dataset.weight || null; renderGrid();
+      el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    });
+    syncScrollFade(el);
+    return;
+  }
+  if(mode==='flex'){
+    const flexOrder = ['HI-FLEX','MEDIUM','STIFF','EXTRA STIFF'];
+    const flexList = flexOrder.filter(f=> items.some(p=>racquetFlex(p)===f));
+    el.innerHTML = `<button class="chip ${!state.flexFilter?'active':''}" data-flex="">전체</button>` +
+      flexList.map(f=>`<button class="chip ${state.flexFilter===f?'active':''}" data-flex="${f}">${f}</button>`).join('');
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+      state.flexFilter = b.dataset.flex || null; renderGrid();
+      el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    });
+    syncScrollFade(el);
+    return;
+  }
+
   const seriesList = [...new Set(items.map(p=>p.series))];
   if(seriesList.length<=1){ el.innerHTML=''; syncScrollFade(el); return; }
   el.innerHTML = `<button class="chip ${!state.series?'active':''}" data-series="">전체</button>` +
@@ -1940,7 +2005,13 @@ function currentList(){
     list = P.filter(p=> (p.name+p.kr+p.series).toLowerCase().includes(q));
   } else {
     list = P.filter(p=>p.c===state.cat && p.s===state.sub);
-    if(state.series) list = list.filter(p=>p.series===state.series);
+    if(state.cat==='bad' && state.sub==='racquet' && state.filterMode==='weight' && state.weightFilter){
+      list = list.filter(p=>racquetWeights(p).map(weightBucket).includes(state.weightFilter));
+    } else if(state.cat==='bad' && state.sub==='racquet' && state.filterMode==='flex' && state.flexFilter){
+      list = list.filter(p=>racquetFlex(p)===state.flexFilter);
+    } else if(state.series){
+      list = list.filter(p=>p.series===state.series);
+    }
   }
   if(state.newOnly){
     list = list.filter(p=>p.badge);
@@ -2041,7 +2112,7 @@ function seriesDividerHtml(series){
   </div>`;
 }
 function renderAll(){
-  renderCatNav(); renderSubNav(); renderSeriesRow(); renderGrid();
+  renderCatNav(); renderSubNav(); renderFilterModeTabs(); renderSeriesRow(); renderGrid();
 }
 
 /* =============== HERO / LANDING =============== */
@@ -2955,6 +3026,7 @@ document.addEventListener('keydown', e=>{
 
 document.getElementById('searchInput').addEventListener('input', e=>{
   state.q = e.target.value.trim();
+  renderFilterModeTabs();
   renderSeriesRow();
   renderGrid();
 });
