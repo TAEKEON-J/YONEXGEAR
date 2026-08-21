@@ -2513,10 +2513,14 @@ function openCompareSheet(){
           <button class="cmp-clear-all" onclick="clearCompare()">전체 지우기</button>
         </div>
       </div>
-      ${feelCompareRows(products)}
       <div class="cmp-table-wrap">
         <table class="cmp-table">
           <thead><tr><th></th>${headCells}</tr></thead>
+        </table>
+      </div>
+      ${feelCompareRows(products)}
+      <div class="cmp-table-wrap">
+        <table class="cmp-table">
           <tbody>
             ${rows}
           </tbody>
