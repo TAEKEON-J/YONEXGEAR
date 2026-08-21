@@ -427,15 +427,31 @@
   }
   .reco-trigger:hover{border-color:var(--muted);}
   #recoPopover{
-    position:fixed;z-index:200;width:220px;background:#fff;color:var(--ink);
-    padding:14px 16px;border-radius:12px;font-size:13px;line-height:1.5;
-    box-shadow:0 10px 28px rgba(0,0,0,.22);border:1px solid var(--line);display:none;
+    position:fixed;z-index:200;width:236px;background:#fff;color:var(--ink);
+    padding:18px;border-radius:16px;font-size:13px;line-height:1.5;
+    box-shadow:0 20px 48px rgba(0,0,0,.16),0 2px 10px rgba(0,0,0,.06);
+    border:1px solid var(--line);display:none;
   }
-  #recoPopover .rp-close{position:absolute;top:8px;right:10px;color:var(--muted);font-size:13px;cursor:pointer;}
-  #recoPopover .rp-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
-  #recoPopover .rp-group{font-weight:700;color:var(--muted);margin-top:8px;}
-  #recoPopover .rp-group:first-child{margin-top:0;}
-  #recoPopover .rp-link{display:block;color:var(--blue);font-weight:700;text-decoration:underline;cursor:pointer;margin-top:1px;}
+  #recoPopover .rp-close{position:absolute;top:12px;right:14px;color:var(--muted);font-size:13px;cursor:pointer;}
+  #recoPopover .rp-title{
+    font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;
+    margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line);
+  }
+  #recoPopover .rp-group + .rp-group{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);}
+  #recoPopover .rp-group-label{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+  #recoPopover .rp-item{display:flex;align-items:center;gap:11px;cursor:pointer;padding:2px 0;transition:opacity .12s ease;}
+  #recoPopover .rp-item:hover{opacity:.7;}
+  #recoPopover .rp-item + .rp-item{margin-top:9px;}
+  #recoPopover .rp-thumb{
+    width:46px;height:46px;flex:none;border-radius:10px;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    outline:1px solid oklch(0 0 0 / 0.1);outline-offset:-1px;
+  }
+  #recoPopover .rp-thumb img{width:100%;height:100%;object-fit:cover;}
+  #recoPopover .rp-thumb svg{width:18px;height:18px;}
+  #recoPopover .rp-thumb .thumb-icon-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:100%;height:100%;padding:3px;}
+  #recoPopover .rp-thumb .thumb-label{font-size:5.5px;font-weight:800;letter-spacing:.02em;opacity:.9;}
+  #recoPopover .rp-name{font-size:12.5px;font-weight:800;color:var(--ink);}
 
   /* ---------- RACQUET FINDER ---------- */
   .finder-promo-wrap{max-width:1100px;margin:0 auto;padding:14px 16px 0;}
@@ -2632,21 +2648,36 @@ function showRecoPopover(evt, idx){
   const p = P[idx];
   const pop = document.getElementById('recoPopover');
   const groups = Object.entries(p.reco).map(([label, names])=>{
-    const links = names.map(name=>{
+    const items = names.map(name=>{
       const sp = P.find(x=>x.c==='bad' && x.s==='string' && x.name===name);
       if(!sp) return '';
       const spIdx = P.indexOf(sp);
-      return `<a class="rp-link" onclick="closeRecoPopover();openSheet(P[${spIdx}])">${name}</a>`;
+      return `<div class="rp-item" onclick="closeRecoPopover();openSheet(P[${spIdx}])">
+        <div class="rp-thumb" style="background:${sp.grad}">${thumbContent(sp)}</div>
+        <div class="rp-name">${name}</div>
+      </div>`;
     }).join('');
-    return `<div class="rp-group">${label}:</div>${links}`;
+    return `<div class="rp-group"><div class="rp-group-label">${label}</div>${items}</div>`;
   }).join('');
   document.getElementById('recoPopoverBody').innerHTML = groups;
+
   const rect = evt.target.getBoundingClientRect();
-  const popW = 220;
-  let left = rect.left;
-  left = Math.max(10, Math.min(left, window.innerWidth - popW - 10));
-  let top = rect.bottom + 8;
-  if(top > window.innerHeight - 140) top = rect.top - 130;
+  const sheetRect = document.getElementById('sheet').getBoundingClientRect();
+  const popW = 236;
+  pop.style.visibility = 'hidden';
+  pop.style.display = 'block';
+  const popH = pop.offsetHeight;
+  pop.style.visibility = '';
+  const rightSpace = window.innerWidth - sheetRect.right;
+  let left, top;
+  if(rightSpace >= popW + 28){
+    left = sheetRect.right + 16;
+    top = Math.max(16, Math.min(rect.top, window.innerHeight - popH - 16));
+  } else {
+    left = Math.max(10, Math.min(rect.left, window.innerWidth - popW - 10));
+    top = rect.bottom + 8;
+    if(top + popH > window.innerHeight - 10) top = Math.max(10, rect.top - popH - 8);
+  }
   pop.style.left = left + 'px';
   pop.style.top = top + 'px';
   pop.style.display = 'block';
