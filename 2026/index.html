@@ -2045,11 +2045,9 @@ function openSheet(p){
   history.pushState({sheetOpen:true}, '', location.href);
   sheetHistoryPushed = true;
   if(perfHtml){
-    requestAnimationFrame(()=>{
-      requestAnimationFrame(()=>{
-        sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
-      });
-    });
+    setTimeout(()=>{
+      sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
+    }, 550);
   }
 }
 function buyButtonHtml(p){
@@ -2213,12 +2211,12 @@ function stringPerfInfographicHtml(p){
   if(!perf) return '';
   const color = stringPerfColor(p);
   const metrics = [['반발력','반발력'],['내구성','내구성'],['타구음','타구음'],['충격흡수력','충격흡수력'],['컨트롤','컨트롤']];
-  const rows = metrics.map(([key,label])=>{
+  const rows = metrics.map(([key,label],i)=>{
     const m = perf.match(new RegExp(key+'(\\d+)'));
     if(!m) return '';
     const val = +m[1];
     const pct = Math.round(clamp01(val/11)*100);
-    return `<div class="perf-row"><div class="perf-label">${label}</div><div class="perf-bar-track"><div class="perf-bar-fill" data-pct="${pct}" style="background:${color}"></div></div><div class="perf-val">${val}</div></div>`;
+    return `<div class="perf-row"><div class="perf-label">${label}</div><div class="perf-bar-track"><div class="perf-bar-fill" data-pct="${pct}" style="background:${color};transition-delay:${i*70}ms"></div></div><div class="perf-val">${val}</div></div>`;
   }).join('');
   if(!rows) return '';
   return `<div class="perf-card"><div class="perf-title">성능</div>${rows}</div>`;
@@ -2547,11 +2545,9 @@ function finderShowDetail(idx){
     </div>
   `;
   if(perfHtml){
-    requestAnimationFrame(()=>{
-      requestAnimationFrame(()=>{
-        sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
-      });
-    });
+    setTimeout(()=>{
+      sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
+    }, 300);
   }
 }
 function openAnyFinderSheet(){
@@ -2722,11 +2718,9 @@ function stringFinderShowDetail(idx){
     </div>
   `;
   if(perfHtml){
-    requestAnimationFrame(()=>{
-      requestAnimationFrame(()=>{
-        sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
-      });
-    });
+    setTimeout(()=>{
+      sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
+    }, 300);
   }
 }
 
