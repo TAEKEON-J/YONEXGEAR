@@ -1894,7 +1894,7 @@ document.addEventListener('click', (e)=>{
 });
 
 /* =============== STATE =============== */
-let state = {cat:'bad', sub:'racquet', series:null, filterMode:'series', weightFilter:null, flexFilter:null, q:'', sort:'default', newOnly:false, compare:[]};
+let state = {cat:'bad', sub:'racquet', series:null, filterMode:'series', weightFilter:null, flexFilter:null, typeFilter:null, gaugeFilter:null, q:'', sort:'default', newOnly:false, compare:[]};
 
 /* =============== RENDER =============== */
 function fmtPrice(p){
@@ -1907,12 +1907,20 @@ function syncScrollFade(el){
   if(!el) return;
   el.classList.toggle('has-more', el.scrollWidth > el.clientWidth + 1);
 }
+function defaultFilterModeFor(cat, sub){
+  return (cat==='bad' && sub==='string') ? 'type' : 'series';
+}
+function resetFilters(){
+  state.series=null; state.weightFilter=null; state.flexFilter=null;
+  state.typeFilter=null; state.gaugeFilter=null;
+  state.filterMode = defaultFilterModeFor(state.cat, state.sub);
+}
 function renderCatNav(){
   const el = document.getElementById('catNav');
   el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}" class="${c.id===state.cat?'active':''}">${c.label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    state.cat=b.dataset.cat; state.sub=SUBCATS[state.cat][0].id; state.series=null;
-    state.filterMode='series'; state.weightFilter=null; state.flexFilter=null; state.q='';
+    state.cat=b.dataset.cat; state.sub=SUBCATS[state.cat][0].id; state.q='';
+    resetFilters();
     document.getElementById('searchInput').value='';
     renderAll();
   });
@@ -1923,8 +1931,8 @@ function renderSubNav(){
   const subs = SUBCATS[state.cat];
   el.innerHTML = subs.map(s=>`<button data-sub="${s.id}" class="${s.id===state.sub?'active':''}">${s.label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    state.sub=b.dataset.sub; state.series=null;
-    state.filterMode='series'; state.weightFilter=null; state.flexFilter=null;
+    state.sub=b.dataset.sub;
+    resetFilters();
     renderAll();
   });
   syncScrollFade(el);
@@ -1932,23 +1940,34 @@ function renderSubNav(){
 function racquetFlex(p){
   return (p.specs && p.specs['탄성']) || null;
 }
+function filterModesFor(cat, sub, items){
+  if(cat==='bad' && sub==='racquet'){
+    const modes = [['series','시리즈']];
+    if(items.some(p=>racquetWeights(p).length)) modes.push(['weight','무게']);
+    if(items.some(p=>racquetFlex(p))) modes.push(['flex','탄성']);
+    return modes;
+  }
+  if(cat==='bad' && sub==='string'){
+    const modes = [];
+    if(items.some(p=>stringType(p))) modes.push(['type','유형']);
+    if(items.some(p=>stringGaugeBucket(stringGaugeMm(p)))) modes.push(['gauge','굵기']);
+    if(modes.length) modes.push(['series','시리즈']);
+    return modes;
+  }
+  return [];
+}
 function renderFilterModeTabs(){
   const el = document.getElementById('filterModeTabs');
   if(!el) return;
-  const eligible = state.cat==='bad' && state.sub==='racquet' && !state.q;
-  if(!eligible){ el.innerHTML=''; return; }
+  if(state.q){ el.innerHTML=''; return; }
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
-  const hasWeight = items.some(p=>racquetWeights(p).length);
-  const hasFlex = items.some(p=>racquetFlex(p));
-  if(!hasWeight && !hasFlex){ el.innerHTML=''; return; }
-  const modes = [['series','시리즈']];
-  if(hasWeight) modes.push(['weight','무게']);
-  if(hasFlex) modes.push(['flex','탄성']);
+  const modes = filterModesFor(state.cat, state.sub, items);
   if(modes.length<=1){ el.innerHTML=''; return; }
   el.innerHTML = modes.map(([m,label])=>`<button data-mode="${m}" class="${state.filterMode===m?'active':''}">${label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
     state.filterMode = b.dataset.mode;
     state.series=null; state.weightFilter=null; state.flexFilter=null;
+    state.typeFilter=null; state.gaugeFilter=null;
     renderSeriesRow(); renderGrid();
     el.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
@@ -1958,7 +1977,9 @@ function renderSeriesRow(){
   const el = document.getElementById('seriesRow');
   if(state.q){ el.innerHTML=''; syncScrollFade(el); return; }
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
-  const mode = (state.cat==='bad' && state.sub==='racquet') ? state.filterMode : 'series';
+  const modes = filterModesFor(state.cat, state.sub, items);
+  const modeIds = modes.map(m=>m[0]);
+  const mode = modeIds.includes(state.filterMode) ? state.filterMode : 'series';
 
   if(mode==='weight'){
     const buckets = ['가벼운','보통','묵직한'].filter(w=> items.some(p=>racquetWeights(p).map(weightBucket).includes(w)));
@@ -1979,6 +2000,32 @@ function renderSeriesRow(){
       flexList.map(f=>`<button class="chip ${state.flexFilter===f?'active':''}" data-flex="${f}">${f}</button>`).join('');
     el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
       state.flexFilter = b.dataset.flex || null; renderGrid();
+      el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    });
+    syncScrollFade(el);
+    return;
+  }
+  if(mode==='type'){
+    const typeOrder = ['반발력','내구성','타구음','충격흡수력','컨트롤'];
+    const typeList = typeOrder.filter(t=> items.some(p=>stringType(p)===t));
+    el.innerHTML = `<button class="chip ${!state.typeFilter?'active':''}" data-type="">전체</button>` +
+      typeList.map(t=>`<button class="chip ${state.typeFilter===t?'active':''}" data-type="${t}">${STRING_TYPE_LABELS[t]}</button>`).join('');
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+      state.typeFilter = b.dataset.type || null; renderGrid();
+      el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    });
+    syncScrollFade(el);
+    return;
+  }
+  if(mode==='gauge'){
+    const gaugeOrder = ['얇은','보통','두꺼운'];
+    const gaugeList = gaugeOrder.filter(g=> items.some(p=>stringGaugeBucket(stringGaugeMm(p))===g));
+    el.innerHTML = `<button class="chip ${!state.gaugeFilter?'active':''}" data-gauge="">전체</button>` +
+      gaugeList.map(g=>`<button class="chip ${state.gaugeFilter===g?'active':''}" data-gauge="${g}">${g}</button>`).join('');
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+      state.gaugeFilter = b.dataset.gauge || null; renderGrid();
       el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
       b.classList.add('active');
     });
@@ -2009,6 +2056,10 @@ function currentList(){
       list = list.filter(p=>racquetWeights(p).map(weightBucket).includes(state.weightFilter));
     } else if(state.cat==='bad' && state.sub==='racquet' && state.filterMode==='flex' && state.flexFilter){
       list = list.filter(p=>racquetFlex(p)===state.flexFilter);
+    } else if(state.cat==='bad' && state.sub==='string' && state.filterMode==='type' && state.typeFilter){
+      list = list.filter(p=>stringType(p)===state.typeFilter);
+    } else if(state.cat==='bad' && state.sub==='string' && state.filterMode==='gauge' && state.gaugeFilter){
+      list = list.filter(p=>stringGaugeBucket(stringGaugeMm(p))===state.gaugeFilter);
     } else if(state.series){
       list = list.filter(p=>p.series===state.series);
     }
@@ -2054,7 +2105,8 @@ function renderGrid(){
   if(list.length===0){ grid.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display='none';
 
-  const showDividers = !state.q && !state.series && state.sort==='default';
+  const filterActive = state.series || state.weightFilter || state.flexFilter || state.typeFilter || state.gaugeFilter;
+  const showDividers = !state.q && !filterActive && state.sort==='default';
   let lastSeries = null;
   grid.innerHTML = list.map((p,idx)=>{
     let divider = '';
@@ -2349,6 +2401,19 @@ function stringAxisScore(p){
     out[m[1]] = clamp01(+m[2] / 11);
   }
   return out;
+}
+const STRING_TYPE_LABELS = {
+  '반발력':'고반발력형', '내구성':'내구성형', '타구음':'타구음형',
+  '충격흡수력':'충격흡수력형', '컨트롤':'컨트롤형',
+};
+function stringType(p){
+  const scores = stringAxisScore(p);
+  if(!scores) return null;
+  let best = null, bestVal = -1;
+  for(const [k,v] of Object.entries(scores)){
+    if(v>bestVal){ bestVal=v; best=k; }
+  }
+  return best;
 }
 function stringPerfColor(p){
   const s = (p.series||'').toUpperCase();
