@@ -1910,6 +1910,9 @@ function fmtPrice(p){
   if(!p) return '';
   return p.toLocaleString('ko-KR')+'원';
 }
+function specLabelHtml(k){
+  return k==='적정스트링장력' ? '적정<br>스트링장력' : k;
+}
 
 function syncScrollFade(el){
   if(!el) return;
@@ -2230,7 +2233,7 @@ function openSheet(p){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   const perfHtml = stringPerfInfographicHtml(p);
-  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
@@ -2507,7 +2510,7 @@ function openCompareSheet(){
 
   const rows = keys.map(k=>`
     <tr>
-      <td>${k}</td>
+      <td>${specLabelHtml(k)}</td>
       ${products.map(p=>`<td>${p.specs && p.specs[k] ? String(p.specs[k]) : '–'}</td>`).join('')}
     </tr>
   `).join('');
@@ -2778,7 +2781,7 @@ function finderResultsBack(){
 function finderShowDetail(idx){
   const p = P[idx];
   const perfHtml = stringPerfInfographicHtml(p);
-  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
@@ -3066,7 +3069,7 @@ function stringFinderResultsBack(){
 function stringFinderShowDetail(idx){
   const p = P[idx];
   const perfHtml = stringPerfInfographicHtml(p);
-  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${k}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
