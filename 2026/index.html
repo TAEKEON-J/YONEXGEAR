@@ -2673,7 +2673,8 @@ function showRecoPopover(evt, idx){
   let left, top;
   if(rightSpace >= popW + 28){
     left = sheetRect.right + 16;
-    top = Math.max(16, Math.min(rect.top, window.innerHeight - popH - 16));
+    top = sheetRect.bottom - popH;
+    top = Math.max(16, Math.min(top, window.innerHeight - popH - 16));
   } else {
     left = Math.max(10, Math.min(rect.left, window.innerWidth - popW - 10));
     top = rect.bottom + 8;
