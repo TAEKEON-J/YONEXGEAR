@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>YONEX RACQUET TECHNOLOGY</title>
+<meta name="description" content="요넥스 라켓 핵심 기술을 애니메이션 효과로 시각화한 페이지 — 아이소메트릭, T-조인트, 로테이셔널 제너레이터 시스템 등.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000'/><text x='50' y='69' font-family='Arial,sans-serif' font-weight='900' font-size='58' fill='%238cff5c' text-anchor='middle'>Y</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lime:#8cff5c;
+    --orange:#ffb35c;
+    --red:#ff5c4d;
+    --ease:cubic-bezier(.22,1,.36,1);
+    font-family:'Archivo','Noto Sans KR',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  a{color:inherit;}
+  body{
+    background:linear-gradient(180deg,#000000,#101010);
+    color:#fff;min-height:100vh;padding:0 0 64px;
+  }
+
+  header.page{
+    max-width:920px;margin:0 auto;padding:40px 20px 26px;text-align:center;
+  }
+  header.page .logo{width:clamp(120px,28vw,150px);height:auto;display:block;margin:0 auto 18px;}
+  header.page .eyebrow{
+    font-size:11.5px;font-weight:800;background:var(--lime);color:#06210a;
+    padding:6px 14px;border-radius:999px;letter-spacing:.08em;display:inline-block;margin-bottom:16px;
+  }
+  header.page h1{font-size:clamp(26px,6vw,40px);font-weight:900;margin:0 0 8px;text-transform:uppercase;letter-spacing:-.01em;}
+  header.page .copyright{font-size:11.5px;color:#8a8a8a;line-height:1.7;max-width:520px;margin:0 auto;}
+
+  main{max-width:920px;margin:0 auto;padding:12px 20px 0;display:flex;flex-direction:column;gap:26px;}
+
+  .tech-card{
+    display:grid;grid-template-columns:1fr;gap:0;
+    background:#0d0d0d;border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;overflow:hidden;
+  }
+  @media(min-width:760px){
+    .tech-card{grid-template-columns:1.05fr 1fr;align-items:center;}
+  }
+
+  .tech-media{
+    position:relative;overflow:hidden;background:#000;width:100%;
+    aspect-ratio:487/320;min-width:0;min-height:0;
+  }
+  .tech-media img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  .tech-copy{padding:26px 26px 28px;display:flex;flex-direction:column;justify-content:center;gap:10px;min-width:0;}
+  .tech-copy h2{margin:0;font-size:clamp(20px,3.4vw,26px);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:1.15;}
+  .tech-copy h2 .kr{display:block;font-size:13px;font-weight:700;color:#a8a8a8;text-transform:none;letter-spacing:0;margin-top:4px;}
+  .tech-copy p{margin:0;font-size:14.5px;line-height:1.75;color:#d6d6d6;}
+  .tech-copy p.foot{font-size:11.5px;color:#7c7c7c;line-height:1.6;margin-top:2px;}
+  .tech-copy mark{
+    background:rgba(140,255,92,.22);color:var(--lime);font-weight:700;
+    padding:1px 3px;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+
+  /* ---------- shared fx primitives ---------- */
+  .fx{position:absolute;pointer-events:none;}
+  .fx-glow{
+    border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,.95), rgba(255,255,255,0) 70%);
+    mix-blend-mode:screen;transform:translate(-50%,-50%);
+  }
+  @keyframes pulseGlow{0%,100%{opacity:.3;transform:translate(-50%,-50%) scale(.8);}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.18);}}
+
+  @keyframes sweepX{0%{transform:translateX(-130%);}100%{transform:translateX(130%);}}
+  @keyframes sweepY{0%{transform:translateY(-140%);}100%{transform:translateY(240%);}}
+
+  /* 1. ISOMETRIC */
+  .fx-iso-glow{left:49%;top:44%;width:44%;aspect-ratio:1;animation:pulseGlow 2.2s ease-in-out infinite;}
+  .fx-iso-scan{top:10%;bottom:10%;left:0;width:16%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+    mix-blend-mode:screen;animation:sweepX 3s linear infinite;}
+
+  /* 2. Built-In T-Joint */
+  .tech-tjoint img{animation:brightPulse 2.3s ease-in-out infinite;}
+  @keyframes brightPulse{0%,100%{filter:brightness(1) saturate(1);}50%{filter:brightness(1.22) saturate(1.15);}}
+  .fx-tj-h{top:20%;left:8%;width:34%;height:12%;
+    background:linear-gradient(90deg, transparent, rgba(255,179,92,.95), transparent);
+    mix-blend-mode:screen;animation:sweepX 2.1s ease-in-out infinite;}
+  .fx-tj-v{top:34%;left:34%;width:9%;height:48%;
+    background:linear-gradient(180deg, transparent, rgba(255,179,92,.95), transparent);
+    mix-blend-mode:screen;animation:sweepY 2.1s ease-in-out infinite .45s;}
+
+  /* 3. Rotational Generator System */
+  .tech-rotational img{animation:swingRotate 1.9s ease-in-out infinite;transform-origin:24% 96%;}
+  @keyframes swingRotate{0%,100%{transform:rotate(-3.5deg);}50%{transform:rotate(3.5deg);}}
+  .fx-rot-dot{width:10px;height:10px;border-radius:50%;background:var(--orange);
+    box-shadow:0 0 16px 7px rgba(255,179,92,.9);mix-blend-mode:screen;
+    offset-path:path('M 150 285 C 55 235, 45 110, 105 55 C 140 25, 175 25, 178 55');
+    animation:moveDot 2.6s linear infinite;}
+  @keyframes moveDot{0%{offset-distance:0%;opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{offset-distance:100%;opacity:0;}}
+
+  /* 4. 2Gen-Namd Flex Force */
+  .tech-namd img{animation:flexBend 1.7s ease-in-out infinite;transform-origin:18% 92%;}
+  @keyframes flexBend{0%,100%{transform:rotate(0deg) skewX(0deg);}50%{transform:rotate(-2deg) skewX(-2.6deg);}}
+  .fx-namd-1{left:27%;top:24%;width:15%;aspect-ratio:1;animation:pulseGlow 1.7s ease-in-out infinite;}
+  .fx-namd-2{left:16%;top:76%;width:13%;aspect-ratio:1;animation:pulseGlow 1.7s ease-in-out infinite .35s;}
+
+  /* 5. Shot Information Connector */
+  .fx-ripple{left:61%;top:60%;width:15%;aspect-ratio:1;border-radius:50%;
+    border:2px solid rgba(255,92,77,.85);transform:translate(-50%,-50%) scale(.3);
+    mix-blend-mode:screen;animation:ripple 2s ease-out infinite;}
+  @keyframes ripple{0%{transform:translate(-50%,-50%) scale(.25);opacity:.9;}100%{transform:translate(-50%,-50%) scale(2.8);opacity:0;}}
+
+  /* 6. Ultra Slim Shaft */
+  .fx-stripes{top:0;left:0;height:100%;width:220%;
+    background:repeating-linear-gradient(98deg, transparent 0 28px, rgba(210,255,200,.55) 30px 34px, transparent 36px 66px);
+    mix-blend-mode:screen;animation:streakMove 1.1s linear infinite;}
+  @keyframes streakMove{0%{transform:translateX(0);}100%{transform:translateX(-36%);}}
+
+  /* 7. Lightweight End CAP */
+  .fx-cap-glow{left:48%;top:53%;width:32%;aspect-ratio:1;animation:pulseGlow 2s ease-in-out infinite;}
+  .fx-weight-dot{width:8px;height:8px;border-radius:50%;background:var(--lime);
+    box-shadow:0 0 14px 7px rgba(140,255,92,.85);left:47%;top:53%;
+    mix-blend-mode:screen;animation:weightShift 2.4s ease-in-out infinite;}
+  @keyframes weightShift{0%{transform:translate(0,0);opacity:0;}12%{opacity:1;}100%{transform:translate(-150px,-190px);opacity:0;}}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;}
+  }
+
+  footer{max-width:920px;margin:8px auto 0;padding:20px;text-align:center;color:#767676;font-size:11.5px;line-height:1.7;}
+  footer a{color:var(--lime);text-decoration:none;font-weight:700;}
+</style>
+</head>
+<body>
+
+<header class="page">
+  <img class="logo" src="shared-images/yonex_logo.png" alt="YONEX">
+  <span class="eyebrow">RACQUET TECHNOLOGY</span>
+  <h1>Technology</h1>
+  <p class="copyright">본 컨텐츠의 저작권은 요넥스코리아에 소속됨으로, 이미지 및 컨텐츠 무단 배포 및 사용을 금지합니다.</p>
+</header>
+
+<main>
+
+  <section class="tech-card">
+    <div class="tech-media tech-isometric">
+      <img src="shared-images/tech/isometric.jpg" alt="ISOMETRIC 아이소메트릭">
+      <div class="fx fx-glow fx-iso-glow"></div>
+      <div class="fx fx-iso-scan"></div>
+    </div>
+    <div class="tech-copy">
+      <h2>ISOMETRIC<span class="kr">아이소메트릭</span></h2>
+      <p>아이소메트릭 기술은 라켓 헤드의 프레임 형태를 정사각형에 가까운 형태로 디자인하여 <mark>스위트 스팟(Sweet Spot)*을 넓히는 기술</mark>입니다. 일반적인 타원형 프레임보다 더 넓은 면적에서 안정적인 타구가 가능하게 만들어 <mark>더 높은 컨트롤과 일관된 샷 성능을 제공</mark>합니다.</p>
+      <p class="foot">* 스위트 스팟(Sweet Spot) : 라켓에서 가장 효과적으로 공을 타격할 수 있는 최적의 영역</p>
+    </div>
+  </section>
+
+  <section class="tech-card">
+    <div class="tech-media tech-tjoint">
+      <img src="shared-images/tech/tjoint.jpg" alt="Built-In T-Joint 내장형 T-조인트">
+      <div class="fx fx-tj-h"></div>
+      <div class="fx fx-tj-v"></div>
+    </div>
+    <div class="tech-copy">
+      <h2>Built-In-T-Joint<span class="kr">내장형 T-조인트</span></h2>
+      <p>프레임과 샤프트가 만나는 그라파이트* 층 깊숙이 내장된 내장형 T-조인트는 <mark>견고하고 뒤틀림이 없는 강한 일체형 프레임</mark>을 제공합니다.</p>
+      <p class="foot">* 그라파이트(Graphite) : 탄소 섬유를 기반으로 만든 고강도, 경량 소재</p>
+    </div>
+  </section>
+
+  <section class="tech-card">
+    <div class="tech-media tech-rotational">
+      <img src="shared-images/tech/rotational.jpg" alt="Enhanced Rotational Generator System">
+      <div class="fx fx-rot-dot"></div>
+    </div>
+    <div class="tech-copy">
+      <h2>Enhanced<br>Rotational Generator System</h2>
+      <p>그립 엔드, 프레임 상단, 그리고 조인트 전체에 무게가 분산되어 <mark>강력한 공격을 지속</mark>할 수 있습니다. 파워 어시스트 범퍼는 라켓에 완벽하게 밀착되어 공기 저항을 줄이고 프레임 상단의 무게를 증가시켜 <mark>셔틀콕으로의 파워 전달을 향상</mark>시킵니다.</p>
+    </div>
+  </section>
+
+  <section class="tech-card">
+    <div class="tech-media tech-namd">
+      <img src="shared-images/tech/namd.jpg" alt="2Gen-Namd Flex Force">
+      <div class="fx fx-glow fx-namd-1"></div>
+      <div class="fx fx-glow fx-namd-2"></div>
+    </div>
+    <div class="tech-copy">
+      <h2>2Gen-Namd* Flex Force</h2>
+      <p>2G-Namd Flex Force는 빠른 플렉스와 스냅백 기능을 특징으로 하는 새로운 그라파이트입니다. 그라파이트를 결합하는 탄소 나노튜브는 <mark>에너지 손실을 줄이고 탄력성을 향상</mark>시킵니다.</p>
+      <p class="foot">* Namd : 닛타(Nitta) 주식회사가 탄소 섬유 복합재에 탄소 나노튜브를 균일하게 분산시키기 위해 개발한 기술입니다.</p>
+    </div>
+  </section>
+
+  <section class="tech-card">
+    <div class="tech-media tech-shotinfo">
+      <img src="shared-images/tech/shotinfo.jpg" alt="Shot Information Connector">
+      <div class="fx fx-ripple" style="animation-delay:0s;"></div>
+      <div class="fx fx-ripple" style="animation-delay:.6s;"></div>
+      <div class="fx fx-ripple" style="animation-delay:1.2s;"></div>
+    </div>
+    <div class="tech-copy">
+      <h2>Shot Information Connector</h2>
+      <p>샤프트와 엔드캡의 무게를 줄임으로써 라켓 헤드에 더 많은 무게가 집중되어 플렉스가 향상됩니다. 동시에 고강성 그라파이트로 제작된 안티 토션 샤프트(ANTI TORSION SHAFT)는 토크*를 줄이고 라켓 페이스의 안정성을 유지하는 데 도움을 줍니다. 이러한 디자인은 셔틀콕과 스트링의 접촉 시간을 늘려 <mark>더 많은 샷 정보를 명확하게 전달</mark>하고 모든 샷에서 플레이어에게 더 큰 자신감을 제공합니다.</p>
+      <p class="foot">* 토크 : 물체를 회전시키는 힘의 크기를 나타내는 물리량</p>
+    </div>
+  </section>
+
+  <section class="tech-card">
+    <div class="tech-media tech-ultraslim">
+      <img src="shared-images/tech/ultraslim.jpg" alt="Ultra Slim Shaft">
+      <div class="fx fx-stripes"></div>
+    </div>
+    <div class="tech-copy">
+      <h2>Ultra Slim Shaft</h2>
+      <p>요넥스의 울트라 슬림 샤프트는 가장 얇은 샤프트 설계로 공기 저항을 최소화해 <mark>스윙 속도와 조작성을 높여줍니다</mark>. 고탄성 카본을 사용해 강한 반발력을 발휘하여 <mark>스매시와 드라이브에서 더욱 빠르고 날카로운 타구</mark>가 가능합니다.</p>
+    </div>
+  </section>
+
+  <section class="tech-card">
+    <div class="tech-media tech-endcap">
+      <img src="shared-images/tech/endcap.jpg" alt="Lightweight End CAP">
+      <div class="fx fx-glow fx-cap-glow"></div>
+      <div class="fx fx-weight-dot"></div>
+    </div>
+    <div class="tech-copy">
+      <h2>Lightweight End CAP</h2>
+      <p>내부 무게를 제거하여 디자인된 엔드캡은 무게 균형을 라켓 헤드쪽으로 이동시켜 보다 더 특징적인 헤드 헤비 라켓의 기능을 구현하였습니다.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>YONEX GEAR CATALOGUE ARCHIVE<br><a href="./">← 카탈로그 아카이브로 돌아가기</a></footer>
+
+</body>
+</html>
