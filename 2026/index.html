@@ -2212,7 +2212,7 @@ function galleryStripHtml(p){
   const imgs = galleryList(p);
   const recoHtml = recoButtonHtml(p);
   if(imgs.length<2 && !recoHtml) return '';
-  const thumbs = imgs.length<2 ? '' : imgs.map((src,i)=>`<img src="${src}" onclick="setHeroImage('${src}',this)"
+  const thumbs = imgs.length<2 ? '' : imgs.map((src,i)=>`<img src="${src}" onclick="setHeroImage('${src}',this,${i})"
       style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex:none;cursor:pointer;
       border:2px solid ${i===0?'var(--navy)':'transparent'};" class="gallery-thumb">`).join('');
   return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 18px 0;">
@@ -2220,16 +2220,41 @@ function galleryStripHtml(p){
     ${recoHtml}
   </div>`;
 }
-function setHeroImage(src, thumbEl){
+let heroGalleryImgs = [];
+let heroGalleryIdx = 0;
+function setHeroGallery(p){
+  heroGalleryImgs = galleryList(p);
+  heroGalleryIdx = 0;
+}
+function setHeroImage(src, thumbEl, idx){
   const hero = document.getElementById('sheetHeroImg');
   if(hero) hero.src = src;
   document.querySelectorAll('.gallery-thumb').forEach(t=> t.style.border = '2px solid transparent');
   if(thumbEl) thumbEl.style.border = '2px solid var(--navy)';
+  if(typeof idx==='number') heroGalleryIdx = idx;
 }
+function swipeHeroImage(dir){
+  if(heroGalleryImgs.length<2) return;
+  heroGalleryIdx = (heroGalleryIdx + dir + heroGalleryImgs.length) % heroGalleryImgs.length;
+  const thumbs = document.querySelectorAll('.gallery-thumb');
+  setHeroImage(heroGalleryImgs[heroGalleryIdx], thumbs[heroGalleryIdx], heroGalleryIdx);
+}
+let heroTouchStartX = null;
+document.addEventListener('touchstart', (e)=>{
+  heroTouchStartX = e.target.closest('.sheet-hero') ? e.touches[0].clientX : null;
+}, {passive:true});
+document.addEventListener('touchend', (e)=>{
+  if(heroTouchStartX===null) return;
+  const dx = e.changedTouches[0].clientX - heroTouchStartX;
+  heroTouchStartX = null;
+  if(Math.abs(dx) < 40) return;
+  swipeHeroImage(dx < 0 ? 1 : -1);
+}, {passive:true});
 function openSheet(p){
   const overlay = document.getElementById('overlay');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
+  setHeroGallery(p);
   const perfHtml = stringPerfInfographicHtml(p);
   const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   sheet.innerHTML = `
@@ -2779,6 +2804,7 @@ function finderResultsBack(){
 }
 function finderShowDetail(idx){
   const p = P[idx];
+  setHeroGallery(p);
   const perfHtml = stringPerfInfographicHtml(p);
   const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   const sheet = document.getElementById('sheet');
@@ -3067,6 +3093,7 @@ function stringFinderResultsBack(){
 }
 function stringFinderShowDetail(idx){
   const p = P[idx];
+  setHeroGallery(p);
   const perfHtml = stringPerfInfographicHtml(p);
   const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   const sheet = document.getElementById('sheet');
