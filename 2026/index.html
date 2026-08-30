@@ -2312,19 +2312,6 @@ function smapLocalHalfWidth(y, cy, ry, rx){
   }
   return rx;
 }
-function smapHeadPath(cx, cy, rx, ry){
-  const top=cy-ry, bottom=cy+ry, hh=2*ry, kappa=0.552;
-  const topSpan=hh*0.42, botSpan=hh*0.30;
-  const p1y=top+topSpan, p2y=bottom-botSpan;
-  return `M${cx},${top}
-    C${cx+rx*kappa},${top} ${cx+rx},${top+topSpan*(1-kappa)} ${cx+rx},${p1y}
-    L${cx+rx},${p2y}
-    C${cx+rx},${p2y+botSpan*kappa} ${cx+rx*(1-kappa)},${bottom} ${cx},${bottom}
-    C${cx-rx*(1-kappa)},${bottom} ${cx-rx},${p2y+botSpan*kappa} ${cx-rx},${p2y}
-    L${cx-rx},${p1y}
-    C${cx-rx},${top+topSpan*(1-kappa)} ${cx-rx*kappa},${top} ${cx},${top}
-    Z`;
-}
 function openSeriesMapSheet(seriesName){
   const info = SERIES_INFO[seriesName];
   if(!info) return;
@@ -2333,7 +2320,7 @@ function openSeriesMapSheet(seriesName){
   sheet.classList.remove('cmp-mode');
   const items = P.filter(p=>p.series===seriesName && p.mapPos);
 
-  const cx=180, cy=190, rx=145, ry=166;
+  const cx=185, cy=217, rx=166, ry=187;
   const insetX=0.86, insetY=0.86;
   const toXY = (pos)=>{
     const yOff = (pos.y-0.5)*2*ry*insetY;
@@ -2344,14 +2331,6 @@ function openSeriesMapSheet(seriesName){
       y,
     };
   };
-
-  let gridLines = '';
-  for(let x=cx-rx+14; x<=cx+rx-14; x+=18){
-    gridLines += `<line x1="${x}" y1="${cy-ry}" x2="${x}" y2="${cy+ry}"/>`;
-  }
-  for(let y=cy-ry+16; y<=cy+ry-16; y+=18){
-    gridLines += `<line x1="${cx-rx}" y1="${y}" x2="${cx+rx}" y2="${y}"/>`;
-  }
 
   const isAdmin = new URLSearchParams(location.search).get('admin')==='1';
 
@@ -2371,16 +2350,8 @@ function openSeriesMapSheet(seriesName){
         <h2>${info.mapTitle}</h2>
         <button onclick="closeSheet()" aria-label="닫기">✕</button>
       </div>
-      <svg class="smap-svg" id="smapSvg" viewBox="0 0 360 500" xmlns="http://www.w3.org/2000/svg">
-        <text x="180" y="16" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="1" fill="#86868b">헤드 헤비</text>
-        <text x="180" y="494" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="1" fill="#86868b">헤드 라이트</text>
-        <text x="15" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#86868b" transform="rotate(-90 15 190)">부드러운 타구감</text>
-        <text x="345" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#86868b" transform="rotate(90 345 190)">단단한 타구감</text>
-        <clipPath id="smapClip"><path d="${smapHeadPath(cx,cy,rx,ry)}"/></clipPath>
-        <g clip-path="url(#smapClip)" stroke="#e6e6e6" stroke-width="1">${gridLines}</g>
-        <path d="${smapHeadPath(cx,cy,rx,ry)}" fill="none" stroke="#c7c7cc" stroke-width="9"/>
-        <line x1="${cx}" y1="${cy-ry+6}" x2="${cx}" y2="${cy+ry-6}" stroke="#d2d2d7" stroke-width="1.5" stroke-dasharray="4 5"/>
-        <path d="M${cx-9},${cy+ry} L${cx-5},${cy+ry+28} L${cx-5},${cy+ry+120} A5,5 0 0 0 ${cx+5},${cy+ry+120} L${cx+5},${cy+ry+28} L${cx+9},${cy+ry} Z" fill="#c7c7cc"/>
+      <svg class="smap-svg" id="smapSvg" viewBox="0 0 369 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <image href="images/badminton%20racquet_matrix.jpg" xlink:href="images/badminton%20racquet_matrix.jpg" x="0" y="0" width="369" height="500" preserveAspectRatio="xMidYMid meet"/>
         ${bubbles}
       </svg>
       ${isAdmin ? `
