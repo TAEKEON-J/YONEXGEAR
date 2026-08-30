@@ -997,6 +997,7 @@ const P = [
  buyUrl:'https://www.yonexmall.com/shop/goods/goods_view.php?goodsno=7368&category=001006',
  reco:{'Control Players':['BG66 Ultimax'],'Hard Hitters':['BG80']},
  mapPos:{x:.39,y:.35},
+ mapLabelSmall:true,
  specs:{'ERP코드':'[LGR] ASTROX NEXTAGE (2025 MODEL) / [BK/G] ASTROX NEXTAGE','탄성':'MEDIUM','프레임':'Graphite / VDM / Tungsten','샤프트':'Graphite / NANOMESH NEO','조인트':'Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Light Gray, Black/Green','원산지':'Taiwan'},
  desc:'중독성 있는 타구감과 편안한 스윙을 위해 개발된 라켓.',tags:['올라운드','중급']},
 {c:'bad',s:'racquet',series:'ASTROX',name:'Astrox 11',kr:'아스트록스 11',price:159000,grad:GRAD.ASTROX,img:'../shared-images/astrox-11.jpg',
@@ -1071,6 +1072,7 @@ const P = [
 {c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare Nextage',kr:'나노플레어 넥스테이지',price:199000,grad:GRAD.NANOFLARE,img:'../shared-images/nanoflare-nextage.jpg',
  images:['../shared-images/nanoflare-nextage.jpg','../shared-images/nanoflare-nextage-2.jpg','../shared-images/nanoflare-nextage-3.jpg'],
  mapPos:{x:.34,y:.78},
+ mapLabelSmall:true,
  reco:{'Control Players':['Skyarc']},
  specs:{'ERP코드':'NANOFLARE NEXTAGE (2025 MODEL)','탄성':'MEDIUM','프레임':'HT Graphite / NANOCELL NEO','샤프트':'Graphite','조인트':'Built-in T-Joint','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'White Gray / Dark Gray','원산지':'Taiwan'},
  desc:'부드러우면서 빠른 반발력을 만들어내는 중급자용 라켓.',tags:['중급','올라운드']},
@@ -2308,15 +2310,16 @@ function renderSeriesInfoBlock(){
     </div>
   `;
 }
-function smapLabelTspans(name, seriesName, x){
+function smapLabelTspans(name, seriesName, x, fontSize){
   const short = name.replace(new RegExp('^'+seriesName+'\\s+','i'),'').toUpperCase();
   const words = short.split(' ');
   let lines;
   if(words.length<=1){ lines=[words[0]||'']; }
   else if(words.length===2){ lines=[words[0], words[1]]; }
   else { const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '), words.slice(mid).join(' ')]; }
-  const startDy = 2.1-(lines.length-1)*3.8;
-  return lines.map((l,i)=>`<tspan x="${x}" dy="${i===0?startDy:7.6}">${l}</tspan>`).join('');
+  const lineHeight = fontSize*1.2667;
+  const startDy = fontSize*0.35-(lines.length-1)*lineHeight/2;
+  return lines.map((l,i)=>`<tspan x="${x}" dy="${i===0?startDy:lineHeight}">${l}</tspan>`).join('');
 }
 function smapLocalHalfWidth(y, cy, ry, rx){
   const topT=0.42, botT=0.30;
@@ -2356,9 +2359,11 @@ function openSeriesMapSheet(seriesName){
   const bubbles = items.slice().sort((a,b)=>(a.mapTop?1:0)-(b.mapTop?1:0)).map(p=>{
     const {x,y} = toXY(p.mapPos);
     const idx = P.indexOf(p);
+    const fontSize = p.mapLabelSmall ? 5 : 6;
+    const letterSpacing = p.mapLabelSmall ? 'letter-spacing:-.3px;' : '';
     return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-idx="${idx}" onclick="${isAdmin?'':`seriesMapShowDetail(${idx},'${seriesName}')`}">
       <circle cx="${x}" cy="${y}" r="14" fill="${info.mapColor}" stroke="#fff" stroke-width="1.2"/>
-      <text x="${x}" y="${y}" text-anchor="middle" font-size="6" font-weight="800" fill="#fff">${smapLabelTspans(p.name,seriesName,x)}</text>
+      <text x="${x}" y="${y}" text-anchor="middle" font-size="${fontSize}" font-weight="800" fill="#fff" style="${letterSpacing}">${smapLabelTspans(p.name,seriesName,x,fontSize)}</text>
     </g>`;
   }).join('');
 
