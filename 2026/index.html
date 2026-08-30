@@ -115,15 +115,16 @@
   @media(max-width:400px){.header-logo img{height:16px;}}
   .searchwrap{margin:16px 0 14px;}
   .searchbox{
-    display:flex;align-items:center;gap:10px;
+    display:flex;align-items:center;gap:8px;
     background:#f2f2f4;border:1px solid transparent;
-    border-radius:980px;padding:11px 16px;
+    border-radius:980px;padding:7px 14px;
   }
   .searchbox input{
-    background:transparent;border:none;outline:none;color:var(--ink);font-size:16px;width:100%;
+    background:transparent;border:none;outline:none;color:var(--ink);
+    font-size:16px;width:111.12%;transform:scale(.9);transform-origin:left center;
   }
   .searchbox input::placeholder{color:var(--muted);}
-  .searchbox svg{flex:none;opacity:.7;color:var(--ink);}
+  .searchbox svg{flex:none;opacity:.7;color:var(--ink);width:14px;height:14px;}
 
   .to-top{
     position:fixed;right:16px;bottom:16px;z-index:60;
