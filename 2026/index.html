@@ -2067,12 +2067,11 @@ function renderSeriesRow(){
 
   if(mode==='weight'){
     const buckets = ['가벼운','보통','묵직한'].filter(w=> items.some(p=>racquetWeights(p).map(weightBucket).includes(w)));
-    el.innerHTML = `<button class="chip ${!state.weightFilter?'active':''}" data-weight="">전체</button>` +
-      buckets.map(w=>`<button class="chip ${state.weightFilter===w?'active':''}" data-weight="${w}">${w}</button>`).join('');
+    el.innerHTML = buckets.map(w=>`<button class="chip ${state.weightFilter===w?'active':''}" data-weight="${w}">${w}</button>`).join('');
     el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
-      state.weightFilter = b.dataset.weight || null; renderGrid();
-      el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
+      state.weightFilter = (state.weightFilter===b.dataset.weight) ? null : b.dataset.weight;
+      renderGrid();
+      el.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active', x.dataset.weight===state.weightFilter));
     });
     syncScrollFade(el);
     return;
@@ -2080,12 +2079,11 @@ function renderSeriesRow(){
   if(mode==='flex'){
     const flexOrder = ['HI-FLEX','MEDIUM','STIFF','EXTRA STIFF'];
     const flexList = flexOrder.filter(f=> items.some(p=>racquetFlex(p)===f));
-    el.innerHTML = `<button class="chip ${!state.flexFilter?'active':''}" data-flex="">전체</button>` +
-      flexList.map(f=>`<button class="chip ${state.flexFilter===f?'active':''}" data-flex="${f}">${f}</button>`).join('');
+    el.innerHTML = flexList.map(f=>`<button class="chip ${state.flexFilter===f?'active':''}" data-flex="${f}">${f}</button>`).join('');
     el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
-      state.flexFilter = b.dataset.flex || null; renderGrid();
-      el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
+      state.flexFilter = (state.flexFilter===b.dataset.flex) ? null : b.dataset.flex;
+      renderGrid();
+      el.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active', x.dataset.flex===state.flexFilter));
     });
     syncScrollFade(el);
     return;
