@@ -262,7 +262,19 @@
   .smap-svg .smap-bubble{cursor:pointer;}
   .smap-svg .smap-bubble circle{transition:r .15s ease;}
   .smap-svg .smap-bubble:hover circle{r:32;}
+  .smap-svg .smap-draggable{cursor:grab;touch-action:none;}
+  .smap-svg .smap-draggable:active{cursor:grabbing;}
+  .smap-svg .smap-draggable circle{stroke-width:2.5;}
   .smap-svg text{font-family:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;user-select:none;}
+  .smap-admin-bar{
+    display:flex;align-items:center;gap:10px;margin:0 16px 16px;padding:12px 14px;
+    background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;
+  }
+  .smap-admin-hint{flex:1;font-size:11.5px;line-height:1.5;color:#9a3412;}
+  .smap-admin-bar button{
+    flex:none;background:#1d1d1f;color:#fff;font-weight:800;font-size:12.5px;
+    border:none;border-radius:999px;padding:9px 16px;cursor:pointer;white-space:nowrap;
+  }
 
   .section-title{
     font-size:13px;font-weight:900;color:var(--ink);text-transform:uppercase;
@@ -2314,10 +2326,12 @@ function openSeriesMapSheet(seriesName){
     gridLines += `<line x1="${cx-rx}" y1="${y}" x2="${cx+rx}" y2="${y}"/>`;
   }
 
+  const isAdmin = new URLSearchParams(location.search).get('admin')==='1';
+
   const bubbles = items.map(p=>{
     const {x,y} = toXY(p.mapPos);
     const idx = P.indexOf(p);
-    return `<g class="smap-bubble" onclick="seriesMapShowDetail(${idx},'${seriesName}')">
+    return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-idx="${idx}" onclick="${isAdmin?'':`seriesMapShowDetail(${idx},'${seriesName}')`}">
       <circle cx="${x}" cy="${y}" r="28" fill="#fff" stroke="${info.accent}" stroke-width="1.5"/>
       <text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="8.5" font-weight="800" fill="#1d1d1f">${smapLabelTspans(p.name,x)}</text>
     </g>`;
@@ -2330,7 +2344,7 @@ function openSeriesMapSheet(seriesName){
         <h2>${info.mapTitle}</h2>
         <button onclick="closeSheet()" aria-label="닫기">✕</button>
       </div>
-      <svg class="smap-svg" viewBox="0 0 320 460" xmlns="http://www.w3.org/2000/svg">
+      <svg class="smap-svg" id="smapSvg" viewBox="0 0 320 460" xmlns="http://www.w3.org/2000/svg">
         <text x="160" y="16" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="1" fill="#86868b">헤드 헤비</text>
         <text x="160" y="446" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="1" fill="#86868b">헤드 라이트</text>
         <text x="12" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#86868b" transform="rotate(-90 12 190)">부드러운 타구감</text>
@@ -2342,12 +2356,69 @@ function openSeriesMapSheet(seriesName){
         <rect x="${cx-6}" y="${cy+ry-6}" width="12" height="70" rx="5" fill="#1d1d1f"/>
         ${bubbles}
       </svg>
+      ${isAdmin ? `
+      <div class="smap-admin-bar">
+        <div class="smap-admin-hint">🔧 관리자 모드 — 버블을 드래그해서 위치를 옮긴 뒤 아래 버튼으로 좌표를 복사하세요.</div>
+        <button onclick="copySmapPositions('${seriesName}')">좌표 복사</button>
+      </div>` : ''}
     </div>
   `;
   if(!overlay.classList.contains('open')){
     overlay.classList.add('open');
     history.pushState({sheetOpen:true}, '', location.href);
     sheetHistoryPushed = true;
+  }
+  if(isAdmin) initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY);
+}
+function initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY){
+  const svg = document.getElementById('smapSvg');
+  if(!svg) return;
+  const toFrac = (x, y)=>{
+    const yOff = y - cy;
+    const fy = 0.5 + yOff/(2*ry*insetY);
+    const localRxFrac = Math.max(0.06, Math.sqrt(Math.max(0, 1-Math.pow(yOff/ry,2))));
+    const fx = 0.5 + (x-cx)/(2*rx*insetX*localRxFrac);
+    return {x: Math.round(fx*100)/100, y: Math.round(fy*100)/100};
+  };
+  const svgPoint = (clientX, clientY)=>{
+    const pt = svg.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const ctm = svg.getScreenCTM();
+    return ctm ? pt.matrixTransform(ctm.inverse()) : {x:0,y:0};
+  };
+  let dragging = null;
+  svg.querySelectorAll('.smap-draggable').forEach(g=>{
+    g.addEventListener('pointerdown', e=>{
+      e.preventDefault();
+      dragging = g;
+      g.setPointerCapture(e.pointerId);
+    });
+  });
+  svg.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const p = svgPoint(e.clientX, e.clientY);
+    const idx = +dragging.dataset.idx;
+    const frac = toFrac(p.x, p.y);
+    P[idx].mapPos = frac;
+    dragging.querySelector('circle').setAttribute('cx', p.x);
+    dragging.querySelector('circle').setAttribute('cy', p.y);
+    dragging.querySelectorAll('text tspan').forEach(t=> t.setAttribute('x', p.x));
+    dragging.querySelector('text').setAttribute('y', p.y);
+  });
+  const stop = ()=>{ dragging = null; };
+  svg.addEventListener('pointerup', stop);
+  svg.addEventListener('pointercancel', stop);
+}
+function copySmapPositions(seriesName){
+  const items = P.filter(p=>p.series===seriesName && p.mapPos);
+  const text = items.map(p=>`${p.name}: mapPos:{x:${p.mapPos.x},y:${p.mapPos.y}}`).join('\n');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(
+      ()=> alert('좌표를 복사했어요. 챗에 붙여넣어 주세요.'),
+      ()=> prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text)
+    );
+  } else {
+    prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text);
   }
 }
 function seriesMapShowDetail(idx, seriesName){
