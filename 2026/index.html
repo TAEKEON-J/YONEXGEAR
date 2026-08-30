@@ -1049,6 +1049,7 @@ const P = [
  desc:'드라이브 속도를 극대화하도록 설계되어 카운터 드라이브가 가능한 라켓.',tags:['드라이브','상급']},
 {c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 800 Tour',kr:'나노플레어 800 투어',price:185000,grad:GRAD.NANOFLARE,img:'../shared-images/nanoflare-800-tour.jpg',
  mapPos:{x:.94,y:.58},
+ mapLabelBelow:true,
  specs:{'ERP코드':'NANOFLARE 800 TOUR','탄성':'STIFF','프레임':'HM Graphite / NANOCELL NEO / SUPER HMG / Copper','샤프트':'HM Graphite / SUPER HMG','조인트':'Built-in T-Joint / Graphite','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 20-28lbs','색상':'Deep Green','원산지':'Taiwan'},
  desc:'카운터 드라이브가 가능한 중급자용 라켓.',tags:['드라이브','중급']},
 {c:'bad',s:'racquet',series:'NANOFLARE',name:'Nanoflare 800 Play',kr:'나노플레어 800 플레이',price:79000,grad:GRAD.NANOFLARE,img:'../shared-images/nanoflare-800-play.jpg',
@@ -2361,9 +2362,11 @@ function openSeriesMapSheet(seriesName){
     const idx = P.indexOf(p);
     const fontSize = p.mapLabelSmall ? 5 : 6;
     const letterSpacing = p.mapLabelSmall ? 'letter-spacing:-.3px;' : '';
+    const textY = p.mapLabelBelow ? y+22 : y;
+    const textFill = p.mapLabelBelow ? info.mapColor : '#fff';
     return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-idx="${idx}" onclick="${isAdmin?'':`seriesMapShowDetail(${idx},'${seriesName}')`}">
       <circle cx="${x}" cy="${y}" r="14" fill="${info.mapColor}" stroke="#fff" stroke-width="1.2"/>
-      <text x="${x}" y="${y}" text-anchor="middle" font-size="${fontSize}" font-weight="800" fill="#fff" style="${letterSpacing}">${smapLabelTspans(p.name,seriesName,x,fontSize)}</text>
+      <text x="${x}" y="${textY}" text-anchor="middle" font-size="${fontSize}" font-weight="800" fill="${textFill}" style="${letterSpacing}">${smapLabelTspans(p.name,seriesName,x,fontSize)}</text>
     </g>`;
   }).join('');
 
