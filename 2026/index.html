@@ -172,14 +172,14 @@
   nav.cats::-webkit-scrollbar{display:none;}
   nav.cats button{
     flex:none;white-space:nowrap;
-    background:transparent;color:#7d7563;border:1px solid transparent;
+    background:transparent;color:#7d7563;border:1px solid #e6e1d3;
     padding:6px 15px;border-radius:980px;font-size:13px;font-weight:600;cursor:pointer;
-    transition:background .15s ease,color .15s ease,box-shadow .15s ease,transform .1s ease;
+    transition:background .15s ease,color .15s ease,border-color .15s ease,box-shadow .15s ease,transform .1s ease;
   }
-  nav.cats button:hover{color:#332f27;}
+  nav.cats button:hover{color:#332f27;border-color:#d8d1bd;}
   nav.cats button:active{transform:scale(.96);}
   nav.cats button.active{
-    background:#3f3a30;color:#fbf9f4;
+    background:#3f3a30;color:#fbf9f4;border-color:#3f3a30;
     box-shadow:0 2px 5px rgba(40,32,15,.14),0 5px 13px rgba(40,32,15,.09);
   }
   nav.cats button.active:hover{background:#3f3a30;color:#fbf9f4;}
