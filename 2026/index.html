@@ -2299,6 +2299,32 @@ function smapLabelTspans(name, x){
   const startDy = -(lines.length-1)*2.9;
   return lines.map((l,i)=>`<tspan x="${x}" dy="${i===0?startDy:5.8}">${l}</tspan>`).join('');
 }
+function smapLocalHalfWidth(y, cy, ry, rx){
+  const topT=0.42, botT=0.30;
+  const rel = (y-(cy-ry))/(2*ry);
+  if(rel<topT){
+    const t = Math.max(0,rel)/topT;
+    return rx*Math.sin(t*Math.PI/2);
+  }
+  if(rel>1-botT){
+    const t = Math.max(0,1-rel)/botT;
+    return rx*Math.sin(t*Math.PI/2);
+  }
+  return rx;
+}
+function smapHeadPath(cx, cy, rx, ry){
+  const top=cy-ry, bottom=cy+ry, hh=2*ry, kappa=0.552;
+  const topSpan=hh*0.42, botSpan=hh*0.30;
+  const p1y=top+topSpan, p2y=bottom-botSpan;
+  return `M${cx},${top}
+    C${cx+rx*kappa},${top} ${cx+rx},${top+topSpan*(1-kappa)} ${cx+rx},${p1y}
+    L${cx+rx},${p2y}
+    C${cx+rx},${p2y+botSpan*kappa} ${cx+rx*(1-kappa)},${bottom} ${cx},${bottom}
+    C${cx-rx*(1-kappa)},${bottom} ${cx-rx},${p2y+botSpan*kappa} ${cx-rx},${p2y}
+    L${cx-rx},${p1y}
+    C${cx-rx},${top+topSpan*(1-kappa)} ${cx-rx*kappa},${top} ${cx},${top}
+    Z`;
+}
 function openSeriesMapSheet(seriesName){
   const info = SERIES_INFO[seriesName];
   if(!info) return;
@@ -2311,10 +2337,11 @@ function openSeriesMapSheet(seriesName){
   const insetX=0.86, insetY=0.86;
   const toXY = (pos)=>{
     const yOff = (pos.y-0.5)*2*ry*insetY;
-    const localRxFrac = Math.sqrt(Math.max(0, 1-Math.pow(yOff/ry,2)));
+    const y = cy + yOff;
+    const localRx = smapLocalHalfWidth(y, cy, ry, rx)*insetX;
     return {
-      x: cx + (pos.x-0.5)*2*rx*insetX*localRxFrac,
-      y: cy + yOff,
+      x: cx + (pos.x-0.5)*2*localRx,
+      y,
     };
   };
 
@@ -2349,9 +2376,9 @@ function openSeriesMapSheet(seriesName){
         <text x="180" y="446" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="1" fill="#86868b">헤드 라이트</text>
         <text x="15" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#86868b" transform="rotate(-90 15 190)">부드러운 타구감</text>
         <text x="345" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#86868b" transform="rotate(90 345 190)">단단한 타구감</text>
-        <clipPath id="smapClip"><ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"/></clipPath>
+        <clipPath id="smapClip"><path d="${smapHeadPath(cx,cy,rx,ry)}"/></clipPath>
         <g clip-path="url(#smapClip)" stroke="#e6e6e6" stroke-width="1">${gridLines}</g>
-        <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="none" stroke="#1d1d1f" stroke-width="2.5"/>
+        <path d="${smapHeadPath(cx,cy,rx,ry)}" fill="none" stroke="#1d1d1f" stroke-width="2.5"/>
         <line x1="${cx}" y1="${cy-ry+4}" x2="${cx}" y2="${cy+ry-4}" stroke="#c7c7cc" stroke-width="1" stroke-dasharray="4 5"/>
         <rect x="${cx-6}" y="${cy+ry-6}" width="12" height="70" rx="5" fill="#1d1d1f"/>
         ${bubbles}
@@ -2374,10 +2401,9 @@ function initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY){
   const svg = document.getElementById('smapSvg');
   if(!svg) return;
   const toFrac = (x, y)=>{
-    const yOff = y - cy;
-    const fy = 0.5 + yOff/(2*ry*insetY);
-    const localRxFrac = Math.max(0.06, Math.sqrt(Math.max(0, 1-Math.pow(yOff/ry,2))));
-    const fx = 0.5 + (x-cx)/(2*rx*insetX*localRxFrac);
+    const fy = 0.5 + (y-cy)/(2*ry*insetY);
+    const localRx = Math.max(6, smapLocalHalfWidth(y, cy, ry, rx)*insetX);
+    const fx = 0.5 + (x-cx)/(2*localRx);
     return {x: Math.round(fx*100)/100, y: Math.round(fy*100)/100};
   };
   const svgPoint = (clientX, clientY)=>{
