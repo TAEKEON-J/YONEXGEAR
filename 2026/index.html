@@ -858,6 +858,13 @@ const SERIES_INFO = {
     desc: '날카롭고 강력한 공격을 위한 라켓 시리즈',
     mapTitle: 'ASTROX SERIES MAP',
   },
+  ARCSABER: {
+    grad: GRAD.ARCSABER,
+    kicker: 'ACCURACY',
+    title: 'MASTER<br>OF PRECISION',
+    desc: '향상된 컨트롤과 타구감으로 정교한 플레이를 완성하는 라켓 시리즈',
+    mapTitle: 'ARCSABER SERIES MAP',
+  },
 };
 
 const CATS = [
@@ -994,10 +1001,12 @@ const P = [
 /* ============ ARCSABER ============ */
 {c:'bad',s:'racquet',series:'ARCSABER',name:'Arcsaber 11 Pro',kr:'아크세이버 11 프로',price:299000,grad:GRAD.ARCSABER,img:'../shared-images/arcsaber-11-pro.jpg',
  images:['../shared-images/arcsaber-11-pro.jpg','../shared-images/arcsaber-11-pro-2.jpg','../shared-images/arcsaber-11-pro-3.jpg'],
+ mapPos:{x:.5,y:.4},
  specs:{'ERP코드':'ARCSABER 11 PRO','탄성':'STIFF','프레임':'HM Graphite / POCKETING BOOSTER','샤프트':'HM Graphite / SUPER HMG / ULTRA PE FIBER','조인트':'NEW Built-in T-Joint / T-ANCHOR','길이':'10mm longer','무게/그립':'4U(83g) G5, 3U(88g) G5','적정스트링장력':'4U 19-27lbs, 3U 20-28lbs','색상':'Grayish Pearl','원산지':'Japan'},
  desc:'이븐 밸런스 라켓의 상징. 셔틀콕 홀딩력을 강화한 새로운 레벨의 컨트롤.',tags:['이븐밸런스','상급','컨트롤']},
 {c:'bad',s:'racquet',series:'ARCSABER',name:'Arcsaber 7 Pro',kr:'아크세이버 7 프로',price:270000,grad:GRAD.ARCSABER,img:'../shared-images/arcsaber-7-pro.jpg',
  images:['../shared-images/arcsaber-7-pro.jpg','../shared-images/arcsaber-7-pro-2.jpg','../shared-images/arcsaber-7-pro-3.jpg'],
+ mapPos:{x:.5,y:.6},
  reco:{'Control Players':['Exbolt 63'],'Hard Hitters':['Exbolt 65']},
  specs:{'ERP코드':'ARCSABER 7 PRO','탄성':'MEDIUM','프레임':'HM Graphite / POCKETING BOOSTER','샤프트':'HM Graphite / ULTRA PE FIBER','조인트':'NEW Built-in T-Joint / T-ANCHOR','길이':'10mm longer','무게/그립':'4U(83g) G5','적정스트링장력':'4U 19-27lbs','색상':'Gray/Yellow','원산지':'Japan'},
  desc:'프레임 측면의 유니크한 기술력, 새로운 레벨의 셔틀콕 컨트롤.',tags:['컨트롤','상급']},
@@ -2260,8 +2269,8 @@ function renderSeriesInfoBlock(){
     </div>
   `;
 }
-function smapLabelTspans(name, x){
-  const short = name.replace(/^Astrox\s+/i,'').toUpperCase();
+function smapLabelTspans(name, seriesName, x){
+  const short = name.replace(new RegExp('^'+seriesName+'\\s+','i'),'').toUpperCase();
   const words = short.split(' ');
   let lines;
   if(words.length<=1){ lines=[words[0]||'']; }
@@ -2310,7 +2319,7 @@ function openSeriesMapSheet(seriesName){
     const idx = P.indexOf(p);
     return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-idx="${idx}" onclick="${isAdmin?'':`seriesMapShowDetail(${idx},'${seriesName}')`}">
       <circle cx="${x}" cy="${y}" r="14" fill="#a33827" stroke="#fff" stroke-width="1.2"/>
-      <text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="6" font-weight="800" fill="#fff">${smapLabelTspans(p.name,x)}</text>
+      <text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="6" font-weight="800" fill="#fff">${smapLabelTspans(p.name,seriesName,x)}</text>
     </g>`;
   }).join('');
 
