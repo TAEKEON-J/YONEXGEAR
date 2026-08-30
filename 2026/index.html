@@ -664,8 +664,12 @@
       <span class="yr">2026</span>
     </a>
     <div class="header-logo" style="gap:8px;">
-      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:600;color:#332f27;text-decoration:none;white-space:nowrap;background:#fff;border:none;border-radius:9px;padding:7px 12px;box-shadow:0 1px 2px rgba(50,40,20,.05),0 3px 9px rgba(50,40,20,.06);">PDF 다운</a>
-      <button id="shareBtn" onclick="shareCatalog()" style="font-size:11px;font-weight:600;color:#fbf9f4;white-space:nowrap;background:#3f3a30;border:none;border-radius:9px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 5px rgba(40,32,15,.14),0 5px 13px rgba(40,32,15,.09);">링크 공유</button>
+      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download aria-label="PDF 다운로드" title="PDF 다운로드" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:#332f27;background:#fff;border:none;border-radius:9px;box-shadow:0 1px 2px rgba(50,40,20,.05),0 3px 9px rgba(50,40,20,.06);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </a>
+      <button id="shareBtn" onclick="shareCatalog()" aria-label="링크 공유" title="링크 공유" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:#fbf9f4;background:#3f3a30;border:none;border-radius:9px;cursor:pointer;box-shadow:0 2px 5px rgba(40,32,15,.14),0 5px 13px rgba(40,32,15,.09);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      </button>
     </div>
   </div>
   <div class="searchwrap">
