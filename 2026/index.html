@@ -91,21 +91,21 @@
   /* ---------- HEADER ---------- */
   header.top{
     position:sticky;top:0;z-index:50;overflow:hidden;
-    background:rgba(255,255,255,.86);
+    background:rgba(246,244,239,.92);
     -webkit-backdrop-filter:saturate(180%) blur(14px);
     backdrop-filter:saturate(180%) blur(14px);
-    color:var(--ink);
+    color:#332f27;
     padding:16px 20px 0;
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid #ece7db;
   }
   header.top .brandrow, header.top .searchwrap, header.top nav.cats, header.top nav.subcats{
     position:relative;z-index:2;
   }
   .brandrow{display:flex;align-items:center;gap:12px;justify-content:space-between;}
   .brand{display:flex;align-items:baseline;gap:9px;flex:0 0 auto;}
-  .brand .logo{font-weight:800;font-size:19px;letter-spacing:-.01em;color:var(--ink);}
+  .brand .logo{font-weight:800;font-size:19px;letter-spacing:-.01em;color:#332f27;}
   .brand .yr{
-    font-size:12px;background:transparent;color:var(--muted);font-weight:600;
+    font-size:12px;background:transparent;color:#948d7c;font-weight:600;
     padding:0;letter-spacing:0;line-height:1;
     border:none;
     display:inline-flex;align-items:center;
@@ -116,15 +116,16 @@
   .searchwrap{margin:16px 0 14px;}
   .searchbox{
     display:flex;align-items:center;gap:8px;
-    background:#f2f2f4;border:1px solid transparent;
+    background:#fff;border:1px solid transparent;
     border-radius:980px;padding:7px 14px;
+    box-shadow:0 1px 2px rgba(50,40,20,.05),0 3px 10px rgba(50,40,20,.06);
   }
   .searchbox input{
-    background:transparent;border:none;outline:none;color:var(--ink);
+    background:transparent;border:none;outline:none;color:#332f27;
     font-size:16px;width:111.12%;transform:scale(.9);transform-origin:left center;
   }
-  .searchbox input::placeholder{color:var(--muted);}
-  .searchbox svg{flex:none;opacity:.7;color:var(--ink);width:14px;height:14px;}
+  .searchbox input::placeholder{color:#a9a08b;}
+  .searchbox svg{flex:none;opacity:.7;color:#948d7c;width:14px;height:14px;}
 
   .to-top{
     position:fixed;right:16px;bottom:16px;z-index:60;
@@ -171,14 +172,17 @@
   nav.cats::-webkit-scrollbar{display:none;}
   nav.cats button{
     flex:none;white-space:nowrap;
-    background:transparent;color:var(--muted);border:1px solid transparent;
+    background:transparent;color:#7d7563;border:1px solid transparent;
     padding:6px 15px;border-radius:980px;font-size:13px;font-weight:600;cursor:pointer;
-    transition:background .15s ease,color .15s ease,transform .1s ease;
+    transition:background .15s ease,color .15s ease,box-shadow .15s ease,transform .1s ease;
   }
-  nav.cats button:hover{color:var(--ink);}
+  nav.cats button:hover{color:#332f27;}
   nav.cats button:active{transform:scale(.96);}
-  nav.cats button.active{background:var(--ink);color:#fff;}
-  nav.cats button.active:hover{background:var(--ink);color:#fff;}
+  nav.cats button.active{
+    background:#3f3a30;color:#fbf9f4;
+    box-shadow:0 2px 5px rgba(40,32,15,.14),0 5px 13px rgba(40,32,15,.09);
+  }
+  nav.cats button.active:hover{background:#3f3a30;color:#fbf9f4;}
 
   nav.subcats{
     display:flex;gap:27px;overflow-x:auto;padding:0 0 14px;margin-top:0;
@@ -186,13 +190,13 @@
   }
   nav.subcats::-webkit-scrollbar{display:none;}
   nav.subcats button{
-    flex:none;white-space:nowrap;background:transparent;color:var(--muted);
+    flex:none;white-space:nowrap;background:transparent;color:#b3ab97;
     border:none;padding:6px 2px;font-size:13.5px;font-weight:600;cursor:pointer;
     border-bottom:2px solid transparent;transition:color .15s ease,border-bottom-color .15s ease;
   }
-  nav.subcats button:hover{color:var(--ink);}
-  nav.subcats button.active{color:var(--ink);border-bottom-color:var(--ink);}
-  nav.subcats button.active:hover{color:var(--ink);}
+  nav.subcats button:hover{color:#332f27;}
+  nav.subcats button.active{color:#332f27;border-bottom-color:#c8203c;}
+  nav.subcats button.active:hover{color:#332f27;}
 
   nav.cats.has-more, nav.subcats.has-more, .serieswrap.has-more{
     -webkit-mask-image:linear-gradient(to right, black calc(100% - 28px), transparent);
@@ -660,8 +664,8 @@
       <span class="yr">2026</span>
     </a>
     <div class="header-logo" style="gap:8px;">
-      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;background:transparent;border:1px solid var(--line);border-radius:980px;padding:6px 12px;">PDF 다운</a>
-      <button id="shareBtn" onclick="shareCatalog()" style="font-size:11px;font-weight:600;color:#fff;white-space:nowrap;background:var(--ink);border:1px solid var(--ink);border-radius:980px;padding:6px 12px;cursor:pointer;">링크 공유</button>
+      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:600;color:#332f27;text-decoration:none;white-space:nowrap;background:#fff;border:none;border-radius:980px;padding:6px 12px;box-shadow:0 1px 2px rgba(50,40,20,.05),0 3px 9px rgba(50,40,20,.06);">PDF 다운</a>
+      <button id="shareBtn" onclick="shareCatalog()" style="font-size:11px;font-weight:600;color:#fbf9f4;white-space:nowrap;background:#3f3a30;border:none;border-radius:980px;padding:6px 12px;cursor:pointer;box-shadow:0 2px 5px rgba(40,32,15,.14),0 5px 13px rgba(40,32,15,.09);">링크 공유</button>
     </div>
   </div>
   <div class="searchwrap">
