@@ -261,7 +261,7 @@
   .smap-svg{display:block;width:100%;height:auto;padding:8px 4px 4px;box-sizing:border-box;}
   .smap-svg .smap-bubble{cursor:pointer;}
   .smap-svg .smap-bubble circle{transition:r .15s ease;}
-  .smap-svg .smap-bubble:hover circle{r:32;}
+  .smap-svg .smap-bubble:hover circle{r:24;}
   .smap-svg .smap-draggable{cursor:grab;touch-action:none;}
   .smap-svg .smap-draggable:active{cursor:grabbing;}
   .smap-svg .smap-draggable circle{stroke-width:2.5;}
@@ -2296,8 +2296,8 @@ function smapLabelTspans(name, x){
   if(words.length<=1){ lines=[words[0]||'']; }
   else if(words.length===2){ lines=[words[0], words[1]]; }
   else { const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '), words.slice(mid).join(' ')]; }
-  const startDy = -(lines.length-1)*5.5;
-  return lines.map((l,i)=>`<tspan x="${x}" dy="${i===0?startDy:11}">${l}</tspan>`).join('');
+  const startDy = -(lines.length-1)*4.5;
+  return lines.map((l,i)=>`<tspan x="${x}" dy="${i===0?startDy:9}">${l}</tspan>`).join('');
 }
 function openSeriesMapSheet(seriesName){
   const info = SERIES_INFO[seriesName];
@@ -2332,8 +2332,8 @@ function openSeriesMapSheet(seriesName){
     const {x,y} = toXY(p.mapPos);
     const idx = P.indexOf(p);
     return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-idx="${idx}" onclick="${isAdmin?'':`seriesMapShowDetail(${idx},'${seriesName}')`}">
-      <circle cx="${x}" cy="${y}" r="28" fill="#fff" stroke="${info.accent}" stroke-width="1.5"/>
-      <text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="8.5" font-weight="800" fill="#1d1d1f">${smapLabelTspans(p.name,x)}</text>
+      <circle cx="${x}" cy="${y}" r="21" fill="#fff" stroke="${info.accent}" stroke-width="1.5"/>
+      <text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="7" font-weight="800" fill="#1d1d1f">${smapLabelTspans(p.name,x)}</text>
     </g>`;
   }).join('');
 
