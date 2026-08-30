@@ -534,11 +534,11 @@
   .cmp-add-empty{padding:14px 4px;color:var(--muted);font-size:12.5px;text-align:center;}
 
   /* ---------- RACQUET FINDER ---------- */
-  .finder-promo-wrap{max-width:1100px;margin:0 auto;padding:20px 16px 0;}
+  .finder-promo-wrap{margin:0 0 20px;}
   .finder-promo{
     display:flex;align-items:center;justify-content:space-between;gap:16px;
-    background:#1d1d1f;border-radius:14px;
-    padding:20px 24px;color:#f5f5f7;
+    background:#1d1d1f;border-radius:0;width:100%;
+    padding:20px 16px;color:#f5f5f7;
   }
   .finder-promo .fp-text{display:flex;flex-direction:column;gap:5px;}
   .finder-promo .fp-eyebrow{font-size:10.5px;font-weight:800;color:#34c759;letter-spacing:.06em;text-transform:uppercase;}
@@ -2187,6 +2187,7 @@ function renderGrid(){
   document.getElementById('sectionTitleText').textContent = state.q
     ? `"${state.q}" 검색 결과`
     : (CATS.find(c=>c.id===state.cat).label + ' · ' + SUBCATS[state.cat].find(s=>s.id===state.sub).label);
+  document.getElementById('sectionTitle').style.display = (state.series && !state.q) ? 'none' : '';
 
   if(list.length===0){ grid.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display='none';
