@@ -523,7 +523,7 @@
   .finder-wrap{padding:22px 20px 26px;}
   .finder-progress{display:flex;gap:6px;margin-bottom:18px;}
   .finder-progress i{flex:1;height:3px;border-radius:3px;background:var(--line);}
-  .finder-progress i.done{background:var(--green);}
+  .finder-progress i.done{background:var(--ink);}
   .finder-step-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
   .finder-q{font-size:19px;font-weight:900;color:var(--ink);margin:0 0 18px;line-height:1.4;}
   .finder-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
@@ -562,10 +562,11 @@
   .finder-result-card:hover{border-color:var(--ink);}
   .finder-result-card:active{transform:scale(.98);}
   .finder-result-card .fr-rank{
-    flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;
+    flex:none;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--ink);
+    border:1.5px solid var(--ink);box-sizing:border-box;
     font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;
   }
-  .finder-result-card .fr-rank.top{background:var(--green);color:#06210a;}
+  .finder-result-card .fr-rank.top{background:var(--ink);color:#fff;border-color:var(--ink);}
   .finder-result-card .fr-thumb{
     flex:none;width:56px;height:56px;border-radius:9px;overflow:hidden;display:flex;
     align-items:center;justify-content:center;color:#fff;
@@ -686,7 +687,7 @@
   <div class="section-title" id="sectionTitle"><span class="bar"></span><span id="sectionTitleText">전체 제품</span></div>
   <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 2px 10px;gap:8px;flex-wrap:wrap;">
     <div class="count" id="countLabel" style="margin:0;white-space:nowrap;"></div>
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
       <button id="newOnlyBtn" aria-label="신상품만 보기" title="신상품만 보기" style="color:var(--muted);
         display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;box-sizing:border-box;
         background:#fff;border:1px solid var(--line);border-radius:9px;cursor:pointer;
