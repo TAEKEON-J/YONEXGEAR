@@ -91,38 +91,39 @@
   /* ---------- HEADER ---------- */
   header.top{
     position:sticky;top:0;z-index:50;overflow:hidden;
-    background:#141a2e;
-    color:#f4f1e8;
-    padding:20px 20px 0;
-    box-shadow:0 4px 16px rgba(0,0,0,.3);
+    background:rgba(255,255,255,.86);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    backdrop-filter:saturate(180%) blur(14px);
+    color:var(--ink);
+    padding:16px 20px 0;
+    border-bottom:1px solid var(--line);
   }
   header.top .brandrow, header.top .searchwrap, header.top nav.cats, header.top nav.subcats{
     position:relative;z-index:2;
   }
   .brandrow{display:flex;align-items:center;gap:12px;justify-content:space-between;}
-  .brand{display:flex;align-items:center;gap:12px;flex:0 0 auto;}
-  .brand .logo{font-weight:800;font-size:22px;letter-spacing:.5px;color:#f4f1e8;}
+  .brand{display:flex;align-items:baseline;gap:9px;flex:0 0 auto;}
+  .brand .logo{font-weight:800;font-size:19px;letter-spacing:-.01em;color:var(--ink);}
   .brand .yr{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:11px;background:transparent;color:#f4f1e8;font-weight:500;
-    padding:4px 10px;border-radius:2px;letter-spacing:.08em;line-height:1;
-    border:1px solid rgba(244,241,232,.35);
+    font-size:12px;background:transparent;color:var(--muted);font-weight:600;
+    padding:0;letter-spacing:0;line-height:1;
+    border:none;
     display:inline-flex;align-items:center;
   }
   .header-logo{flex:0 0 auto;display:flex;align-items:center;}
   .header-logo img{height:20px;width:auto;display:block;}
   @media(max-width:400px){.header-logo img{height:16px;}}
-  .searchwrap{margin:18px 0 16px;}
+  .searchwrap{margin:16px 0 14px;}
   .searchbox{
     display:flex;align-items:center;gap:10px;
-    background:#f4f1e8;border:1px solid transparent;
-    border-radius:2px;padding:12px 16px;
+    background:#f2f2f4;border:1px solid transparent;
+    border-radius:980px;padding:11px 16px;
   }
   .searchbox input{
-    background:transparent;border:none;outline:none;color:#141a2e;font-size:16px;width:100%;
+    background:transparent;border:none;outline:none;color:var(--ink);font-size:16px;width:100%;
   }
-  .searchbox input::placeholder{color:rgba(20,26,46,.45);}
-  .searchbox svg{flex:none;opacity:.85;color:#141a2e;}
+  .searchbox input::placeholder{color:var(--muted);}
+  .searchbox svg{flex:none;opacity:.7;color:var(--ink);}
 
   .to-top{
     position:fixed;right:16px;bottom:16px;z-index:60;
@@ -169,14 +170,14 @@
   nav.cats::-webkit-scrollbar{display:none;}
   nav.cats button{
     flex:none;white-space:nowrap;
-    background:transparent;color:rgba(244,241,232,.72);border:1px solid rgba(244,241,232,.28);
-    padding:6px 19px;border-radius:2px;font-size:13px;font-weight:700;cursor:pointer;
-    transition:background .15s ease,border-color .15s ease,color .15s ease,transform .1s ease;
+    background:transparent;color:var(--muted);border:1px solid transparent;
+    padding:6px 15px;border-radius:980px;font-size:13px;font-weight:600;cursor:pointer;
+    transition:background .15s ease,color .15s ease,transform .1s ease;
   }
-  nav.cats button:hover{border-color:rgba(244,241,232,.5);color:#f4f1e8;}
+  nav.cats button:hover{color:var(--ink);}
   nav.cats button:active{transform:scale(.96);}
-  nav.cats button.active{background:#f4f1e8;color:#141a2e;border-color:#f4f1e8;}
-  nav.cats button.active:hover{background:#fff;}
+  nav.cats button.active{background:var(--ink);color:#fff;}
+  nav.cats button.active:hover{background:var(--ink);color:#fff;}
 
   nav.subcats{
     display:flex;gap:27px;overflow-x:auto;padding:0 0 14px;margin-top:0;
@@ -184,13 +185,13 @@
   }
   nav.subcats::-webkit-scrollbar{display:none;}
   nav.subcats button{
-    flex:none;white-space:nowrap;background:transparent;color:rgba(244,241,232,.5);
+    flex:none;white-space:nowrap;background:transparent;color:var(--muted);
     border:none;padding:6px 2px;font-size:13.5px;font-weight:600;cursor:pointer;
     border-bottom:2px solid transparent;transition:color .15s ease,border-bottom-color .15s ease;
   }
-  nav.subcats button:hover{color:rgba(244,241,232,.8);}
-  nav.subcats button.active{color:#f4f1e8;border-bottom-color:#c8203c;}
-  nav.subcats button.active:hover{color:#f4f1e8;}
+  nav.subcats button:hover{color:var(--ink);}
+  nav.subcats button.active{color:var(--ink);border-bottom-color:var(--ink);}
+  nav.subcats button.active:hover{color:var(--ink);}
 
   nav.cats.has-more, nav.subcats.has-more, .serieswrap.has-more{
     -webkit-mask-image:linear-gradient(to right, black calc(100% - 28px), transparent);
@@ -658,8 +659,8 @@
       <span class="yr">2026</span>
     </a>
     <div class="header-logo" style="gap:8px;">
-      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:10px;font-weight:700;color:#f4f1e8;text-decoration:none;white-space:nowrap;background:transparent;border:1px solid rgba(244,241,232,.35);border-radius:2px;padding:5px 9px;">PDF 다운</a>
-      <button id="shareBtn" onclick="shareCatalog()" style="font-size:10px;font-weight:700;color:#f4f1e8;white-space:nowrap;background:transparent;border:1px solid rgba(244,241,232,.35);border-radius:2px;padding:5px 9px;cursor:pointer;">링크 공유</button>
+      <a id="origPdfBtn" href="yonex-2026-catalogue-original.pdf" download style="font-size:11px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;background:transparent;border:1px solid var(--line);border-radius:980px;padding:6px 12px;">PDF 다운</a>
+      <button id="shareBtn" onclick="shareCatalog()" style="font-size:11px;font-weight:600;color:#fff;white-space:nowrap;background:var(--ink);border:1px solid var(--ink);border-radius:980px;padding:6px 12px;cursor:pointer;">링크 공유</button>
     </div>
   </div>
   <div class="searchwrap">
