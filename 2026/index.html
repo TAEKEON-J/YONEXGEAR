@@ -2609,6 +2609,8 @@ function setHeroGallery(p){
 function setHeroImage(src, thumbEl, idx){
   const hero = document.getElementById('sheetHeroImg');
   if(hero){
+    const heroWrap = hero.closest('.sheet-hero');
+    if(heroWrap) heroWrap.style.background = '#f5f5f7';
     hero.style.opacity = '0';
     setTimeout(()=>{
       hero.src = src;
