@@ -2768,11 +2768,9 @@ const STRING_TYPE_LABELS = {
 function stringType(p){
   return p.stringCategory || null;
 }
+const STRING_CATEGORY_COLORS = {'내구성':'#e0a72c', '고반발':'#2f6fed', '컨트롤':'#3fae2a'};
 function stringPerfColor(p){
-  const s = (p.series||'').toUpperCase();
-  if(s.startsWith('EXBOLT')) return CMP_COLORS[2];
-  if(s.startsWith('BG')) return CMP_COLORS[1];
-  return CMP_COLORS[0];
+  return STRING_CATEGORY_COLORS[p.stringCategory] || CMP_COLORS[0];
 }
 function stringPerfInfographicHtml(p){
   if(p.c!=='bad' || p.s!=='string') return '';
