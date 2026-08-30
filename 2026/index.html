@@ -2296,8 +2296,8 @@ function smapLabelTspans(name, x){
   if(words.length<=1){ lines=[words[0]||'']; }
   else if(words.length===2){ lines=[words[0], words[1]]; }
   else { const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '), words.slice(mid).join(' ')]; }
-  const startDy = -(lines.length-1)*2.9;
-  return lines.map((l,i)=>`<tspan x="${x}" dy="${i===0?startDy:5.8}">${l}</tspan>`).join('');
+  const startDy = -(lines.length-1)*3.8;
+  return lines.map((l,i)=>`<tspan x="${x}" dy="${i===0?startDy:7.6}">${l}</tspan>`).join('');
 }
 function smapLocalHalfWidth(y, cy, ry, rx){
   const topT=0.42, botT=0.30;
@@ -2338,8 +2338,8 @@ function openSeriesMapSheet(seriesName){
     const {x,y} = toXY(p.mapPos);
     const idx = P.indexOf(p);
     return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-idx="${idx}" onclick="${isAdmin?'':`seriesMapShowDetail(${idx},'${seriesName}')`}">
-      <circle cx="${x}" cy="${y}" r="14" fill="#ff3b30" stroke="#fff" stroke-width="1.2"/>
-      <text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="4.6" font-weight="800" fill="#fff">${smapLabelTspans(p.name,x)}</text>
+      <circle cx="${x}" cy="${y}" r="14" fill="#a33827" stroke="#fff" stroke-width="1.2"/>
+      <text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="6" font-weight="800" fill="#fff">${smapLabelTspans(p.name,x)}</text>
     </g>`;
   }).join('');
 
