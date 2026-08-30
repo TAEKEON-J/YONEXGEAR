@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YONEX 2026 카탈로그</title>
 <meta name="description" content="요넥스 2026 배드민턴·테니스 용품 디지털 카탈로그 — 라켓, 신발, 스트링, 셔틀콕 전체 상품을 한눈에 검색하고 비교하세요.">
 <meta property="og:type" content="website">
@@ -111,6 +111,7 @@
     background:#f5f5f7;border:1px solid transparent;
     border-radius:980px;padding:7px 14px;
   }
+  .searchbox:focus-within{outline:2px solid var(--green);outline-offset:2px;}
   .searchbox input{
     background:transparent;border:none;outline:none;color:#1d1d1f;
     font-size:16px;width:111.12%;transform:scale(.9);transform-origin:left center;
@@ -248,6 +249,8 @@
   .smap-svg .smap-bubble{cursor:pointer;}
   .smap-svg .smap-bubble circle{transition:r .15s ease;}
   .smap-svg .smap-bubble:hover circle{r:16;}
+  .smap-svg .smap-bubble:focus-visible{outline:none;}
+  .smap-svg .smap-bubble:focus-visible circle{r:16;stroke:var(--green);stroke-width:3;}
   .smap-svg .smap-draggable{cursor:grab;touch-action:none;}
   .smap-svg .smap-draggable:active{cursor:grabbing;}
   .smap-svg .smap-draggable circle{stroke-width:2.5;}
@@ -668,6 +671,32 @@
     .card:hover{box-shadow:none;}
     .empty{display:none;}
   }
+
+  /* ---------- REDUCED MOTION ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    /* hero dismiss: drop the full-viewport slide, keep the fade */
+    .hero{ transition:opacity .45s ease; }
+    .hero.hide{ transform:none; opacity:0; }
+
+    /* hero landing text: fade only, no rise */
+    @keyframes heroTextIn{ from{opacity:0} to{opacity:1} }
+
+    /* product grid card entrance: fade only, no rise */
+    @keyframes cardIn{ from{opacity:0} to{opacity:1} }
+
+    /* card hover lift: drop the translateY, keep the shadow cue */
+    .card:hover{ transform:none; }
+
+    /* compare-toggle coachmark: fade only, both directions */
+    @keyframes cmpCoachIn{ from{opacity:0} to{opacity:1} }
+    .cmp-coach.leaving{ transform:none; }
+
+    /* product/compare sheet entrance: fade only, no rise/scale */
+    @keyframes up{ from{opacity:0} to{opacity:1} }
+
+    /* compare/finder panel entrance: fade only, no rise */
+    @keyframes panelIn{ from{opacity:0} to{opacity:1} }
+  }
 </style>
 </head>
 <body>
@@ -751,7 +780,7 @@
 </main>
 
 <div class="overlay" id="overlay">
-  <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" tabindex="-1"></div>
 </div>
 
 <button id="adminBtn" onclick="openAdmin()"
@@ -855,7 +884,7 @@ const SERIES_INFO = {
     accent: '#c94a12',
     kicker: 'POWER',
     title: 'INITIATE A<br>RELENTLESS ATTACK',
-    titleColor: '#eec2a0',
+    titleColor: '#ffdcc2',
     desc: '날카롭고 강력한 공격을 위한 라켓 시리즈',
     mapTitle: 'ASTROX SERIES MAP',
     mapColor: '#a33827',
@@ -876,7 +905,7 @@ const SERIES_INFO = {
     titleColor: '#c5e2d7',
     desc: '빠른 스윙과 뛰어난 기동성을 위한 헤드 라이트 라켓 시리즈',
     mapTitle: 'NANOFLARE SERIES MAP',
-    mapColor: '#37ab93',
+    mapColor: '#29806e',
   },
 };
 
@@ -2324,7 +2353,7 @@ function renderSeriesInfoBlock(){
   el.innerHTML = `
     <div class="series-hero" style="background:${info.grad}">
       <div class="sh-kicker">${info.kicker}</div>
-      <div class="sh-title" style="color:${info.titleColor}">${info.title}</div>
+      <h2 class="sh-title" style="color:${info.titleColor}">${info.title}</h2>
       <div class="sh-desc">${info.desc}</div>
       <button class="sh-cta" onclick="openSeriesMapSheet('${state.series}')">SERIES MAP <span>→</span></button>
     </div>
@@ -2383,7 +2412,9 @@ function openSeriesMapSheet(seriesName){
     const letterSpacing = p.mapLabelSmall ? 'letter-spacing:-.3px;' : '';
     const textY = p.mapLabelBelow ? y+22 : y;
     const textFill = p.mapLabelBelow ? info.mapColor : '#fff';
-    return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-idx="${idx}" onclick="${isAdmin?'':`seriesMapShowDetail(${idx},'${seriesName}')`}">
+    const clickCall = `seriesMapShowDetail(${idx},'${seriesName}')`;
+    const a11yAttrs = isAdmin ? '' : ` role="button" tabindex="0" aria-label="${p.name}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}"`;
+    return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-idx="${idx}" onclick="${isAdmin?'':clickCall}"${a11yAttrs}>
       <circle cx="${x}" cy="${y}" r="14" fill="${info.mapColor}" stroke="#fff" stroke-width="1.2"/>
       <text x="${x}" y="${textY}" text-anchor="middle" font-size="${fontSize}" font-weight="800" fill="${textFill}" style="${letterSpacing}">${smapLabelTspans(p.name,seriesName,x,fontSize)}</text>
     </g>`;
@@ -2407,11 +2438,13 @@ function openSeriesMapSheet(seriesName){
       </div>` : ''}
     </div>
   `;
+  openOverlayA11y();
   if(!overlay.classList.contains('open')){
     overlay.classList.add('open');
     history.pushState({sheetOpen:true}, '', location.href);
     sheetHistoryPushed = true;
   }
+  focusSheetContent();
   if(isAdmin) initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY);
 }
 function initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY){
@@ -2598,9 +2631,11 @@ function openSheet(p){
       </div>
     </div>
   `;
+  openOverlayA11y();
   overlay.classList.add('open');
   history.pushState({sheetOpen:true}, '', location.href);
   sheetHistoryPushed = true;
+  focusSheetContent();
   if(perfHtml){
     setTimeout(()=>{
       sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
@@ -2615,10 +2650,32 @@ function buyButtonHtml(p){
                    text-decoration:none;margin-top:14px;">요넥스몰에서 보기 →</a>`;
 }
 let sheetHistoryPushed = false;
+let sheetReturnFocusEl = null;
+function openOverlayA11y(){
+  if(document.getElementById('overlay').classList.contains('open')) return;
+  sheetReturnFocusEl = document.activeElement;
+  Array.from(document.body.children).forEach(el=>{
+    if(el.id==='overlay') return;
+    el.setAttribute('inert','');
+  });
+}
+function focusSheetContent(){
+  const sheet = document.getElementById('sheet');
+  const target = sheet.querySelector('[aria-label="닫기"], .x.floating, .back.floating, button, a, input, [tabindex]');
+  (target || sheet).focus({preventScroll:true});
+}
+function closeOverlayA11y(){
+  Array.from(document.body.children).forEach(el=> el.removeAttribute('inert'));
+  if(sheetReturnFocusEl && document.body.contains(sheetReturnFocusEl)){
+    sheetReturnFocusEl.focus({preventScroll:true});
+  }
+  sheetReturnFocusEl = null;
+}
 function closeSheet(fromPopstate){
   clearTimeout(finderAdvanceTimer);
   clearTimeout(stringFinderAdvanceTimer);
   document.getElementById('overlay').classList.remove('open');
+  closeOverlayA11y();
   if(sheetHistoryPushed && !fromPopstate){
     sheetHistoryPushed = false;
     history.back();
@@ -2878,9 +2935,11 @@ function openCompareSheet(){
       </div>
     </div>
   `;
+  openOverlayA11y();
   overlay.classList.add('open');
   history.pushState({sheetOpen:true}, '', location.href);
   sheetHistoryPushed = true;
+  focusSheetContent();
   const cmpMinWidth = (window.innerWidth<480 && products.length>=3) ? '320px' : '';
   sheet.querySelectorAll('.cmp-table-wrap table.cmp-table').forEach(t=>{ t.style.minWidth = cmpMinWidth; });
   sheet.querySelectorAll('.cmp-table-wrap').forEach(w=>{ w.scrollLeft = 0; });
@@ -3026,9 +3085,11 @@ function openFinderSheet(){
   finderState = {step:0, level:null, style:null, want:null, weight:null};
   const overlay = document.getElementById('overlay');
   renderFinderStep();
+  openOverlayA11y();
   overlay.classList.add('open');
   history.pushState({sheetOpen:true}, '', location.href);
   sheetHistoryPushed = true;
+  focusSheetContent();
 }
 function renderFinderStep(){
   const sheet = document.getElementById('sheet');
@@ -3311,9 +3372,11 @@ function openStringFinderSheet(){
   stringFinderState = {step:0, primary:null, secondary:null, gauge:null};
   const overlay = document.getElementById('overlay');
   renderStringFinderStep();
+  openOverlayA11y();
   overlay.classList.add('open');
   history.pushState({sheetOpen:true}, '', location.href);
   sheetHistoryPushed = true;
+  focusSheetContent();
 }
 function renderStringFinderStep(){
   const sheet = document.getElementById('sheet');
