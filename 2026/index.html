@@ -538,9 +538,9 @@
   .finder-promo{
     display:flex;align-items:center;justify-content:space-between;gap:16px;
     background:#1d1d1f;border-radius:0;width:100%;
-    padding:20px 16px;color:#f5f5f7;
+    padding:16px;color:#f5f5f7;
   }
-  .finder-promo .fp-text{display:flex;flex-direction:column;gap:5px;}
+  .finder-promo .fp-text{display:flex;flex-direction:column;gap:5px;min-width:0;}
   .finder-promo .fp-eyebrow{font-size:10.5px;font-weight:800;color:#34c759;letter-spacing:.06em;text-transform:uppercase;}
   .finder-promo .fp-title{font-size:14px;font-weight:800;line-height:1.4;}
   .finder-promo .fp-title b{color:#34c759;}
@@ -552,8 +552,7 @@
   .finder-promo .fp-cta:hover{opacity:.92;}
   .finder-promo .fp-cta:active{transform:scale(.96);}
   @media(max-width:480px){
-    .finder-promo{flex-direction:column;align-items:flex-start;}
-    .finder-promo .fp-cta{width:100%;text-align:center;}
+    .finder-promo .fp-cta{padding:10px 14px;font-size:12.5px;}
   }
   @media print{ .finder-promo-wrap{display:none !important;} }
   .back.floating{
@@ -2174,7 +2173,7 @@ function renderGrid(){
     if(state.cat==='bad' && state.sub==='racquet'){
       finderPromo.style.display = 'flex';
       document.getElementById('fpEyebrow').textContent = 'RACQUET FINDER';
-      document.getElementById('fpTitle').innerHTML = '🏸 당신의 플레이를 완성할 <b>라켓</b>을 찾아보세요!';
+      document.getElementById('fpTitle').innerHTML = '당신의 플레이를 완성할<br><b>라켓</b>을 찾아보세요!';
     } else if(state.cat==='bad' && state.sub==='string'){
       finderPromo.style.display = 'flex';
       document.getElementById('fpEyebrow').textContent = 'STRING FINDER';
