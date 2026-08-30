@@ -52,7 +52,7 @@
   }
   .hero-badge-row{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
   .hero-logo{font-weight:900;font-size:16px;letter-spacing:.2px;}
-  .hero-yr{font-size:16px;font-weight:800;color:#ff3b30;letter-spacing:.2px;}
+  .hero-yr{font-size:16px;font-weight:700;color:rgba(255,255,255,.72);letter-spacing:.2px;}
   .hero-title{font-size:clamp(34px,10vw,52px);font-weight:900;line-height:1.05;margin:4px 0 18px;max-width:320px;letter-spacing:-.02em;}
   .hero-sub{font-size:14px;color:#e4e4e6;max-width:280px;line-height:1.6;margin-bottom:3px;}
   .hero-stats{font-size:12px;color:#c2c2c6;margin-bottom:26px;}
@@ -64,12 +64,14 @@
   }
   .hero-cta:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(0,0,0,.32);}
   .hero-cta:active{transform:translateY(0) scale(.96);}
-  .hero-cats{display:flex;flex-wrap:wrap;gap:9px;justify-content:flex-start;max-width:300px;}
+  .hero-cats{display:flex;flex-wrap:wrap;align-items:center;row-gap:8px;justify-content:flex-start;max-width:300px;}
   .hero-cats button{
-    background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff;
-    padding:6px 16px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;
+    background:none;border:none;color:rgba(255,255,255,.82);
+    padding:0;font-size:12.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+    cursor:pointer;display:inline-flex;align-items:center;transition:color .15s ease;
   }
-  .hero-cats button:hover{background:rgba(255,255,255,.1);border-color:#fff;}
+  .hero-cats button:not(:first-child)::before{content:'·';margin:0 10px;color:rgba(255,255,255,.35);font-weight:400;}
+  .hero-cats button:hover{color:#fff;}
   @media print{ .hero{display:none !important;} }
 
   @keyframes heroTextIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
