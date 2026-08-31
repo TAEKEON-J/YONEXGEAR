@@ -576,7 +576,11 @@
     padding:24px 22px 26px;min-height:300px;
     display:flex;flex-direction:column;justify-content:flex-end;
   }
-  .rg-hero-standalone{border-radius:0 0 20px 20px;margin:0 0 20px;cursor:pointer;}
+  .rg-hero-standalone{
+    border-radius:0 0 20px 20px;margin:0 0 20px;cursor:pointer;
+    width:100%;border:none;text-align:left;font:inherit;color:inherit;
+    -webkit-appearance:none;appearance:none;
+  }
   @media print{ .rg-hero-standalone{display:none !important;} }
   .rg-sheet-head{padding:24px 44px 4px 22px;}
   .rg-sheet-head-eyebrow{font-size:10.5px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
@@ -594,10 +598,10 @@
   .rg-hero-cta{
     display:inline-flex;align-items:center;gap:6px;border:none;border-radius:999px;
     background:var(--ink);color:#fff;font-size:12.5px;font-weight:800;
-    padding:11px 18px;cursor:pointer;transition:opacity .15s ease,transform .1s ease;
+    padding:11px 18px;transition:opacity .15s ease,transform .1s ease;
   }
-  .rg-hero-cta:active{transform:scale(.96);}
-  @media (hover:hover) and (pointer:fine){ .rg-hero-cta:hover{opacity:.9;} }
+  .rg-hero-standalone:active .rg-hero-cta{transform:scale(.96);}
+  @media (hover:hover) and (pointer:fine){ .rg-hero-standalone:hover .rg-hero-cta{opacity:.9;} }
 
   .rg-quicknav{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px 0;}
   .rg-qn-tile{
@@ -917,15 +921,15 @@
   </div>
 </div>
 
-<div class="rg-hero rg-hero-standalone" id="racquetGuidePromo" style="display:none;" onclick="openRacquetGuideSheet()">
+<button type="button" class="rg-hero rg-hero-standalone" id="racquetGuidePromo" style="display:none;" onclick="openRacquetGuideSheet()" aria-label="라켓 가이드 보기">
   <div class="rg-hero-visual"><img src="../shared-images/astrox-99-pro-cutout.png" alt=""></div>
   <div class="rg-hero-text">
     <div class="rg-hero-eyebrow">OUR RANGE OF</div>
     <h2 class="rg-hero-title">racquets</h2>
     <p class="rg-hero-desc">당신의 플레이 스타일에<br>최적화된 라켓을 만나보세요.</p>
-    <button class="rg-hero-cta" onclick="openRacquetGuideSheet()">라켓 선택하기 <span>→</span></button>
+    <span class="rg-hero-cta">라켓 선택하기 <span>→</span></span>
   </div>
-</div>
+</button>
 
 <div class="filter-mode-tabs" id="filterModeTabs"></div>
 <div class="serieswrap" id="seriesRow"></div>
