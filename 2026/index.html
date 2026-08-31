@@ -647,17 +647,17 @@
   /* RACQUET TECHNOLOGY — ISOMETRIC diagram (from the official catalogue's own isometric page) */
   .rg-iso-card{
     display:block;width:100%;border:1.5px solid var(--line);border-radius:14px;
-    padding:18px 16px;background:#fff;text-align:center;
+    padding:26px 18px 22px;background:#fff;text-align:center;
   }
-  .rg-iso-badge{font-size:22px;font-weight:900;font-style:italic;letter-spacing:-.02em;color:var(--ink);margin-bottom:5px;}
-  .rg-iso-kicker{font-size:9px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-bottom:22px;}
+  .rg-iso-badge{font-size:24px;font-weight:900;font-style:italic;letter-spacing:-.02em;color:var(--ink);margin-bottom:6px;}
+  .rg-iso-kicker{font-size:9px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-bottom:30px;}
 
-  .rg-iso-diagram{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 0 26px;}
+  .rg-iso-diagram{display:flex;align-items:center;gap:4px;margin:0 0 30px;}
   .rg-iso-racket{display:flex;flex-direction:column;align-items:center;flex:none;}
   .rg-iso-racket-head{
-    position:relative;width:104px;height:128px;border-radius:50%;
+    position:relative;width:126px;height:156px;border-radius:50%;
     border:1.5px solid #c2c9ce;overflow:hidden;background:#fff;
-    box-shadow:0 6px 14px rgba(20,30,40,.06);
+    box-shadow:0 8px 18px rgba(20,30,40,.07);
   }
   .rg-iso-dots{
     position:absolute;inset:0;width:50%;
@@ -665,19 +665,19 @@
     background-size:6px 6px;
   }
   .rg-iso-divider{position:absolute;top:0;bottom:0;left:50%;width:1px;background:#d8dde1;}
-  .rg-iso-racket-shaft{width:5px;height:34px;background:#c2c9ce;border-radius:0 0 3px 3px;margin-top:-1px;}
-  .rg-iso-callout{display:flex;align-items:center;gap:5px;flex:1;min-width:0;}
+  .rg-iso-racket-shaft{width:5px;height:40px;background:#c2c9ce;border-radius:0 0 3px 3px;margin-top:-1px;}
+  .rg-iso-callout{display:flex;align-items:center;gap:6px;flex:1;min-width:24px;}
   .rg-iso-callout span{
     font-size:8px;font-weight:800;color:var(--muted);white-space:nowrap;
-    border:1px solid var(--line);border-radius:999px;padding:4px 8px;
+    border:1px solid var(--line);border-radius:999px;padding:4px 9px;
   }
-  .rg-iso-callout i{flex:1;min-width:8px;height:1px;background:#c2c9ce;}
+  .rg-iso-callout i{flex:1;min-width:6px;height:1px;background:#c2c9ce;}
   .rg-iso-callout-left{justify-content:flex-end;}
   .rg-iso-callout-right{flex-direction:row-reverse;justify-content:flex-end;}
 
-  .rg-iso-compare{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 8px;}
+  .rg-iso-compare{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 8px;}
   .rg-iso-oval{
-    position:relative;width:56px;height:68px;border-radius:50%;border:1.5px solid #c2c9ce;
+    position:relative;width:58px;height:70px;border-radius:50%;border:1.5px solid #c2c9ce;
     display:flex;align-items:center;justify-content:center;text-align:center;
     font-size:7px;font-weight:800;color:var(--muted);padding:4px;line-height:1.3;
   }
@@ -689,9 +689,13 @@
   .rg-iso-tick-sw{bottom:13%;left:11%;transform:rotate(-45deg);}
   .rg-iso-tick-se{bottom:13%;right:11%;transform:rotate(45deg);}
   .rg-iso-gt{font-size:15px;font-weight:900;color:var(--muted);}
-  .rg-iso-caption{font-size:9.5px;font-weight:700;color:var(--muted);margin-bottom:22px;}
-  .rg-iso-full{font-size:12px;line-height:1.65;color:var(--ink);font-weight:600;text-align:left;margin:0 0 14px;}
-  .rg-iso-footnote{font-size:9.5px;line-height:1.5;color:var(--muted);font-weight:600;text-align:left;}
+  .rg-iso-caption{font-size:9.5px;font-weight:700;color:var(--muted);margin-bottom:28px;}
+  .rg-iso-full{font-size:12px;line-height:1.65;color:var(--ink);font-weight:600;text-align:left;margin:0 0 18px;}
+  .rg-iso-divider-line{border-top:1px solid var(--line);margin:0 0 14px;}
+  .rg-iso-footnote-row{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px;}
+  .rg-iso-footnote-row span{font-size:9px;line-height:1.5;color:var(--muted);font-weight:600;text-align:left;}
+  .rg-iso-footnote-row span:last-child{flex:none;text-align:right;}
+  .rg-iso-footnote-sub{font-size:9px;line-height:1.5;color:var(--muted);font-weight:600;text-align:left;}
 
   .rg-series-cards{display:flex;flex-direction:column;gap:12px;}
   .rg-series-card{border:1.5px solid var(--line);border-radius:14px;overflow:hidden;}
@@ -2765,7 +2769,7 @@ const RACQUET_GUIDE_SERIES = [
   {key:'ARCSABER', axis:'ACCURACY', balance:'이븐밸런스 (EVEN-BALANCE)', trait:'탁월한 타구감과 정확성으로 경기 컨트롤', img:'../shared-images/arcsaber-11-pro.jpg'},
   {key:'NANOFLARE', axis:'SPEED', balance:'헤드라이트 (HEAD-LIGHT)', trait:'빠른 샷으로 파워를 생성하는 헤드 라이트 라켓', img:'../shared-images/nanoflare-800-pro.jpg'},
 ];
-const ISOMETRIC_FULL_TEXT = "아이소메트릭 기술은 유효 타구면을 극대화하기 위해 요넥스에 의해 개발되었고 오늘날 요넥스 라켓이 지닌 세계 최고의 특징이라 할 수 있습니다. 라켓의 사각 프레임 헤드 형상은 세로줄과 가로줄이 교차되는 면을 극대화하여 보다 확장된 유효 타구면을 만듭니다. 요넥스는 기존 라켓 가장자리 주변의 '비활성' 공간을 줄여 다른 프레임보다 더 넓은 유효 타구면을 만들기 위해 계속해서 아이소메트릭의 성능을 개발하고 향상시켜 나갈 것입니다. (요넥스는 처음 테니스 라켓용으로 아이소메트릭을 개발한 후, 1992년 최초의 아이소메트릭 배드민턴 라켓을 출시했습니다.)";
+const ISOMETRIC_FULL_TEXT = "아이소메트릭 기술은 유효 타구면을 극대화하기 위해 요넥스에 의해 개발되었고 오늘날 요넥스 라켓이 지닌 세계 최고의 특징이라 할 수 있습니다. 라켓의 사각 프레임 헤드 형상은 세로줄과 가로줄이 교차되는 면을 극대화하여 보다 확장된 유효 타구면을 만듭니다. 요넥스는 기존 라켓 가장자리 주변의 '비활성' 공간을 줄여 다른 프레임보다 더 넓은 유효 타구면을 만들기 위해 계속해서 아이소메트릭의 성능을 개발하고 향상시켜 나갈 것입니다.";
 function racquetGuideGoToSeries(seriesKey){
   state.cat='bad'; state.sub='racquet'; state.series=seriesKey; state.q='';
   closeSheet();
@@ -2885,7 +2889,12 @@ function racquetGuideContentHtml(){
           <div class="rg-iso-caption">유효 타구면 확장</div>
 
           <p class="rg-iso-full">${ISOMETRIC_FULL_TEXT}</p>
-          <div class="rg-iso-footnote">아이소메트릭은 요넥스의 고유 기술력입니다. (*요넥스 자체 테스트 결과)</div>
+          <div class="rg-iso-divider-line"></div>
+          <div class="rg-iso-footnote-row">
+            <span>아이소메트릭은 요넥스의 고유 기술력입니다.</span>
+            <span>*요넥스 자체 테스트 결과</span>
+          </div>
+          <div class="rg-iso-footnote-sub">* 요넥스는 처음 테니스 라켓용으로 아이소메트릭을 개발한 후, 1992년 최초의 아이소메트릭 배드민턴 라켓을 출시했습니다.</div>
         </div>
       </div>
 
