@@ -567,6 +567,100 @@
   .finder-promo .fp-cta:hover{opacity:.92;}
   .finder-promo .fp-cta:active{transform:scale(.96);}
   @media print{ .finder-promo-wrap{display:none !important;} }
+
+  /* ---------- RACQUET GUIDE entry link (slim, subordinate to RACQUET FINDER bar) ---------- */
+  .rg-promo{
+    display:flex;align-items:center;gap:7px;width:100%;
+    background:none;border:none;padding:10px 4px 0;margin:0 0 8px;
+    cursor:pointer;text-align:left;
+  }
+  .rg-promo-badge{
+    flex:none;font-size:9px;font-weight:900;letter-spacing:.04em;
+    color:var(--green-dk,#3f8a24);border:1px solid currentColor;border-radius:999px;padding:2px 7px;
+  }
+  .rg-promo-text{flex:1;min-width:0;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rg-promo-text b{color:var(--ink);font-weight:800;}
+  .rg-promo-arrow{flex:none;font-size:13px;font-weight:700;color:var(--muted);}
+  @media (hover:hover) and (pointer:fine){ .rg-promo:hover .rg-promo-text{color:var(--ink);} }
+  @media print{ .rg-promo{display:none !important;} }
+
+  /* ---------- RACQUET GUIDE sheet ---------- */
+  .rg-sheet{position:relative;}
+  .rg-hero{
+    position:relative;overflow:hidden;border-radius:20px 20px 0 0;
+    background:linear-gradient(150deg,#dce8f0,#f4f7f8 68%);
+    padding:24px 22px 26px;min-height:280px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .rg-hero-visual{position:absolute;top:-16px;right:-64px;width:270px;height:270px;pointer-events:none;}
+  .rg-hero-visual img{
+    width:100%;height:100%;object-fit:contain;object-position:center;
+    transform:rotate(-38deg) scale(1.18);
+    filter:drop-shadow(0 20px 22px rgba(20,30,40,.16));
+  }
+  .rg-hero-text{position:relative;max-width:82%;}
+  .rg-hero-eyebrow{font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+  .rg-hero-title{font-size:clamp(22px,7.5vw,28px);font-weight:900;line-height:1.12;letter-spacing:-.02em;color:var(--ink);margin:0 0 10px;}
+  .rg-hero-desc{font-size:12.5px;line-height:1.55;color:var(--muted);font-weight:600;}
+
+  .rg-quicknav{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px 0;}
+  .rg-qn-tile{
+    border:1.5px solid var(--line);border-radius:12px;background:#fff;
+    padding:13px 12px;text-align:left;cursor:pointer;transition:transform .1s ease,border-color .15s ease;
+  }
+  .rg-qn-tile:active{transform:scale(.97);}
+  @media (hover:hover) and (pointer:fine){ .rg-qn-tile:hover{border-color:var(--green);} }
+  .rg-qn-title{font-size:12px;font-weight:900;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px;}
+  .rg-qn-sub{font-size:10.5px;font-weight:600;color:var(--muted);line-height:1.4;}
+
+  .rg-section{padding:22px 20px 0;}
+  .rg-section-head{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;}
+  .rg-section-kicker{font-size:11px;font-weight:900;color:var(--green-dk,#4a8f2c);letter-spacing:.05em;}
+  .rg-section-head h3{font-size:15.5px;font-weight:900;letter-spacing:-.01em;color:var(--ink);margin:0;}
+  .rg-section-lead{font-size:12px;color:var(--muted);font-weight:600;margin:0 0 14px;}
+
+  .rg-selector-list{display:flex;flex-direction:column;gap:10px;}
+  .rg-selector-row{
+    display:flex;align-items:center;gap:10px;width:100%;border:none;border-radius:12px;
+    padding:14px 15px;color:#fff;cursor:pointer;text-align:left;
+    transition:transform .1s ease;
+  }
+  .rg-selector-row:active{transform:scale(.98);}
+  .rg-sel-axis{flex:none;font-size:9.5px;font-weight:900;letter-spacing:.06em;background:rgba(255,255,255,.22);border-radius:999px;padding:4px 8px;}
+  .rg-sel-name{flex:none;font-size:13.5px;font-weight:900;letter-spacing:-.01em;}
+  .rg-sel-trait{flex:1;min-width:0;font-size:11px;font-weight:600;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rg-sel-arrow{flex:none;font-size:15px;opacity:.85;}
+
+  .rg-tech-card{
+    display:block;width:100%;border:1.5px solid var(--line);border-radius:14px;
+    padding:16px;background:#fafafa;text-align:left;
+  }
+  .rg-tech-kicker{font-size:9.5px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+  .rg-tech-badge{display:inline-block;font-size:11px;font-weight:900;letter-spacing:.03em;color:#0a0a0a;background:var(--green);border-radius:999px;padding:4px 10px;margin-bottom:10px;}
+  .rg-tech-title{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px;line-height:1.35;}
+  .rg-tech-desc{font-size:12px;line-height:1.55;color:var(--muted);font-weight:600;margin-bottom:10px;}
+  .rg-tech-desc-full{font-size:12px;line-height:1.6;color:var(--ink);font-weight:600;margin:-2px 0 12px;}
+  .rg-tech-more{border:none;background:none;padding:0;font-size:11.5px;font-weight:800;color:var(--ink);cursor:pointer;}
+
+  .rg-series-cards{display:flex;flex-direction:column;gap:12px;}
+  .rg-series-card{border:1.5px solid var(--line);border-radius:14px;overflow:hidden;}
+  .rg-series-top{padding:12px 15px;}
+  .rg-series-name{font-size:13px;font-weight:900;letter-spacing:.01em;}
+  .rg-series-body{padding:13px 15px 15px;}
+  .rg-series-balance{font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:.02em;margin-bottom:6px;text-transform:uppercase;}
+  .rg-series-desc{font-size:12.5px;line-height:1.55;color:var(--ink);font-weight:600;margin-bottom:10px;}
+  .rg-series-link{border:none;background:none;padding:0;font-size:12px;font-weight:800;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+
+  .rg-cta-wrap{padding:24px 20px 4px;}
+  .rg-cta{
+    display:block;width:100%;border:none;border-radius:999px;
+    background:var(--ink);color:#fff;font-size:14px;font-weight:800;
+    padding:15px;cursor:pointer;text-align:center;
+    transition:opacity .15s ease,transform .1s ease;
+  }
+  .rg-cta:active{transform:scale(.98);}
+  @media (hover:hover) and (pointer:fine){ .rg-cta:hover{opacity:.9;} }
+
   .back.floating{
     position:absolute;top:14px;left:14px;z-index:5;
     border:none;background:rgba(255,255,255,.9);color:var(--ink);
@@ -766,6 +860,11 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
   </div>
+  <button class="rg-promo" id="racquetGuidePromo" onclick="openRacquetGuideSheet()" style="display:none;">
+    <span class="rg-promo-badge">GUIDE</span>
+    <span class="rg-promo-text">라켓 시리즈가 처음이라면? <b>RACQUET GUIDE</b> 살펴보기</span>
+    <span class="rg-promo-arrow">→</span>
+  </button>
 </div>
 
 <div class="filter-mode-tabs" id="filterModeTabs"></div>
@@ -2430,6 +2529,10 @@ function renderGrid(){
       finderPromo.style.display = 'none';
     }
   }
+  const rgPromo = document.getElementById('racquetGuidePromo');
+  if(rgPromo){
+    rgPromo.style.display = (state.cat==='bad' && state.sub==='racquet' && !state.q) ? 'flex' : 'none';
+  }
   document.getElementById('countLabel').textContent = list.length + '개 제품';
   document.getElementById('sectionTitleText').textContent = state.q
     ? `"${state.q}" 검색 결과`
@@ -2598,6 +2701,129 @@ function openSeriesMapSheet(seriesName){
   focusSheetContent();
   if(isAdmin) initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY);
 }
+
+/* =============== RACQUET GUIDE =============== */
+/* Copy sourced verbatim from the official 2026 catalogue PDF, RACQUET SELECTOR / ISOMETRIC spread (p.12-13) */
+const RACQUET_GUIDE_SERIES = [
+  {key:'ASTROX', axis:'POWER', balance:'헤드헤비 (HEAD-HEAVY)', trait:'위력적인 스매시로 지속적인 공격 가능', img:'../shared-images/astrox-99-pro.jpg'},
+  {key:'ARCSABER', axis:'ACCURACY', balance:'이븐밸런스 (EVEN-BALANCE)', trait:'탁월한 타구감과 정확성으로 경기 컨트롤', img:'../shared-images/arcsaber-11-pro.jpg'},
+  {key:'NANOFLARE', axis:'SPEED', balance:'헤드라이트 (HEAD-LIGHT)', trait:'빠른 샷으로 파워를 생성하는 헤드 라이트 라켓', img:'../shared-images/nanoflare-800-pro.jpg'},
+];
+const ISOMETRIC_FULL_TEXT = "아이소메트릭 기술은 유효 타구면을 극대화하기 위해 요넥스에 의해 개발되었고 오늘날 요넥스 라켓이 지닌 세계 최고의 특징이라 할 수 있습니다. 라켓의 사각 프레임 헤드 형상은 세로줄과 가로줄이 교차되는 면을 극대화하여 보다 확장된 유효 타구면을 만듭니다. 요넥스는 기존 라켓 가장자리 주변의 '비활성' 공간을 줄여 다른 프레임보다 더 넓은 유효 타구면을 만들기 위해 계속해서 아이소메트릭의 성능을 개발하고 향상시켜 나갈 것입니다. (요넥스는 처음 테니스 라켓용으로 아이소메트릭을 개발한 후, 1992년 최초의 아이소메트릭 배드민턴 라켓을 출시했습니다.)";
+function racquetGuideGoToSeries(seriesKey){
+  state.cat='bad'; state.sub='racquet'; state.series=seriesKey; state.q='';
+  closeSheet();
+  renderAll();
+}
+function racquetGuideViewAll(){
+  state.cat='bad'; state.sub='racquet'; state.series=null; state.q='';
+  closeSheet();
+  renderAll();
+}
+function racquetGuideScrollTo(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function racquetGuideToggleIsometric(evt){
+  evt.stopPropagation();
+  const full = document.getElementById('rgIsometricFull');
+  const more = document.getElementById('rgIsometricMore');
+  const open = full.hasAttribute('hidden');
+  if(open){ full.removeAttribute('hidden'); more.textContent = '접기 ↑'; }
+  else { full.setAttribute('hidden',''); more.textContent = '자세히 보기 →'; }
+}
+function racquetGuideContentHtml(){
+  const heroImg = RACQUET_GUIDE_SERIES[0].img;
+  const selectorHtml = RACQUET_GUIDE_SERIES.map(s=>{
+    const info = SERIES_INFO[s.key];
+    return `<button class="rg-selector-row" style="background:${info.grad}" onclick="racquetGuideGoToSeries('${s.key}')">
+      <span class="rg-sel-axis">${s.axis}</span>
+      <span class="rg-sel-name">${s.key}</span>
+      <span class="rg-sel-trait">${s.trait}</span>
+      <span class="rg-sel-arrow">→</span>
+    </button>`;
+  }).join('');
+  const seriesCardsHtml = RACQUET_GUIDE_SERIES.map(s=>{
+    const info = SERIES_INFO[s.key];
+    return `<div class="rg-series-card">
+      <div class="rg-series-top" style="background:${info.grad}">
+        <span class="rg-series-name" style="color:${info.titleColor}">${s.key}</span>
+      </div>
+      <div class="rg-series-body">
+        <div class="rg-series-balance">${s.balance}</div>
+        <div class="rg-series-desc">${info.desc}</div>
+        <button class="rg-series-link" onclick="openSeriesMapSheet('${s.key}')">SERIES MAP 보기 →</button>
+      </div>
+    </div>`;
+  }).join('');
+  return `
+    <div class="rg-sheet">
+      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="rg-hero">
+        <div class="rg-hero-visual"><img src="${heroImg}" alt=""></div>
+        <div class="rg-hero-text">
+          <div class="rg-hero-eyebrow">RACQUET GUIDE</div>
+          <h2 class="rg-hero-title">FIND THE RIGHT<br>RACQUET FOR<br>YOUR GAME</h2>
+          <p class="rg-hero-desc">플레이 스타일과 라켓 특성을 이해하고<br>나에게 맞는 라켓을 찾아보세요.</p>
+        </div>
+      </div>
+
+      <div class="rg-quicknav">
+        <button class="rg-qn-tile" onclick="racquetGuideScrollTo('rgSelectorSection')">
+          <div class="rg-qn-title">RACQUET SELECTOR</div>
+          <div class="rg-qn-sub">나에게 맞는 시리즈 확인</div>
+        </button>
+        <button class="rg-qn-tile" onclick="racquetGuideScrollTo('rgTechSection')">
+          <div class="rg-qn-title">ISOMETRIC™</div>
+          <div class="rg-qn-sub">시그니처 요넥스 기술</div>
+        </button>
+      </div>
+
+      <div class="rg-section" id="rgSelectorSection">
+        <div class="rg-section-head"><span class="rg-section-kicker">01</span><h3>RACQUET SELECTOR</h3></div>
+        <p class="rg-section-lead">플레이 스타일에 맞는 시리즈를 확인하세요.</p>
+        <div class="rg-selector-list">${selectorHtml}</div>
+      </div>
+
+      <div class="rg-section" id="rgTechSection">
+        <div class="rg-section-head"><span class="rg-section-kicker">02</span><h3>RACQUET TECHNOLOGY</h3></div>
+        <p class="rg-section-lead">요넥스 라켓의 대표 기술을 소개합니다.</p>
+        <div class="rg-tech-card">
+          <div class="rg-tech-kicker">SIGNATURE YONEX TECHNOLOGY SINCE 1980</div>
+          <div class="rg-tech-badge">ISOMETRIC™</div>
+          <div class="rg-tech-title">유효 타구면을 넓히는 요넥스 고유 기술</div>
+          <div class="rg-tech-desc">아이소메트릭 사각 프레임이 세로줄과 가로줄의 교차 면을 극대화해, 라켓 가장자리의 '비활성' 공간을 줄이고 더 넓은 유효 타구면을 만듭니다.</div>
+          <p id="rgIsometricFull" class="rg-tech-desc-full" hidden>${ISOMETRIC_FULL_TEXT}</p>
+          <button class="rg-tech-more" id="rgIsometricMore" onclick="racquetGuideToggleIsometric(event)">자세히 보기 →</button>
+        </div>
+      </div>
+
+      <div class="rg-section">
+        <div class="rg-section-head"><span class="rg-section-kicker">03</span><h3>SERIES GUIDE</h3></div>
+        <p class="rg-section-lead">ASTROX · ARCSABER · NANOFLARE, 무엇이 다를까요?</p>
+        <div class="rg-series-cards">${seriesCardsHtml}</div>
+      </div>
+
+      <div class="rg-cta-wrap">
+        <button class="rg-cta" onclick="racquetGuideViewAll()">전체 라켓 보기 →</button>
+      </div>
+    </div>
+  `;
+}
+function openRacquetGuideSheet(){
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  sheet.classList.remove('cmp-mode');
+  sheet.innerHTML = racquetGuideContentHtml();
+  openOverlayA11y();
+  if(!overlay.classList.contains('open')){
+    overlay.classList.add('open');
+    history.pushState({sheetOpen:true}, '', location.href);
+    sheetHistoryPushed = true;
+  }
+  focusSheetContent();
+}
+
 function initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY){
   const svg = document.getElementById('smapSvg');
   if(!svg) return;
