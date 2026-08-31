@@ -639,9 +639,10 @@
   .rg-legend-col-astrox{border-top-color:#e8622c;}
   .rg-legend-col-arcsaber{border-top-color:#d43a4a;}
   .rg-legend-col-nanoflare{border-top-color:#37c8b0;}
-  .rg-legend-name{font-size:11.5px;font-weight:900;letter-spacing:-.01em;color:var(--ink);margin-bottom:5px;font-style:italic;}
-  .rg-legend-balance{font-size:8.5px;font-weight:800;color:var(--muted);letter-spacing:.02em;margin-bottom:5px;text-transform:uppercase;}
-  .rg-legend-trait{font-size:10px;line-height:1.4;color:var(--ink);font-weight:600;word-break:keep-all;}
+  .rg-legend-name{font-size:11.5px;font-weight:900;letter-spacing:-.01em;color:var(--ink);margin-bottom:6px;font-style:italic;}
+  .rg-legend-balance{font-size:8.5px;line-height:1.5;font-weight:800;color:var(--muted);letter-spacing:.02em;margin-bottom:8px;text-transform:uppercase;}
+  .rg-legend-balance span{display:block;white-space:nowrap;}
+  .rg-legend-trait{font-size:10px;line-height:1.4;color:var(--ink);font-weight:600;word-break:keep-all;min-height:42px;display:flex;align-items:flex-start;justify-content:center;}
 
   /* RACQUET TECHNOLOGY — ISOMETRIC diagram (from the official catalogue's own isometric page) */
   .rg-iso-card{
@@ -2781,9 +2782,10 @@ function racquetGuideScrollTo(id){
 }
 function racquetGuideContentHtml(){
   const legendHtml = RACQUET_GUIDE_SERIES.map(s=>{
+    const [balanceKo, balanceEn] = s.balance.split(' (');
     return `<button class="rg-legend-col rg-legend-col-${s.key.toLowerCase()}" onclick="racquetGuideGoToSeries('${s.key}')">
       <div class="rg-legend-name">${s.key}</div>
-      <div class="rg-legend-balance">${s.balance}</div>
+      <div class="rg-legend-balance"><span>${balanceKo}</span><span>(${balanceEn}</span></div>
       <div class="rg-legend-trait">${s.trait}</div>
     </button>`;
   }).join('');
