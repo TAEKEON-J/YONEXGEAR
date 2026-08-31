@@ -2774,17 +2774,21 @@ const RACQUET_GUIDE_SERIES = [
   {key:'NANOFLARE', axis:'SPEED', balance:'헤드라이트 (HEAD-LIGHT)', trait:'빠른 샷으로 파워를 생성하는 헤드 라이트 라켓', img:'../shared-images/nanoflare-800-pro.jpg'},
 ];
 const ISOMETRIC_FULL_TEXT = "아이소메트릭 기술은 유효 타구면을 극대화하기 위해 요넥스에 의해 개발되었고 오늘날 요넥스 라켓이 지닌 세계 최고의 특징이라 할 수 있습니다. 라켓의 사각 프레임 헤드 형상은 세로줄과 가로줄이 교차되는 면을 극대화하여 보다 확장된 유효 타구면을 만듭니다. 요넥스는 기존 라켓 가장자리 주변의 '비활성' 공간을 줄여 다른 프레임보다 더 넓은 유효 타구면을 만들기 위해 계속해서 아이소메트릭의 성능을 개발하고 향상시켜 나갈 것입니다.";
+function racquetGuideScrollToResults(){
+  const anchor = document.getElementById('filterModeTabs');
+  if(anchor) anchor.scrollIntoView({block:'start'});
+}
 function racquetGuideGoToSeries(seriesKey){
   state.cat='bad'; state.sub='racquet'; state.series=seriesKey; state.q='';
   closeSheet();
   renderAll();
-  window.scrollTo(0,0);
+  racquetGuideScrollToResults();
 }
 function racquetGuideViewAll(){
   state.cat='bad'; state.sub='racquet'; state.series=null; state.q='';
   closeSheet();
   renderAll();
-  window.scrollTo(0,0);
+  racquetGuideScrollToResults();
 }
 function racquetGuideScrollTo(id){
   const el = document.getElementById(id);
@@ -3140,6 +3144,7 @@ function buyButtonHtml(p){
                    font-weight:800;font-size:14px;padding:12px;border-radius:10px;
                    text-decoration:none;margin-top:14px;">요넥스몰에서 보기 →</a>`;
 }
+if('scrollRestoration' in history) history.scrollRestoration = 'manual';
 let sheetHistoryPushed = false;
 let sheetReturnFocusEl = null;
 function openOverlayA11y(){
