@@ -2778,11 +2778,13 @@ function racquetGuideGoToSeries(seriesKey){
   state.cat='bad'; state.sub='racquet'; state.series=seriesKey; state.q='';
   closeSheet();
   renderAll();
+  window.scrollTo(0,0);
 }
 function racquetGuideViewAll(){
   state.cat='bad'; state.sub='racquet'; state.series=null; state.q='';
   closeSheet();
   renderAll();
+  window.scrollTo(0,0);
 }
 function racquetGuideScrollTo(id){
   const el = document.getElementById(id);
