@@ -2233,7 +2233,7 @@ function syncScrollFade(el){
   el.classList.toggle('has-more', el.scrollWidth > el.clientWidth + 1);
 }
 function defaultFilterModeFor(cat, sub){
-  return (cat==='bad' && sub==='string') ? 'type' : 'series';
+  return (cat==='bad' && (sub==='string' || sub==='shoe')) ? 'type' : 'series';
 }
 function resetFilters(){
   state.series=null; state.weightFilter=null; state.flexFilter=null;
@@ -2278,6 +2278,9 @@ function filterModesFor(cat, sub, items){
     if(items.some(p=>stringGaugeBucket(stringGaugeMm(p)))) modes.push(['gauge','굵기']);
     if(modes.length) modes.push(['series','시리즈']);
     return modes;
+  }
+  if(cat==='bad' && sub==='shoe'){
+    return [['type','유형'], ['series','시리즈']];
   }
   return [];
 }
@@ -2330,10 +2333,13 @@ function renderSeriesRow(){
     return;
   }
   if(mode==='type'){
-    const typeOrder = ['고반발','컨트롤','내구성'];
-    const typeList = typeOrder.filter(t=> items.some(p=>stringType(p)===t));
+    const isShoe = (state.cat==='bad' && state.sub==='shoe');
+    const typeOrder = isShoe ? ['EXPLOSIVE DRIVE','경량화','안정성','올라운드'] : ['고반발','컨트롤','내구성'];
+    const typeGetter = isShoe ? shoeType : stringType;
+    const typeLabel = t => isShoe ? t : STRING_TYPE_LABELS[t];
+    const typeList = typeOrder.filter(t=> items.some(p=>typeGetter(p)===t));
     el.innerHTML = `<button class="chip ${!state.typeFilter?'active':''}" data-type="">전체</button>` +
-      typeList.map(t=>`<button class="chip ${state.typeFilter===t?'active':''}" data-type="${t}">${STRING_TYPE_LABELS[t]}</button>`).join('');
+      typeList.map(t=>`<button class="chip ${state.typeFilter===t?'active':''}" data-type="${t}">${typeLabel(t)}</button>`).join('');
     el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
       state.typeFilter = b.dataset.type || null; renderGrid();
       el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
@@ -2357,7 +2363,7 @@ function renderSeriesRow(){
 
   const seriesList = [...new Set(items.map(p=>p.series))];
   if(seriesList.length<=1){ el.innerHTML=''; syncScrollFade(el); return; }
-  const showAllChip = !(state.cat==='bad' && state.sub==='string');
+  const showAllChip = !(state.cat==='bad' && (state.sub==='string' || state.sub==='shoe'));
   el.innerHTML = (showAllChip ? `<button class="chip ${!state.series?'active':''}" data-series="">전체</button>` : '') +
     seriesList.map(s=>`<button class="chip ${state.series===s?'active':''}" data-series="${s}">${s}</button>`).join('');
   el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
@@ -2382,6 +2388,8 @@ function currentList(){
       list = list.filter(p=>racquetFlex(p)===state.flexFilter);
     } else if(state.cat==='bad' && state.sub==='string' && state.filterMode==='type' && state.typeFilter){
       list = list.filter(p=>stringType(p)===state.typeFilter);
+    } else if(state.cat==='bad' && state.sub==='shoe' && state.filterMode==='type' && state.typeFilter){
+      list = list.filter(p=>shoeType(p)===state.typeFilter);
     } else if(state.cat==='bad' && state.sub==='string' && state.filterMode==='gauge' && state.gaugeFilter){
       list = list.filter(p=>stringGaugeBucket(stringGaugeMm(p))===state.gaugeFilter);
     } else if(state.series){
@@ -2975,6 +2983,18 @@ const STRING_TYPE_LABELS = {
 };
 function stringType(p){
   return p.stringCategory || null;
+}
+const BADSHOE_TYPE_BY_SERIES = {
+  'SUBAXIA':'EXPLOSIVE DRIVE',
+  'AERUS':'경량화',
+  'ECLIPSION':'안정성',
+  '65':'올라운드',
+  '88':'올라운드',
+  'CASCADE':'올라운드',
+  'STRIDER':'올라운드',
+};
+function shoeType(p){
+  return BADSHOE_TYPE_BY_SERIES[p.series] || null;
 }
 const STRING_CATEGORY_COLORS = {'내구성':'#e0a72c', '고반발':'#2f6fed', '컨트롤':'#3fae2a'};
 function stringPerfColor(p){
