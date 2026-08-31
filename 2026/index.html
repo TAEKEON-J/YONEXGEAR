@@ -2220,9 +2220,9 @@ let state = {cat:'bad', sub:'racquet', series:null, filterMode:'series', weightF
 
 /* =============== RENDER =============== */
 function fmtPrice(p){
-  if(p===0) return '대리점 전용 상품';
-  if(!p) return '';
-  return p.toLocaleString('ko-KR')+'원';
+  if(p.price===0) return (p.specs && p.specs['비고']==='대리점 전용 상품') ? '대리점 전용 상품' : '가격 문의';
+  if(!p.price) return '';
+  return p.price.toLocaleString('ko-KR')+'원';
 }
 function specLabelHtml(k){
   return k==='적정스트링장력' ? '적정<br>스트링장력' : k;
@@ -2458,7 +2458,7 @@ function renderGrid(){
       <div class="name">${p.name}</div>
       <div class="kr">${p.kr}</div>
       ${colorDotsRow(p)}
-      <div class="price">${fmtPrice(p.price)}${p.price?'<small> 소비자가</small>':''}</div>
+      <div class="price">${fmtPrice(p)}${p.price?'<small> 소비자가</small>':''}</div>
     </div>
   `;
   }).join('');
@@ -2655,7 +2655,7 @@ function seriesMapShowDetail(idx, seriesName){
     <div class="sheet-body">
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
-      <div class="price-full">${fmtPrice(p.price)}</div>
+      <div class="price-full">${fmtPrice(p)}</div>
       <div class="desc">${p.desc}</div>
       <div class="sheet-reveal-2">
         ${perfHtml}
@@ -2772,7 +2772,7 @@ function openSheet(p){
     <div class="sheet-body">
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
-      <div class="price-full">${fmtPrice(p.price)}</div>
+      <div class="price-full">${fmtPrice(p)}</div>
       <div class="desc">${p.desc}</div>
       <div class="sheet-reveal-2">
         ${perfHtml}
@@ -3049,7 +3049,7 @@ function openCompareSheet(){
       <div class="cmp-col-head">
         <div class="cmp-thumb" style="background:${p.grad}">${thumbContent(p)}</div>
         <div class="cmp-name">${p.name}</div>
-        <div class="cmp-price">${fmtPrice(p.price)}</div>
+        <div class="cmp-price">${fmtPrice(p)}</div>
         <button class="cmp-remove" onclick="removeFromCompare(${state.compare[ci]})">제거</button>
       </div>
     </th>`).join('');
@@ -3309,7 +3309,7 @@ function renderFinderResults(){
       <div class="fr-body">
         <div class="fr-name">${p.name}</div>
         <div class="fr-match">${matchTierLabel(pct)}</div>
-        <div class="fr-price">${fmtPrice(p.price)}</div>
+        <div class="fr-price">${fmtPrice(p)}</div>
       </div>
     </div>`;
   };
@@ -3346,7 +3346,7 @@ function finderShowDetail(idx){
     <div class="sheet-body">
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
-      <div class="price-full">${fmtPrice(p.price)}</div>
+      <div class="price-full">${fmtPrice(p)}</div>
       <div class="desc">${p.desc}</div>
       ${perfHtml}
       <table class="specs">${rows}</table>
@@ -3611,7 +3611,7 @@ function renderStringFinderResults(){
       <div class="fr-body">
         <div class="fr-name">${p.name}</div>
         <div class="fr-match">${matchTierLabel(pct)}</div>
-        <div class="fr-price">${fmtPrice(p.price)}</div>
+        <div class="fr-price">${fmtPrice(p)}</div>
       </div>
     </div>`;
   };
@@ -3648,7 +3648,7 @@ function stringFinderShowDetail(idx){
     <div class="sheet-body">
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
-      <div class="price-full">${fmtPrice(p.price)}</div>
+      <div class="price-full">${fmtPrice(p)}</div>
       <div class="desc">${p.desc}</div>
       ${perfHtml}
       <table class="specs">${rows}</table>
