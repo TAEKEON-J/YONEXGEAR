@@ -640,15 +640,13 @@
   /* RACQUET TECHNOLOGY — ISOMETRIC diagram (designer artwork) */
   .rg-iso-card{display:block;width:100%;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;}
   .rg-iso-svg{display:block;width:100%;height:auto;}
-
-  .rg-series-cards{display:flex;flex-direction:column;gap:12px;}
-  .rg-series-card{border:1.5px solid var(--line);border-radius:14px;overflow:hidden;}
-  .rg-series-top{padding:12px 15px;}
-  .rg-series-name{font-size:13px;font-weight:900;letter-spacing:.01em;}
-  .rg-series-body{padding:13px 15px 15px;}
-  .rg-series-balance{font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:.02em;margin-bottom:6px;text-transform:uppercase;}
-  .rg-series-desc{font-size:12.5px;line-height:1.55;color:var(--ink);font-weight:600;margin-bottom:10px;}
-  .rg-series-link{border:none;background:none;padding:0;font-size:12px;font-weight:800;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+  .rg-iso-text{padding:0 20px 22px;}
+  .rg-iso-full{font-size:12px;line-height:1.65;color:var(--ink);font-weight:600;text-align:left;margin:0 0 18px;}
+  .rg-iso-divider-line{border-top:1px solid var(--line);margin:0 0 14px;}
+  .rg-iso-footnote-row{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px;}
+  .rg-iso-footnote-row span{font-size:9px;line-height:1.5;color:var(--muted);font-weight:600;text-align:left;}
+  .rg-iso-footnote-row span:last-child{flex:none;text-align:right;}
+  .rg-iso-footnote-sub{font-size:9px;line-height:1.5;color:var(--muted);font-weight:600;text-align:left;}
 
   .rg-cta-wrap{padding:24px 20px 4px;}
   .rg-cta{
@@ -2794,7 +2792,7 @@ const RACQUET_GUIDE_SERIES = [
   {key:'NANOFLARE', axis:'SPEED', balance:'헤드라이트 (HEAD-LIGHT)', trait:'빠른 샷으로 파워를 생성하는 헤드 라이트 라켓', img:'../shared-images/nanoflare-800-pro.jpg'},
 ];
 /* Inlined verbatim (with font-family fixes) from shared-images/racquet-technology-isometric.svg */
-const RACQUET_TECHNOLOGY_ISOMETRIC_SVG = `<svg class="rg-iso-svg" role="img" aria-label="ISOMETRIC 기술 설명 다이어그램" id="_레이어_1" data-name="레이어 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 390 767.51">
+const RACQUET_TECHNOLOGY_ISOMETRIC_SVG = `<svg class="rg-iso-svg" role="img" aria-label="ISOMETRIC 기술 설명 다이어그램" id="_레이어_1" data-name="레이어 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 390 600">
   <defs>
     <style>
       .viso-1, .viso-2, .viso-3, .viso-4, .viso-5, .viso-6, .viso-7 {
@@ -2917,9 +2915,6 @@ const RACQUET_TECHNOLOGY_ISOMETRIC_SVG = `<svg class="rg-iso-svg" role="img" ari
   <g>
     <text class="viso-9" transform="translate(195 73.05)"><tspan x="0" y="0">SIGNATURE YONEX TECHNOLOGY SINCE 1980*</tspan></text>
   </g>
-  <text class="viso-11" transform="translate(63.33 706.62) scale(.95 1)"><tspan x="0" y="0">아이소메트릭은 요넥스의 고유 기술력입니다.</tspan></text>
-  <text class="viso-11" transform="translate(255.01 706.62) scale(.95 1)"><tspan x="0" y="0">*요넥스 자체 테스트 결과</tspan></text>
-  <text class="viso-12" transform="translate(63.33 717.64) scale(.95 1)"><tspan x="0" y="0">* 요넥스는 처음 테니스 라켓용으로 아이소메트릭을 개발 후, 1992년 최초의 아이소메트릭 배드민턴 라켓을 출시했습니다.</tspan></text>
   <text class="viso-17" transform="translate(154.6 560) scale(.95 1)"><tspan x="0" y="0">유효 타구면 확장</tspan></text>
   <g>
     <g class="viso-18">
@@ -3796,7 +3791,6 @@ const RACQUET_TECHNOLOGY_ISOMETRIC_SVG = `<svg class="rg-iso-svg" role="img" ari
     <path d="M343.96,203.5c1.7,0,2.77,1.19,2.77,2.57s-.99,2.57-2.77,2.57-2.75-1.21-2.75-2.57,1.08-2.57,2.75-2.57ZM345.47,206.08c0-.81-.52-1.52-1.51-1.52s-1.49.71-1.49,1.52.45,1.53,1.49,1.53,1.51-.73,1.51-1.53ZM349.38,213.71h-6.63v-4h6.63v4ZM348.12,212.7v-1.96h-4.13v1.96h4.13ZM348.12,203.31h1.24v5.81h-1.24v-5.81Z"/>
   </g>
   <path class="viso-6" d="M32.04,196.12c-6.56,0-11.87,5.32-11.87,11.87h0c0,6.55,5.31,11.87,11.87,11.87h60.42c6.56,0,11.87-5.31,11.87-11.87h0c0-6.56-5.31-11.87-11.87-11.87h-60.42ZM299.74,196.12c-6.56,0-11.88,5.32-11.88,11.87h0c0,6.55,5.32,11.87,11.88,11.87h50.18c6.56,0,11.86-5.31,11.86-11.87h0c0-6.56-5.3-11.87-11.86-11.87h-50.18Z"/>
-  <text class="viso-10" transform="translate(44.34 609.02)"><tspan x="0" y="0">더 넓은 스윗스팟을 위한 요넥스의 ISOMETRIC™ 기술.</tspan><tspan x="21.72" y="14.4">독자적인 프레임 형상으로 유효 타구면을 확장해</tspan><tspan x="23.72" y="28.8">중심을 벗어난 타구에서도 안정적인 퍼포먼스를 </tspan><tspan x="125.97" y="43.2">유지하며,</tspan><tspan x="45.98" y="57.6">더 높은 정확성과 컨트롤을 제공합니다.</tspan></text>
 </svg>`;
 function racquetGuideScrollToResults(){
   const anchor = document.getElementById('filterModeTabs');
@@ -3823,19 +3817,6 @@ function racquetGuideContentHtml(){
       <div class="rg-legend-trait">${s.trait}</div>
     </button>`;
   }).join('');
-  const seriesCardsHtml = RACQUET_GUIDE_SERIES.map(s=>{
-    const info = SERIES_INFO[s.key];
-    return `<div class="rg-series-card">
-      <div class="rg-series-top" style="background:${info.grad}">
-        <span class="rg-series-name" style="color:${info.titleColor}">${s.key}</span>
-      </div>
-      <div class="rg-series-body">
-        <div class="rg-series-balance">${s.balance}</div>
-        <div class="rg-series-desc">${info.desc}</div>
-        <button class="rg-series-link" onclick="openSeriesMapSheet('${s.key}')">SERIES MAP 보기 →</button>
-      </div>
-    </div>`;
-  }).join('');
   return `
     <div class="rg-sheet">
       <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
@@ -3859,13 +3840,18 @@ function racquetGuideContentHtml(){
       <div class="rg-section" id="rgTechSection">
         <div class="rg-section-head"><span class="rg-section-kicker">02</span><h3>RACQUET TECHNOLOGY</h3></div>
         <p class="rg-section-lead">요넥스 라켓의 대표 기술을 소개합니다.</p>
-        <div class="rg-iso-card">${RACQUET_TECHNOLOGY_ISOMETRIC_SVG}</div>
-      </div>
-
-      <div class="rg-section">
-        <div class="rg-section-head"><span class="rg-section-kicker">03</span><h3>SERIES GUIDE</h3></div>
-        <p class="rg-section-lead">ASTROX · ARCSABER · NANOFLARE, 무엇이 다를까요?</p>
-        <div class="rg-series-cards">${seriesCardsHtml}</div>
+        <div class="rg-iso-card">
+          ${RACQUET_TECHNOLOGY_ISOMETRIC_SVG}
+          <div class="rg-iso-text">
+            <p class="rg-iso-full">더 넓은 스윗스팟을 위한 요넥스의 ISOMETRIC™ 기술. 독자적인 프레임 형상으로 유효 타구면을 확장해 중심을 벗어난 타구에서도 안정적인 퍼포먼스를 유지하며, 더 높은 정확성과 컨트롤을 제공합니다.</p>
+            <div class="rg-iso-divider-line"></div>
+            <div class="rg-iso-footnote-row">
+              <span>아이소메트릭은 요넥스의 고유 기술력입니다.</span>
+              <span>*요넥스 자체 테스트 결과</span>
+            </div>
+            <div class="rg-iso-footnote-sub">* 요넥스는 처음 테니스 라켓용으로 아이소메트릭을 개발한 후, 1992년 최초의 아이소메트릭 배드민턴 라켓을 출시했습니다.</div>
+          </div>
+        </div>
       </div>
 
       <div class="rg-cta-wrap">
