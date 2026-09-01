@@ -2529,8 +2529,8 @@ function filterModesFor(cat, sub, items){
   }
   return [];
 }
-function racquetResetAllFilters(){
-  state.filterMode='series'; state.series=null; state.weightFilter=null; state.flexFilter=null;
+function resetAllFiltersToSeries(){
+  state.filterMode='series'; state.series=null; state.weightFilter=null; state.flexFilter=null; state.typeFilter=null; state.gaugeFilter=null;
   renderFilterModeTabs(); renderSeriesRow(); renderGrid();
 }
 function renderFilterModeTabs(){
@@ -2540,9 +2540,9 @@ function renderFilterModeTabs(){
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
   const modes = filterModesFor(state.cat, state.sub, items);
   if(modes.length<=1){ el.innerHTML=''; return; }
-  const showResetAll = state.cat==='bad' && state.sub==='racquet';
+  const showResetAll = state.cat==='bad' && (state.sub==='racquet' || state.sub==='shoe');
   el.innerHTML = modes.map(([m,label])=>`<button data-mode="${m}" class="${state.filterMode===m?'active':''}">${label}</button>`).join('')
-    + (showResetAll ? `<button class="mode-reset-all" onclick="racquetResetAllFilters()">전제품</button>` : '');
+    + (showResetAll ? `<button class="mode-reset-all" onclick="resetAllFiltersToSeries()">전제품</button>` : '');
   el.querySelectorAll('button[data-mode]').forEach(b=>b.onclick=()=>{
     state.filterMode = b.dataset.mode;
     state.series=null; state.weightFilter=null; state.flexFilter=null;
@@ -2589,7 +2589,7 @@ function renderSeriesRow(){
     const typeGetter = isShoe ? shoeType : stringType;
     const typeLabel = t => isShoe ? t : STRING_TYPE_LABELS[t];
     const typeList = typeOrder.filter(t=> items.some(p=>typeGetter(p)===t));
-    el.innerHTML = `<button class="chip ${!state.typeFilter?'active':''}" data-type="">전체</button>` +
+    el.innerHTML = (isShoe ? '' : `<button class="chip ${!state.typeFilter?'active':''}" data-type="">전체</button>`) +
       typeList.map(t=>`<button class="chip ${state.typeFilter===t?'active':''}" data-type="${t}">${typeLabel(t)}</button>`).join('');
     el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
       state.typeFilter = b.dataset.type || null; renderGrid();
