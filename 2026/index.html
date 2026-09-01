@@ -206,6 +206,8 @@
   }
   .filter-mode-tabs button:hover{color:var(--ink);}
   .filter-mode-tabs button.active{color:var(--ink);border-bottom-color:var(--navy);}
+  .filter-mode-tabs button.mode-reset-all{color:var(--blue);margin-left:auto;}
+  .filter-mode-tabs button.mode-reset-all:hover{color:var(--blue);opacity:.75;}
   .serieswrap{padding:12px 16px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
   .serieswrap::-webkit-scrollbar{display:none;}
   .chip{
@@ -2377,6 +2379,10 @@ function filterModesFor(cat, sub, items){
   }
   return [];
 }
+function racquetResetAllFilters(){
+  state.filterMode='series'; state.series=null; state.weightFilter=null; state.flexFilter=null;
+  renderFilterModeTabs(); renderSeriesRow(); renderGrid();
+}
 function renderFilterModeTabs(){
   const el = document.getElementById('filterModeTabs');
   if(!el) return;
@@ -2384,13 +2390,15 @@ function renderFilterModeTabs(){
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
   const modes = filterModesFor(state.cat, state.sub, items);
   if(modes.length<=1){ el.innerHTML=''; return; }
-  el.innerHTML = modes.map(([m,label])=>`<button data-mode="${m}" class="${state.filterMode===m?'active':''}">${label}</button>`).join('');
-  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  const showResetAll = state.cat==='bad' && state.sub==='racquet';
+  el.innerHTML = modes.map(([m,label])=>`<button data-mode="${m}" class="${state.filterMode===m?'active':''}">${label}</button>`).join('')
+    + (showResetAll ? `<button class="mode-reset-all" onclick="racquetResetAllFilters()">전제품</button>` : '');
+  el.querySelectorAll('button[data-mode]').forEach(b=>b.onclick=()=>{
     state.filterMode = b.dataset.mode;
     state.series=null; state.weightFilter=null; state.flexFilter=null;
     state.typeFilter=null; state.gaugeFilter=null;
     renderSeriesRow(); renderGrid();
-    el.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    el.querySelectorAll('button[data-mode]').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
   });
 }
@@ -2456,7 +2464,7 @@ function renderSeriesRow(){
 
   const seriesList = [...new Set(items.map(p=>p.series))];
   if(seriesList.length<=1){ el.innerHTML=''; syncScrollFade(el); return; }
-  const showAllChip = !(state.cat==='bad' && (state.sub==='string' || state.sub==='shoe'));
+  const showAllChip = !(state.cat==='bad' && (state.sub==='string' || state.sub==='shoe' || state.sub==='racquet'));
   el.innerHTML = (showAllChip ? `<button class="chip ${!state.series?'active':''}" data-series="">전체</button>` : '') +
     seriesList.map(s=>`<button class="chip ${state.series===s?'active':''}" data-series="${s}">${s}</button>`).join('');
   el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
