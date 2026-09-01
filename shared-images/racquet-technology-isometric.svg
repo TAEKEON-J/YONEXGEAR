@@ -11,8 +11,9 @@
       }
 
       .cls-8, .cls-9 {
-        font-family: DINCond-Regular, DINCond-Regular;
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
         font-size: 10.54px;
+        font-weight: 800;
       }
 
       .cls-9 {
@@ -20,9 +21,9 @@
       }
 
       .cls-10 {
-        font-family: AdobeMyungjoStd-Medium-KSCpc-EUC-H, 'Adobe Myungjo Std';
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
         font-size: 12px;
-        font-weight: 500;
+        font-weight: 600;
       }
 
       .cls-2 {
@@ -34,7 +35,8 @@
       }
 
       .cls-11 {
-        font-family: YoonGothicPro750-KSCpc-EUC-H, 'Yoon Gothic 700';
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+        font-weight: 600;
       }
 
       .cls-11, .cls-12 {
@@ -75,13 +77,15 @@
       }
 
       .cls-12 {
-        font-family: YoonGothicPro730-KSCpc-EUC-H, 'Yoon Gothic 700';
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+        font-weight: 500;
       }
 
       .cls-17 {
-        font-family: YoonGothicPro770-KSCpc-EUC-H, 'Yoon Gothic 700';
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
         font-size: 11.78px;
         letter-spacing: -.03em;
+        font-weight: 700;
       }
 
       .cls-6 {
