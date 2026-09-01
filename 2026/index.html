@@ -607,10 +607,11 @@
   @media (hover:hover) and (pointer:fine){ .rg-hero-standalone:hover .rg-hero-cta{opacity:.9;} }
 
   .rg-section{padding:36px 20px 0;}
-  .rg-section-head{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;}
-  .rg-section-kicker{font-size:11px;font-weight:900;color:var(--green-dk,#4a8f2c);letter-spacing:.05em;}
+  .rg-section-head{display:flex;align-items:flex-start;gap:8px;}
+  .rg-section-kicker{font-size:11px;font-weight:900;color:var(--green-dk,#4a8f2c);letter-spacing:.05em;margin-top:3px;}
+  .rg-section-head-text{flex:1;min-width:0;}
   .rg-section-head h3{font-size:15.5px;font-weight:900;letter-spacing:-.01em;color:var(--ink);margin:0;}
-  .rg-section-lead{font-size:12px;color:var(--muted);font-weight:600;margin:0 0 14px;}
+  .rg-section-lead{font-size:12px;color:var(--muted);font-weight:600;margin:6px 0 14px;}
 
   /* RACQUET SELECTOR — venn diagram (designer-supplied SVG artwork) */
   .rg-venn{position:relative;width:100%;aspect-ratio:390/250;margin:6px 0 4px;filter:drop-shadow(0 10px 18px rgba(20,20,20,.12));}
@@ -3834,8 +3835,13 @@ function racquetGuideContentHtml(){
       </div>
 
       <div class="rg-section" id="rgSelectorSection">
-        <div class="rg-section-head"><span class="rg-section-kicker">01</span><h3>RACQUET SELECTOR</h3></div>
-        <p class="rg-section-lead">플레이 스타일에 맞는 시리즈를 확인하세요.<br>이름을 탭하면 해당 시리즈로 이동합니다.</p>
+        <div class="rg-section-head">
+          <span class="rg-section-kicker">01</span>
+          <div class="rg-section-head-text">
+            <h3>RACQUET SELECTOR</h3>
+            <p class="rg-section-lead">플레이 스타일에 맞는 시리즈를 확인하세요.<br>이름을 탭하면 해당 시리즈로 이동합니다.</p>
+          </div>
+        </div>
         <div class="rg-venn">
           ${RACQUET_SELECTOR_VENN_SVG}
           <button class="rg-venn-label rg-venn-label-left" onclick="racquetGuideGoToSeries('ASTROX')">ASTROX</button>
@@ -3846,8 +3852,13 @@ function racquetGuideContentHtml(){
       </div>
 
       <div class="rg-section" id="rgTechSection">
-        <div class="rg-section-head"><span class="rg-section-kicker">02</span><h3>RACQUET TECHNOLOGY</h3></div>
-        <p class="rg-section-lead">요넥스 라켓의 대표 기술을 소개합니다.</p>
+        <div class="rg-section-head">
+          <span class="rg-section-kicker">02</span>
+          <div class="rg-section-head-text">
+            <h3>RACQUET TECHNOLOGY</h3>
+            <p class="rg-section-lead">요넥스 라켓의 대표 기술을 소개합니다.</p>
+          </div>
+        </div>
         <div class="rg-iso-card">
           ${RACQUET_TECHNOLOGY_ISOMETRIC_SVG}
           <div class="rg-iso-text">
