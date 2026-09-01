@@ -2721,7 +2721,7 @@ const CATEGORY_HERO = {
   shoe: {
     img:'../shared-images/hero-shoes.jpg', title:'shoes', align:'right',
     desc:'충격을 흡수하고, 다음 스텝의 힘으로 전환합니다.<br>요넥스 배드민턴화는<br>더 빠르고 안정적인 풋워크를 지원합니다.',
-    cta:'신발 보기', action:()=>racquetGuideScrollToResults()
+    cta:'신발 보기', action:()=>racquetGuideScrollToResults(), hideCta:true
   }
 };
 function renderCategoryHero(){
@@ -2738,7 +2738,7 @@ function renderCategoryHero(){
       <div class="rg-hero-eyebrow">OUR RANGE OF</div>
       <h2 class="rg-hero-title">${cfg.title}</h2>
       <p class="rg-hero-desc">${cfg.desc}</p>
-      <span class="rg-hero-cta">${cfg.cta} <span>→</span></span>
+      ${cfg.hideCta ? '' : `<span class="rg-hero-cta">${cfg.cta} <span>→</span></span>`}
     </div>`;
   el.onclick = cfg.action;
 }
