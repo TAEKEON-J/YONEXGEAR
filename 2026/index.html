@@ -596,9 +596,10 @@
   .rg-hero-title{font-size:clamp(38px,15vw,52px);font-weight:900;line-height:.95;letter-spacing:-.03em;color:var(--ink);margin:0 0 12px;text-transform:lowercase;}
   .rg-hero-desc{font-size:12.5px;line-height:1.55;color:var(--muted);font-weight:600;margin-bottom:16px;}
   .rg-hero-cta{
-    display:inline-flex;align-items:center;gap:6px;border:none;border-radius:999px;
-    background:var(--ink);color:#fff;font-size:12.5px;font-weight:800;
-    padding:11px 18px;transition:opacity .15s ease,transform .1s ease;
+    display:inline-flex;align-items:center;gap:6px;border-radius:999px;
+    background:transparent;color:var(--ink);font-size:12.5px;font-weight:800;
+    padding:9.5px 16.5px;border:1.5px solid rgba(10,10,10,.7);
+    transition:opacity .15s ease,transform .1s ease;
   }
   .rg-hero-standalone:active .rg-hero-cta{transform:scale(.96);}
   @media (hover:hover) and (pointer:fine){ .rg-hero-standalone:hover .rg-hero-cta{opacity:.9;} }
@@ -2699,7 +2700,7 @@ const CATEGORY_HERO = {
   racquet: {
     img:'../shared-images/hero-racquets.jpg', title:'racquets', align:'right',
     desc:'1g, 1mm의 차이가 플레이를 바꿉니다.<br>요넥스의 정밀함은 더 나은 퍼포먼스를 만듭니다.',
-    cta:'라켓 선택하기', action:()=>openRacquetGuideSheet()
+    cta:'라켓 가이드', action:()=>openRacquetGuideSheet()
   },
   string: {
     img:'../shared-images/hero-strings.jpg', title:'strings', align:'right',
