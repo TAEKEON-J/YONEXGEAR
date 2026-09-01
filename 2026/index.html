@@ -241,6 +241,61 @@
   .series-hero .sh-cta:hover{opacity:.92;}
   .series-hero .sh-cta:active{transform:scale(.96);}
 
+  /* ---------- SHOE SERIES HERO (신발 시리즈 헤더) ---------- */
+  .ssh{
+    width:100%;border:none;text-align:left;font:inherit;color:inherit;cursor:pointer;
+    -webkit-appearance:none;appearance:none;position:relative;overflow:hidden;
+    border-radius:16px;margin:14px 0 12px;min-height:182px;
+    background-size:cover;background-position:center;background-color:#f4f1ee;
+    display:flex;flex-direction:column;justify-content:center;
+    transition:transform .1s ease;
+  }
+  .ssh:active{transform:scale(.98);}
+  .ssh.ssh-static{cursor:default;}
+  .ssh.ssh-static:active{transform:none;}
+  .ssh::before{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:linear-gradient(100deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.4) 38%, rgba(255,255,255,.08) 58%, rgba(255,255,255,0) 72%);
+  }
+  .ssh-body{position:relative;z-index:1;padding:18px 20px;max-width:62%;}
+  .ssh-title{font-size:clamp(18px,6.1vw,24px);font-weight:900;line-height:1.05;letter-spacing:-.03em;margin:0 0 8px;color:var(--ink);}
+  .ssh-desc{font-size:13px;line-height:1.5;color:var(--muted);font-weight:600;word-break:keep-all;}
+  .ssh-cta{
+    position:absolute;right:20px;bottom:16px;z-index:1;
+    display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--ink);font-weight:800;font-size:12px;
+    border-radius:999px;padding:8px 15px;border:1.5px solid rgba(10,10,10,.7);
+    transition:opacity .15s ease;
+  }
+  @media (hover:hover) and (pointer:fine){ .ssh:hover .ssh-cta{opacity:.85;} }
+  .ssh-tech-label{font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:0 0 10px;}
+  .ssh-tech-name{font-size:12.5px;font-weight:900;letter-spacing:.01em;color:var(--ink);}
+  .ssh-tech-kr{font-size:10.5px;font-weight:700;color:var(--muted);margin:2px 0 6px;}
+  .ssh-tech-desc{font-size:12px;line-height:1.5;color:var(--ink);font-weight:500;}
+
+  /* shoe tech sheet */
+  .ssh-sheet-hero{
+    min-height:220px;background-size:cover;background-position:center;background-color:#f4f1ee;position:relative;
+    display:flex;flex-direction:column;justify-content:center;border-radius:0 0 20px 20px;overflow:hidden;
+  }
+  .ssh-sheet-hero::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(100deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.45) 40%, rgba(255,255,255,.1) 60%, rgba(255,255,255,0) 74%);
+  }
+  .ssh-sheet-hero-body{position:relative;padding:22px 44px 22px 20px;max-width:66%;}
+  .ssh-sheet-hero-body .ssh-title{color:var(--ink);font-size:clamp(22px,8vw,28px);}
+  .ssh-sheet-hero-body .ssh-desc{color:var(--muted);margin-bottom:0;}
+  .ssh-tech-detail-list{display:flex;flex-direction:column;gap:24px;}
+  .ssh-tech-detail-img{
+    width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:var(--paper);
+    display:flex;align-items:center;justify-content:center;margin-bottom:10px;
+  }
+  .ssh-tech-detail-img img{width:100%;height:100%;object-fit:contain;}
+  .ssh-tech-detail-img.ssh-tech-img-pending{
+    background:repeating-linear-gradient(135deg,var(--paper),var(--paper) 10px,#ececee 10px,#ececee 20px);
+  }
+  .ssh-tech-detail-img.ssh-tech-img-pending img{display:none;}
+  .ssh-tech-detail-img.ssh-tech-img-pending::after{content:'이미지 준비중';font-size:11px;font-weight:700;color:var(--muted);}
+
   .smap-wrap{padding:0 0 26px;}
   .smap-head{
     display:flex;align-items:center;gap:10px;padding:16px 16px 4px;position:sticky;top:0;background:#fff;z-index:2;
@@ -1021,6 +1076,100 @@ const SERIES_INFO = {
     mapColor: '#29806e',
   },
 };
+
+/* PREVIEW ONLY — not yet wired into renderGrid(). 신발 시리즈 헤더 시안. */
+const SHOE_SERIES_INFO = {
+  'EXPLOSIVE DRIVE': {
+    title: 'EXPLOSIVE DRIVE',
+    img: '../shared-images/hero-shoe-explosive-drive.jpg',
+    desc: '그라파이트 스로틀 기술이<br>차세대 쿠셔닝과<br>폭발적인 추진력 제공.',
+    techs: [
+      {name:'GRPHT THRTTL', kr:'그라파이트 스로틀', desc:'뒤꿈치 아래에 적용된 그라파이트 스로틀은 착지 시 압축된 뒤 빠르게 원형으로 복원되며 강력한 반발력을 생성해 더욱 강력한 추진력을 제공합니다.', img:'../shared-images/tech-explosive-drive-grpht-thrttl.png'},
+      {name:'3D HEEL CUSHIONING', kr:'3D 힐 쿠셔닝', desc:'뒤꿈치 충격 방향으로 쿠션 두께를 강화해 충격 흡수와 반발력을 동시에 향상. 중요한 순간에 더욱 부드럽고 반응성 높은 풋워크를 제공합니다.', img:'../shared-images/tech-explosive-drive-3d-heel-cushioning.png'},
+      {name:'FRONT-AND-REAR SPLIT MIDSOLE', kr:'앞뒤 분리형 중창', desc:'중창을 세분화하여 각 영역의 반발력과 경도를 최적화. 특히 전족부는 반응성과 견고함을 강화해 점프력과 경기력 향상에 기여합니다.', img:'../shared-images/tech-explosive-drive-split-midsole.png'},
+    ]
+  },
+  '경량화': {
+    title: 'LIGHTWEIGHT',
+    img: '../shared-images/hero-shoe-lightweight.jpg',
+    desc: '요넥스 배드민턴화 중 가장 경량.<br>가벼우면서 내구성은 뛰어나<br>보다 빠른 풋워크 실현.',
+    techs: [
+      {name:'msLITE X', kr:'ms라이트 엑스', desc:'요넥스에서 가장 가벼운 중창 소재로 부드럽고 유연한 풋워크 제공. 에어러스 Z를 더욱 가볍게 만드는 핵심 기술 중 하나입니다.', img:'../shared-images/tech-lightweight-mslite-x.png'},
+      {name:'SEAMLESS UPPER', kr:'이음매 없는 갑피', desc:'이음매 없는 갑피 디자인은 마찰에도 견디는 내마모성 소재와 각 부위의 필름 보강으로 경량의 무게 및 높은 통기성과 지지력을 제공합니다.', img:'../shared-images/tech-lightweight-seamless-upper.png'},
+    ]
+  },
+  '안정성': {
+    title: 'STABILITY',
+    img: '../shared-images/hero-shoe-stability.jpg',
+    desc: '안정감과 함께<br>풋워크에 자신감 향상.',
+    techs: []
+  },
+  '올라운드': {
+    title: 'ALL ROUND',
+    img: '../shared-images/hero-shoe-allround.jpg',
+    desc: '쿠션감, 안정감, 가벼움의<br>완벽한 조합을 제공.',
+    techs: []
+  }
+};
+function shoeSeriesHeroHtml(){
+  const type = (state.cat==='bad' && state.sub==='shoe' && state.filterMode==='type') ? state.typeFilter : null;
+  const info = SHOE_SERIES_INFO[type];
+  if(!info) return '';
+  const hasTech = info.techs && info.techs.length>0;
+  const tag = hasTech ? 'button' : 'div';
+  const clickAttrs = hasTech ? `type="button" onclick="openShoeTechSheet('${type}')" aria-label="${info.title} 기술 자세히 보기"` : '';
+  return `
+    <${tag} class="ssh${hasTech?'':' ssh-static'}" style="background-image:url('${info.img}')" ${clickAttrs}>
+      <div class="ssh-body">
+        <h2 class="ssh-title">${info.title}</h2>
+        <p class="ssh-desc">${info.desc}</p>
+      </div>
+      ${hasTech ? `<span class="ssh-cta">SERIES TECH <span>→</span></span>` : ''}
+    </${tag}>
+  `;
+}
+function shoeTechSheetContentHtml(type){
+  const info = SHOE_SERIES_INFO[type];
+  if(!info) return '';
+  return `
+    <div class="rg-sheet">
+      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="ssh-sheet-hero" style="background-image:url('${info.img}')">
+        <div class="ssh-sheet-hero-body">
+          <h2 class="ssh-title">${info.title}</h2>
+          <p class="ssh-desc">${info.desc}</p>
+        </div>
+      </div>
+      <div class="rg-section">
+        <div class="rg-section-head"><h3>KEY TECHNOLOGY</h3></div>
+        <div class="ssh-tech-detail-list">
+          ${info.techs.map(t=>`
+            <div class="ssh-tech-detail">
+              <div class="ssh-tech-detail-img">
+                <img src="${t.img}" alt="" onerror="this.closest('.ssh-tech-detail-img').classList.add('ssh-tech-img-pending')">
+              </div>
+              <div class="ssh-tech-name">${t.name}</div>
+              <div class="ssh-tech-kr">${t.kr}</div>
+              <div class="ssh-tech-desc">${t.desc}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+function openShoeTechSheet(type){
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  sheet.classList.remove('cmp-mode');
+  sheet.innerHTML = shoeTechSheetContentHtml(type);
+  openOverlayA11y();
+  if(!overlay.classList.contains('open')){
+    overlay.classList.add('open');
+    history.pushState({sheetOpen:true}, '', location.href);
+    sheetHistoryPushed = true;
+  }
+  focusSheetContent();
+}
 
 const CATS = [
   {id:'bad', label:'배드민턴'},
@@ -2603,15 +2752,20 @@ function renderSeriesInfoBlock(){
   const el = document.getElementById('seriesInfoBlock');
   if(!el) return;
   const info = (state.cat==='bad' && state.sub==='racquet' && state.series) ? SERIES_INFO[state.series] : null;
-  if(!info){ el.innerHTML=''; return; }
-  el.innerHTML = `
-    <div class="series-hero" style="background:${info.grad}">
-      <div class="sh-kicker">${info.kicker}</div>
-      <h2 class="sh-title" style="color:${info.titleColor}">${info.title}</h2>
-      <div class="sh-desc">${info.desc}</div>
-      <button class="sh-cta" onclick="openSeriesMapSheet('${state.series}')">SERIES MAP <span>→</span></button>
-    </div>
-  `;
+  if(info){
+    el.innerHTML = `
+      <div class="series-hero" style="background:${info.grad}">
+        <div class="sh-kicker">${info.kicker}</div>
+        <h2 class="sh-title" style="color:${info.titleColor}">${info.title}</h2>
+        <div class="sh-desc">${info.desc}</div>
+        <button class="sh-cta" onclick="openSeriesMapSheet('${state.series}')">SERIES MAP <span>→</span></button>
+      </div>
+    `;
+    return;
+  }
+  /* PREVIEW ONLY — 신발 시리즈 헤더 시안, 아직 정식 반영 아님 */
+  const shoeHtml = shoeSeriesHeroHtml();
+  el.innerHTML = shoeHtml;
 }
 function smapLabelTspans(name, seriesName, x, fontSize){
   const short = name.replace(new RegExp('^'+seriesName+'\\s+','i'),'').toUpperCase();
