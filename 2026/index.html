@@ -591,6 +591,7 @@
   .rg-sheet-head-eyebrow{font-size:10.5px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
   .rg-sheet-head-title{font-size:19px;font-weight:900;letter-spacing:-.01em;color:var(--ink);margin:0;}
   .rg-hero-text{position:relative;max-width:82%;z-index:1;}
+  .rg-hero-align-right .rg-hero-text{align-self:flex-end;text-align:right;}
   .rg-hero-eyebrow{font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
   .rg-hero-title{font-size:clamp(38px,15vw,52px);font-weight:900;line-height:.95;letter-spacing:-.03em;color:var(--ink);margin:0 0 12px;text-transform:lowercase;}
   .rg-hero-desc{font-size:12.5px;line-height:1.55;color:var(--muted);font-weight:600;margin-bottom:16px;}
@@ -2755,22 +2756,22 @@ function openSeriesMapSheet(seriesName){
 /* =============== CATEGORY HERO (배드민턴 서브카테고리 헤더) =============== */
 const CATEGORY_HERO = {
   racquet: {
-    img:'../shared-images/hero-racquets.jpg', title:'racquets',
+    img:'../shared-images/hero-racquets.jpg', title:'racquets', align:'right',
     desc:'1g, 1mm의 차이가 플레이를 바꿉니다.<br>요넥스의 정밀함은 더 나은 퍼포먼스를 만듭니다.',
     cta:'라켓 선택하기', action:()=>openRacquetGuideSheet()
   },
   string: {
-    img:'../shared-images/hero-strings.jpg', title:'strings',
+    img:'../shared-images/hero-strings.jpg', title:'strings', align:'right',
     desc:'스트링의 차이가 플레이의 차이를 만듭니다.<br>요넥스는 정밀한 소재와 기술로<br>더 빠르고 강한 퍼포먼스를 완성합니다.',
     cta:'스트링 보기', action:()=>racquetGuideScrollToResults()
   },
   shuttle: {
-    img:'../shared-images/hero-shuttlecocks.jpg', title:'shuttlecocks',
+    img:'../shared-images/hero-shuttlecocks.jpg', title:'shuttlecocks', align:'left',
     desc:'정밀한 비행, 변함없는 퍼포먼스.<br>요넥스 셔틀콕은 세계 무대에서<br>그 성능을 증명해왔습니다.',
     cta:'셔틀콕 보기', action:()=>racquetGuideScrollToResults()
   },
   shoe: {
-    img:'../shared-images/hero-shoes.jpg', title:'shoes',
+    img:'../shared-images/hero-shoes.jpg', title:'shoes', align:'right',
     desc:'충격을 흡수하고, 다음 스텝의 힘으로 전환합니다.<br>요넥스 배드민턴화는<br>더 빠르고 안정적인 풋워크를 지원합니다.',
     cta:'신발 보기', action:()=>racquetGuideScrollToResults()
   }
@@ -2782,6 +2783,7 @@ function renderCategoryHero(){
   if(!cfg){ el.style.display='none'; el.innerHTML=''; el.onclick=null; return; }
   el.style.display = 'flex';
   el.style.backgroundImage = `url('${cfg.img}')`;
+  el.classList.toggle('rg-hero-align-right', cfg.align==='right');
   el.setAttribute('aria-label', cfg.title + ' 보기');
   el.innerHTML = `
     <div class="rg-hero-text">
