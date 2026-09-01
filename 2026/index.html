@@ -573,6 +573,7 @@
   .rg-hero{
     position:relative;overflow:hidden;border-radius:20px 20px 0 0;
     background:linear-gradient(150deg,#dce8f0,#f4f7f8 68%);
+    background-size:cover;background-position:center;
     padding:24px 22px 26px;min-height:300px;
     display:flex;flex-direction:column;justify-content:flex-end;
   }
@@ -581,17 +582,15 @@
     width:100%;border:none;text-align:left;font:inherit;color:inherit;
     -webkit-appearance:none;appearance:none;
   }
+  .rg-hero-standalone::before{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:linear-gradient(0deg, rgba(244,247,248,.94) 0%, rgba(244,247,248,.72) 36%, rgba(244,247,248,.12) 68%, rgba(244,247,248,0) 85%);
+  }
   @media print{ .rg-hero-standalone{display:none !important;} }
   .rg-sheet-head{padding:24px 44px 4px 20px;}
   .rg-sheet-head-eyebrow{font-size:10.5px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
   .rg-sheet-head-title{font-size:19px;font-weight:900;letter-spacing:-.01em;color:var(--ink);margin:0;}
-  .rg-hero-visual{position:absolute;top:-16px;right:-64px;width:270px;height:270px;pointer-events:none;}
-  .rg-hero-visual img{
-    width:100%;height:100%;object-fit:contain;object-position:center;
-    transform:rotate(-38deg) scale(1.18);
-    filter:drop-shadow(0 20px 22px rgba(20,30,40,.16));
-  }
-  .rg-hero-text{position:relative;max-width:82%;}
+  .rg-hero-text{position:relative;max-width:82%;z-index:1;}
   .rg-hero-eyebrow{font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
   .rg-hero-title{font-size:clamp(38px,15vw,52px);font-weight:900;line-height:.95;letter-spacing:-.03em;color:var(--ink);margin:0 0 12px;text-transform:lowercase;}
   .rg-hero-desc{font-size:12.5px;line-height:1.55;color:var(--muted);font-weight:600;margin-bottom:16px;}
@@ -921,15 +920,7 @@
   </div>
 </div>
 
-<button type="button" class="rg-hero rg-hero-standalone" id="racquetGuidePromo" style="display:none;" onclick="openRacquetGuideSheet()" aria-label="라켓 가이드 보기">
-  <div class="rg-hero-visual"><img src="../shared-images/astrox-99-pro-cutout.png" alt=""></div>
-  <div class="rg-hero-text">
-    <div class="rg-hero-eyebrow">OUR RANGE OF</div>
-    <h2 class="rg-hero-title">racquets</h2>
-    <p class="rg-hero-desc">당신의 플레이 스타일에<br>최적화된 라켓을 만나보세요.</p>
-    <span class="rg-hero-cta">라켓 선택하기 <span>→</span></span>
-  </div>
-</button>
+<button type="button" class="rg-hero rg-hero-standalone" id="categoryHeroPromo" style="display:none;"></button>
 
 <div class="filter-mode-tabs" id="filterModeTabs"></div>
 <div class="serieswrap" id="seriesRow"></div>
@@ -2593,10 +2584,7 @@ function renderGrid(){
       finderPromo.style.display = 'none';
     }
   }
-  const rgPromo = document.getElementById('racquetGuidePromo');
-  if(rgPromo){
-    rgPromo.style.display = (state.cat==='bad' && state.sub==='racquet' && !state.q) ? 'flex' : 'none';
-  }
+  renderCategoryHero();
   document.getElementById('countLabel').textContent = list.length + '개 제품';
   document.getElementById('sectionTitleText').textContent = state.q
     ? `"${state.q}" 검색 결과`
@@ -2764,6 +2752,47 @@ function openSeriesMapSheet(seriesName){
   }
   focusSheetContent();
   if(isAdmin) initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY);
+}
+
+/* =============== CATEGORY HERO (배드민턴 서브카테고리 헤더) =============== */
+const CATEGORY_HERO = {
+  racquet: {
+    img:'../shared-images/hero-racquets.jpg', title:'racquets',
+    desc:'1g, 1mm의 차이가 플레이를 바꿉니다.<br>요넥스의 정밀함은 더 나은 퍼포먼스를 만듭니다.',
+    cta:'라켓 선택하기', action:()=>openRacquetGuideSheet()
+  },
+  string: {
+    img:'../shared-images/hero-strings.jpg', title:'strings',
+    desc:'스트링의 차이가 플레이의 차이를 만듭니다.<br>요넥스는 정밀한 소재와 기술로<br>더 빠르고 강한 퍼포먼스를 완성합니다.',
+    cta:'스트링 보기', action:()=>racquetGuideScrollToResults()
+  },
+  shuttle: {
+    img:'../shared-images/hero-shuttlecocks.jpg', title:'shuttlecocks',
+    desc:'정밀한 비행, 변함없는 퍼포먼스.<br>요넥스 셔틀콕은 세계 무대에서<br>그 성능을 증명해왔습니다.',
+    cta:'셔틀콕 보기', action:()=>racquetGuideScrollToResults()
+  },
+  shoe: {
+    img:'../shared-images/hero-shoes.jpg', title:'shoes',
+    desc:'충격을 흡수하고, 다음 스텝의 힘으로 전환합니다.<br>요넥스 배드민턴화는<br>더 빠르고 안정적인 풋워크를 지원합니다.',
+    cta:'신발 보기', action:()=>racquetGuideScrollToResults()
+  }
+};
+function renderCategoryHero(){
+  const el = document.getElementById('categoryHeroPromo');
+  if(!el) return;
+  const cfg = (state.cat==='bad' && !state.q) ? CATEGORY_HERO[state.sub] : null;
+  if(!cfg){ el.style.display='none'; el.innerHTML=''; el.onclick=null; return; }
+  el.style.display = 'flex';
+  el.style.backgroundImage = `url('${cfg.img}')`;
+  el.setAttribute('aria-label', cfg.title + ' 보기');
+  el.innerHTML = `
+    <div class="rg-hero-text">
+      <div class="rg-hero-eyebrow">OUR RANGE OF</div>
+      <h2 class="rg-hero-title">${cfg.title}</h2>
+      <p class="rg-hero-desc">${cfg.desc}</p>
+      <span class="rg-hero-cta">${cfg.cta} <span>→</span></span>
+    </div>`;
+  el.onclick = cfg.action;
 }
 
 /* =============== RACQUET GUIDE =============== */
