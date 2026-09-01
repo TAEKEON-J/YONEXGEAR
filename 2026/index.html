@@ -603,16 +603,6 @@
   .rg-hero-standalone:active .rg-hero-cta{transform:scale(.96);}
   @media (hover:hover) and (pointer:fine){ .rg-hero-standalone:hover .rg-hero-cta{opacity:.9;} }
 
-  .rg-quicknav{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px 0;}
-  .rg-qn-tile{
-    border:1.5px solid var(--line);border-radius:12px;background:#fff;
-    padding:13px 12px;text-align:left;cursor:pointer;transition:transform .1s ease,border-color .15s ease;
-  }
-  .rg-qn-tile:active{transform:scale(.97);}
-  @media (hover:hover) and (pointer:fine){ .rg-qn-tile:hover{border-color:var(--green);} }
-  .rg-qn-title{font-size:12px;font-weight:900;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px;}
-  .rg-qn-sub{font-size:10.5px;font-weight:600;color:var(--muted);line-height:1.4;}
-
   .rg-section{padding:22px 20px 0;}
   .rg-section-head{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;}
   .rg-section-kicker{font-size:11px;font-weight:900;color:var(--green-dk,#4a8f2c);letter-spacing:.05em;}
@@ -2868,10 +2858,6 @@ function racquetGuideViewAll(){
   renderAll();
   racquetGuideScrollToResults();
 }
-function racquetGuideScrollTo(id){
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-}
 function racquetGuideContentHtml(){
   const legendHtml = RACQUET_GUIDE_SERIES.map(s=>{
     const [balanceKo, balanceEn] = s.balance.split(' (');
@@ -2900,17 +2886,6 @@ function racquetGuideContentHtml(){
       <div class="rg-sheet-head">
         <div class="rg-sheet-head-eyebrow">OUR RANGE OF</div>
         <h2 class="rg-sheet-head-title">RACQUET GUIDE</h2>
-      </div>
-
-      <div class="rg-quicknav">
-        <button class="rg-qn-tile" onclick="racquetGuideScrollTo('rgSelectorSection')">
-          <div class="rg-qn-title">RACQUET SELECTOR</div>
-          <div class="rg-qn-sub">나에게 맞는 시리즈 확인</div>
-        </button>
-        <button class="rg-qn-tile" onclick="racquetGuideScrollTo('rgTechSection')">
-          <div class="rg-qn-title">ISOMETRIC™</div>
-          <div class="rg-qn-sub">시그니처 요넥스 기술</div>
-        </button>
       </div>
 
       <div class="rg-section" id="rgSelectorSection">
