@@ -267,34 +267,26 @@
     transition:opacity .15s ease;
   }
   @media (hover:hover) and (pointer:fine){ .ssh:hover .ssh-cta{opacity:.85;} }
-  .ssh-tech-label{font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:0 0 10px;}
-  .ssh-tech-name{font-size:12.5px;font-weight:900;letter-spacing:.01em;color:var(--ink);}
-  .ssh-tech-kr{font-size:10.5px;font-weight:700;color:var(--muted);margin:2px 0 6px;}
-  .ssh-tech-desc{font-size:12px;line-height:1.5;color:var(--ink);font-weight:500;}
 
-  /* shoe tech sheet */
-  .ssh-sheet-hero{
-    min-height:220px;background-size:cover;background-position:center;background-color:#f4f1ee;position:relative;
-    display:flex;flex-direction:column;justify-content:center;border-radius:0 0 20px 20px;overflow:hidden;
+  /* shoe tech sheet — KEY TECHNOLOGY cards */
+  .ssh-tech-detail-list{display:flex;flex-direction:column;gap:16px;}
+  .ssh-tech-detail{
+    background:var(--paper);border-radius:18px;padding:16px;border:1px solid rgba(10,10,10,.06);
   }
-  .ssh-sheet-hero::before{
-    content:'';position:absolute;inset:0;
-    background:linear-gradient(100deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.45) 40%, rgba(255,255,255,.1) 60%, rgba(255,255,255,0) 74%);
-  }
-  .ssh-sheet-hero-body{position:relative;padding:22px 44px 22px 20px;max-width:66%;}
-  .ssh-sheet-hero-body .ssh-title{color:var(--ink);font-size:clamp(22px,8vw,28px);}
-  .ssh-sheet-hero-body .ssh-desc{color:var(--muted);margin-bottom:0;}
-  .ssh-tech-detail-list{display:flex;flex-direction:column;gap:24px;}
   .ssh-tech-detail-img{
-    width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:var(--paper);
-    display:flex;align-items:center;justify-content:center;margin-bottom:10px;
+    width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:#fff;
+    outline:1px solid rgba(10,10,10,.08);outline-offset:-1px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;
   }
   .ssh-tech-detail-img img{width:100%;height:100%;object-fit:contain;}
   .ssh-tech-detail-img.ssh-tech-img-pending{
-    background:repeating-linear-gradient(135deg,var(--paper),var(--paper) 10px,#ececee 10px,#ececee 20px);
+    background:repeating-linear-gradient(135deg,#fff,#fff 10px,#ececee 10px,#ececee 20px);
   }
   .ssh-tech-detail-img.ssh-tech-img-pending img{display:none;}
   .ssh-tech-detail-img.ssh-tech-img-pending::after{content:'이미지 준비중';font-size:11px;font-weight:700;color:var(--muted);}
+  .ssh-tech-name{font-size:13px;font-weight:900;letter-spacing:.01em;color:var(--ink);}
+  .ssh-tech-kr{font-size:10.5px;font-weight:700;color:var(--muted);margin:3px 0 8px;}
+  .ssh-tech-desc{font-size:12px;line-height:1.55;color:var(--ink);font-weight:500;}
 
   .smap-wrap{padding:0 0 26px;}
   .smap-head{
@@ -1134,13 +1126,11 @@ function shoeTechSheetContentHtml(type){
   return `
     <div class="rg-sheet">
       <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
-      <div class="ssh-sheet-hero" style="background-image:url('${info.img}')">
-        <div class="ssh-sheet-hero-body">
-          <h2 class="ssh-title">${info.title}</h2>
-          <p class="ssh-desc">${info.desc}</p>
-        </div>
+      <div class="rg-sheet-head">
+        <div class="rg-sheet-head-eyebrow">SERIES TECH</div>
+        <h2 class="rg-sheet-head-title">${info.title}</h2>
       </div>
-      <div class="rg-section">
+      <div class="rg-section" style="padding-top:16px">
         <div class="rg-section-head"><h3>KEY TECHNOLOGY</h3></div>
         <div class="ssh-tech-detail-list">
           ${info.techs.map(t=>`
