@@ -2451,7 +2451,7 @@ document.addEventListener('click', (e)=>{
 });
 
 /* =============== STATE =============== */
-let state = {cat:'bad', sub:'racquet', series:null, filterMode:'series', weightFilter:null, flexFilter:null, typeFilter:null, gaugeFilter:null, q:'', sort:'default', newOnly:false, compare:[]};
+let state = {cat:'bad', sub:'racquet', series:'ASTROX', filterMode:'series', weightFilter:null, flexFilter:null, typeFilter:null, gaugeFilter:null, q:'', sort:'default', newOnly:false, compare:[]};
 
 /* =============== RENDER =============== */
 function fmtPrice(p){
@@ -2474,6 +2474,8 @@ function resetFilters(){
   state.series=null; state.weightFilter=null; state.flexFilter=null;
   state.typeFilter=null; state.gaugeFilter=null;
   state.filterMode = defaultFilterModeFor(state.cat, state.sub);
+  if(state.cat==='bad' && state.sub==='racquet') state.series='ASTROX';
+  if(state.cat==='bad' && state.sub==='shoe') state.typeFilter='EXPLOSIVE DRIVE';
 }
 function renderCatNav(){
   const el = document.getElementById('catNav');
@@ -4139,7 +4141,8 @@ function renderHero(){
   if(!el) return;
   el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}">${c.label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    state.cat = b.dataset.cat; state.sub = SUBCATS[state.cat][0].id; state.series=null; state.q='';
+    state.cat = b.dataset.cat; state.sub = SUBCATS[state.cat][0].id; state.q='';
+    resetFilters();
     document.getElementById('searchInput').value='';
     renderAll();
     scrollToCatalog();
