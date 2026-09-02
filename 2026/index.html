@@ -2538,7 +2538,11 @@ let state = {cat:'bad', sub:'racquet', series:'ASTROX', filterMode:'series', wei
 
 /* =============== RENDER =============== */
 function fmtPrice(p){
-  if(p.price===0) return (p.specs && p.specs['비고']==='대리점 전용 상품') ? '대리점 전용 상품' : '가격 문의';
+  if(p.price===0){
+    if(p.specs && p.specs['비고']==='대리점 전용 상품') return '대리점 전용 상품';
+    if((p.c==='bad' && p.s==='shuttle') || (p.c==='ten' && p.s==='string')) return '';
+    return '가격 문의';
+  }
   if(!p.price) return '';
   return p.price.toLocaleString('ko-KR')+'원';
 }
