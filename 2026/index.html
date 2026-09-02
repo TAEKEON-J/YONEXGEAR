@@ -2559,6 +2559,7 @@ function resetFilters(){
   state.filterMode = defaultFilterModeFor(state.cat, state.sub);
   if(state.cat==='bad' && state.sub==='racquet') state.series='ASTROX';
   if(state.cat==='bad' && state.sub==='shoe') state.typeFilter='EXPLOSIVE DRIVE';
+  if(state.cat==='ten' && state.sub==='racquet') state.series='VCORE';
 }
 function renderCatNav(){
   const el = document.getElementById('catNav');
