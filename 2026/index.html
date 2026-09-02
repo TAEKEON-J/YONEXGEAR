@@ -464,8 +464,17 @@
   .sheet-body{padding:18px 18px 16px;}
   .sheet-body h2{font-size:19px;margin:0 0 2px;color:var(--ink);text-transform:uppercase;}
   .sheet-body .kr-full{color:var(--muted);font-size:13px;margin-bottom:10px;}
-  .sheet-body .price-full{font-size:18px;font-weight:800;color:var(--navy-deep);margin:8px 0 14px;}
+  .price-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 14px;}
+  .sheet-body .price-full{font-size:18px;font-weight:800;color:var(--navy-deep);margin:0;}
   .sheet-body .desc{font-size:13.5px;line-height:1.6;color:#333;background:var(--paper);padding:10px 12px;border-radius:10px;margin-bottom:14px;}
+  .price-color-swatches{display:flex;gap:8px;flex:none;}
+  .color-swatch{
+    width:22px;height:22px;border-radius:50%;flex:none;padding:0;box-sizing:border-box;
+    border:1.5px solid rgba(10,10,10,.14);cursor:pointer;
+    transition:transform .1s ease,box-shadow .15s ease;
+  }
+  .color-swatch:hover{transform:scale(1.1);}
+  .color-swatch.active{box-shadow:0 0 0 2px #fff, 0 0 0 3.5px var(--navy);}
   table.specs{width:100%;table-layout:fixed;border-collapse:collapse;font-size:13px;}
   table.specs tr{border-bottom:1px solid var(--line);}
   table.specs td{padding:8px 4px;vertical-align:top;word-break:break-word;overflow-wrap:anywhere;}
@@ -1812,7 +1821,8 @@ const P = [
 
 /* ============ TENNIS SHOES / BALLS ============ */
 {c:'ten',s:'shoe',series:'ECLIPSION 5',name:'Power Cushion Eclipsion 5',kr:'파워 쿠션 이클립션 5',price:210000,grad:GRAD.TENSHOE,img:'../shared-images/power-cushion-eclipsion-5.jpg',badge:'2026 S/S NEW DESIGN',
- specs:{'ERP코드':'SHT-E5MACEX (ECLIPSION5 AC)','색상':'Blue/White, Ruby Red, White/Brown','무게':'365g/12.9oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'올코트용','원산지':'Vietnam'},
+ colors:['Blue/White','Ruby Red','White/Brown','White'],
+ specs:{'ERP코드':'SHT-E5MACEX (ECLIPSION5 AC)','색상':'[2026] Blue/White, Ruby Red, White/Brown / [2024] White','무게':'365g/12.9oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'올코트용','원산지':'Vietnam'},
  desc:'안정성에 특화된 라인업, 상급/중급 플레이어에 적합한 올코트용 모델.',tags:['안정성','올코트']},
 {c:'ten',s:'shoe',series:'ECLIPSION 5',name:'Power Cushion Eclipsion 5 Clay',kr:'파워 쿠션 이클립션 5 클레이',price:210000,grad:GRAD.TENSHOE,img:'../shared-images/power-cushion-eclipsion-5-clay.jpg',badge:'2026 S/S NEW DESIGN',
  specs:{'ERP코드':'SHT-E5MGCEX (ECLIPSION5 CL)','색상':'Silver Orange, Ruby Red','무게':'365g/12.9oz (260mm 기준)','사이즈':'230mm~290mm 남녀공용','코트타입':'인조잔디/클레이코트용','원산지':'Vietnam'},
@@ -4112,7 +4122,7 @@ function seriesMapShowDetail(idx, seriesName){
     <div class="sheet-body">
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
-      <div class="price-full">${fmtPrice(p)}</div>
+      <div class="price-row"><div class="price-full">${fmtPrice(p)}</div>${colorTagsHtml(p)}</div>
       <div class="desc">${p.desc}</div>
       <div class="sheet-reveal-2">
         ${perfHtml}
@@ -4174,9 +4184,67 @@ function galleryStripHtml(p){
       style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex:none;cursor:pointer;
       border:2px solid ${i===0?'var(--navy)':'transparent'};" class="gallery-thumb">`).join('');
   return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 18px 0;">
-    <div style="display:flex;gap:6px;overflow-x:auto;flex:1;min-width:0;">${thumbs}</div>
+    <div id="galleryThumbWrap" style="display:flex;gap:6px;overflow-x:auto;flex:1;min-width:0;">${thumbs}</div>
     ${recoHtml}
   </div>`;
+}
+const COLOR_SWATCH_MAP = [
+  ['ruby red','#8c1c2e'],['midnight navy','#1c2b4a'],['olive green','#5c6b3a'],['pale blue','#aac9e6'],
+  ['silver orange','#c98a4e'],['deep purple','#4b2a73'],['fresh lime','#c2e639'],['blast blue','#2f5fd6'],
+  ['champagne','#e6d5b8'],['blue','#2f5fd6'],['red','#8c1c2e'],['navy','#1c2b4a'],['green','#2f6e3f'],
+  ['white','#f5f5f5'],['black','#1a1a1a'],['brown','#6b4a34'],['silver','#c7c9cc'],['gray','#9a9a9a'],
+  ['grey','#9a9a9a'],['orange','#e0632c'],['gold','#c9a24b'],['purple','#6a3fa0'],['pink','#e78bb0'],
+  ['yellow','#f2d13b'],['lime','#c2e639'],['mint','#7fd6b0'],
+];
+function keywordSwatchColor(word){
+  const w = word.toLowerCase().trim();
+  const hit = COLOR_SWATCH_MAP.find(([key])=> w.includes(key));
+  return hit ? hit[1] : '#c7c9cc';
+}
+function colorSwatchStyle(c){
+  if(typeof c==='object' && c.hex){
+    const hexes = Array.isArray(c.hex) ? c.hex : [c.hex];
+    if(hexes.length>=2) return `background:linear-gradient(135deg, ${hexes[0]} 50%, ${hexes[1]} 50%);`;
+    return `background:${hexes[0]};`;
+  }
+  const name = typeof c==='object' ? c.name : c;
+  const parts = name.split('/').map(s=>s.trim()).filter(Boolean);
+  if(parts.length>=2){
+    const c1 = keywordSwatchColor(parts[0]), c2 = keywordSwatchColor(parts[1]);
+    return `background:linear-gradient(135deg, ${c1} 50%, ${c2} 50%);`;
+  }
+  return `background:${keywordSwatchColor(parts[0]||name)};`;
+}
+function colorTagsHtml(p){
+  if(!p.colors || !p.colors.length) return '';
+  const idx = P.indexOf(p);
+  return `<div class="price-color-swatches">${p.colors.map((c,i)=>{
+    const label = typeof c==='object' ? c.name : c;
+    return `<button type="button" class="color-swatch${i===0?' active':''}" style="${colorSwatchStyle(c)}" title="${label}" aria-label="${label}" onclick="selectProductColor(${idx},'${label.replace(/'/g,"\\'")}',this)"></button>`;
+  }).join('')}</div>`;
+}
+function selectProductColor(idx, color, btn){
+  const wrap = btn.closest('.price-color-swatches');
+  wrap.querySelectorAll('.color-swatch').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const p = P[idx];
+  const imgs = p.colorImages && p.colorImages[color];
+  if(!imgs || !imgs.length) return;
+  heroGalleryImgs = imgs;
+  heroGalleryIdx = 0;
+  const hero = document.getElementById('sheetHeroImg');
+  if(hero){
+    const heroWrap = hero.closest('.sheet-hero');
+    if(heroWrap) heroWrap.style.background = '#fff';
+    hero.style.opacity = '0';
+    setTimeout(()=>{ hero.src = imgs[0]; hero.style.opacity = '1'; }, 150);
+  }
+  const thumbWrap = document.getElementById('galleryThumbWrap');
+  if(thumbWrap){
+    thumbWrap.innerHTML = imgs.map((src,i)=>`<img src="${src}" onclick="setHeroImage('${src}',this,${i})"
+      style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex:none;cursor:pointer;
+      border:2px solid ${i===0?'var(--navy)':'transparent'};" class="gallery-thumb">`).join('');
+  }
 }
 let heroGalleryImgs = [];
 let heroGalleryIdx = 0;
@@ -4230,7 +4298,7 @@ function openSheet(p){
     <div class="sheet-body">
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
-      <div class="price-full">${fmtPrice(p)}</div>
+      <div class="price-row"><div class="price-full">${fmtPrice(p)}</div>${colorTagsHtml(p)}</div>
       <div class="desc">${p.desc}</div>
       <div class="sheet-reveal-2">
         ${perfHtml}
@@ -4817,7 +4885,7 @@ function finderShowDetail(idx){
     <div class="sheet-body">
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
-      <div class="price-full">${fmtPrice(p)}</div>
+      <div class="price-row"><div class="price-full">${fmtPrice(p)}</div>${colorTagsHtml(p)}</div>
       <div class="desc">${p.desc}</div>
       ${perfHtml}
       <table class="specs">${rows}</table>
@@ -5119,7 +5187,7 @@ function stringFinderShowDetail(idx){
     <div class="sheet-body">
       <h2>${p.name}</h2>
       <div class="kr-full">${p.kr}</div>
-      <div class="price-full">${fmtPrice(p)}</div>
+      <div class="price-row"><div class="price-full">${fmtPrice(p)}</div>${colorTagsHtml(p)}</div>
       <div class="desc">${p.desc}</div>
       ${perfHtml}
       <table class="specs">${rows}</table>
