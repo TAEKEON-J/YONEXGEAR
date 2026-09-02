@@ -182,6 +182,7 @@
     display:flex;gap:30px;overflow-x:auto;padding:0 0 16px;margin-top:0;
     scrollbar-width:none;
   }
+  nav.subcats:empty{padding:0;}
   nav.subcats::-webkit-scrollbar{display:none;}
   nav.subcats button{
     flex:none;white-space:nowrap;background:transparent;color:#86868b;
@@ -2579,6 +2580,7 @@ function renderCatNav(){
 function renderSubNav(){
   const el = document.getElementById('subNav');
   const subs = SUBCATS[state.cat];
+  if(subs.length<=1){ el.innerHTML=''; return; }
   el.innerHTML = subs.map(s=>`<button data-sub="${s.id}" class="${s.id===state.sub?'active':''}">${s.label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
     state.sub=b.dataset.sub;
