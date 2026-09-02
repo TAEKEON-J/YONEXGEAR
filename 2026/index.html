@@ -2613,6 +2613,9 @@ function filterModesFor(cat, sub, items){
   if(cat==='ten' && sub==='shoe'){
     return [['series','시리즈']];
   }
+  if(cat==='soft' && sub==='racquet'){
+    return [['series','시리즈']];
+  }
   return [];
 }
 function resetAllFiltersToSeries(){
@@ -2625,7 +2628,7 @@ function renderFilterModeTabs(){
   if(state.q){ el.innerHTML=''; return; }
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
   const modes = filterModesFor(state.cat, state.sub, items);
-  const showResetAll = (state.cat==='bad' && (state.sub==='racquet' || state.sub==='shoe' || state.sub==='string')) || (state.cat==='ten' && (state.sub==='racquet' || state.sub==='shoe'));
+  const showResetAll = (state.cat==='bad' && (state.sub==='racquet' || state.sub==='shoe' || state.sub==='string')) || (state.cat==='ten' && (state.sub==='racquet' || state.sub==='shoe')) || (state.cat==='soft' && state.sub==='racquet');
   if(modes.length===0 || (modes.length===1 && !showResetAll)){ el.innerHTML=''; return; }
   el.innerHTML = modes.map(([m,label])=>`<button data-mode="${m}" class="${state.filterMode===m?'active':''}">${label}</button>`).join('')
     + (showResetAll ? `<button class="mode-reset-all" onclick="resetAllFiltersToSeries()">전제품</button>` : '');
@@ -2701,7 +2704,7 @@ function renderSeriesRow(){
 
   const seriesList = [...new Set(items.map(p=>p.series))];
   if(seriesList.length<=1){ el.innerHTML=''; syncScrollFade(el); return; }
-  const showAllChip = !((state.cat==='bad' && (state.sub==='string' || state.sub==='shoe' || state.sub==='racquet')) || (state.cat==='ten' && (state.sub==='racquet' || state.sub==='shoe')));
+  const showAllChip = !((state.cat==='bad' && (state.sub==='string' || state.sub==='shoe' || state.sub==='racquet')) || (state.cat==='ten' && (state.sub==='racquet' || state.sub==='shoe')) || (state.cat==='soft' && state.sub==='racquet'));
   el.innerHTML = (showAllChip ? `<button class="chip ${!state.series?'active':''}" data-series="">전체</button>` : '') +
     seriesList.map(s=>`<button class="chip ${state.series===s?'active':''}" data-series="${s}">${s}</button>`).join('');
   el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
