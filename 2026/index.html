@@ -2834,6 +2834,7 @@ function seriesDividerHtml(series){
 function renderSeriesInfoBlock(){
   const el = document.getElementById('seriesInfoBlock');
   if(!el) return;
+  if(state.q){ el.innerHTML=''; return; }
   const info = ((state.cat==='bad' || state.cat==='ten') && state.sub==='racquet' && state.series) ? SERIES_INFO[state.series] : null;
   if(info){
     const hasMapData = P.some(p=>(p.mapSeries||p.series)===state.series && p.mapPos);
