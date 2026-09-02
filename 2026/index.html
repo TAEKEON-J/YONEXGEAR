@@ -2625,7 +2625,7 @@ function renderFilterModeTabs(){
   if(state.q){ el.innerHTML=''; return; }
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
   const modes = filterModesFor(state.cat, state.sub, items);
-  const showResetAll = (state.cat==='bad' && (state.sub==='racquet' || state.sub==='shoe')) || (state.cat==='ten' && (state.sub==='racquet' || state.sub==='shoe'));
+  const showResetAll = (state.cat==='bad' && (state.sub==='racquet' || state.sub==='shoe' || state.sub==='string')) || (state.cat==='ten' && (state.sub==='racquet' || state.sub==='shoe'));
   if(modes.length===0 || (modes.length===1 && !showResetAll)){ el.innerHTML=''; return; }
   el.innerHTML = modes.map(([m,label])=>`<button data-mode="${m}" class="${state.filterMode===m?'active':''}">${label}</button>`).join('')
     + (showResetAll ? `<button class="mode-reset-all" onclick="resetAllFiltersToSeries()">전제품</button>` : '');
@@ -2671,11 +2671,12 @@ function renderSeriesRow(){
   }
   if(mode==='type'){
     const isShoe = (state.cat==='bad' && state.sub==='shoe');
+    const isString = (state.cat==='bad' && state.sub==='string');
     const typeOrder = isShoe ? ['EXPLOSIVE DRIVE','경량화','안정성','올라운드'] : ['고반발','컨트롤','내구성'];
     const typeGetter = isShoe ? shoeType : stringType;
     const typeLabel = t => isShoe ? t : STRING_TYPE_LABELS[t];
     const typeList = typeOrder.filter(t=> items.some(p=>typeGetter(p)===t));
-    el.innerHTML = (isShoe ? '' : `<button class="chip ${!state.typeFilter?'active':''}" data-type="">전체</button>`) +
+    el.innerHTML = ((isShoe || isString) ? '' : `<button class="chip ${!state.typeFilter?'active':''}" data-type="">전체</button>`) +
       typeList.map(t=>`<button class="chip ${state.typeFilter===t?'active':''}" data-type="${t}">${typeLabel(t)}</button>`).join('');
     el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
       state.typeFilter = b.dataset.type || null; renderGrid();
