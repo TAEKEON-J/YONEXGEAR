@@ -5854,17 +5854,71 @@ function tennisSeriesMapContentHtml(seriesName){
   if(!svg || !data) return '';
   const color = TENNIS_SERIES_MAP_COLOR[seriesName];
   const r = 12.55, fontSize = 4.8;
-  const bubbles = data.map(pt=>{
+  const isAdmin = new URLSearchParams(location.search).get('admin')==='1';
+  const bubbles = data.map((pt,mi)=>{
     const p = P.find(x=>x.c==='ten' && x.s==='racquet' && x.name===pt.name);
     if(!p) return '';
     const idx = P.indexOf(p);
     const clickCall = `seriesMapShowDetail(${idx}, '${seriesName}', 'tennismap')`;
-    return `<g class="smap-bubble" role="button" tabindex="0" aria-label="${p.name}" onclick="${clickCall}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}">
+    const a11yAttrs = isAdmin ? '' : ` role="button" tabindex="0" aria-label="${p.name}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}"`;
+    return `<g class="smap-bubble${isAdmin?' smap-draggable':''}" data-mi="${mi}" onclick="${isAdmin?'':clickCall}"${a11yAttrs}>
       <circle cx="${pt.x}" cy="${pt.y}" r="${r}" fill="${color}" stroke="#fff" stroke-width="1"/>
       <text text-anchor="middle" font-size="${fontSize}" font-weight="800" fill="#fff" font-family="'Archivo',-apple-system,BlinkMacSystemFont,sans-serif">${tennisMapLabelTspans(pt.label, pt.x, pt.y, fontSize)}</text>
     </g>`;
   }).join('');
-  return svg.replace('</svg>', bubbles + '</svg>');
+  const adminBar = isAdmin ? `
+    <div class="smap-admin-bar">
+      <div class="smap-admin-hint">🔧 관리자 모드 — 버블을 드래그해서 위치를 옮긴 뒤 아래 버튼으로 좌표를 복사하세요.</div>
+      <button onclick="copyTennisMapPositions('${seriesName}')">좌표 복사</button>
+    </div>` : '';
+  return svg.replace('</svg>', bubbles + '</svg>') + adminBar;
+}
+function initTennisMapDrag(seriesName){
+  const sheet = document.getElementById('sheet');
+  const svg = sheet.querySelector('svg.smap-svg');
+  if(!svg) return;
+  const data = TENNIS_SERIES_MAP_DATA[seriesName];
+  const fontSize = 4.8;
+  const svgPoint = (clientX, clientY)=>{
+    const pt = svg.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const ctm = svg.getScreenCTM();
+    return ctm ? pt.matrixTransform(ctm.inverse()) : {x:0,y:0};
+  };
+  let dragging = null;
+  svg.querySelectorAll('.smap-draggable').forEach(g=>{
+    g.addEventListener('pointerdown', e=>{
+      e.preventDefault();
+      dragging = g;
+      g.setPointerCapture(e.pointerId);
+    });
+  });
+  svg.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const p = svgPoint(e.clientX, e.clientY);
+    const mi = +dragging.dataset.mi;
+    const x = Math.round(p.x*100)/100, y = Math.round(p.y*100)/100;
+    data[mi].x = x;
+    data[mi].y = y;
+    dragging.querySelector('circle').setAttribute('cx', x);
+    dragging.querySelector('circle').setAttribute('cy', y);
+    dragging.querySelector('text').innerHTML = tennisMapLabelTspans(data[mi].label, x, y, fontSize);
+  });
+  const stop = ()=>{ dragging = null; };
+  svg.addEventListener('pointerup', stop);
+  svg.addEventListener('pointercancel', stop);
+}
+function copyTennisMapPositions(seriesName){
+  const data = TENNIS_SERIES_MAP_DATA[seriesName];
+  const text = data.map(m=>`{name:'${m.name}', label:'${m.label}', x:${m.x}, y:${m.y}},`).join('\n');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(
+      ()=> alert('좌표를 복사했어요. 챗에 붙여넣어 주세요.'),
+      ()=> prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text)
+    );
+  } else {
+    prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text);
+  }
 }
 function openTennisSeriesMapSheet(seriesName){
   const info = SERIES_INFO[seriesName];
@@ -5887,6 +5941,7 @@ function openTennisSeriesMapSheet(seriesName){
     history.pushState({sheetOpen:true}, '', location.href);
     sheetHistoryPushed = true;
   }
+  if(new URLSearchParams(location.search).get('admin')==='1') initTennisMapDrag(seriesName);
   focusSheetContent();
 }
 function seriesMapShowDetail(idx, seriesName, backKind){
