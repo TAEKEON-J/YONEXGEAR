@@ -2972,7 +2972,8 @@ function renderSeriesInfoBlock(){
 }
 function seriesListForCurrent(){
   const items = P.filter(p=>p.c===state.cat && p.s===state.sub);
-  return [...new Set(items.map(p=>p.series))];
+  const all = [...new Set(items.map(p=>p.series))];
+  return all.filter(s=>SERIES_INFO[s]);
 }
 function goToSeriesOffset(offset){
   const info = ((state.cat==='bad' || state.cat==='ten') && state.sub==='racquet' && state.series) ? SERIES_INFO[state.series] : null;
