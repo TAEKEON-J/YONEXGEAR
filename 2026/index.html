@@ -2136,6 +2136,12 @@ const P = [
  specs:{'ERP코드':'AC311EX','크기':'너비 950 x 높이 910 x 깊이 390mm','원산지':'Taiwan'},
  desc:'매장/훈련장용 라켓 거치대.',tags:['매장용']},
 {c:'machine',s:'stringmachine',series:'PRECISION',name:'Precision 9.0',kr:'프리시전 9.0',price:null,grad:GRAD.MACHINE,img:'../shared-images/precision-9-0.jpg',
+ features:[
+   {name:'사용 편의성 : 스트링 작업환경',kr:'Comfortable Stringing Setup',desc:'(시안 문구) USB 충전 포트와 헤드셋 거치대 등, 안정적인 스트링 작업 환경을 제공합니다.',img:'../shared-images/precision-9-0.jpg'},
+   {name:'초음파 : 마운팅 시스템',kr:'Sonic Mounting System',desc:'(시안 문구) 독자적인 마운팅 방식으로 다양한 라켓 형태에 안정적인 클램핑을 제공합니다.',img:'../shared-images/precision-9-0.jpg'},
+   {name:'정밀성 : 자동 잠금 기능',kr:'Auto Lock System',desc:'(시안 문구) 정확하고 반복적인 스트링 작업으로 라켓 손상률을 최소화시켜줍니다.',img:'../shared-images/precision-9-0.jpg'},
+   {name:'사용자 지정 가능한 메인 포스트',kr:'Adjustable Main Post',desc:'(시안 문구) 간단한 조작으로 원 클릭 메인 포스트 조정이 가능합니다.',img:'../shared-images/precision-9-0.jpg'},
+ ],
  specs:{'ERP코드':'PRECISION 9.0W 스트링머신','용도':'자동 배드민턴, 테니스&정구 스트링 머신','크기':'약 1,070mm(W) x 660mm(D)','무게':'약 73kg/161lbs','높이':'1,070~1,370mm','최대속도':'9 speeds','장력범위':'10-88lbs, 4.4-39.4kg','프리-스트레치':'1-20%','원산지':'Japan'},
  desc:'낮아진 라켓 포스트와 콤팩트한 턴테이블로 부드러운 스트링 작업이 가능하고, 향상된 그립감의 클램프로 스트링 손상을 줄여주는 최상위 모델.',tags:['스트링머신','최상위']},
 {c:'machine',s:'stringmachine',series:'PRECISION',name:'Precision 8.0',kr:'프리시전 8.0',price:null,grad:GRAD.MACHINE,img:'../shared-images/precision-8-0.jpg',
@@ -4399,6 +4405,7 @@ function openSheet(p){
       <div class="sheet-reveal-2">
         ${perfHtml}
         <table class="specs">${rows}</table>
+        ${machineFeaturesHtml(p)}
         <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
         ${buyButtonHtml(p)}
       </div>
@@ -4414,6 +4421,23 @@ function openSheet(p){
       sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.transform = 'scaleX(' + (el.dataset.pct/100) + ')'; });
     }, 550);
   }
+}
+function machineFeaturesHtml(p){
+  if(!p.features || !p.features.length) return '';
+  return `
+    <div class="rg-section-head" style="margin:18px 0 12px;"><h3>FEATURES</h3></div>
+    <div class="ssh-tech-detail-list">
+      ${p.features.map(t=>`
+        <div class="ssh-tech-detail">
+          <div class="ssh-tech-detail-img">
+            <img src="${t.img}" alt="" loading="lazy" decoding="async" onerror="this.closest('.ssh-tech-detail-img').classList.add('ssh-tech-img-pending')">
+          </div>
+          <div class="ssh-tech-name">${t.name}</div>
+          <div class="ssh-tech-kr">${t.kr}</div>
+          <div class="ssh-tech-desc">${t.desc}</div>
+        </div>`).join('')}
+    </div>
+  `;
 }
 function buyButtonHtml(p){
   if(!p.buyUrl) return '';
