@@ -2992,33 +2992,52 @@ function openSeriesMapSheet(seriesName){
   if(isAdmin) initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY);
 }
 
-/* =============== CATEGORY HERO (배드민턴 서브카테고리 헤더) =============== */
+/* =============== CATEGORY HERO (배드민턴/테니스 서브카테고리 헤더) =============== */
 const CATEGORY_HERO = {
-  racquet: {
-    img:'../shared-images/hero-racquets.jpg', title:'racquets', align:'right',
-    desc:'1g, 1mm의 차이가 플레이를 바꿉니다.<br>요넥스의 정밀함은 더 나은 퍼포먼스를 만듭니다.',
-    cta:'라켓 가이드', action:()=>openRacquetGuideSheet()
+  bad: {
+    racquet: {
+      img:'../shared-images/hero-racquets.jpg', title:'racquets', align:'right',
+      desc:'1g, 1mm의 차이가 플레이를 바꿉니다.<br>요넥스의 정밀함은 더 나은 퍼포먼스를 만듭니다.',
+      cta:'라켓 가이드', action:()=>openRacquetGuideSheet()
+    },
+    string: {
+      img:'../shared-images/hero-strings.jpg', title:'strings', align:'right',
+      desc:'스트링의 차이가 플레이의 차이를 만듭니다.<br>요넥스는 정밀한 소재와 기술로<br>더 빠르고 강한 퍼포먼스를 완성합니다.',
+      cta:'STRING MATRIX', action:()=>racquetGuideScrollToResults()
+    },
+    shuttle: {
+      img:'../shared-images/hero-shuttlecocks.jpg', title:'shuttlecocks', align:'left',
+      desc:'정밀한 비행, 변함없는 퍼포먼스.<br>요넥스 셔틀콕은 세계 무대에서<br>그 성능을 증명해왔습니다.',
+      cta:'셔틀콕 보기', action:()=>racquetGuideScrollToResults(), hideCta:true
+    },
+    shoe: {
+      img:'../shared-images/hero-shoes.jpg', title:'shoes', align:'right',
+      desc:'충격을 흡수하고, 다음 스텝의 힘으로 전환합니다.<br>요넥스 배드민턴화는<br>더 빠르고 안정적인 풋워크를 지원합니다.',
+      cta:'신발 보기', action:()=>racquetGuideScrollToResults(), hideCta:true
+    }
   },
-  string: {
-    img:'../shared-images/hero-strings.jpg', title:'strings', align:'right',
-    desc:'스트링의 차이가 플레이의 차이를 만듭니다.<br>요넥스는 정밀한 소재와 기술로<br>더 빠르고 강한 퍼포먼스를 완성합니다.',
-    cta:'STRING MATRIX', action:()=>racquetGuideScrollToResults()
-  },
-  shuttle: {
-    img:'../shared-images/hero-shuttlecocks.jpg', title:'shuttlecocks', align:'left',
-    desc:'정밀한 비행, 변함없는 퍼포먼스.<br>요넥스 셔틀콕은 세계 무대에서<br>그 성능을 증명해왔습니다.',
-    cta:'셔틀콕 보기', action:()=>racquetGuideScrollToResults(), hideCta:true
-  },
-  shoe: {
-    img:'../shared-images/hero-shoes.jpg', title:'shoes', align:'right',
-    desc:'충격을 흡수하고, 다음 스텝의 힘으로 전환합니다.<br>요넥스 배드민턴화는<br>더 빠르고 안정적인 풋워크를 지원합니다.',
-    cta:'신발 보기', action:()=>racquetGuideScrollToResults(), hideCta:true
+  ten: {
+    racquet: {
+      img:'../shared-images/hero-tennis-racquets.jpg', title:'racquets', align:'right',
+      desc:'최상의 소재와 혁신적인 기술로 완성한<br>요넥스 라켓은 최고의 경기력을 지원합니다.',
+      cta:'라켓 보기', action:()=>racquetGuideScrollToResults()
+    },
+    string: {
+      img:'../shared-images/hero-tennis-strings.jpg', title:'strings', align:'left',
+      desc:'파워, 정밀함, 스핀, 편안함을 아우르는<br>요넥스 스트링은 뛰어난 성능을 제공합니다.',
+      cta:'스트링 보기', action:()=>racquetGuideScrollToResults()
+    },
+    shoe: {
+      img:'../shared-images/hero-tennis-shoes.jpg', title:'shoes', align:'left',
+      desc:'첨단 기술과 높은 품질 기준으로 설계된<br>요넥스 테니스화는 뛰어난 성능과<br>안정성을 제공합니다.',
+      cta:'신발 보기', action:()=>racquetGuideScrollToResults()
+    }
   }
 };
 function renderCategoryHero(){
   const el = document.getElementById('categoryHeroPromo');
   if(!el) return;
-  const cfg = (state.cat==='bad' && !state.q) ? CATEGORY_HERO[state.sub] : null;
+  const cfg = (CATEGORY_HERO[state.cat] && !state.q) ? CATEGORY_HERO[state.cat][state.sub] : null;
   if(!cfg){ el.style.display='none'; el.innerHTML=''; el.onclick=null; return; }
   el.style.display = 'flex';
   el.style.backgroundImage = `url('${cfg.img}')`;
