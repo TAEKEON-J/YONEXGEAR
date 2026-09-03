@@ -1150,17 +1150,31 @@ const SHOE_SERIES_INFO = {
     title: 'ALL ROUND',
     img: '../shared-images/hero-shoe-allround.jpg',
     desc: '쿠션감, 안정감, 가벼움의<br>완벽한 조합을 제공.',
-    techs: [
-      {name:'INNER BOOTIE', kr:'이너 부티', desc:'(설명 준비중)', img:'../shared-images/tech-allround-inner-bootie.jpg'},
-      {name:'ERGONOMIC SHAPED OUTSOLE', kr:'인체공학적 형태의 아웃솔', desc:'(설명 준비중)', img:'../shared-images/tech-allround-ergonomic-outsole.jpg'},
-    ]
+    seriesTabs: [
+      {key:'65', label:'65'},
+      {key:'88', label:'88 DIAL'},
+      {key:'CASCADE', label:'CASCADE DRIVE'},
+    ],
+    techsBySeries: {
+      '65': [
+        {name:'INNER BOOTIE', kr:'이너 부티', desc:'(설명 준비중)', img:'../shared-images/tech-allround-inner-bootie.jpg'},
+        {name:'ERGONOMIC SHAPED OUTSOLE', kr:'인체공학적 형태의 아웃솔', desc:'(설명 준비중)', img:'../shared-images/tech-allround-ergonomic-outsole.jpg'},
+      ],
+      '88': [],
+      'CASCADE': [],
+    }
   }
 };
+function shoeInfoHasTech(info){
+  if(!info) return false;
+  if(info.techsBySeries) return Object.values(info.techsBySeries).some(arr=>arr.length>0);
+  return !!(info.techs && info.techs.length>0);
+}
 function shoeSeriesHeroHtml(){
   const type = (state.cat==='bad' && state.sub==='shoe' && state.filterMode==='type') ? state.typeFilter : null;
   const info = SHOE_SERIES_INFO[type];
   if(!info) return '';
-  const hasTech = info.techs && info.techs.length>0;
+  const hasTech = shoeInfoHasTech(info);
   const tag = hasTech ? 'button' : 'div';
   const clickAttrs = hasTech ? `type="button" onclick="openShoeTechSheet('${type}')" aria-label="${info.title} 기술 자세히 보기"` : '';
   return `
@@ -1173,9 +1187,14 @@ function shoeSeriesHeroHtml(){
     </${tag}>
   `;
 }
-function shoeTechSheetContentHtml(type){
+function shoeTechSheetContentHtml(type, activeSeriesKey){
   const info = SHOE_SERIES_INFO[type];
   if(!info) return '';
+  const hasTabs = !!info.techsBySeries;
+  const tabs = hasTabs ? info.seriesTabs : null;
+  const firstWithContent = hasTabs ? (tabs.find(t=>(info.techsBySeries[t.key]||[]).length>0) || tabs[0]) : null;
+  const activeKey = hasTabs ? (tabs.some(t=>t.key===activeSeriesKey) ? activeSeriesKey : firstWithContent.key) : null;
+  const techs = hasTabs ? (info.techsBySeries[activeKey] || []) : (info.techs || []);
   return `
     <div class="rg-sheet">
       <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
@@ -1183,10 +1202,15 @@ function shoeTechSheetContentHtml(type){
         <div class="rg-sheet-head-eyebrow">SERIES TECH</div>
         <h2 class="rg-sheet-head-title">${info.title}</h2>
       </div>
+      ${hasTabs ? `
+      <div class="filter-mode-tabs" role="tablist" aria-label="${info.title} 시리즈 선택">
+        ${tabs.map(t=>`<button type="button" role="tab" aria-selected="${t.key===activeKey}" class="${t.key===activeKey?'active':''}" onclick="switchShoeTechSeries('${type}','${t.key}')">${t.label}</button>`).join('')}
+      </div>` : ''}
       <div class="rg-section" style="padding-top:16px">
         <div class="rg-section-head"><h3>KEY TECHNOLOGY</h3></div>
+        ${techs.length ? `
         <div class="ssh-tech-detail-list">
-          ${info.techs.map(t=>`
+          ${techs.map(t=>`
             <div class="ssh-tech-detail">
               <div class="ssh-tech-detail-img">
                 <img src="${t.img}" alt="" loading="lazy" decoding="async" onerror="this.closest('.ssh-tech-detail-img').classList.add('ssh-tech-img-pending')">
@@ -1195,7 +1219,7 @@ function shoeTechSheetContentHtml(type){
               <div class="ssh-tech-kr">${t.kr}</div>
               <div class="ssh-tech-desc">${t.desc}</div>
             </div>`).join('')}
-        </div>
+        </div>` : `<div class="empty">아직 준비중인 콘텐츠입니다.</div>`}
       </div>
     </div>
   `;
@@ -1212,6 +1236,12 @@ function openShoeTechSheet(type){
     sheetHistoryPushed = true;
   }
   focusSheetContent();
+}
+function switchShoeTechSeries(type, key){
+  const sheet = document.getElementById('sheet');
+  sheet.innerHTML = shoeTechSheetContentHtml(type, key);
+  const activeTab = sheet.querySelector('.filter-mode-tabs button.active');
+  if(activeTab) activeTab.focus({preventScroll:true});
 }
 
 const CATS = [
