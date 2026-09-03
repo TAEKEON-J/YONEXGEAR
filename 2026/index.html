@@ -1190,10 +1190,10 @@ const SHOE_SERIES_INFO = {
   }
 };
 const TENNIS_SHOE_SERIES_INFO = {
-  'ECLIPSION 5': { title:'STABILITY', img:'../shared-images/tennis_shoes-series-stablity.jpg' },
-  'AD-ACCEL': { title:'SPEED', img:'../shared-images/tennis_shoes-series-speed.jpg' },
-  'SONICAGE': { title:'COMFORT', img:'../shared-images/tennis_shoes-series-comfort.jpg' },
-  'PRO-MOVE': { title:'ALL ROUND', img:'../shared-images/tennis_shoes-series-allround.jpg' },
+  'ECLIPSION 5': { title:'STABILITY', img:'../shared-images/tennis_shoes-series-stablity.jpg', techs:[] },
+  'AD-ACCEL': { title:'SPEED', img:'../shared-images/tennis_shoes-series-speed.jpg', techs:[] },
+  'SONICAGE': { title:'COMFORT', img:'../shared-images/tennis_shoes-series-comfort.jpg', techs:[] },
+  'PRO-MOVE': { title:'ALL ROUND', img:'../shared-images/tennis_shoes-series-allround.jpg', techs:[] },
 };
 function tennisShoeSeriesListForCurrent(){
   const items = P.filter(p=>p.c==='ten' && p.s==='shoe');
@@ -1218,7 +1218,7 @@ function shoeSeriesHeroHtml(){
     const tSwipeHint = tList.length>1 ? ', 좌우로 스와이프하거나 화살표 키로 다른 시리즈 보기' : '';
     const tDotsHtml = tList.length>1 ? `<div class="ssh-dots">${tList.map(s=>`<span class="ssh-dot ${s===state.series?'active':''}"></span>`).join('')}</div>` : '';
     return `
-      <button type="button" class="ssh" tabindex="0" style="background-image:url('${tInfo.img}')" onclick="racquetGuideScrollToResults()" aria-label="${tInfo.title} 시리즈 테크${tSwipeHint}">
+      <button type="button" class="ssh" tabindex="0" style="background-image:url('${tInfo.img}')" onclick="openShoeTechSheet('${state.series}','ten')" aria-label="${tInfo.title} 기술 자세히 보기${tSwipeHint}">
         <div class="ssh-body">
           <h2 class="ssh-title">${tInfo.title}</h2>
           ${tDotsHtml}
@@ -1247,8 +1247,8 @@ function shoeSeriesHeroHtml(){
     </${tag}>
   `;
 }
-function shoeTechSheetContentHtml(type, activeSeriesKey){
-  const info = SHOE_SERIES_INFO[type];
+function shoeTechSheetContentHtml(type, activeSeriesKey, kind='bad'){
+  const info = (kind==='ten' ? TENNIS_SHOE_SERIES_INFO : SHOE_SERIES_INFO)[type];
   if(!info) return '';
   const hasTabs = !!info.techsBySeries;
   const tabs = hasTabs ? info.seriesTabs : null;
@@ -1264,7 +1264,7 @@ function shoeTechSheetContentHtml(type, activeSeriesKey){
       </div>
       ${hasTabs ? `
       <div class="filter-mode-tabs" role="tablist" aria-label="${info.title} 시리즈 선택">
-        ${tabs.map(t=>`<button type="button" role="tab" aria-selected="${t.key===activeKey}" class="${t.key===activeKey?'active':''}" onclick="switchShoeTechSeries('${type}','${t.key}')">${t.label}</button>`).join('')}
+        ${tabs.map(t=>`<button type="button" role="tab" aria-selected="${t.key===activeKey}" class="${t.key===activeKey?'active':''}" onclick="switchShoeTechSeries('${type}','${t.key}','${kind}')">${t.label}</button>`).join('')}
       </div>` : ''}
       <div class="rg-section" style="padding-top:16px">
         <div class="rg-section-head"><h3>KEY TECHNOLOGY</h3></div>
@@ -1284,11 +1284,11 @@ function shoeTechSheetContentHtml(type, activeSeriesKey){
     </div>
   `;
 }
-function openShoeTechSheet(type){
+function openShoeTechSheet(type, kind='bad'){
   const overlay = document.getElementById('overlay');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
-  sheet.innerHTML = shoeTechSheetContentHtml(type);
+  sheet.innerHTML = shoeTechSheetContentHtml(type, null, kind);
   openOverlayA11y();
   if(!overlay.classList.contains('open')){
     overlay.classList.add('open');
@@ -1297,9 +1297,9 @@ function openShoeTechSheet(type){
   }
   focusSheetContent();
 }
-function switchShoeTechSeries(type, key){
+function switchShoeTechSeries(type, key, kind='bad'){
   const sheet = document.getElementById('sheet');
-  sheet.innerHTML = shoeTechSheetContentHtml(type, key);
+  sheet.innerHTML = shoeTechSheetContentHtml(type, key, kind);
   const activeTab = sheet.querySelector('.filter-mode-tabs button.active');
   if(activeTab) activeTab.focus({preventScroll:true});
 }
