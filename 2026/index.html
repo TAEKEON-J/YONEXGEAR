@@ -4153,7 +4153,7 @@ const RACQUET_TECHNOLOGY_ISOMETRIC_SVG = `<svg class="rg-iso-svg" role="img" ari
    product dots stripped out) from shared-images/badminton-string-matrix.svg. The dots
    are redrawn dynamically below as real clickable bubbles wired to actual products,
    matching the racquet SERIES MAP pattern. */
-const STRING_MATRIX_SVG = `<svg class="smap-svg rg-string-matrix-svg" role="img" aria-label="고반발력, 컨트롤, 내구성 축으로 스트링을 분류하는 매트릭스 다이어그램" id="_레이어_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 390 652.22">
+const STRING_MATRIX_SVG = `<svg class="smap-svg rg-string-matrix-svg" role="img" aria-label="고반발력, 컨트롤, 내구성 축으로 스트링을 분류하는 매트릭스 다이어그램" id="stringMatrixSvg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 390 652.22">
   <defs>
     <style>
       .smx-0 {
@@ -4276,13 +4276,15 @@ const STRING_MATRIX_MAP = [
   {name:'Skyarc', cat:'control', x:126.37, y:429.39},
 ];
 function stringMatrixContentHtml(){
-  const bubbles = STRING_MATRIX_MAP.map(m=>{
+  const isAdmin = new URLSearchParams(location.search).get('admin')==='1';
+  const bubbles = STRING_MATRIX_MAP.map((m,mi)=>{
     const p = P.find(x=>x.c==='bad' && x.s==='string' && x.name===m.name);
     if(!p) return '';
     const idx = P.indexOf(p);
     const color = STRING_MATRIX_CAT_COLOR[m.cat];
     const clickCall = `seriesMapShowDetail(${idx}, null, 'stringmatrix')`;
-    return `<g class="smap-bubble smap-bubble-lg" data-idx="${idx}" onclick="${clickCall}" role="button" tabindex="0" aria-label="${p.name}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}">
+    const a11yAttrs = isAdmin ? '' : ` role="button" tabindex="0" aria-label="${p.name}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}"`;
+    return `<g class="smap-bubble smap-bubble-lg${isAdmin?' smap-draggable':''}" data-idx="${idx}" data-mi="${mi}" onclick="${isAdmin?'':clickCall}"${a11yAttrs}>
       <circle cx="${m.x}" cy="${m.y}" r="19" fill="${color}" stroke="#fff" stroke-width="1.2"/>
       <text x="${m.x}" y="${m.y}" text-anchor="middle" font-size="6" font-weight="800" fill="#fff">${smapLabelTspans(p.name,'',m.x,6)}</text>
     </g>`;
@@ -4295,6 +4297,11 @@ function stringMatrixContentHtml(){
         <button onclick="closeSheet()" aria-label="닫기">✕</button>
       </div>
       ${STRING_MATRIX_SVG.replace('</svg>', bubbles + '</svg>')}
+      ${isAdmin ? `
+      <div class="smap-admin-bar">
+        <div class="smap-admin-hint">🔧 관리자 모드 — 버블을 드래그해서 위치를 옮긴 뒤 아래 버튼으로 좌표를 복사하세요.</div>
+        <button onclick="copyStringMatrixPositions()">좌표 복사</button>
+      </div>` : ''}
     </div>
   `;
 }
@@ -4309,6 +4316,7 @@ function openStringMatrixSheet(){
     history.pushState({sheetOpen:true}, '', location.href);
     sheetHistoryPushed = true;
   }
+  if(new URLSearchParams(location.search).get('admin')==='1') initStringMatrixDrag();
   focusSheetContent();
 }
 function racquetGuideScrollToResults(){
@@ -4440,6 +4448,50 @@ function initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY){
   const stop = ()=>{ dragging = null; };
   svg.addEventListener('pointerup', stop);
   svg.addEventListener('pointercancel', stop);
+}
+function initStringMatrixDrag(){
+  const svg = document.getElementById('stringMatrixSvg');
+  if(!svg) return;
+  const svgPoint = (clientX, clientY)=>{
+    const pt = svg.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const ctm = svg.getScreenCTM();
+    return ctm ? pt.matrixTransform(ctm.inverse()) : {x:0,y:0};
+  };
+  let dragging = null;
+  svg.querySelectorAll('.smap-draggable').forEach(g=>{
+    g.addEventListener('pointerdown', e=>{
+      e.preventDefault();
+      dragging = g;
+      g.setPointerCapture(e.pointerId);
+    });
+  });
+  svg.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const p = svgPoint(e.clientX, e.clientY);
+    const mi = +dragging.dataset.mi;
+    const x = Math.round(p.x*100)/100, y = Math.round(p.y*100)/100;
+    STRING_MATRIX_MAP[mi].x = x;
+    STRING_MATRIX_MAP[mi].y = y;
+    dragging.querySelector('circle').setAttribute('cx', x);
+    dragging.querySelector('circle').setAttribute('cy', y);
+    dragging.querySelectorAll('text tspan').forEach(t=> t.setAttribute('x', x));
+    dragging.querySelector('text').setAttribute('y', y);
+  });
+  const stop = ()=>{ dragging = null; };
+  svg.addEventListener('pointerup', stop);
+  svg.addEventListener('pointercancel', stop);
+}
+function copyStringMatrixPositions(){
+  const text = STRING_MATRIX_MAP.map(m=>`{name:'${m.name}', cat:'${m.cat}', x:${m.x}, y:${m.y}},`).join('\n');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(
+      ()=> alert('좌표를 복사했어요. 챗에 붙여넣어 주세요.'),
+      ()=> prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text)
+    );
+  } else {
+    prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text);
+  }
 }
 function copySmapPositions(seriesName){
   const items = P.filter(p=>(p.mapSeries||p.series)===seriesName && p.mapPos);
