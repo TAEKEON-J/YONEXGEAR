@@ -3040,7 +3040,7 @@ const CATEGORY_HERO = {
     string: {
       img:'../shared-images/hero-strings.jpg', title:'strings', align:'right',
       desc:'스트링의 차이가 플레이의 차이를 만듭니다.<br>요넥스는 정밀한 소재와 기술로<br>더 빠르고 강한 퍼포먼스를 완성합니다.',
-      cta:'STRING MATRIX', action:()=>racquetGuideScrollToResults()
+      cta:'STRING MATRIX', action:()=>openStringMatrixSheet()
     },
     shuttle: {
       img:'../shared-images/hero-shuttlecocks.jpg', title:'shuttlecocks', align:'left',
@@ -4147,6 +4147,168 @@ const RACQUET_TECHNOLOGY_ISOMETRIC_SVG = `<svg class="rg-iso-svg" role="img" ari
   </g>
   <path class="viso-6" d="M32.04,196.12c-6.56,0-11.87,5.32-11.87,11.87h0c0,6.55,5.31,11.87,11.87,11.87h60.42c6.56,0,11.87-5.31,11.87-11.87h0c0-6.56-5.31-11.87-11.87-11.87h-60.42ZM299.74,196.12c-6.56,0-11.88,5.32-11.88,11.87h0c0,6.55,5.32,11.87,11.88,11.87h50.18c6.56,0,11.86-5.31,11.86-11.87h0c0-6.56-5.3-11.87-11.86-11.87h-50.18Z"/>
 </svg>`;
+/* Inlined verbatim (with font-family fixes, class renames, and the 12 illustrative
+   product dots stripped out) from shared-images/badminton-string-matrix.svg. The dots
+   are redrawn dynamically below as real clickable bubbles wired to actual products,
+   matching the racquet SERIES MAP pattern. */
+const STRING_MATRIX_SVG = `<svg class="smap-svg rg-string-matrix-svg" role="img" aria-label="고반발력, 컨트롤, 내구성 축으로 스트링을 분류하는 매트릭스 다이어그램" id="_레이어_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 390 652.22">
+  <defs>
+    <style>
+      .smx-0 {
+        fill: #d9a93f;
+      }
+
+      .smx-1 {
+        fill: #89bf7c;
+      }
+
+      .smx-2 {
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif; font-weight: 700;
+        font-size: 8.5px;
+        letter-spacing: -.03em;
+      }
+
+      .smx-3 {
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif; font-weight: 600;
+        font-size: 8px;
+        letter-spacing: -.05em;
+      }
+
+      .smx-4 {
+        letter-spacing: -.03em;
+      }
+
+      .smx-4, .smx-5, .smx-6 {
+        fill: #707b82;
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif; font-weight: 700;
+        font-size: 12px;
+      }
+
+      .smx-5 {
+        letter-spacing: -.03em;
+      }
+
+      .smx-6 {
+        letter-spacing: -.03em;
+      }
+
+      .smx-7, .smx-8 {
+        isolation: isolate;
+      }
+
+      .smx-9 {
+        fill: #6b96ce;
+      }
+
+      .smx-10 {
+        fill: #fff;
+      }
+
+      .smx-11, .smx-12, .smx-13 {
+        fill: #39383a;
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .smx-14 {
+        fill: #cdd9e3;
+      }
+
+      .smx-12 {
+        letter-spacing: .05em;
+      }
+
+      .smx-13 {
+        letter-spacing: .05em;
+      }
+
+      .smx-8 {
+        font-family: 'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif; font-weight: 800;
+        font-size: 20px;
+        letter-spacing: -.03em;
+      }
+    </style>
+  </defs>
+  <g class="smx-7">
+    <text class="smx-8" transform="translate(111.98 63.12) scale(.95 1)"><tspan x="0" y="0">STRING MATRIX</tspan></text>
+  </g>
+  <path class="smx-14" d="M195,444.18v.39c91.62,0,165.89-74.27,165.89-165.89,0-91.62-74.27-165.89-165.89-165.89S29.11,187.05,29.11,278.67c0,91.62,74.27,165.89,165.89,165.89v-.77c-45.6,0-86.87-18.48-116.76-48.36-29.88-29.88-48.36-71.16-48.36-116.76,0-45.6,18.48-86.87,48.36-116.76,29.88-29.88,71.16-48.36,116.76-48.36s86.87,18.48,116.76,48.36c29.88,29.88,48.36,71.16,48.36,116.76s-18.48,86.87-48.36,116.76c-29.88,29.88-71.16,48.36-116.76,48.36v.39h0Z"/>
+  <path class="smx-14" d="M194.67,353.66v.36c41.62,0,75.35-33.74,75.35-75.35,0-41.62-33.74-75.35-75.35-75.35-41.62,0-75.35,33.74-75.35,75.35s33.74,75.35,75.35,75.35v-.72c-20.61,0-39.27-8.35-52.77-21.86-13.51-13.51-21.86-32.16-21.86-52.77,0-20.61,8.35-39.27,21.86-52.77,13.51-13.51,32.16-21.86,52.77-21.86s39.27,8.35,52.77,21.86c13.51,13.51,21.86,32.16,21.86,52.77s-8.35,39.27-21.86,52.77c-13.51,13.51-32.16,21.86-52.77,21.86v.36h0Z"/>
+  <polyline class="smx-14" points="29.34 279.02 360.82 279.02 360.82 278.25 29.34 278.25"/>
+  <polyline class="smx-14" points="194.61 113.58 194.61 444.49 195.39 444.49 195.39 113.58"/>
+  <text class="smx-5" transform="translate(181.52 101.98) scale(.95 1)"><tspan x="0" y="0">견고함</tspan></text>
+  <text class="smx-5" transform="translate(22.48 302.29) rotate(-90) scale(.95 1)"><tspan x="0" y="0">최대 홀딩력</tspan></text>
+  <text class="smx-4" transform="translate(368.52 254.58) rotate(90) scale(.95 1)"><tspan x="0" y="0">빠른 반발력</tspan></text>
+  <text class="smx-6" transform="translate(177.22 463.12) scale(.95 1)"><tspan x="0" y="0">부드러움</tspan></text>
+  <path class="smx-9" d="M68.08,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
+  <text class="smx-3" transform="translate(43.84 583.26) scale(.95 1)"><tspan x="0" y="0">상대를 제압하는</tspan></text>
+  <text class="smx-3" transform="translate(38.83 595.25) scale(.95 1)"><tspan x="0" y="0">고속 드라이브 실현.</tspan></text>
+  <text class="smx-2" transform="translate(49.89 568.1) scale(.95 1)"><tspan x="0" y="0">[고반발력]</tspan></text>
+  <path class="smx-1" d="M193.98,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
+  <text class="smx-3" transform="translate(155.61 583.26) scale(.95 1)"><tspan x="0" y="0">향상된 셔틀콕 홀딩력으로</tspan></text>
+  <text class="smx-3" transform="translate(168.04 595.25) scale(.95 1)"><tspan x="0" y="0">정확한 공격 가능.</tspan></text>
+  <text class="smx-2" transform="translate(179.55 568.1) scale(.95 1)"><tspan x="0" y="0">[컨트롤]</tspan></text>
+  <path class="smx-0" d="M319.89,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
+  <text class="smx-3" transform="translate(263.16 583.26) scale(.95 1)"><tspan x="0" y="0">강력한 타구력을 지닌 플레이어를 위한</tspan></text>
+  <text class="smx-3" transform="translate(283.11 595.25) scale(.95 1)"><tspan x="0" y="0">장시간 스트링 성능 유지.</tspan></text>
+  <text class="smx-2" transform="translate(305.45 568.1) scale(.95 1)"><tspan x="0" y="0">[내구성]</tspan></text>
+  <text class="smx-13" transform="translate(25.95 553.73)"><tspan x="0" y="0">QUICK REPULSION</tspan></text>
+  <text class="smx-13" transform="translate(172.8 553.44)"><tspan x="0" y="0">CONTROL</tspan></text>
+  <text class="smx-12" transform="translate(292.53 553.44)"><tspan x="0" y="0">DURABILITY</tspan></text>
+</svg>`;
+const STRING_MATRIX_CAT_COLOR = {quick:'#6b96ce', control:'#89bf7c', durability:'#d9a93f'};
+/* Coordinates decoded from the original artwork's dot positions (viewBox 390x652.22) */
+const STRING_MATRIX_MAP = [
+  {name:'BG80', cat:'quick', x:187.81, y:151.36},
+  {name:'BG80 Power', cat:'quick', x:217.40, y:180.14},
+  {name:'Aerobite Boost', cat:'control', x:164.09, y:165.86},
+  {name:'Aerosonic', cat:'quick', x:332.05, y:313.43},
+  {name:'Aerobite', cat:'control', x:256.78, y:313.43},
+  {name:'Exbolt 63', cat:'quick', x:306.30, y:334.09},
+  {name:'BG66 Ultimax', cat:'quick', x:282.29, y:356.75},
+  {name:'BG65 Titanium', cat:'durability', x:114.09, y:288.84},
+  {name:'Exbolt 68', cat:'durability', x:151.34, y:322.61},
+  {name:'Exbolt 65', cat:'quick', x:240.25, y:374.36},
+  {name:'BG65', cat:'durability', x:74.06, y:388.22},
+  {name:'Skyarc', cat:'control', x:126.37, y:429.39},
+];
+function stringMatrixContentHtml(){
+  const bubbles = STRING_MATRIX_MAP.map(m=>{
+    const p = P.find(x=>x.c==='bad' && x.s==='string' && x.name===m.name);
+    if(!p) return '';
+    const idx = P.indexOf(p);
+    const color = STRING_MATRIX_CAT_COLOR[m.cat];
+    const clickCall = `seriesMapShowDetail(${idx}, null, 'stringmatrix')`;
+    return `<g class="smap-bubble" data-idx="${idx}" onclick="${clickCall}" role="button" tabindex="0" aria-label="${p.name}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}">
+      <circle cx="${m.x}" cy="${m.y}" r="14" fill="${color}" stroke="#fff" stroke-width="1.2"/>
+      <text x="${m.x}" y="${m.y}" text-anchor="middle" font-size="6" font-weight="800" fill="#fff">${smapLabelTspans(p.name,'',m.x,6)}</text>
+    </g>`;
+  }).join('');
+  return `
+    <div class="smap-wrap">
+      <div class="smap-head">
+        <button onclick="closeSheet()" aria-label="뒤로">←</button>
+        <h2>STRING MATRIX</h2>
+        <button onclick="closeSheet()" aria-label="닫기">✕</button>
+      </div>
+      ${STRING_MATRIX_SVG.replace('</svg>', bubbles + '</svg>')}
+    </div>
+  `;
+}
+function openStringMatrixSheet(){
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  sheet.classList.remove('cmp-mode');
+  sheet.innerHTML = stringMatrixContentHtml();
+  openOverlayA11y();
+  if(!overlay.classList.contains('open')){
+    overlay.classList.add('open');
+    history.pushState({sheetOpen:true}, '', location.href);
+    sheetHistoryPushed = true;
+  }
+  focusSheetContent();
+}
 function racquetGuideScrollToResults(){
   const anchor = document.getElementById('filterModeTabs');
   if(anchor) anchor.scrollIntoView({block:'start'});
@@ -4289,16 +4451,19 @@ function copySmapPositions(seriesName){
     prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text);
   }
 }
-function seriesMapShowDetail(idx, seriesName){
+function seriesMapShowDetail(idx, seriesName, backKind){
   const p = P[idx];
   setHeroGallery(p);
   const perfHtml = stringPerfInfographicHtml(p);
   const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
+  const backBtn = backKind==='stringmatrix'
+    ? `<button class="back floating" onclick="openStringMatrixSheet()">← STRING MATRIX</button>`
+    : `<button class="back floating" onclick="openSeriesMapSheet('${seriesName}')">← SERIES MAP</button>`;
   sheet.innerHTML = `
     <button class="x floating" onclick="closeSheet()">✕</button>
-    <button class="back floating" onclick="openSeriesMapSheet('${seriesName}')">← SERIES MAP</button>
+    ${backBtn}
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
