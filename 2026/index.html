@@ -277,6 +277,7 @@
     transition:opacity .15s ease;
   }
   @media (hover:hover) and (pointer:fine){ .ssh:hover .ssh-cta{opacity:.85;} }
+  .ssh-tennis .ssh-cta{position:static;margin-top:10px;}
   .ssh-dots{position:relative;z-index:1;display:flex;gap:6px;margin-top:12px;}
   .ssh-dot{width:6px;height:6px;border-radius:50%;background:rgba(10,10,10,.22);transition:background .15s ease,width .15s ease;}
   .ssh-dot.active{background:var(--ink);width:16px;border-radius:3px;}
@@ -1225,12 +1226,12 @@ function shoeSeriesHeroHtml(){
     const tSwipeHint = tList.length>1 ? ', 좌우로 스와이프하거나 화살표 키로 다른 시리즈 보기' : '';
     const tDotsHtml = tList.length>1 ? `<div class="ssh-dots">${tList.map(s=>`<span class="ssh-dot ${s===state.series?'active':''}"></span>`).join('')}</div>` : '';
     return `
-      <button type="button" class="ssh" tabindex="0" style="background-image:url('${tInfo.img}')" onclick="openShoeTechSheet('${state.series}','ten')" aria-label="${tInfo.title} 기술 자세히 보기${tSwipeHint}">
+      <button type="button" class="ssh ssh-tennis" tabindex="0" style="background-image:url('${tInfo.img}')" onclick="openShoeTechSheet('${state.series}','ten')" aria-label="${tInfo.title} 기술 자세히 보기${tSwipeHint}">
         <div class="ssh-body">
           <h2 class="ssh-title">${tInfo.title}</h2>
+          <span class="ssh-cta">SERIES TECH <span>→</span></span>
           ${tDotsHtml}
         </div>
-        <span class="ssh-cta">SERIES TECH <span>→</span></span>
       </button>
     `;
   }
