@@ -4533,8 +4533,13 @@ function copySmapPositions(seriesName){
    .smap-bubble groups) from the 4 uploaded shared-images/tennis_*_series-map.svg
    files. Each dot keeps the artwork's own label/color; a data-pname attribute lets
    JS resolve it to the real product at render time. */
+/* Inlined verbatim (font-family fixes, id-prefixing) from the 4 uploaded
+   shared-images/tennis_*_series-map.svg files, with the artwork's own product
+   dots/labels stripped entirely -- they're redrawn dynamically below as real
+   clickable bubbles at 110% size, always centered on the product name text,
+   matching the STRING MATRIX pattern. */
 const TENNIS_SERIES_MAP_SVG = {
-  VCORE: `<svg class="smap-svg rg-tennis-map-svg" role="img" aria-label="스윙 스피드, 무게 축으로 VCORE 라켓을 분류하는 시리즈맵 다이어그램 시리즈맵" id="vcm-layer1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+  VCORE: `<svg class="smap-svg rg-tennis-map-svg" role="img" aria-label="VCORE 시리즈맵" id="vcm-layer1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
 	 y="0px" viewBox="0 0 360 564" style="enable-background:new 0 0 360 564;" xml:space="preserve">
 <style type="text/css">
 	.st0{clip-path:url(#vcm-svgid-2);fill:url(#vcm-svgid-3);}
@@ -4709,62 +4714,37 @@ const TENNIS_SERIES_MAP_SVG = {
 <path class="st7" d="M293.59,122.02L293.59,122.02 M67.27,122.02L67.27,122.02"/>
 <line class="st6" x1="96.06" y1="93.85" x2="265.04" y2="93.85"/>
 <path class="st7" d="M265.27,93.85L265.27,93.85 M95.6,93.85L95.6,93.85"/>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore Play" aria-label="Vcore Play"><path class="st15" d="M178.14,287.22c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C166.73,282.12,171.84,287.22,178.14,287.22"/></g>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 100L" aria-label="Vcore 100L"><path class="st15" d="M179.65,241.84c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C168.25,236.74,173.36,241.84,179.65,241.84"/></g>
-<text transform="matrix(1 0 0 1 171.6395 231.9771)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 100L</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore α (Alpha)" aria-label="Vcore α (Alpha)"><path class="st15" d="M166.28,261.39c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C154.88,256.28,159.98,261.39,166.28,261.39"/></g>
-<text transform="matrix(1 0 0 1 161.4852 251.899)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C </tspan></text>
-<path class="st16" d="M168.64,251.28c-0.13,0.18-0.28,0.27-0.44,0.27c-0.2,0-0.38-0.11-0.52-0.32c-0.14-0.21-0.22-0.5-0.22-0.85
-	c0-0.39,0.07-0.69,0.22-0.9c0.15-0.21,0.32-0.31,0.52-0.31c0.18,0,0.34,0.09,0.47,0.27c0.13,0.18,0.26,0.46,0.39,0.85
-	C168.91,250.77,168.77,251.1,168.64,251.28 M169.47,250.28l0.5-1.42h-0.46l-0.29,0.85c-0.23-0.62-0.57-0.93-1.02-0.93
-	c-0.36,0-0.66,0.14-0.9,0.43c-0.24,0.29-0.35,0.68-0.35,1.17c0,0.44,0.11,0.81,0.33,1.11c0.22,0.3,0.5,0.44,0.85,0.44
-	c0.48,0,0.85-0.36,1.1-1.09l0.37,1.01h0.51L169.47,250.28z"/>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore αL" aria-label="Vcore αL"><path class="st15" d="M143.17,303.9c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4s-11.41,5.11-11.41,11.4
-	C131.77,298.79,136.87,303.9,143.17,303.9"/></g>
-<text transform="matrix(1 0 0 1 137.2762 294.4088)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C </tspan></text>
-<path class="st16" d="M144.43,293.79c-0.13,0.18-0.28,0.27-0.44,0.27c-0.2,0-0.38-0.11-0.52-0.32c-0.14-0.21-0.22-0.5-0.22-0.85
-	c0-0.39,0.07-0.69,0.22-0.9c0.15-0.21,0.32-0.31,0.52-0.31c0.18,0,0.34,0.09,0.47,0.27c0.13,0.18,0.26,0.46,0.39,0.85
-	C144.7,293.28,144.56,293.61,144.43,293.79 M145.26,292.79l0.5-1.42h-0.46l-0.29,0.85c-0.23-0.62-0.57-0.93-1.02-0.93
-	c-0.36,0-0.66,0.14-0.9,0.43c-0.24,0.29-0.35,0.68-0.35,1.17c0,0.44,0.11,0.81,0.33,1.11c0.22,0.3,0.5,0.44,0.85,0.44
-	c0.48,0,0.85-0.36,1.1-1.09l0.37,1.01h0.51L145.26,292.79z"/>
-<text transform="matrix(1 0 0 1 145.5116 294.4088)" class="st16 st17 st18">L</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore αSL" aria-label="Vcore αSL"><path class="st15" d="M123.57,337.42c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C112.16,332.32,117.27,337.42,123.57,337.42"/></g>
-<text transform="matrix(1 0 0 1 116.5926 327.9312)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C </tspan></text>
-<path class="st16" d="M123.75,327.31c-0.13,0.18-0.28,0.27-0.44,0.27c-0.2,0-0.38-0.11-0.52-0.32c-0.14-0.21-0.22-0.5-0.22-0.85
-	c0-0.39,0.07-0.69,0.22-0.9c0.15-0.21,0.32-0.31,0.52-0.31c0.18,0,0.34,0.09,0.47,0.27c0.13,0.18,0.26,0.46,0.39,0.85
-	C124.02,326.8,123.87,327.13,123.75,327.31 M124.57,326.31l0.5-1.42h-0.46l-0.29,0.85c-0.23-0.62-0.57-0.93-1.02-0.93
-	c-0.36,0-0.66,0.14-0.9,0.43c-0.24,0.29-0.35,0.68-0.35,1.17c0,0.44,0.11,0.81,0.33,1.11c0.22,0.3,0.5,0.44,0.85,0.44
-	c0.48,0,0.85-0.36,1.1-1.09l0.37,1.01h0.51L124.57,326.31z"/>
-<text transform="matrix(1 0 0 1 124.6117 327.9312)" class="st16 st17 st18">SL</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 98L" aria-label="Vcore 98L"><path class="st15" d="M245.83,234.43c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C234.43,229.33,239.53,234.43,245.83,234.43"/></g>
-<text transform="matrix(1 0 0 1 239.0091 224.5665)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 98L</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 98" aria-label="Vcore 98"><path class="st15" d="M258.98,161.34c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C247.57,156.23,252.68,161.34,258.98,161.34"/></g>
-<text transform="matrix(1 0 0 1 253.4154 151.4713)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 98</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 98+" aria-label="Vcore 98+"><path class="st15" d="M270.86,148.58c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C259.46,143.48,264.57,148.58,270.86,148.58"/></g>
-<text transform="matrix(1 0 0 1 264.1112 138.7193)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 98+</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 100" aria-label="Vcore 100"><path class="st15" d="M183.46,192.69c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C172.05,187.59,177.16,192.69,183.46,192.69"/></g>
-<text transform="matrix(1 0 0 1 176.7035 182.8267)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 100</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 100+" aria-label="Vcore 100+"><path class="st15" d="M191.23,178.78c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C179.83,173.68,184.93,178.78,191.23,178.78"/></g>
-<text transform="matrix(1 0 0 1 183.2874 168.919)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 100+</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 100D" aria-label="Vcore 100D"><path class="st15" d="M188.64,164.96c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C177.24,159.86,182.34,164.96,188.64,164.96"/></g>
-<text transform="matrix(1 0 0 1 180.4408 155.0997)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 100D</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 95" aria-label="Vcore 95"><path class="st15" d="M280.4,126.26c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C268.99,121.15,274.1,126.26,280.4,126.26"/></g>
-<text transform="matrix(1 0 0 1 274.8382 116.3912)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 95</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore 98 Tour" aria-label="Vcore 98 Tour"><path class="st15" d="M258.11,116.75c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C246.7,111.65,251.81,116.75,258.11,116.75"/></g>
-<text transform="matrix(1 0 0 1 252.5462 104.692)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C 98</tspan></text>
-<text transform="matrix(1 0 0 1 252.5287 109.0816)"><tspan x="0" y="0" class="st16 st17 st18">T</tspan><tspan x="2.42" y="0" class="st16 st17 st18">OUR</tspan></text>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <g>
 	<path class="st19" d="M96.73,92.08c-0.81,0-1.58-0.43-1.59-1.47h0.91c0.01,0.45,0.32,0.65,0.68,0.65c0.39,0,0.67-0.25,0.67-0.69
 		c0-0.41-0.25-0.69-0.7-0.69h-0.13v-0.79h0.13c0.44,0,0.63-0.27,0.63-0.62c0-0.42-0.28-0.64-0.61-0.64c-0.34,0-0.6,0.22-0.62,0.6
@@ -4858,11 +4838,10 @@ const TENNIS_SERIES_MAP_SVG = {
 		C266.17,317.23,265.47,317.77,264.66,317.77z M265.26,314.19c0-0.42-0.25-0.68-0.6-0.68c-0.36,0-0.61,0.26-0.61,0.68v2.08
 		c0,0.42,0.25,0.67,0.61,0.67c0.36,0,0.6-0.25,0.6-0.67V314.19z"/>
 </g>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Vcore ACE" aria-label="Vcore ACE"><path class="st15" d="M186.59,297.31c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C175.18,292.21,180.29,297.31,186.59,297.31"/></g>
-<text transform="matrix(1 0 0 1 179.3412 287.4478)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C </tspan><tspan x="6.25" y="0" class="st16 st17 st18">A</tspan><tspan x="9.01" y="0" class="st16 st17 st18">CE</tspan></text>
-<text transform="matrix(1 0 0 1 175.3856 275.1646)"><tspan x="0" y="0" class="st16 st17 st18">V</tspan><tspan x="2.51" y="0" class="st16 st17 st18">C </tspan></text>
-<text transform="matrix(1 0 0 1 172.8675 279.5543)"><tspan x="0" y="0" class="st16 st17 st18">PL</tspan><tspan x="5.28" y="0" class="st16 st17 st18">A</tspan><tspan x="7.93" y="0" class="st16 st17 st18">Y</tspan></text>
+
+
+
+
 <g>
 	<g>
 		<defs>
@@ -5089,36 +5068,28 @@ const TENNIS_SERIES_MAP_SVG = {
 <line class="st6" x1="96.06" y1="93.85" x2="265.04" y2="93.85"/>
 <path class="st7" d="M265.27,93.85L265.27,93.85 M95.6,93.85L95.6,93.85"/>
 <text transform="matrix(1 0 0 1 99.5131 327.9733)" class="st16 st27 st28"> </text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Percept 100L" aria-label="Percept 100L"><path class="st29" d="M267.61,246.36c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C256.21,241.25,261.31,246.36,267.61,246.36"/></g>
-<text transform="matrix(1 0 0 1 259.5053 236.4908)" class="st16 st27 st28">PE 100L</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Percept 97L" aria-label="Percept 97L"><path class="st29" d="M307.18,218.36c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C295.78,213.25,300.89,218.36,307.18,218.36"/></g>
-<text transform="matrix(1 0 0 1 300.2694 208.4957)" class="st16 st27 st28">PE 97L</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Percept 100" aria-label="Percept 100"><path class="st29" d="M282.13,184.15c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C270.72,179.04,275.83,184.15,282.13,184.15"/></g>
-<text transform="matrix(1 0 0 1 275.2826 174.2809)" class="st16 st27 st28">PE 100</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Percept 100D" aria-label="Percept 100D"><path class="st29" d="M295.09,164.96c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C283.68,159.86,288.79,164.96,295.09,164.96"/></g>
-<text transform="matrix(1 0 0 1 286.7973 155.0997)" class="st16 st27 st28">PE 100D</text>
+
+
+
+
+
+
+
+
 <g>
-	<g class="smap-bubble" role="button" tabindex="0" data-pname="Percept 97" aria-label="Percept 97"><path class="st29" d="M304.59,133.69c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4s-11.41,5.11-11.41,11.4
-		C293.19,128.58,298.29,133.69,304.59,133.69"/></g>
-	<text transform="matrix(1 0 0 1 298.9272 123.8473)" class="st16 st27 st28">PE 97</text>
+	
+	
 </g>
 <g>
-	<g class="smap-bubble" role="button" tabindex="0" data-pname="Percept 97D" aria-label="Percept 97D"><path class="st29" d="M321.75,107.25c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-		C310.34,102.14,315.45,107.25,321.75,107.25"/></g>
-	<text transform="matrix(1 0 0 1 314.6391 97.4049)" class="st16 st27 st28">PE 97D</text>
+	
+	
 </g>
 <g>
-	<g class="smap-bubble" role="button" tabindex="0" data-pname="Percept 97H" aria-label="Percept 97H"><path class="st29" d="M300.45,89.62c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4s-11.41,5.11-11.41,11.4
-		C289.04,84.52,294.15,89.62,300.45,89.62"/></g>
-	<text transform="matrix(1 0 0 1 293.2773 79.7799)" class="st16 st27 st28">PE 97H</text>
+	
+	
 </g>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Percept Game (2025)" aria-label="Percept Game (2025)"><path class="st29" d="M235.3,274.35c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C223.89,269.24,229,274.35,235.3,274.35"/></g>
-<text transform="matrix(1 0 0 1 226.119 264.484)"><tspan x="0" y="0" class="st16 st27 st28">PE </tspan><tspan x="6.43" y="0" class="st16 st27 st28">G</tspan><tspan x="9.23" y="0" class="st16 st27 st28">AME</tspan></text>
+
+
 <g>
 	<path class="st17" d="M96.73,92.08c-0.81,0-1.58-0.43-1.59-1.47h0.91c0.01,0.45,0.32,0.65,0.68,0.65c0.39,0,0.67-0.25,0.67-0.69
 		c0-0.41-0.25-0.69-0.7-0.69h-0.13v-0.79h0.13c0.44,0,0.63-0.27,0.63-0.62c0-0.42-0.28-0.64-0.61-0.64c-0.34,0-0.6,0.22-0.62,0.6
@@ -5447,73 +5418,46 @@ const TENNIS_SERIES_MAP_SVG = {
 <path class="st7" d="M293.59,122.02L293.59,122.02 M67.27,122.02L67.27,122.02"/>
 <line class="st6" x1="96.06" y1="93.85" x2="265.04" y2="93.85"/>
 <path class="st7" d="M265.27,93.85L265.27,93.85 M95.6,93.85L95.6,93.85"/>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 110" aria-label="Ezone 110"><path class="st22" d="M74.42,314.09c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C63.01,308.99,68.12,314.09,74.42,314.09"/></g>
-<text transform="matrix(1 0 0 1 67.7479 304.2302)" class="st16 st23 st24">EZ 110</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 115" aria-label="Ezone 115"><path class="st22" d="M57.69,333.1c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C46.29,328,51.39,333.1,57.69,333.1"/></g>
-<text transform="matrix(1 0 0 1 51.0233 323.238)" class="st16 st23 st24">EZ 115</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 100SL" aria-label="Ezone 100SL"><path class="st22" d="M111.22,274.35c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C99.82,269.24,104.93,274.35,111.22,274.35"/></g>
-<text transform="matrix(1 0 0 1 103.2581 264.4841)" class="st16 st23 st24">EZ 100S</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone Play" aria-label="Ezone Play"><path class="st22" d="M162.43,287.22c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C151.02,282.12,156.13,287.22,162.43,287.22"/></g>
-<text transform="matrix(1 0 0 1 159.7581 275.1647)" class="st16 st23 st24">EZ </text>
-<text transform="matrix(1 0 0 1 157.1546 279.5524)"><tspan x="0" y="0" class="st16 st23 st24">PL</tspan><tspan x="5.28" y="0" class="st16 st23 st24">A</tspan><tspan x="7.93" y="0" class="st16 st23 st24">Y</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 98 Tour" aria-label="Ezone 98 Tour"><path class="st22" d="M207.65,114.68c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C196.24,109.58,201.35,114.68,207.65,114.68"/></g>
-<text transform="matrix(1 0 0 1 202.0858 102.6218)" class="st16 st23 st24">EZ 98 </text>
-<text transform="matrix(1 0 0 1 202.0697 107.0104)"><tspan x="0" y="0" class="st16 st23 st24">T</tspan><tspan x="2.42" y="0" class="st16 st23 st24">OUR</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 98" aria-label="Ezone 98"><path class="st22" d="M205.06,161.49c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C193.65,156.38,198.76,161.49,205.06,161.49"/></g>
-<text transform="matrix(1 0 0 1 199.5789 151.6218)" class="st16 st23 st24">EZ 98</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 100+" aria-label="Ezone 100+"><path class="st22" d="M152.35,181.55c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C140.95,176.45,146.05,181.55,152.35,181.55"/></g>
-<text transform="matrix(1 0 0 1 144.4911 171.6891)" class="st16 st23 st24">EZ 100+</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 100" aria-label="Ezone 100"><path class="st22" d="M141.98,195.4c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C130.58,190.29,135.68,195.4,141.98,195.4"/></g>
-<text transform="matrix(1 0 0 1 135.3148 185.5339)" class="st16 st23 st24">EZ 100</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 98+" aria-label="Ezone 98+"><path class="st22" d="M219.4,151.83c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C207.99,146.73,213.1,151.83,219.4,151.83"/></g>
-<text transform="matrix(1 0 0 1 212.7298 141.9665)" class="st16 st23 st24">EZ 98+</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 98L" aria-label="Ezone 98L"><path class="st22" d="M201.43,224.04c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C190.02,218.94,195.13,224.04,201.43,224.04"/></g>
-<text transform="matrix(1 0 0 1 194.6883 214.1784)" class="st16 st23 st24">EZ 98L</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 100L" aria-label="Ezone 100L"><path class="st22" d="M126.6,230.11c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C115.2,225.01,120.31,230.11,126.6,230.11"/></g>
-<text transform="matrix(1 0 0 1 118.6717 220.2463)" class="st16 st23 st24">EZ 100L</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone αSL" aria-label="Ezone αSL"><path class="st22" d="M101.72,337.77c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C90.31,332.66,95.42,337.77,101.72,337.77"/></g>
-<text transform="matrix(1 0 0 1 94.9583 327.9733)" class="st16 st23 st24">EZ</text>
-<text transform="matrix(1 0 0 1 99.513 327.9733)" class="st16 st23 st24"> </text>
-<path class="st16" d="M101.69,327.38c-0.13,0.18-0.28,0.27-0.44,0.27c-0.2,0-0.38-0.11-0.52-0.32c-0.14-0.21-0.22-0.5-0.22-0.85
-	c0-0.39,0.07-0.69,0.22-0.9c0.15-0.21,0.32-0.31,0.52-0.31c0.18,0,0.34,0.09,0.47,0.27c0.13,0.18,0.26,0.46,0.39,0.85
-	C101.96,326.87,101.82,327.21,101.69,327.38 M102.52,326.38l0.5-1.42h-0.46l-0.29,0.85c-0.23-0.62-0.57-0.93-1.02-0.93
-	c-0.36,0-0.66,0.14-0.9,0.43c-0.24,0.29-0.35,0.68-0.35,1.17c0,0.44,0.11,0.81,0.33,1.11c0.22,0.3,0.5,0.44,0.85,0.44
-	c0.48,0,0.85-0.36,1.1-1.09l0.37,1.01h0.51L102.52,326.38z"/>
-<text transform="matrix(1 0 0 1 102.6483 327.9733)" class="st16 st23 st24">SL</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone ACE" aria-label="Ezone ACE"><path class="st22" d="M156.78,309.28c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4s-11.41,5.11-11.41,11.4
-	C145.37,304.17,150.48,309.28,156.78,309.28"/></g>
-<text transform="matrix(1 0 0 1 154.1092 297.2175)" class="st16 st23 st24">EZ </text>
-<text transform="matrix(1 0 0 1 152.6576 301.6061)"><tspan x="0" y="0" class="st16 st23 st24">A</tspan><tspan x="2.76" y="0" class="st16 st23 st24">CE</tspan></text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone αL" aria-label="Ezone αL"><path class="st22" d="M123.91,303.9c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C112.51,298.79,117.62,303.9,123.91,303.9"/></g>
-<text transform="matrix(1 0 0 1 118.2337 294.1032)" class="st16 st23 st24">EZ</text>
-<text transform="matrix(1 0 0 1 122.7889 294.1032)" class="st16 st23 st24"> </text>
-<path class="st16" d="M124.97,293.51c-0.13,0.18-0.28,0.27-0.44,0.27c-0.2,0-0.38-0.11-0.52-0.32c-0.14-0.21-0.22-0.5-0.22-0.85
-	c0-0.39,0.07-0.69,0.22-0.9c0.15-0.21,0.32-0.31,0.52-0.31c0.18,0,0.34,0.09,0.47,0.27c0.13,0.18,0.26,0.46,0.39,0.85
-	C125.23,293,125.09,293.34,124.97,293.51 M125.79,292.51l0.5-1.42h-0.46l-0.29,0.85c-0.23-0.62-0.57-0.93-1.02-0.93
-	c-0.36,0-0.66,0.14-0.9,0.43c-0.24,0.29-0.35,0.68-0.35,1.17c0,0.44,0.11,0.81,0.33,1.11c0.22,0.3,0.5,0.44,0.85,0.44
-	c0.48,0,0.85-0.36,1.1-1.09l0.37,1.01h0.51L125.79,292.51z"/>
-<text transform="matrix(1 0 0 1 126.14 294.1032)" class="st16 st23 st24">L</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone α" aria-label="Ezone α"><path class="st22" d="M145.61,261.39c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C134.21,256.28,139.31,261.39,145.61,261.39"/></g>
-<text transform="matrix(1 0 0 1 140.9901 251.5934)" class="st16 st23 st24">EZ </text>
-<path class="st16" d="M147.81,251c-0.13,0.18-0.28,0.27-0.44,0.27c-0.2,0-0.38-0.11-0.52-0.32c-0.14-0.21-0.22-0.5-0.22-0.85
-	c0-0.39,0.07-0.69,0.22-0.9c0.15-0.21,0.32-0.31,0.52-0.31c0.18,0,0.34,0.09,0.47,0.27c0.13,0.18,0.26,0.46,0.39,0.85
-	C148.08,250.49,147.94,250.83,147.81,251 M148.64,250l0.5-1.42h-0.46l-0.29,0.85c-0.23-0.62-0.57-0.93-1.02-0.93
-	c-0.36,0-0.66,0.14-0.9,0.43c-0.24,0.29-0.35,0.68-0.35,1.17c0,0.44,0.11,0.81,0.33,1.11c0.22,0.3,0.5,0.44,0.85,0.44
-	c0.48,0,0.85-0.36,1.1-1.09l0.37,1.01h0.51L148.64,250z"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <g>
 	<path class="st17" d="M96.73,92.08c-0.81,0-1.58-0.43-1.59-1.47h0.91c0.01,0.45,0.32,0.65,0.68,0.65c0.39,0,0.67-0.25,0.67-0.69
 		c0-0.41-0.25-0.69-0.7-0.69h-0.13v-0.79h0.13c0.44,0,0.63-0.27,0.63-0.62c0-0.42-0.28-0.64-0.61-0.64c-0.34,0-0.6,0.22-0.62,0.6
@@ -5617,9 +5561,8 @@ const TENNIS_SERIES_MAP_SVG = {
 		C265.17,317.23,264.47,317.77,263.66,317.77z M264.26,314.19c0-0.42-0.25-0.68-0.6-0.68c-0.36,0-0.61,0.26-0.61,0.68v2.08
 		c0,0.42,0.25,0.67,0.61,0.67c0.36,0,0.6-0.25,0.6-0.67V314.19z"/>
 </g>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Ezone 105" aria-label="Ezone 105"><path class="st22" d="M83.23,259.14c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C71.82,254.04,76.93,259.14,83.23,259.14"/></g>
-<text transform="matrix(1 0 0 1 76.5604 249.278)" class="st16 st23 st24">EZ 105</text>
+
+
 <g>
 	<g>
 		<defs>
@@ -5779,15 +5722,12 @@ const TENNIS_SERIES_MAP_SVG = {
 <path class="st10" d="M293.59,122.02L293.59,122.02 M67.27,122.02L67.27,122.02"/>
 <line class="st9" x1="96.06" y1="93.85" x2="265.04" y2="93.85"/>
 <path class="st10" d="M265.27,93.85L265.27,93.85 M95.6,93.85L95.6,93.85"/>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Astrel 100" aria-label="Astrel 100"><path class="st12" d="M73.73,244.97c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C62.32,239.87,67.43,244.97,73.73,244.97"/></g>
-<text transform="matrix(1 0 0 1 65.6361 235.108)" class="st13 st7 st14">AST 100</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Astrel 105" aria-label="Astrel 105"><path class="st12" d="M66.12,291.46c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4c-6.3,0-11.41,5.11-11.41,11.4
-	C54.72,286.35,59.82,291.46,66.12,291.46"/></g>
-<text transform="matrix(1 0 0 1 58.0326 281.5923)" class="st13 st7 st14">AST 105</text>
-<g class="smap-bubble" role="button" tabindex="0" data-pname="Astrel 120" aria-label="Astrel 120"><path class="st12" d="M41.45,309.84c6.3,0,11.41-5.11,11.41-11.41c0-6.3-5.11-11.4-11.41-11.4s-11.41,5.11-11.41,11.4
-	C30.05,304.73,35.15,309.84,41.45,309.84"/></g>
-<text transform="matrix(1 0 0 1 33.3622 299.9752)" class="st13 st7 st14">AST 120</text>
+
+
+
+
+
+
 <text transform="matrix(1 0 0 1 94.8459 92.042)" class="st15 st7 st16">320</text>
 <text transform="matrix(1 0 0 1 66.6779 120.3785)" class="st15 st7 st16">310</text>
 <text transform="matrix(1 0 0 1 50.5569 148.3526)" class="st15 st7 st16">305</text>
@@ -5849,9 +5789,84 @@ const TENNIS_SERIES_MAP_SVG = {
 </svg>
 `,
 };
-function openTennisSeriesMapSheet(seriesName){
+const TENNIS_SERIES_MAP_COLOR = {VCORE:'#F04E45', PERCEPT:'#00AC98', EZONE:'#00539E', ASTREL:'#7FA1B0'};
+const TENNIS_SERIES_MAP_DATA = {
+  VCORE: [
+    {name:'Vcore Play', label:'VC PLAY', x:178.14, y:275.82},
+    {name:'Vcore 100L', label:'VC 100L', x:179.65, y:230.44},
+    {name:'Vcore α (Alpha)', label:'VC α', x:166.28, y:249.98},
+    {name:'Vcore αL', label:'VC αL', x:143.17, y:292.5},
+    {name:'Vcore αSL', label:'VC αSL', x:123.57, y:326.01},
+    {name:'Vcore 98L', label:'VC 98L', x:245.83, y:223.03},
+    {name:'Vcore 98', label:'VC 98', x:258.98, y:149.94},
+    {name:'Vcore 98+', label:'VC 98+', x:270.86, y:137.18},
+    {name:'Vcore 100', label:'VC 100', x:183.46, y:181.28},
+    {name:'Vcore 100+', label:'VC 100+', x:191.23, y:167.38},
+    {name:'Vcore 100D', label:'VC 100D', x:188.64, y:153.56},
+    {name:'Vcore 95', label:'VC 95', x:280.4, y:114.86},
+    {name:'Vcore 98 Tour', label:'VC 98 TOUR', x:258.11, y:105.34},
+    {name:'Vcore ACE', label:'VC ACE', x:186.59, y:285.9},
+  ],
+  PERCEPT: [
+    {name:'Percept 100L', label:'PE 100L', x:267.61, y:234.96},
+    {name:'Percept 97L', label:'PE 97L', x:307.18, y:206.96},
+    {name:'Percept 100', label:'PE 100', x:282.13, y:172.75},
+    {name:'Percept 100D', label:'PE 100D', x:295.09, y:153.56},
+    {name:'Percept 97', label:'PE 97', x:304.59, y:122.28},
+    {name:'Percept 97D', label:'PE 97D', x:321.75, y:95.84},
+    {name:'Percept 97H', label:'PE 97H', x:300.45, y:78.22},
+    {name:'Percept Game (2025)', label:'PE GAME', x:235.3, y:262.94},
+  ],
+  EZONE: [
+    {name:'Ezone 110', label:'EZ 110', x:74.42, y:302.68},
+    {name:'Ezone 115', label:'EZ 115', x:57.69, y:321.7},
+    {name:'Ezone 100SL', label:'EZ 100SL', x:111.22, y:262.94},
+    {name:'Ezone Play', label:'EZ PLAY', x:162.43, y:275.82},
+    {name:'Ezone 98 Tour', label:'EZ 98 TOUR', x:207.65, y:103.28},
+    {name:'Ezone 98', label:'EZ 98', x:205.06, y:150.09},
+    {name:'Ezone 100+', label:'EZ 100+', x:152.35, y:170.15},
+    {name:'Ezone 100', label:'EZ 100', x:141.98, y:184.0},
+    {name:'Ezone 98+', label:'EZ 98+', x:219.4, y:140.43},
+    {name:'Ezone 98L', label:'EZ 98L', x:201.43, y:212.63},
+    {name:'Ezone 100L', label:'EZ 100L', x:126.6, y:218.71},
+    {name:'Ezone αSL', label:'EZ αSL', x:101.72, y:326.37},
+    {name:'Ezone ACE', label:'EZ ACE', x:156.78, y:297.88},
+    {name:'Ezone αL', label:'EZ αL', x:123.91, y:292.5},
+    {name:'Ezone α', label:'EZ α', x:145.61, y:249.98},
+    {name:'Ezone 105', label:'EZ 105', x:83.23, y:247.73},
+  ],
+  ASTREL: [
+    {name:'Astrel 100', label:'AST 100', x:73.73, y:233.56},
+    {name:'Astrel 105', label:'AST 105', x:66.12, y:280.05},
+    {name:'Astrel 120', label:'AST 120', x:41.45, y:298.43},
+  ],
+};
+function tennisMapLabelTspans(label, cx, cy, fontSize){
+  const words = label.split(' ');
+  const lines = (words.length===1 || label.length<=6) ? [label] : [words.slice(0,-1).join(' '), words[words.length-1]];
+  const lineHeight = fontSize*1.25;
+  const startY = cy - (lines.length-1)*lineHeight/2 + fontSize*0.35;
+  return lines.map((l,i)=>`<tspan x="${cx}" y="${startY+i*lineHeight}">${l}</tspan>`).join('');
+}
+function tennisSeriesMapContentHtml(seriesName){
   const svg = TENNIS_SERIES_MAP_SVG[seriesName];
-  if(!svg) return;
+  const data = TENNIS_SERIES_MAP_DATA[seriesName];
+  if(!svg || !data) return '';
+  const color = TENNIS_SERIES_MAP_COLOR[seriesName];
+  const r = 12.55, fontSize = 4.8;
+  const bubbles = data.map(pt=>{
+    const p = P.find(x=>x.c==='ten' && x.s==='racquet' && x.name===pt.name);
+    if(!p) return '';
+    const idx = P.indexOf(p);
+    const clickCall = `seriesMapShowDetail(${idx}, '${seriesName}', 'tennismap')`;
+    return `<g class="smap-bubble" role="button" tabindex="0" aria-label="${p.name}" onclick="${clickCall}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}">
+      <circle cx="${pt.x}" cy="${pt.y}" r="${r}" fill="${color}" stroke="#fff" stroke-width="1"/>
+      <text text-anchor="middle" font-size="${fontSize}" font-weight="800" fill="#fff" font-family="'Archivo',-apple-system,BlinkMacSystemFont,sans-serif">${tennisMapLabelTspans(pt.label, pt.x, pt.y, fontSize)}</text>
+    </g>`;
+  }).join('');
+  return svg.replace('</svg>', bubbles + '</svg>');
+}
+function openTennisSeriesMapSheet(seriesName){
   const info = SERIES_INFO[seriesName];
   const overlay = document.getElementById('overlay');
   const sheet = document.getElementById('sheet');
@@ -5863,17 +5878,9 @@ function openTennisSeriesMapSheet(seriesName){
         <h2>${(info&&info.mapTitle)||seriesName+' SERIES MAP'}</h2>
         <button onclick="closeSheet()" aria-label="닫기">✕</button>
       </div>
-      ${svg}
+      ${tennisSeriesMapContentHtml(seriesName)}
     </div>
   `;
-  sheet.querySelectorAll('.smap-bubble[data-pname]').forEach(g=>{
-    const name = g.dataset.pname;
-    const idx = P.findIndex(p=>p.c==='ten' && p.s==='racquet' && p.name===name);
-    if(idx<0) return;
-    const clickCall = ()=>seriesMapShowDetail(idx, seriesName, 'tennismap');
-    g.addEventListener('click', clickCall);
-    g.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); clickCall(); } });
-  });
   openOverlayA11y();
   if(!overlay.classList.contains('open')){
     overlay.classList.add('open');
