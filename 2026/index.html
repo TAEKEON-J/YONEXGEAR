@@ -2659,7 +2659,7 @@ function resetFilters(){
 }
 function renderCatNav(){
   const el = document.getElementById('catNav');
-  el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}" class="${c.id===state.cat?'active':''}">${c.label}</button>`).join('');
+  el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}" class="${(!state.q && c.id===state.cat)?'active':''}">${c.label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
     state.cat=b.dataset.cat; state.sub=SUBCATS[state.cat][0].id; state.q='';
     resetFilters();
@@ -2671,10 +2671,11 @@ function renderCatNav(){
 function renderSubNav(){
   const el = document.getElementById('subNav');
   const subs = SUBCATS[state.cat];
-  el.innerHTML = subs.map(s=>`<button data-sub="${s.id}" class="${s.id===state.sub?'active':''}">${s.label}</button>`).join('');
+  el.innerHTML = subs.map(s=>`<button data-sub="${s.id}" class="${(!state.q && s.id===state.sub)?'active':''}">${s.label}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    state.sub=b.dataset.sub;
+    state.sub=b.dataset.sub; state.q='';
     resetFilters();
+    document.getElementById('searchInput').value='';
     renderAll();
   });
   syncScrollFade(el);
@@ -2855,7 +2856,9 @@ function renderGrid(){
   const empty = document.getElementById('emptyMsg');
   const finderPromo = document.getElementById('finderPromo');
   if(finderPromo){
-    if(state.cat==='bad' && state.sub==='racquet'){
+    if(state.q){
+      finderPromo.style.display = 'none';
+    } else if(state.cat==='bad' && state.sub==='racquet'){
       finderPromo.style.display = 'flex';
       document.getElementById('fpEyebrow').textContent = 'RACQUET FINDER';
       document.getElementById('fpTitle').innerHTML = '당신의 플레이를 완성할 <b>라켓</b>을 찾아보세요!';
@@ -8062,6 +8065,8 @@ document.addEventListener('keydown', e=>{
 
 document.getElementById('searchInput').addEventListener('input', e=>{
   state.q = e.target.value.trim();
+  renderCatNav();
+  renderSubNav();
   renderFilterModeTabs();
   renderSeriesRow();
   renderGrid();
