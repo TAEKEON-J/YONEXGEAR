@@ -1189,6 +1189,17 @@ const SHOE_SERIES_INFO = {
     }
   }
 };
+const TENNIS_SHOE_SERIES_INFO = {
+  'ECLIPSION 5': { title:'STABILITY', img:'../shared-images/tennis_shoes-series-stablity.jpg' },
+  'AD-ACCEL': { title:'SPEED', img:'../shared-images/tennis_shoes-series-speed.jpg' },
+  'SONICAGE': { title:'COMFORT', img:'../shared-images/tennis_shoes-series-comfort.jpg' },
+  'PRO-MOVE': { title:'ALL ROUND', img:'../shared-images/tennis_shoes-series-allround.jpg' },
+};
+function tennisShoeSeriesListForCurrent(){
+  const items = P.filter(p=>p.c==='ten' && p.s==='shoe');
+  const all = [...new Set(items.map(p=>p.series))];
+  return all.filter(s=>TENNIS_SHOE_SERIES_INFO[s]);
+}
 function shoeInfoHasTech(info){
   if(!info) return false;
   if(info.techsBySeries) return Object.values(info.techsBySeries).some(arr=>arr.length>0);
@@ -1200,6 +1211,22 @@ function shoeTypeListForCurrent(){
   return typeOrder.filter(t=> SHOE_SERIES_INFO[t] && items.some(p=>shoeType(p)===t));
 }
 function shoeSeriesHeroHtml(){
+  if(state.cat==='ten' && state.sub==='shoe' && state.series){
+    const tInfo = TENNIS_SHOE_SERIES_INFO[state.series];
+    if(!tInfo) return '';
+    const tList = tennisShoeSeriesListForCurrent();
+    const tSwipeHint = tList.length>1 ? ', 좌우로 스와이프하거나 화살표 키로 다른 시리즈 보기' : '';
+    const tDotsHtml = tList.length>1 ? `<div class="ssh-dots">${tList.map(s=>`<span class="ssh-dot ${s===state.series?'active':''}"></span>`).join('')}</div>` : '';
+    return `
+      <button type="button" class="ssh" tabindex="0" style="background-image:url('${tInfo.img}')" onclick="racquetGuideScrollToResults()" aria-label="${tInfo.title} 시리즈 테크${tSwipeHint}">
+        <div class="ssh-body">
+          <h2 class="ssh-title">${tInfo.title}</h2>
+          ${tDotsHtml}
+        </div>
+        <span class="ssh-cta">SERIES TECH <span>→</span></span>
+      </button>
+    `;
+  }
   const type = (state.cat==='bad' && state.sub==='shoe' && state.filterMode==='type') ? state.typeFilter : null;
   const info = SHOE_SERIES_INFO[type];
   if(!info) return '';
@@ -2990,13 +3017,10 @@ function seriesListForCurrent(){
   const all = [...new Set(items.map(p=>p.series))];
   return all.filter(s=>SERIES_INFO[s]);
 }
-function goToSeriesOffset(offset){
-  const info = ((state.cat==='bad' || state.cat==='ten') && state.sub==='racquet' && state.series) ? SERIES_INFO[state.series] : null;
-  if(!info) return;
-  const hero = document.querySelector('#seriesInfoBlock .series-hero');
+function swipeBanner(selector, list, current, applyValue, offset){
+  const hero = document.querySelector(selector);
   if(!hero) return;
-  const list = seriesListForCurrent();
-  const idx = list.indexOf(state.series);
+  const idx = list.indexOf(current);
   const nextIdx = idx + offset;
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(nextIdx<0 || nextIdx>=list.length){
@@ -3010,10 +3034,10 @@ function goToSeriesOffset(offset){
   const dir = offset>0 ? 1 : -1;
   const wasFocused = document.activeElement===hero;
   const finish = ()=>{
-    state.series = list[nextIdx];
+    applyValue(list[nextIdx]);
     renderSeriesRow();
     renderGrid();
-    const newHero = document.querySelector('#seriesInfoBlock .series-hero');
+    const newHero = document.querySelector(selector);
     if(newHero){
       if(!reduceMotion){
         newHero.style.transition = 'none';
@@ -3032,53 +3056,30 @@ function goToSeriesOffset(offset){
   hero.style.opacity = '0';
   setTimeout(finish, 160);
 }
+function goToSeriesOffset(offset){
+  const info = ((state.cat==='bad' || state.cat==='ten') && state.sub==='racquet' && state.series) ? SERIES_INFO[state.series] : null;
+  if(!info) return;
+  swipeBanner('#seriesInfoBlock .series-hero', seriesListForCurrent(), state.series, v=>{ state.series=v; }, offset);
+}
 function goToShoeTypeOffset(offset){
   const type = (state.cat==='bad' && state.sub==='shoe' && state.filterMode==='type') ? state.typeFilter : null;
   if(!SHOE_SERIES_INFO[type]) return;
-  const hero = document.querySelector('#seriesInfoBlock .ssh');
-  if(!hero) return;
-  const list = shoeTypeListForCurrent();
-  const idx = list.indexOf(type);
-  const nextIdx = idx + offset;
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(nextIdx<0 || nextIdx>=list.length){
-    if(!reduceMotion) hero.animate([
-      {transform:'translateX(0)'},
-      {transform:`translateX(${offset>0?-10:10}px)`},
-      {transform:'translateX(0)'}
-    ], {duration:200, easing:'ease-out'});
-    return;
-  }
-  const dir = offset>0 ? 1 : -1;
-  const wasFocused = document.activeElement===hero;
-  const finish = ()=>{
-    state.typeFilter = list[nextIdx];
-    renderSeriesRow();
-    renderGrid();
-    const newHero = document.querySelector('#seriesInfoBlock .ssh');
-    if(newHero){
-      if(!reduceMotion){
-        newHero.style.transition = 'none';
-        newHero.style.transform = `translateX(${dir*16}px)`;
-        newHero.style.opacity = '0';
-        void newHero.offsetWidth;
-        newHero.style.transition = '';
-        newHero.style.transform = '';
-        newHero.style.opacity = '';
-      }
-      if(wasFocused) newHero.focus({preventScroll:true});
-    }
-  };
-  if(reduceMotion){ finish(); return; }
-  hero.style.transform = `translateX(${dir*-16}px)`;
-  hero.style.opacity = '0';
-  setTimeout(finish, 160);
+  swipeBanner('#seriesInfoBlock .ssh', shoeTypeListForCurrent(), type, v=>{ state.typeFilter=v; }, offset);
+}
+function goToTennisShoeSeriesOffset(offset){
+  const series = (state.cat==='ten' && state.sub==='shoe') ? state.series : null;
+  if(!TENNIS_SHOE_SERIES_INFO[series]) return;
+  swipeBanner('#seriesInfoBlock .ssh', tennisShoeSeriesListForCurrent(), series, v=>{ state.series=v; }, offset);
 }
 (function initSeriesHeroSwipe(){
   const container = document.getElementById('seriesInfoBlock');
   if(!container) return;
   const swipeSel = '.series-hero, .ssh';
-  const offsetFnFor = el => el.classList.contains('ssh') ? goToShoeTypeOffset : goToSeriesOffset;
+  const offsetFnFor = el => {
+    if(el.classList.contains('series-hero')) return goToSeriesOffset;
+    if(state.cat==='ten' && state.sub==='shoe') return goToTennisShoeSeriesOffset;
+    return goToShoeTypeOffset;
+  };
   let startX=0, startY=0, tracking=false, dragging=false, target=null;
   container.addEventListener('pointerdown', e=>{
     target = e.target.closest(swipeSel);
