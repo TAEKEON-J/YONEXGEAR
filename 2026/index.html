@@ -2793,6 +2793,7 @@ function renderFilterModeTabs(){
   });
   syncScrollFade(el);
 }
+const SERIES_CHIP_LABELS = { '88':'88 DIAL' };
 function renderSeriesRow(){
   const el = document.getElementById('seriesRow');
   if(state.q){ el.innerHTML=''; syncScrollFade(el); return; }
@@ -2858,7 +2859,7 @@ function renderSeriesRow(){
   if(seriesList.length<=1){ el.innerHTML=''; syncScrollFade(el); return; }
   const showAllChip = !((state.cat==='bad' && (state.sub==='string' || state.sub==='shoe' || state.sub==='racquet')) || (state.cat==='ten' && (state.sub==='racquet' || state.sub==='shoe' || state.sub==='string')) || (state.cat==='soft' && state.sub==='racquet'));
   el.innerHTML = (showAllChip ? `<button class="chip ${!state.series?'active':''}" data-series="">전체</button>` : '') +
-    seriesList.map(s=>`<button class="chip ${state.series===s?'active':''}" data-series="${s}">${s}</button>`).join('');
+    seriesList.map(s=>`<button class="chip ${state.series===s?'active':''}" data-series="${s}">${SERIES_CHIP_LABELS[s]||s}</button>`).join('');
   el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
     const val = b.dataset.series || null;
     state.series = (!showAllChip && state.series===val) ? null : val;
