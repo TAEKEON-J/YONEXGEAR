@@ -4153,7 +4153,7 @@ const RACQUET_TECHNOLOGY_ISOMETRIC_SVG = `<svg class="rg-iso-svg" role="img" ari
    product dots stripped out) from shared-images/badminton-string-matrix.svg. The dots
    are redrawn dynamically below as real clickable bubbles wired to actual products,
    matching the racquet SERIES MAP pattern. */
-const STRING_MATRIX_SVG = `<svg class="smap-svg rg-string-matrix-svg" role="img" aria-label="고반발력, 컨트롤, 내구성 축으로 스트링을 분류하는 매트릭스 다이어그램" id="stringMatrixSvg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 390 652.22">
+const STRING_MATRIX_SVG = `<svg class="smap-svg rg-string-matrix-svg" role="img" aria-label="고반발력, 컨트롤, 내구성 축으로 스트링을 분류하는 매트릭스 다이어그램" id="stringMatrixSvg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 85 390 567.22">
   <defs>
     <style>
       .smx-0 {
@@ -4230,11 +4230,15 @@ const STRING_MATRIX_SVG = `<svg class="smap-svg rg-string-matrix-svg" role="img"
         font-size: 20px;
         letter-spacing: -.03em;
       }
+
+      .smx-legend-item { cursor: pointer; }
+      .smx-legend-item:hover { opacity: .8; }
+      .smx-legend-item:focus-visible { outline: none; }
+      .smx-legend-item:focus-visible circle, .smx-legend-item:focus-visible path.smx-0, .smx-legend-item:focus-visible path.smx-1, .smx-legend-item:focus-visible path.smx-9 {
+        stroke: var(--green); stroke-width: 2px;
+      }
     </style>
   </defs>
-  <g class="smx-7">
-    <text class="smx-8" transform="translate(111.98 63.12) scale(.95 1)"><tspan x="0" y="0">STRING MATRIX</tspan></text>
-  </g>
   <path class="smx-14" d="M195,444.18v.39c91.62,0,165.89-74.27,165.89-165.89,0-91.62-74.27-165.89-165.89-165.89S29.11,187.05,29.11,278.67c0,91.62,74.27,165.89,165.89,165.89v-.77c-45.6,0-86.87-18.48-116.76-48.36-29.88-29.88-48.36-71.16-48.36-116.76,0-45.6,18.48-86.87,48.36-116.76,29.88-29.88,71.16-48.36,116.76-48.36s86.87,18.48,116.76,48.36c29.88,29.88,48.36,71.16,48.36,116.76s-18.48,86.87-48.36,116.76c-29.88,29.88-71.16,48.36-116.76,48.36v.39h0Z"/>
   <path class="smx-14" d="M194.67,353.66v.36c41.62,0,75.35-33.74,75.35-75.35,0-41.62-33.74-75.35-75.35-75.35-41.62,0-75.35,33.74-75.35,75.35s33.74,75.35,75.35,75.35v-.72c-20.61,0-39.27-8.35-52.77-21.86-13.51-13.51-21.86-32.16-21.86-52.77,0-20.61,8.35-39.27,21.86-52.77,13.51-13.51,32.16-21.86,52.77-21.86s39.27,8.35,52.77,21.86c13.51,13.51,21.86,32.16,21.86,52.77s-8.35,39.27-21.86,52.77c-13.51,13.51-32.16,21.86-52.77,21.86v.36h0Z"/>
   <polyline class="smx-14" points="29.34 279.02 360.82 279.02 360.82 278.25 29.34 278.25"/>
@@ -4243,21 +4247,30 @@ const STRING_MATRIX_SVG = `<svg class="smap-svg rg-string-matrix-svg" role="img"
   <text class="smx-5" transform="translate(22.48 302.29) rotate(-90) scale(.95 1)"><tspan x="0" y="0">최대 홀딩력</tspan></text>
   <text class="smx-4" transform="translate(368.52 254.58) rotate(90) scale(.95 1)"><tspan x="0" y="0">빠른 반발력</tspan></text>
   <text class="smx-6" transform="translate(177.22 463.12) scale(.95 1)"><tspan x="0" y="0">부드러움</tspan></text>
-  <path class="smx-9" d="M68.08,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
-  <text class="smx-3" transform="translate(43.84 583.26) scale(.95 1)"><tspan x="0" y="0">상대를 제압하는</tspan></text>
-  <text class="smx-3" transform="translate(38.83 595.25) scale(.95 1)"><tspan x="0" y="0">고속 드라이브 실현.</tspan></text>
-  <text class="smx-2" transform="translate(49.89 568.1) scale(.95 1)"><tspan x="0" y="0">[고반발력]</tspan></text>
-  <path class="smx-1" d="M193.98,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
-  <text class="smx-3" transform="translate(155.61 583.26) scale(.95 1)"><tspan x="0" y="0">향상된 셔틀콕 홀딩력으로</tspan></text>
-  <text class="smx-3" transform="translate(168.04 595.25) scale(.95 1)"><tspan x="0" y="0">정확한 공격 가능.</tspan></text>
-  <text class="smx-2" transform="translate(179.55 568.1) scale(.95 1)"><tspan x="0" y="0">[컨트롤]</tspan></text>
-  <path class="smx-0" d="M319.89,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
-  <text class="smx-3" transform="translate(263.16 583.26) scale(.95 1)"><tspan x="0" y="0">강력한 타구력을 지닌 플레이어를 위한</tspan></text>
-  <text class="smx-3" transform="translate(283.11 595.25) scale(.95 1)"><tspan x="0" y="0">장시간 스트링 성능 유지.</tspan></text>
-  <text class="smx-2" transform="translate(305.45 568.1) scale(.95 1)"><tspan x="0" y="0">[내구성]</tspan></text>
-  <text class="smx-13" transform="translate(25.95 553.73)"><tspan x="0" y="0">QUICK REPULSION</tspan></text>
-  <text class="smx-13" transform="translate(172.8 553.44)"><tspan x="0" y="0">CONTROL</tspan></text>
-  <text class="smx-12" transform="translate(292.53 553.44)"><tspan x="0" y="0">DURABILITY</tspan></text>
+  <g class="smx-legend-item" role="button" tabindex="0" aria-label="고반발형 스트링 보기" onclick="stringMatrixGoToCategory('고반발')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();stringMatrixGoToCategory('고반발')}">
+    <rect x="-8" y="513" width="126" height="103" fill="transparent"/>
+    <path class="smx-9" d="M68.08,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
+    <text class="smx-13" text-anchor="middle"><tspan x="55.12" y="546">QUICK</tspan><tspan x="55.12" y="559">REPULSION</tspan></text>
+    <text class="smx-2" text-anchor="middle"><tspan x="55.12" y="581.1">[고반발력]</tspan></text>
+    <text class="smx-3" text-anchor="middle"><tspan x="55.12" y="596.26">상대를 제압하는</tspan></text>
+    <text class="smx-3" text-anchor="middle"><tspan x="55.12" y="608.25">고속 드라이브 실현.</tspan></text>
+  </g>
+  <g class="smx-legend-item" role="button" tabindex="0" aria-label="컨트롤 스트링 보기" onclick="stringMatrixGoToCategory('컨트롤')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();stringMatrixGoToCategory('컨트롤')}">
+    <rect x="118" y="513" width="126" height="103" fill="transparent"/>
+    <path class="smx-1" d="M193.98,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
+    <text class="smx-13" text-anchor="middle"><tspan x="181.02" y="553.44">CONTROL</tspan></text>
+    <text class="smx-2" text-anchor="middle"><tspan x="181.02" y="581.1">[컨트롤]</tspan></text>
+    <text class="smx-3" text-anchor="middle"><tspan x="181.02" y="596.26">향상된 셔틀콕 홀딩력으로</tspan></text>
+    <text class="smx-3" text-anchor="middle"><tspan x="181.02" y="608.25">정확한 공격 가능.</tspan></text>
+  </g>
+  <g class="smx-legend-item" role="button" tabindex="0" aria-label="내구성 스트링 보기" onclick="stringMatrixGoToCategory('내구성')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();stringMatrixGoToCategory('내구성')}">
+    <rect x="244" y="513" width="126" height="103" fill="transparent"/>
+    <path class="smx-0" d="M319.89,530c7.16,0,12.96-5.8,12.96-12.96s-5.8-12.96-12.96-12.96-12.96,5.8-12.96,12.96,5.8,12.96,12.96,12.96h0Z"/>
+    <text class="smx-12" text-anchor="middle"><tspan x="306.93" y="553.44">DURABILITY</tspan></text>
+    <text class="smx-2" text-anchor="middle"><tspan x="306.93" y="581.1">[내구성]</tspan></text>
+    <text class="smx-3" text-anchor="middle"><tspan x="306.93" y="596.26">강력한 타구력을 지닌 플레이어를 위한</tspan></text>
+    <text class="smx-3" text-anchor="middle"><tspan x="306.93" y="608.25">장시간 스트링 성능 유지.</tspan></text>
+  </g>
 </svg>`;
 const STRING_MATRIX_CAT_COLOR = {quick:'#6b96ce', control:'#89bf7c', durability:'#d9a93f'};
 /* Coordinates decoded from the original artwork's dot positions (viewBox 390x652.22) */
@@ -4304,6 +4317,13 @@ function stringMatrixContentHtml(){
       </div>` : ''}
     </div>
   `;
+}
+function stringMatrixGoToCategory(cat){
+  state.cat='bad'; state.sub='string'; state.filterMode='type'; state.typeFilter=cat;
+  state.series=null; state.weightFilter=null; state.flexFilter=null; state.gaugeFilter=null; state.q='';
+  closeSheet();
+  renderAll();
+  racquetGuideScrollToResults();
 }
 function openStringMatrixSheet(){
   const overlay = document.getElementById('overlay');
