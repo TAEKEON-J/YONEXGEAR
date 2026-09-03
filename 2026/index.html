@@ -304,6 +304,8 @@
   .smap-svg .smap-bubble:hover circle{r:16;}
   .smap-svg .smap-bubble:focus-visible{outline:none;}
   .smap-svg .smap-bubble:focus-visible circle{r:16;stroke:var(--green);stroke-width:3;}
+  .smap-svg .smap-bubble-lg:hover circle{r:21;}
+  .smap-svg .smap-bubble-lg:focus-visible circle{r:21;stroke:var(--green);stroke-width:3;}
   .smap-svg .smap-draggable{cursor:grab;touch-action:none;}
   .smap-svg .smap-draggable:active{cursor:grabbing;}
   .smap-svg .smap-draggable circle{stroke-width:2.5;}
@@ -4280,8 +4282,8 @@ function stringMatrixContentHtml(){
     const idx = P.indexOf(p);
     const color = STRING_MATRIX_CAT_COLOR[m.cat];
     const clickCall = `seriesMapShowDetail(${idx}, null, 'stringmatrix')`;
-    return `<g class="smap-bubble" data-idx="${idx}" onclick="${clickCall}" role="button" tabindex="0" aria-label="${p.name}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}">
-      <circle cx="${m.x}" cy="${m.y}" r="14" fill="${color}" stroke="#fff" stroke-width="1.2"/>
+    return `<g class="smap-bubble smap-bubble-lg" data-idx="${idx}" onclick="${clickCall}" role="button" tabindex="0" aria-label="${p.name}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${clickCall}}">
+      <circle cx="${m.x}" cy="${m.y}" r="19" fill="${color}" stroke="#fff" stroke-width="1.2"/>
       <text x="${m.x}" y="${m.y}" text-anchor="middle" font-size="6" font-weight="800" fill="#fff">${smapLabelTspans(p.name,'',m.x,6)}</text>
     </g>`;
   }).join('');
