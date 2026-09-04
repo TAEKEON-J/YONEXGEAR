@@ -238,6 +238,7 @@
   .series-hero .sh-kicker{font-size:15px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-top:2px;color:#fff;}
   .series-hero .sh-title{font-size:clamp(18px,6.1vw,24px);font-weight:900;line-height:1.05;margin:6px 0 8px;letter-spacing:-.03em;white-space:nowrap;}
   .series-hero .sh-desc{font-size:13px;line-height:1.5;max-width:340px;margin-bottom:14px;}
+  .series-hero .sh-cta-row{display:flex;gap:8px;flex-wrap:wrap;}
   .series-hero .sh-cta{
     display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1d1d1f;font-weight:800;font-size:12px;
     border:none;border-radius:999px;padding:8px 15px;cursor:pointer;transition:opacity .15s ease,transform .1s ease;
@@ -3044,12 +3045,17 @@ function renderSeriesInfoBlock(){
       : hasMapData ? `openSeriesMapSheet('${state.series}')` : 'racquetGuideScrollToResults()';
     const list = seriesListForCurrent();
     const dotsHtml = list.length>1 ? `<div class="sh-dots">${list.map(s=>`<span class="sh-dot ${s===state.series?'active':''}"></span>`).join('')}</div>` : '';
+    const hasTech = !!TENNIS_RACQUET_SERIES_TECH_SVG[state.series];
+    const techCta = hasTech ? `<button class="sh-cta" onclick="openTennisRacquetSeriesTechSheet('${state.series}')">SERIES TECH <span>→</span></button>` : '';
     el.innerHTML = `
       <div class="series-hero" style="background:${info.grad}" tabindex="0" role="group" aria-label="${info.kicker} 시리즈, 좌우로 스와이프하거나 화살표 키로 다른 시리즈 보기">
         <div class="sh-kicker">${info.kicker}</div>
         <h2 class="sh-title" style="color:${info.titleColor}">${info.title}</h2>
         <div class="sh-desc">${info.desc}</div>
-        <button class="sh-cta" onclick="${cta}">SERIES MAP <span>→</span></button>
+        <div class="sh-cta-row">
+          <button class="sh-cta" onclick="${cta}">SERIES MAP <span>→</span></button>
+          ${techCta}
+        </div>
         ${dotsHtml}
       </div>
     `;
@@ -5636,6 +5642,42 @@ function openTennisShoeTechSheet(){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = tennisShoeTechContentHtml();
+  openOverlayA11y();
+  if(!overlay.classList.contains('open')){
+    overlay.classList.add('open');
+    history.pushState({sheetOpen:true}, '', location.href);
+    sheetHistoryPushed = true;
+  }
+  focusSheetContent();
+}
+
+/* =============== TENNIS RACQUET SERIES TECHNOLOGY (per-series self-contained
+   mobile-width infographics, e.g. shared-images/vcore_mobile_tech.svg) =============== */
+const TENNIS_RACQUET_SERIES_TECH_SVG = {
+  VCORE: '../shared-images/vcore_mobile_tech.svg',
+};
+function tennisRacquetSeriesTechContentHtml(seriesName){
+  const src = TENNIS_RACQUET_SERIES_TECH_SVG[seriesName];
+  if(!src) return '';
+  return `
+    <div class="rg-sheet">
+      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="rg-shoe-tech-svg-wrap">
+        <img class="rg-shoe-tech-svg" src="${src}" alt="${seriesName} 시리즈 기술 소개">
+      </div>
+      <div class="rg-cta-wrap">
+        <button class="rg-cta" onclick="tennisTechViewAll()">전체 라켓 보기 →</button>
+      </div>
+    </div>
+  `;
+}
+function openTennisRacquetSeriesTechSheet(seriesName){
+  const html = tennisRacquetSeriesTechContentHtml(seriesName);
+  if(!html) return;
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  sheet.classList.remove('cmp-mode');
+  sheet.innerHTML = html;
   openOverlayA11y();
   if(!overlay.classList.contains('open')){
     overlay.classList.add('open');
