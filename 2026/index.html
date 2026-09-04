@@ -313,7 +313,7 @@
     display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;
   }
   .smap-head h2{flex:1;text-align:center;font-size:14px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;margin:0;color:var(--ink);}
-  .smap-tabs{display:flex;gap:8px;padding:12px 16px 0;}
+  .smap-tabs{display:flex;gap:12px;padding:12px 16px 0;}
   .smap-tabs button{
     flex:1;border:1px solid var(--line);border-radius:999px;padding:10px 0;font-size:12.5px;font-weight:800;
     letter-spacing:.02em;cursor:pointer;background:#fff;color:var(--ink);transition:opacity .15s ease;
@@ -471,6 +471,7 @@
   .sheet-reveal-2{animation:panelIn .5s var(--ease) .1s both;}
   @keyframes panelIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
   .sheet-head{display:none;}
+  .sheet-floating-bar{position:sticky;top:0;height:0;z-index:6;}
   .x.floating{
     position:absolute;top:14px;right:14px;z-index:5;
     border:none;background:rgba(255,255,255,.9);color:var(--ink);width:34px;height:34px;border-radius:50%;
@@ -1295,7 +1296,7 @@ function shoeTechSheetContentHtml(type, activeSeriesKey, kind='bad'){
   const techs = hasTabs ? (info.techsBySeries[activeKey] || []) : (info.techs || []);
   return `
     <div class="rg-sheet">
-      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
       <div class="rg-sheet-head">
         <div class="rg-sheet-head-eyebrow">SERIES TECH</div>
         <h2 class="rg-sheet-head-title">${info.title}</h2>
@@ -4586,7 +4587,7 @@ function racquetGuideContentHtml(){
   }).join('');
   return `
     <div class="rg-sheet">
-      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
       <div class="rg-sheet-head">
         <div class="rg-sheet-head-eyebrow">OUR RANGE OF</div>
         <h2 class="rg-sheet-head-title">RACQUET GUIDE</h2>
@@ -5489,7 +5490,7 @@ const TENNIS_TECH_ISOMETRIC_SVG = `<svg class="rg-iso-svg" role="img" aria-label
 function tennisTechContentHtml(){
   return `
     <div class="rg-sheet">
-      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
       <div class="rg-sheet-head">
         <div class="rg-sheet-head-eyebrow">OUR RANGE OF RACQUETS</div>
         <h2 class="rg-sheet-head-title">TECHNOLOGY</h2>
@@ -5628,7 +5629,7 @@ function tennisTechViewAll(){
 function tennisShoeTechContentHtml(){
   return `
     <div class="rg-sheet">
-      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
       <div class="rg-shoe-tech-svg-wrap">
         <img class="rg-shoe-tech-svg" src="../shared-images/tennis_shoe_tech_mobile.svg" alt="테니스 신발 시리즈별 소재/기술 비교표">
       </div>
@@ -7199,12 +7200,12 @@ function seriesMapShowDetail(idx, seriesName, backKind){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   const backBtn = backKind==='stringmatrix'
-    ? `<button class="back floating" onclick="openStringMatrixSheet()">← STRING MATRIX</button>`
+    ? `<div class="sheet-floating-bar"><button class="back floating" onclick="openStringMatrixSheet()">← STRING MATRIX</button></div>`
     : backKind==='tennismap'
-    ? `<button class="back floating" onclick="openTennisSeriesMapSheet('${seriesName}')">← SERIES MAP</button>`
-    : `<button class="back floating" onclick="openSeriesMapSheet('${seriesName}')">← SERIES MAP</button>`;
+    ? `<div class="sheet-floating-bar"><button class="back floating" onclick="openTennisSeriesMapSheet('${seriesName}')">← SERIES MAP</button></div>`
+    : `<div class="sheet-floating-bar"><button class="back floating" onclick="openSeriesMapSheet('${seriesName}')">← SERIES MAP</button></div>`;
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
     ${backBtn}
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
@@ -7379,7 +7380,7 @@ function openSheet(p){
   const perfHtml = stringPerfInfographicHtml(p);
   const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
@@ -7720,7 +7721,7 @@ function openCompareSheet(){
   `).join('');
 
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
     <div class="cmp-wrap">
       <div class="cmp-header">
         <h2>제품 비교</h2>
@@ -7915,7 +7916,7 @@ function renderFinderStep(){
       <span class="fo-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
     </div>`).join('');
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
     <div class="finder-wrap">
       <div class="finder-progress">${progress}</div>
       <div class="finder-step-label">STEP ${finderState.step+1} / ${FINDER_STEPS.length}</div>
@@ -7974,7 +7975,7 @@ function renderFinderResults(){
   const cards = top3.map(cardHtml).join('');
   const restCards = rest.map((r,i)=>cardHtml(r,i+3)).join('');
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
     <button class="prev floating" onclick="finderResultsBack()">← 이전</button>
     <div class="finder-wrap finder-results">
       <h2>당신에게 맞는 라켓 TOP ${top3.length}</h2>
@@ -7997,8 +7998,8 @@ function finderShowDetail(idx){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
-    <button class="back floating" onclick="renderFinderResults()">← 진단 결과</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="back floating" onclick="renderFinderResults()">← 진단 결과</button></div>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
@@ -8217,7 +8218,7 @@ function renderStringFinderStep(){
       <span class="fo-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
     </div>`).join('');
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
     <div class="finder-wrap">
       <div class="finder-progress">${progress}</div>
       <div class="finder-step-label">STEP ${stringFinderState.step+1} / ${STRING_FINDER_STEPS.length}</div>
@@ -8276,7 +8277,7 @@ function renderStringFinderResults(){
   const cards = top3.map(cardHtml).join('');
   const restCards = rest.map((r,i)=>cardHtml(r,i+3)).join('');
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
     <button class="prev floating" onclick="stringFinderResultsBack()">← 이전</button>
     <div class="finder-wrap finder-results">
       <h2>당신에게 맞는 스트링 TOP ${top3.length}</h2>
@@ -8299,8 +8300,8 @@ function stringFinderShowDetail(idx){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
-    <button class="x floating" onclick="closeSheet()">✕</button>
-    <button class="back floating" onclick="renderStringFinderResults()">← 진단 결과</button>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="back floating" onclick="renderStringFinderResults()">← 진단 결과</button></div>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
