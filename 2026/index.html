@@ -349,21 +349,8 @@
   .smap-tab-panel.active{display:block;}
 
   /* SERIES MAP sheet — TECHNOLOGY tab content */
-  .vcm-tech-head{padding:4px 20px 18px;}
-  .vcm-tech-eyebrow{font-size:10.5px;font-weight:900;letter-spacing:.1em;color:var(--red);text-transform:uppercase;margin-bottom:6px;}
-  .vcm-tech-title{font-size:32px;font-weight:900;letter-spacing:-.02em;color:var(--ink);margin:0 0 8px;}
-  .vcm-tech-sub{font-size:13.5px;line-height:1.5;color:var(--ink);font-weight:600;margin:0 0 14px;}
-  .vcm-tech-dash{width:28px;height:3px;background:var(--red);border-radius:2px;margin:0 0 6px;}
-  .vcm-tech-list{padding:0 16px 6px;display:flex;flex-direction:column;gap:14px;}
-  .vcm-tech-card{border:1.5px solid var(--line);border-radius:16px;padding:20px 18px;display:flex;align-items:center;gap:14px;background:#fff;}
-  .vcm-tech-card.vcm-tech-card-stack{flex-direction:column;align-items:stretch;}
-  .vcm-tech-card-text{flex:1;min-width:0;}
-  .vcm-tech-kicker{font-size:20px;font-weight:900;color:var(--red);line-height:1;margin-bottom:6px;}
-  .vcm-tech-name{font-size:15.5px;font-weight:900;line-height:1.25;color:var(--ink);letter-spacing:-.01em;margin-bottom:8px;}
-  .vcm-tech-dash-sm{width:18px;height:2px;background:var(--red);border-radius:2px;margin-bottom:8px;}
-  .vcm-tech-desc{font-size:11.5px;line-height:1.5;color:var(--ink);font-weight:600;word-break:keep-all;}
-  .vcm-tech-diagram{flex:none;width:100px;height:100px;display:flex;align-items:center;justify-content:center;}
-  .vcm-tech-diagram-full{width:100%;height:64px;justify-content:space-between;gap:8px;margin-top:12px;}
+  .vcm-tech-img-wrap{padding:8px 20px 4px;}
+  .vcm-tech-img{display:block;width:100%;height:auto;border-radius:14px;}
   .vcm-tech-pending{padding:40px 20px;text-align:center;color:var(--muted);font-size:13px;font-weight:600;}
 
   .section-title{
@@ -7159,81 +7146,17 @@ function copyTennisMapPositions(seriesName){
     prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text);
   }
 }
-/* =============== TENNIS RACQUET SERIES TECHNOLOGY (per-series tech cards,
-   shown in the TECHNOLOGY tab of each series' SERIES MAP sheet) =============== */
-const TENNIS_RACQUET_TECH = {
-  VCORE: {
-    eyebrow:'RACKET TECHNOLOGY', title:'VCORE',
-    sub:'더 많은 회전, 더 빠른 스피드,<br>더 높은 일관성.',
-    techs:[
-      {kicker:'01', name:'LARGER<br>SWEET SPOT', desc:'스위트 스팟을 확장해<br>더 높은 일관성과 안정감을 제공합니다.', diagram:`<svg width="90" height="90" viewBox="0 0 90 90" fill="none">
-        <ellipse cx="45" cy="45" rx="26" ry="34" stroke="#111" stroke-width="1.4"/>
-        <g stroke="var(--red)" stroke-width="1" opacity=".55">
-          <line x1="30" y1="24" x2="30" y2="66"/><line x1="37" y1="18" x2="37" y2="72"/>
-          <line x1="45" y1="14" x2="45" y2="76"/><line x1="53" y1="18" x2="53" y2="72"/>
-          <line x1="60" y1="24" x2="60" y2="66"/>
-          <line x1="21" y1="34" x2="69" y2="34"/><line x1="19" y1="45" x2="71" y2="45"/>
-          <line x1="21" y1="56" x2="69" y2="56"/>
-        </g>
-        <circle cx="45" cy="45" r="9" fill="var(--red)" opacity=".18"/>
-        <g fill="var(--red)">
-          <path d="M45 6l-3 5h6z"/><path d="M45 84l-3-5h6z"/>
-          <path d="M8 45l5-3v6z"/><path d="M82 45l-5-3v6z"/>
-        </g>
-      </svg>`},
-      {kicker:'02', name:'MORE SNAP BACK,<br>MORE SPIN', desc:'스트링이 더 빠르게 원위치로 복귀해<br>강한 회전력을 만들어냅니다.', diagram:`<svg width="90" height="90" viewBox="0 0 90 90" fill="none">
-        <path d="M30 18 Q30 40 45 45 Q60 50 60 72" stroke="#111" stroke-width="1.2"/>
-        <path d="M60 18 Q60 40 45 45 Q30 50 30 72" stroke="var(--red)" stroke-width="1.2" stroke-dasharray="3 2"/>
-        <line x1="45" y1="15" x2="45" y2="75" stroke="#111" stroke-width="1"/>
-        <rect x="38" y="76" width="14" height="14" rx="2" transform="rotate(45 45 83)" stroke="#111" stroke-width="1.3"/>
-      </svg>`},
-      {kicker:'03', name:'SWING FASTER,<br>MORE SPIN', desc:'공기저항을 줄인 에어로 형상으로<br>더 빠른 스윙과 강한 회전을 지원합니다.', diagram:`<svg width="100" height="90" viewBox="0 0 100 90" fill="none">
-        <path d="M40 46c0-10 6-16 14-14 6 2 8 8 6 14-2 6-10 8-14 4-3-3-6-2-6-4z" stroke="#111" stroke-width="1.3"/>
-        <g stroke="var(--red)" stroke-width="1.1" fill="none">
-          <path d="M62 34c8 2 16 6 22 12"/>
-          <path d="M64 46c8 1 16 3 22 6"/>
-          <path d="M58 58c8 3 15 6 20 10"/>
-        </g>
-      </svg>`},
-      {kicker:'04', name:'SERVO FILTER', desc:'미세한 진동을 흡수하여<br>보다 부드럽고 정밀한 타구감을 제공합니다.', full:true, diagram:`
-        <svg width="120" height="60" viewBox="0 0 120 60" fill="none">
-          <path d="M0 30 Q10 8 20 30 T40 30 T60 30" stroke="#999" stroke-width="1"/>
-          <path d="M0 30 Q10 15 20 30 T40 30 T60 30" stroke="var(--red)" stroke-width="1.4"/>
-        </svg>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--red)"><path d="M0 8l14-6v12z"/></svg>
-        <svg width="120" height="60" viewBox="0 0 120 60" fill="none">
-          <path d="M0 30 Q10 24 20 30 T40 30 T60 30" stroke="#999" stroke-width="1"/>
-          <path d="M0 30 Q10 27 20 30 T40 30 T60 30" stroke="var(--red)" stroke-width="1.4"/>
-        </svg>`},
-    ]
-  },
-  PERCEPT: null,
-  EZONE: null,
-  ASTREL: null,
+/* =============== TENNIS RACQUET SERIES TECHNOLOGY (per-series infographic,
+   shown in the TECHNOLOGY tab of each series' SERIES MAP sheet). Each entry
+   is a self-contained mobile-width SVG page uploaded per series; its own
+   font-family was swapped to the site's Archivo stack to match tone. =============== */
+const TENNIS_RACQUET_TECH_IMG = {
+  VCORE: '../shared-images/vcore_mobile_tech.svg',
 };
 function tennisRacquetTechContentHtml(seriesName){
-  const t = TENNIS_RACQUET_TECH[seriesName];
-  if(!t) return `<div class="vcm-tech-pending">${seriesName} 라켓 테크놀로지 콘텐츠는 준비중입니다.</div>`;
-  return `
-    <div class="vcm-tech-head">
-      <div class="vcm-tech-eyebrow">${t.eyebrow}</div>
-      <h3 class="vcm-tech-title">${t.title}</h3>
-      <div class="vcm-tech-sub">${t.sub}</div>
-      <div class="vcm-tech-dash"></div>
-    </div>
-    <div class="vcm-tech-list">
-      ${t.techs.map(tech=>`
-        <div class="vcm-tech-card${tech.full?' vcm-tech-card-stack':''}">
-          <div class="vcm-tech-card-text">
-            <div class="vcm-tech-kicker">${tech.kicker}</div>
-            <div class="vcm-tech-name">${tech.name}</div>
-            <div class="vcm-tech-dash-sm"></div>
-            <div class="vcm-tech-desc">${tech.desc}</div>
-          </div>
-          <div class="vcm-tech-diagram${tech.full?' vcm-tech-diagram-full':''}">${tech.diagram}</div>
-        </div>`).join('')}
-    </div>
-  `;
+  const img = TENNIS_RACQUET_TECH_IMG[seriesName];
+  if(!img) return `<div class="vcm-tech-pending">${seriesName} 라켓 테크놀로지 콘텐츠는 준비중입니다.</div>`;
+  return `<div class="vcm-tech-img-wrap"><img class="vcm-tech-img" src="${img}" alt="${seriesName} 라켓 테크놀로지"></div>`;
 }
 function openTennisSeriesMapSheet(seriesName){
   const info = SERIES_INFO[seriesName];
