@@ -475,12 +475,12 @@
 
   /* ---------- MODAL ---------- */
   .overlay{
-    position:fixed;inset:0;background:rgba(8,15,35,.55);z-index:100;
+    position:fixed;inset:0;background-color:rgba(8,15,35,0);z-index:100;
     display:flex;align-items:flex-end;justify-content:center;
-    opacity:0;visibility:hidden;pointer-events:none;
-    transition:opacity .55s var(--ease),visibility 0s linear .55s;
+    visibility:hidden;pointer-events:none;
+    transition:background-color .55s var(--ease),visibility 0s linear .55s;
   }
-  .overlay.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .55s var(--ease);}
+  .overlay.open{background-color:rgba(8,15,35,.55);visibility:visible;pointer-events:auto;transition:background-color .55s var(--ease);}
   @media(min-width:720px){.overlay{align-items:center;}}
   .sheet{
     background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;
@@ -7543,11 +7543,14 @@ function getSheetY(sheet){
 function setSheetY(sheet, pos){
   sheet.style.transform = pos ? `translate3d(0,${pos}px,0)` : 'translate3d(0,0,0)';
 }
+function setOverlayDim(overlay, factor){
+  overlay.style.backgroundColor = factor==null ? '' : `rgba(8,15,35,${(0.55*factor).toFixed(3)})`;
+}
 function finishCloseSheetState(fromPopstate){
   const overlay = document.getElementById('overlay');
   const sheet = document.getElementById('sheet');
   overlay.classList.remove('open');
-  overlay.style.opacity = '';
+  setOverlayDim(overlay, null);
   overlay.style.transition = '';
   sheet.style.transform = '';
   sheet.style.willChange = '';
@@ -7573,7 +7576,7 @@ function animateSheetDismiss(velocity, onDone){
     from: currentY, to: dismissDistance + 40, velocity, damping: 1, response: 0.3,
     onUpdate:(pos)=>{
       setSheetY(sheet, pos);
-      overlay.style.opacity = String(Math.max(0, 1 - pos/dismissDistance));
+      setOverlayDim(overlay, Math.max(0, 1 - pos/dismissDistance));
     },
     onDone
   });
@@ -7590,13 +7593,13 @@ function animateSheetCancel(velocity){
     from: currentY, to: 0, velocity, damping: 1, response: 0.3,
     onUpdate:(pos)=>{
       setSheetY(sheet, pos);
-      overlay.style.opacity = '1';
+      setOverlayDim(overlay, 1);
     },
     onDone:()=>{
       sheet.style.transform = '';
       sheet.style.willChange = '';
       sheet.style.animation = '';
-      overlay.style.opacity = '';
+      setOverlayDim(overlay, null);
       overlay.style.transition = '';
     }
   });
@@ -8519,7 +8522,7 @@ document.getElementById('overlay').addEventListener('click', e=>{
     let delta = e.clientY - startY + startTransform;
     if(delta < 0) delta = -rubberband(-delta, 80, 0.55);
     setSheetY(sheet, delta);
-    overlay.style.opacity = String(Math.max(0.25, 1 - Math.max(delta,0)/dismissDistance));
+    setOverlayDim(overlay, Math.max(0.25, 1 - Math.max(delta,0)/dismissDistance));
     samples.push({t:performance.now(), y:e.clientY});
     if(samples.length>5) samples.shift();
   });
