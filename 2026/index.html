@@ -7570,7 +7570,7 @@ function animateSheetDismiss(velocity, onDone){
   sheet.style.animation = 'none';
   setSheetY(sheet, currentY);
   springAnimate({
-    from: currentY, to: dismissDistance + 40, velocity, damping: 0.8, response: 0.3,
+    from: currentY, to: dismissDistance + 40, velocity, damping: 1, response: 0.3,
     onUpdate:(pos)=>{
       setSheetY(sheet, pos);
       overlay.style.opacity = String(Math.max(0, 1 - pos/dismissDistance));
