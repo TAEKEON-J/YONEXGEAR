@@ -720,6 +720,10 @@
   /* RACQUET TECHNOLOGY — ISOMETRIC diagram (designer artwork) */
   .rg-iso-card{display:block;width:100%;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;}
   .rg-iso-svg{display:block;width:100%;height:auto;}
+
+  /* SHOE TECHNOLOGY (tennis) — full mobile infographic (designer artwork) */
+  .rg-shoe-tech-svg-wrap{padding:8px 20px 4px;}
+  .rg-shoe-tech-svg{display:block;width:100%;height:auto;border-radius:14px;}
   .rg-iso-text{padding:0 20px 22px;}
   .rg-iso-text-tt{padding-top:18px;}
   .rg-iso-full{font-size:12px;line-height:1.65;color:var(--ink);font-weight:600;text-align:left;margin:0 0 18px;}
@@ -3278,7 +3282,7 @@ const CATEGORY_HERO = {
     shoe: {
       img:'../shared-images/hero-tennis-shoes.jpg', title:'shoes', align:'left',
       desc:'첨단 기술과 높은 품질 기준으로 설계된<br>요넥스 테니스화는 뛰어난 성능과<br>안정성을 제공합니다.',
-      cta:'신발 보기', action:()=>racquetGuideScrollToResults(), hideCta:true
+      cta:'TECHNOLOGY', action:()=>openTennisShoeTechSheet()
     }
   }
 };
@@ -5611,6 +5615,34 @@ function openTennisTechSheet(){
 function tennisTechViewAll(){
   closeSheet();
   racquetGuideScrollToResults();
+}
+/* =============== TENNIS SHOE TECHNOLOGY (shared-images/tennis_shoe_tech_mobile.svg,
+   a self-contained mobile-width infographic covering all 4 tennis shoe series) =============== */
+function tennisShoeTechContentHtml(){
+  return `
+    <div class="rg-sheet">
+      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="rg-shoe-tech-svg-wrap">
+        <img class="rg-shoe-tech-svg" src="../shared-images/tennis_shoe_tech_mobile.svg" alt="테니스 신발 시리즈별 소재/기술 비교표">
+      </div>
+      <div class="rg-cta-wrap">
+        <button class="rg-cta" onclick="tennisTechViewAll()">전체 신발 보기 →</button>
+      </div>
+    </div>
+  `;
+}
+function openTennisShoeTechSheet(){
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  sheet.classList.remove('cmp-mode');
+  sheet.innerHTML = tennisShoeTechContentHtml();
+  openOverlayA11y();
+  if(!overlay.classList.contains('open')){
+    overlay.classList.add('open');
+    history.pushState({sheetOpen:true}, '', location.href);
+    sheetHistoryPushed = true;
+  }
+  focusSheetContent();
 }
 
 function initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY){
