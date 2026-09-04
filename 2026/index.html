@@ -277,8 +277,9 @@
     transition:opacity .15s ease;
   }
   @media (hover:hover) and (pointer:fine){ .ssh:hover .ssh-cta{opacity:.85;} }
-  .ssh-tennis{justify-content:flex-end;}
+  .ssh-tennis{justify-content:flex-start;}
   .ssh-tennis .ssh-cta{position:static;margin-top:10px;}
+  .ssh-tennis .ssh-dots{position:absolute;left:20px;bottom:16px;margin-top:0;}
   .ssh-dots{position:relative;z-index:1;display:flex;gap:6px;margin-top:12px;}
   .ssh-dot{width:6px;height:6px;border-radius:50%;background:rgba(10,10,10,.22);transition:background .15s ease,width .15s ease;}
   .ssh-dot.active{background:var(--ink);width:16px;border-radius:3px;}
@@ -1231,8 +1232,8 @@ function shoeSeriesHeroHtml(){
         <div class="ssh-body">
           <h2 class="ssh-title">${tInfo.title}</h2>
           <span class="ssh-cta">SERIES TECH <span>→</span></span>
-          ${tDotsHtml}
         </div>
+        ${tDotsHtml}
       </button>
     `;
   }
