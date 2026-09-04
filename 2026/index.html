@@ -305,6 +305,7 @@
   .ssh-tech-desc{font-size:12px;line-height:1.55;color:var(--ink);font-weight:500;}
 
   .smap-wrap{padding:0 0 26px;}
+  .smap-sticky-top{position:sticky;top:0;z-index:3;background:#fff;}
   .smap-head{
     display:flex;align-items:center;gap:10px;padding:16px 16px 4px;position:sticky;top:0;background:#fff;z-index:2;
   }
@@ -7175,12 +7176,14 @@ function openTennisSeriesMapSheet(seriesName, tab){
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
     <div class="smap-wrap">
-      <div class="smap-head">
-        <button onclick="closeSheet()" aria-label="뒤로">←</button>
-        <h2>${(info&&info.mapTitle)||seriesName+' SERIES'}</h2>
-        <button onclick="closeSheet()" aria-label="닫기">✕</button>
+      <div class="smap-sticky-top">
+        <div class="smap-head">
+          <button onclick="closeSheet()" aria-label="뒤로">←</button>
+          <h2>${(info&&info.mapTitle)||seriesName+' SERIES'}</h2>
+          <button onclick="closeSheet()" aria-label="닫기">✕</button>
+        </div>
+        ${tabsHtml}
       </div>
-      ${tabsHtml}
       <div class="smap-tab-body">${bodyHtml}</div>
     </div>
   `;
