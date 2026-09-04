@@ -1094,7 +1094,7 @@ const SERIES_INFO = {
     title: 'INITIATE A<br>RELENTLESS ATTACK',
     titleColor: '#ffdcc2',
     desc: '날카롭고 강력한 공격을 위한 라켓 시리즈',
-    mapTitle: 'ASTROX SERIES MAP',
+    mapTitle: 'ASTROX SERIES',
     mapColor: '#a33827',
   },
   ARCSABER: {
@@ -1103,7 +1103,7 @@ const SERIES_INFO = {
     title: 'MASTER<br>OF PRECISION',
     titleColor: '#eec2a0',
     desc: '향상된 컨트롤과 타구감으로 정교한 플레이를<br>완성하는 라켓 시리즈',
-    mapTitle: 'ARCSABER SERIES MAP',
+    mapTitle: 'ARCSABER SERIES',
     mapColor: '#a33827',
   },
   NANOFLARE: {
@@ -1112,7 +1112,7 @@ const SERIES_INFO = {
     title: 'MAXIMUM SHUTTLE<br>ACCELERATION',
     titleColor: '#c5e2d7',
     desc: '빠른 스윙과 뛰어난 기동성을 위한 헤드 라이트 라켓 시리즈',
-    mapTitle: 'NANOFLARE SERIES MAP',
+    mapTitle: 'NANOFLARE SERIES',
     mapColor: '#29806e',
   },
   VCORE: {
@@ -1121,7 +1121,7 @@ const SERIES_INFO = {
     title: 'SPIN OPERATOR',
     titleColor: '#f7cfc9',
     desc: '정밀한 스핀과 탁월한 컨트롤로<br>더욱 강력한 스윙을 완성하는 라켓 시리즈',
-    mapTitle: 'VCORE SERIES MAP',
+    mapTitle: 'VCORE SERIES',
     mapColor: '#c8102e',
   },
   PERCEPT: {
@@ -1130,7 +1130,7 @@ const SERIES_INFO = {
     title: 'PERCEIVE.<br>CONTROL. CREATE.',
     titleColor: '#c7bfe8',
     desc: '정확한 볼 타구와 섬세한 컨트롤을 통해<br>자신만의 플레이를 완성하는 라켓 시리즈',
-    mapTitle: 'PERCEPT SERIES MAP',
+    mapTitle: 'PERCEPT SERIES',
     mapColor: '#3d5ba9',
   },
   EZONE: {
@@ -1139,7 +1139,7 @@ const SERIES_INFO = {
     title: 'PLAYFULL<br>POWER',
     titleColor: '#a8dfc9',
     desc: '가장 넓은 유효 타구면과 부드러운 타구감으로<br>폭발적인 파워를 구현하는 라켓 시리즈',
-    mapTitle: 'EZONE SERIES MAP',
+    mapTitle: 'EZONE SERIES',
     mapColor: '#0d3f8a',
   },
   ASTREL: {
@@ -1148,7 +1148,7 @@ const SERIES_INFO = {
     title: 'PREMIUM<br>PERFORMANCE',
     titleColor: '#0a0e14',
     desc: '편안한 타구감과 부드러운 힘 전달로<br>파워 손실을 줄인 복식 플레이어용 라켓 시리즈',
-    mapTitle: 'ASTREL SERIES MAP',
+    mapTitle: 'ASTREL SERIES',
     mapColor: '#334155',
   },
 };
@@ -7172,7 +7172,7 @@ function openTennisSeriesMapSheet(seriesName, tab){
     <div class="smap-wrap">
       <div class="smap-head">
         <button onclick="closeSheet()" aria-label="뒤로">←</button>
-        <h2>${(info&&info.mapTitle)||seriesName+' SERIES MAP'}</h2>
+        <h2>${(info&&info.mapTitle)||seriesName+' SERIES'}</h2>
         <button onclick="closeSheet()" aria-label="닫기">✕</button>
       </div>
       ${tabsHtml}
