@@ -496,6 +496,13 @@
   @keyframes panelIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
   .sheet-head{display:none;}
   .sheet-floating-bar{position:sticky;top:0;height:0;z-index:6;}
+  .sheet::before{
+    content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);
+    width:36px;height:5px;border-radius:3px;
+    background:rgba(120,120,120,.55);box-shadow:0 0 0 1px rgba(255,255,255,.4);
+    z-index:7;pointer-events:none;
+  }
+  @media(prefers-reduced-motion:reduce){ .sheet::before{display:none;} }
   .x.floating{
     position:absolute;top:14px;right:14px;z-index:5;
     border:none;background:rgba(255,255,255,.9);color:var(--ink);width:34px;height:34px;border-radius:50%;
@@ -7490,16 +7497,100 @@ function closeOverlayA11y(){
   }
   sheetReturnFocusEl = null;
 }
-function closeSheet(fromPopstate){
-  clearTimeout(finderAdvanceTimer);
-  clearTimeout(stringFinderAdvanceTimer);
-  document.getElementById('overlay').classList.remove('open');
+/* ---- sheet drag-to-dismiss (Apple-style spring physics) ---- */
+const sheetReduceMotionMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+let sheetSpringToken = 0;
+function springAnimate({from, to, velocity=0, damping=1, response=0.3, onUpdate, onDone}){
+  const token = ++sheetSpringToken;
+  const stiffness = Math.pow(2*Math.PI/response, 2);
+  const dampingCoef = damping * 2 * Math.sqrt(stiffness);
+  let pos = from, vel = velocity, lastT = null;
+  function step(now){
+    if(token !== sheetSpringToken) return;
+    if(lastT===null) lastT = now;
+    const dt = Math.min((now-lastT)/1000, 1/30);
+    lastT = now;
+    const accel = -stiffness*(pos-to) - dampingCoef*vel;
+    vel += accel*dt;
+    pos += vel*dt;
+    const settled = Math.abs(pos-to) < 0.5 && Math.abs(vel) < 20;
+    if(settled){
+      onUpdate(to, 0);
+      onDone && onDone();
+      return;
+    }
+    onUpdate(pos, vel);
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function rubberband(overshoot, dimension, constant){
+  return (overshoot*dimension*constant)/(dimension+constant*Math.abs(overshoot));
+}
+function getSheetY(sheet){
+  const m = /translateY\(([-\d.]+)px\)/.exec(sheet.style.transform);
+  return m ? parseFloat(m[1]) : 0;
+}
+function finishCloseSheetState(fromPopstate){
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  overlay.classList.remove('open');
+  overlay.style.opacity = '';
+  overlay.style.transition = '';
+  sheet.style.transform = '';
+  sheet.style.willChange = '';
   closeOverlayA11y();
   if(sheetHistoryPushed && !fromPopstate){
     sheetHistoryPushed = false;
     history.back();
   } else {
     sheetHistoryPushed = false;
+  }
+}
+function animateSheetDismiss(velocity, onDone){
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  const currentY = getSheetY(sheet);
+  const dismissDistance = sheet.getBoundingClientRect().height || 400;
+  overlay.style.transition = 'none';
+  sheet.style.willChange = 'transform';
+  springAnimate({
+    from: currentY, to: dismissDistance + 40, velocity, damping: 0.8, response: 0.3,
+    onUpdate:(pos)=>{
+      sheet.style.transform = `translateY(${pos}px)`;
+      overlay.style.opacity = String(Math.max(0, 1 - pos/dismissDistance));
+    },
+    onDone
+  });
+}
+function animateSheetCancel(velocity){
+  const overlay = document.getElementById('overlay');
+  const sheet = document.getElementById('sheet');
+  const currentY = getSheetY(sheet);
+  overlay.style.transition = 'none';
+  sheet.style.willChange = 'transform';
+  springAnimate({
+    from: currentY, to: 0, velocity, damping: 1, response: 0.3,
+    onUpdate:(pos)=>{
+      sheet.style.transform = pos ? `translateY(${pos}px)` : '';
+      overlay.style.opacity = '1';
+    },
+    onDone:()=>{
+      sheet.style.willChange = '';
+      overlay.style.opacity = '';
+      overlay.style.transition = '';
+    }
+  });
+}
+function closeSheet(fromPopstate){
+  const overlay = document.getElementById('overlay');
+  if(!overlay.classList.contains('open')) return;
+  clearTimeout(finderAdvanceTimer);
+  clearTimeout(stringFinderAdvanceTimer);
+  if(fromPopstate || sheetReduceMotionMQ.matches){
+    finishCloseSheetState(fromPopstate);
+  } else {
+    animateSheetDismiss(0, ()=>finishCloseSheetState(false));
   }
 }
 
@@ -8351,6 +8442,63 @@ function stringFinderShowDetail(idx){
 document.getElementById('overlay').addEventListener('click', e=>{
   if(e.target.id==='overlay') closeSheet();
 });
+(function(){
+  const sheet = document.getElementById('sheet');
+  const HANDLE_H = 28, HANDLE_HALF_W = 70;
+  let dragging = false, startY = 0, startTransform = 0, samples = [], dismissDistance = 400;
+
+  function withinHandle(e){
+    const r = sheet.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    return y <= HANDLE_H && Math.abs(x - r.width/2) <= HANDLE_HALF_W;
+  }
+  function endDrag(){
+    if(!dragging) return;
+    dragging = false;
+    sheet.style.touchAction = '';
+    const currentDelta = getSheetY(sheet);
+    let velocity = 0;
+    if(samples.length>=2){
+      const a = samples[0], b = samples[samples.length-1];
+      const dt = (b.t-a.t)/1000;
+      if(dt>0) velocity = (b.y-a.y)/dt;
+    }
+    const shouldClose = currentDelta > dismissDistance*0.3 || velocity > 600;
+    if(shouldClose){
+      animateSheetDismiss(velocity, ()=>finishCloseSheetState(false));
+    } else {
+      animateSheetCancel(velocity);
+    }
+  }
+  sheet.addEventListener('pointerdown', e=>{
+    if(sheetReduceMotionMQ.matches) return;
+    if(e.pointerType==='mouse' && e.button!==0) return;
+    if(!withinHandle(e)) return;
+    e.preventDefault();
+    dragging = true;
+    sheetSpringToken++;
+    startY = e.clientY;
+    startTransform = getSheetY(sheet);
+    dismissDistance = sheet.getBoundingClientRect().height || 400;
+    samples = [{t:performance.now(), y:e.clientY}];
+    sheet.setPointerCapture(e.pointerId);
+    sheet.style.touchAction = 'none';
+    sheet.style.willChange = 'transform';
+    document.getElementById('overlay').style.transition = 'none';
+  });
+  sheet.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    e.preventDefault();
+    let delta = e.clientY - startY + startTransform;
+    if(delta < 0) delta = -rubberband(-delta, 80, 0.55);
+    sheet.style.transform = `translateY(${delta}px)`;
+    document.getElementById('overlay').style.opacity = String(Math.max(0.25, 1 - Math.max(delta,0)/dismissDistance));
+    samples.push({t:performance.now(), y:e.clientY});
+    if(samples.length>5) samples.shift();
+  });
+  sheet.addEventListener('pointerup', endDrag);
+  sheet.addEventListener('pointercancel', endDrag);
+})();
 window.addEventListener('popstate', ()=>{
   if(document.getElementById('overlay').classList.contains('open')) closeSheet(true);
 });
