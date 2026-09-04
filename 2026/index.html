@@ -504,6 +504,13 @@
     z-index:7;pointer-events:none;
   }
   @media(prefers-reduced-motion:reduce){ .sheet::before{display:none;} }
+  #sheetGrabZone{
+    position:fixed;display:none;
+    width:160px;height:44px;
+    left:50%;top:0;transform:translateX(-50%);
+    z-index:101;touch-action:none;background:transparent;
+  }
+  #sheetGrabZone.active{display:block;}
   .x.floating{
     position:absolute;top:14px;right:14px;z-index:5;
     border:none;background:rgba(255,255,255,.9);color:var(--ink);width:34px;height:34px;border-radius:50%;
@@ -1023,6 +1030,7 @@
 <div class="overlay" id="overlay">
   <div class="sheet" id="sheet" role="dialog" aria-modal="true" tabindex="-1"></div>
 </div>
+<div id="sheetGrabZone" aria-hidden="true"></div>
 
 <button id="adminBtn" onclick="openAdmin()"
   style="display:none;position:fixed;right:16px;bottom:16px;z-index:60;background:var(--navy);color:#fff;
@@ -7482,7 +7490,7 @@ function openOverlayA11y(){
   if(document.getElementById('overlay').classList.contains('open')) return;
   sheetReturnFocusEl = document.activeElement;
   Array.from(document.body.children).forEach(el=>{
-    if(el.id==='overlay') return;
+    if(el.id==='overlay' || el.id==='sheetGrabZone') return;
     el.setAttribute('inert','');
   });
 }
@@ -8451,18 +8459,26 @@ document.getElementById('overlay').addEventListener('click', e=>{
 });
 (function(){
   const sheet = document.getElementById('sheet');
-  const HANDLE_H = 28, HANDLE_HALF_W = 70;
+  const overlay = document.getElementById('overlay');
+  const zone = document.getElementById('sheetGrabZone');
   let dragging = false, startY = 0, startTransform = 0, samples = [], dismissDistance = 400;
 
-  function withinHandle(e){
+  function updateGrabZonePosition(){
+    if(!overlay.classList.contains('open')){ zone.classList.remove('active'); return; }
     const r = sheet.getBoundingClientRect();
-    const x = e.clientX - r.left, y = e.clientY - r.top;
-    return y <= HANDLE_H && Math.abs(x - r.width/2) <= HANDLE_HALF_W;
+    if(r.width===0){ zone.classList.remove('active'); return; }
+    zone.style.top = r.top + 'px';
+    zone.style.left = (r.left + r.width/2) + 'px';
+    zone.style.width = Math.min(220, r.width) + 'px';
+    zone.classList.add('active');
   }
+  new MutationObserver(updateGrabZonePosition).observe(overlay, {attributes:true, attributeFilter:['class']});
+  new MutationObserver(updateGrabZonePosition).observe(sheet, {childList:true});
+  window.addEventListener('resize', updateGrabZonePosition);
+
   function endDrag(){
     if(!dragging) return;
     dragging = false;
-    sheet.style.touchAction = '';
     const currentDelta = getSheetY(sheet);
     let velocity = 0;
     if(samples.length>=2){
@@ -8477,10 +8493,9 @@ document.getElementById('overlay').addEventListener('click', e=>{
       animateSheetCancel(velocity);
     }
   }
-  sheet.addEventListener('pointerdown', e=>{
+  zone.addEventListener('pointerdown', e=>{
     if(sheetReduceMotionMQ.matches) return;
     if(e.pointerType==='mouse' && e.button!==0) return;
-    if(!withinHandle(e)) return;
     e.preventDefault();
     dragging = true;
     sheetSpringToken++;
@@ -8488,24 +8503,23 @@ document.getElementById('overlay').addEventListener('click', e=>{
     startTransform = getSheetY(sheet);
     dismissDistance = sheet.getBoundingClientRect().height || 400;
     samples = [{t:performance.now(), y:e.clientY}];
-    sheet.setPointerCapture(e.pointerId);
-    sheet.style.touchAction = 'none';
+    zone.setPointerCapture(e.pointerId);
     sheet.style.willChange = 'transform';
     setSheetY(sheet, startTransform);
-    document.getElementById('overlay').style.transition = 'none';
+    overlay.style.transition = 'none';
   });
-  sheet.addEventListener('pointermove', e=>{
+  zone.addEventListener('pointermove', e=>{
     if(!dragging) return;
     e.preventDefault();
     let delta = e.clientY - startY + startTransform;
     if(delta < 0) delta = -rubberband(-delta, 80, 0.55);
     setSheetY(sheet, delta);
-    document.getElementById('overlay').style.opacity = String(Math.max(0.25, 1 - Math.max(delta,0)/dismissDistance));
+    overlay.style.opacity = String(Math.max(0.25, 1 - Math.max(delta,0)/dismissDistance));
     samples.push({t:performance.now(), y:e.clientY});
     if(samples.length>5) samples.shift();
   });
-  sheet.addEventListener('pointerup', endDrag);
-  sheet.addEventListener('pointercancel', endDrag);
+  zone.addEventListener('pointerup', endDrag);
+  zone.addEventListener('pointercancel', endDrag);
 })();
 window.addEventListener('popstate', ()=>{
   if(document.getElementById('overlay').classList.contains('open')) closeSheet(true);
