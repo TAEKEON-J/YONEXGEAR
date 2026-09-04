@@ -238,7 +238,6 @@
   .series-hero .sh-kicker{font-size:15px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-top:2px;color:#fff;}
   .series-hero .sh-title{font-size:clamp(18px,6.1vw,24px);font-weight:900;line-height:1.05;margin:6px 0 8px;letter-spacing:-.03em;white-space:nowrap;}
   .series-hero .sh-desc{font-size:13px;line-height:1.5;max-width:340px;margin-bottom:14px;}
-  .series-hero .sh-cta-row{display:flex;gap:8px;flex-wrap:wrap;}
   .series-hero .sh-cta{
     display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1d1d1f;font-weight:800;font-size:12px;
     border:none;border-radius:999px;padding:8px 15px;cursor:pointer;transition:opacity .15s ease,transform .1s ease;
@@ -314,6 +313,13 @@
     display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;
   }
   .smap-head h2{flex:1;text-align:center;font-size:14px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;margin:0;color:var(--ink);}
+  .smap-tabs{display:flex;gap:8px;padding:12px 16px 0;}
+  .smap-tabs button{
+    flex:1;border:1px solid var(--line);border-radius:999px;padding:10px 0;font-size:12.5px;font-weight:800;
+    letter-spacing:.02em;cursor:pointer;background:#fff;color:var(--ink);transition:opacity .15s ease;
+  }
+  .smap-tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .smap-tabs button:hover{opacity:.85;}
   .smap-svg{display:block;width:100%;height:auto;padding:8px 4px 4px;box-sizing:border-box;}
   .smap-svg .smap-bubble{cursor:pointer;}
   .smap-svg .smap-bubble circle{transition:r .15s ease;}
@@ -3045,17 +3051,12 @@ function renderSeriesInfoBlock(){
       : hasMapData ? `openSeriesMapSheet('${state.series}')` : 'racquetGuideScrollToResults()';
     const list = seriesListForCurrent();
     const dotsHtml = list.length>1 ? `<div class="sh-dots">${list.map(s=>`<span class="sh-dot ${s===state.series?'active':''}"></span>`).join('')}</div>` : '';
-    const hasTech = !!TENNIS_RACQUET_SERIES_TECH_SVG[state.series];
-    const techCta = hasTech ? `<button class="sh-cta" onclick="openTennisRacquetSeriesTechSheet('${state.series}')">SERIES TECH <span>→</span></button>` : '';
     el.innerHTML = `
       <div class="series-hero" style="background:${info.grad}" tabindex="0" role="group" aria-label="${info.kicker} 시리즈, 좌우로 스와이프하거나 화살표 키로 다른 시리즈 보기">
         <div class="sh-kicker">${info.kicker}</div>
         <h2 class="sh-title" style="color:${info.titleColor}">${info.title}</h2>
         <div class="sh-desc">${info.desc}</div>
-        <div class="sh-cta-row">
-          <button class="sh-cta" onclick="${cta}">SERIES MAP <span>→</span></button>
-          ${techCta}
-        </div>
+        <button class="sh-cta" onclick="${cta}">SERIES MAP <span>→</span></button>
         ${dotsHtml}
       </div>
     `;
@@ -5660,31 +5661,13 @@ function tennisRacquetSeriesTechContentHtml(seriesName){
   const src = TENNIS_RACQUET_SERIES_TECH_SVG[seriesName];
   if(!src) return '';
   return `
-    <div class="rg-sheet">
-      <button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button>
-      <div class="rg-shoe-tech-svg-wrap">
-        <img class="rg-shoe-tech-svg" src="${src}" alt="${seriesName} 시리즈 기술 소개">
-      </div>
-      <div class="rg-cta-wrap">
-        <button class="rg-cta" onclick="tennisTechViewAll()">전체 라켓 보기 →</button>
-      </div>
+    <div class="rg-shoe-tech-svg-wrap">
+      <img class="rg-shoe-tech-svg" src="${src}" alt="${seriesName} 시리즈 기술 소개">
+    </div>
+    <div class="rg-cta-wrap">
+      <button class="rg-cta" onclick="tennisTechViewAll()">전체 라켓 보기 →</button>
     </div>
   `;
-}
-function openTennisRacquetSeriesTechSheet(seriesName){
-  const html = tennisRacquetSeriesTechContentHtml(seriesName);
-  if(!html) return;
-  const overlay = document.getElementById('overlay');
-  const sheet = document.getElementById('sheet');
-  sheet.classList.remove('cmp-mode');
-  sheet.innerHTML = html;
-  openOverlayA11y();
-  if(!overlay.classList.contains('open')){
-    overlay.classList.add('open');
-    history.pushState({sheetOpen:true}, '', location.href);
-    sheetHistoryPushed = true;
-  }
-  focusSheetContent();
 }
 
 function initSeriesMapDrag(cx, cy, rx, ry, insetX, insetY){
@@ -7172,8 +7155,16 @@ function copyTennisMapPositions(seriesName){
     prompt('아래 내용을 복사해서 챗에 붙여넣어 주세요:', text);
   }
 }
-function openTennisSeriesMapSheet(seriesName){
+function openTennisSeriesMapSheet(seriesName, tab){
   const info = SERIES_INFO[seriesName];
+  const hasTech = !!TENNIS_RACQUET_SERIES_TECH_SVG[seriesName];
+  const activeTab = (hasTech && tab==='tech') ? 'tech' : 'map';
+  const tabsHtml = hasTech ? `
+    <div class="smap-tabs" role="tablist" aria-label="${seriesName} 보기 방식">
+      <button type="button" role="tab" aria-selected="${activeTab==='map'}" class="${activeTab==='map'?'active':''}" onclick="openTennisSeriesMapSheet('${seriesName}','map')">SERIES MAP</button>
+      <button type="button" role="tab" aria-selected="${activeTab==='tech'}" class="${activeTab==='tech'?'active':''}" onclick="openTennisSeriesMapSheet('${seriesName}','tech')">TECHNOLOGY</button>
+    </div>` : '';
+  const bodyHtml = activeTab==='tech' ? tennisRacquetSeriesTechContentHtml(seriesName) : tennisSeriesMapContentHtml(seriesName);
   const overlay = document.getElementById('overlay');
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
@@ -7184,7 +7175,8 @@ function openTennisSeriesMapSheet(seriesName){
         <h2>${(info&&info.mapTitle)||seriesName+' SERIES MAP'}</h2>
         <button onclick="closeSheet()" aria-label="닫기">✕</button>
       </div>
-      ${tennisSeriesMapContentHtml(seriesName)}
+      ${tabsHtml}
+      ${bodyHtml}
     </div>
   `;
   openOverlayA11y();
@@ -7193,7 +7185,7 @@ function openTennisSeriesMapSheet(seriesName){
     history.pushState({sheetOpen:true}, '', location.href);
     sheetHistoryPushed = true;
   }
-  if(new URLSearchParams(location.search).get('admin')==='1') initTennisMapDrag(seriesName);
+  if(activeTab==='map' && new URLSearchParams(location.search).get('admin')==='1') initTennisMapDrag(seriesName);
   focusSheetContent();
 }
 function seriesMapShowDetail(idx, seriesName, backKind){
