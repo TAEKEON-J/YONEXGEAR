@@ -7551,6 +7551,7 @@ function finishCloseSheetState(fromPopstate){
   overlay.style.transition = '';
   sheet.style.transform = '';
   sheet.style.willChange = '';
+  sheet.style.animation = '';
   closeOverlayA11y();
   if(sheetHistoryPushed && !fromPopstate){
     sheetHistoryPushed = false;
@@ -7566,6 +7567,7 @@ function animateSheetDismiss(velocity, onDone){
   const dismissDistance = sheet.getBoundingClientRect().height || 400;
   overlay.style.transition = 'none';
   sheet.style.willChange = 'transform';
+  sheet.style.animation = 'none';
   setSheetY(sheet, currentY);
   springAnimate({
     from: currentY, to: dismissDistance + 40, velocity, damping: 0.8, response: 0.3,
@@ -7582,6 +7584,7 @@ function animateSheetCancel(velocity){
   const currentY = getSheetY(sheet);
   overlay.style.transition = 'none';
   sheet.style.willChange = 'transform';
+  sheet.style.animation = 'none';
   setSheetY(sheet, currentY);
   springAnimate({
     from: currentY, to: 0, velocity, damping: 1, response: 0.3,
@@ -7592,6 +7595,7 @@ function animateSheetCancel(velocity){
     onDone:()=>{
       sheet.style.transform = '';
       sheet.style.willChange = '';
+      sheet.style.animation = '';
       overlay.style.opacity = '';
       overlay.style.transition = '';
     }
@@ -8505,6 +8509,7 @@ document.getElementById('overlay').addEventListener('click', e=>{
     samples = [{t:performance.now(), y:e.clientY}];
     zone.setPointerCapture(e.pointerId);
     sheet.style.willChange = 'transform';
+    sheet.style.animation = 'none';
     setSheetY(sheet, startTransform);
     overlay.style.transition = 'none';
   });
