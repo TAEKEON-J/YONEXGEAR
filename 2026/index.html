@@ -485,6 +485,7 @@
   .sheet{
     background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;
     max-height:88vh;overflow-y:auto;overscroll-behavior-y:contain;padding:0 0 24px;position:relative;
+    -webkit-backface-visibility:hidden;backface-visibility:hidden;
     animation:up .45s var(--ease);
   }
   @media(min-width:720px){.sheet{border-radius:20px;max-height:80vh;}}
@@ -7528,8 +7529,11 @@ function rubberband(overshoot, dimension, constant){
   return (overshoot*dimension*constant)/(dimension+constant*Math.abs(overshoot));
 }
 function getSheetY(sheet){
-  const m = /translateY\(([-\d.]+)px\)/.exec(sheet.style.transform);
+  const m = /translate3d\(0,\s*([-\d.]+)px,\s*0\)/.exec(sheet.style.transform);
   return m ? parseFloat(m[1]) : 0;
+}
+function setSheetY(sheet, pos){
+  sheet.style.transform = pos ? `translate3d(0,${pos}px,0)` : 'translate3d(0,0,0)';
 }
 function finishCloseSheetState(fromPopstate){
   const overlay = document.getElementById('overlay');
@@ -7554,10 +7558,11 @@ function animateSheetDismiss(velocity, onDone){
   const dismissDistance = sheet.getBoundingClientRect().height || 400;
   overlay.style.transition = 'none';
   sheet.style.willChange = 'transform';
+  setSheetY(sheet, currentY);
   springAnimate({
     from: currentY, to: dismissDistance + 40, velocity, damping: 0.8, response: 0.3,
     onUpdate:(pos)=>{
-      sheet.style.transform = `translateY(${pos}px)`;
+      setSheetY(sheet, pos);
       overlay.style.opacity = String(Math.max(0, 1 - pos/dismissDistance));
     },
     onDone
@@ -7569,13 +7574,15 @@ function animateSheetCancel(velocity){
   const currentY = getSheetY(sheet);
   overlay.style.transition = 'none';
   sheet.style.willChange = 'transform';
+  setSheetY(sheet, currentY);
   springAnimate({
     from: currentY, to: 0, velocity, damping: 1, response: 0.3,
     onUpdate:(pos)=>{
-      sheet.style.transform = pos ? `translateY(${pos}px)` : '';
+      setSheetY(sheet, pos);
       overlay.style.opacity = '1';
     },
     onDone:()=>{
+      sheet.style.transform = '';
       sheet.style.willChange = '';
       overlay.style.opacity = '';
       overlay.style.transition = '';
@@ -8484,6 +8491,7 @@ document.getElementById('overlay').addEventListener('click', e=>{
     sheet.setPointerCapture(e.pointerId);
     sheet.style.touchAction = 'none';
     sheet.style.willChange = 'transform';
+    setSheetY(sheet, startTransform);
     document.getElementById('overlay').style.transition = 'none';
   });
   sheet.addEventListener('pointermove', e=>{
@@ -8491,7 +8499,7 @@ document.getElementById('overlay').addEventListener('click', e=>{
     e.preventDefault();
     let delta = e.clientY - startY + startTransform;
     if(delta < 0) delta = -rubberband(-delta, 80, 0.55);
-    sheet.style.transform = `translateY(${delta}px)`;
+    setSheetY(sheet, delta);
     document.getElementById('overlay').style.opacity = String(Math.max(0.25, 1 - Math.max(delta,0)/dismissDistance));
     samples.push({t:performance.now(), y:e.clientY});
     if(samples.length>5) samples.shift();
