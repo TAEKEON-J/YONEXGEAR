@@ -606,6 +606,7 @@
     transition:opacity .16s var(--ease-icon),transform .16s var(--ease-icon);
   }
   #recoPopover.pop-open{opacity:1;transform:scale(1);}
+  .rp-close{background:none;border:none;padding:0;font-family:inherit;}
   #recoPopover .rp-close{position:absolute;top:12px;right:14px;color:var(--muted);font-size:var(--fs-13);cursor:pointer;}
   #recoPopover .rp-title{
     font-size:var(--fs-10);font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;
@@ -870,6 +871,7 @@
     width:14px;height:14px;margin-left:2px;border-radius:50%;
     background:#eaf1ff;color:var(--blue);font-size:var(--fs-10);font-weight:800;
     cursor:pointer;vertical-align:middle;line-height:1;
+    border:none;padding:0;font-family:inherit;
   }
   #techPopover{
     position:fixed;z-index:200;max-width:260px;background:var(--navy-deep);color:#fff;
@@ -881,6 +883,7 @@
   #techPopover.pop-open{opacity:1;transform:scale(1);}
   #techPopover .tp-title{font-weight:800;font-size:var(--fs-12-5);margin-bottom:4px;color:#8ec6ff;}
   #techPopover .tp-close{
+    background:none;border:none;padding:0;font-family:inherit;
     position:absolute;top:6px;right:8px;color:#9fb3d9;font-size:var(--fs-12);cursor:pointer;
   }
 
@@ -1028,12 +1031,12 @@
   <div class="sheet" id="adminSheet"></div>
 </div>
 
-<div id="techPopover"><span class="tp-close" onclick="closeTechPopover()">✕</span><div class="tp-title" id="techPopoverTitle"></div><div id="techPopoverDesc"></div></div>
-<div id="recoPopover"><span class="rp-close" onclick="closeRecoPopover()">✕</span><div class="rp-title">추천 스트링</div><div id="recoPopoverBody"></div></div>
+<div id="techPopover"><button type="button" class="tp-close" onclick="closeTechPopover()" aria-label="닫기">✕</button><div class="tp-title" id="techPopoverTitle"></div><div id="techPopoverDesc"></div></div>
+<div id="recoPopover"><button type="button" class="rp-close" onclick="closeRecoPopover()" aria-label="닫기">✕</button><div class="rp-title">추천 스트링</div><div id="recoPopoverBody"></div></div>
 <div id="cmpAddPopover">
   <div class="cmp-add-header">
     <input type="text" id="cmpAddSearch" placeholder="상품 검색..." oninput="filterCmpAddList()">
-    <span class="rp-close" onclick="closeCmpAddPopover()">✕</span>
+    <button type="button" class="rp-close" onclick="closeCmpAddPopover()" aria-label="닫기">✕</button>
   </div>
   <div id="cmpAddList" class="cmp-add-list"></div>
 </div>
@@ -2506,7 +2509,7 @@ function openAdmin(){
   sheet.innerHTML = `
     <div class="sheet-head">
       <div style="font-weight:800;font-size:16px;">🔗📷 링크 & 이미지 일괄 등록</div>
-      <button class="x" onclick="closeAdmin()">✕</button>
+      <button class="x" onclick="closeAdmin()" aria-label="닫기">✕</button>
     </div>
     <div class="sheet-body">
       <div class="desc" style="margin-bottom:10px;">
@@ -2692,7 +2695,7 @@ function annotateTech(text){
       re.lastIndex = 0;
       while((m = re.exec(seg.text))){
         if(m.index > lastIndex) out.push({text:seg.text.slice(lastIndex, m.index), isTag:false});
-        out.push({isTag:true, html:`<span class="tech-term">${m[0]}</span><span class="tech-info" data-tech="${idx}" onclick="showTechPopover(event,${idx})">i</span>`});
+        out.push({isTag:true, html:`<span class="tech-term">${m[0]}</span><button type="button" class="tech-info" data-tech="${idx}" onclick="showTechPopover(event,${idx})" aria-label="용어 설명 보기">i</button>`});
         lastIndex = m.index + m[0].length;
         if(re.lastIndex === m.index) re.lastIndex++;
       }
@@ -2707,6 +2710,7 @@ function showTechPopover(evt, idx){
   evt.stopPropagation();
   const entry = TECH_GLOSSARY[idx];
   const pop = document.getElementById('techPopover');
+  pop._returnFocus = evt.target;
   document.getElementById('techPopoverTitle').textContent = entry.label;
   document.getElementById('techPopoverDesc').textContent = entry.desc;
   const rect = evt.target.getBoundingClientRect();
@@ -2722,11 +2726,14 @@ function showTechPopover(evt, idx){
   pop.style.display = 'block';
   void pop.offsetHeight;
   pop.classList.add('pop-open');
+  pop.querySelector('.tp-close').focus();
 }
 function closeTechPopover(){
   const pop = document.getElementById('techPopover');
   pop.classList.remove('pop-open');
   setTimeout(()=>{ pop.style.display = 'none'; }, 160);
+  if(pop._returnFocus && document.body.contains(pop._returnFocus)) pop._returnFocus.focus({preventScroll:true});
+  pop._returnFocus = null;
 }
 function shareCatalog(){
   const url = window.location.href;
@@ -7232,7 +7239,7 @@ function seriesMapShowDetail(idx, seriesName, backKind){
     ? `<div class="sheet-floating-bar"><button class="back floating" onclick="openTennisSeriesMapSheet('${seriesName}')">← SERIES MAP</button></div>`
     : `<div class="sheet-floating-bar"><button class="back floating" onclick="openSeriesMapSheet('${seriesName}')">← SERIES MAP</button></div>`;
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     ${backBtn}
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
@@ -7407,7 +7414,7 @@ function openSheet(p){
   const perfHtml = stringPerfInfographicHtml(p);
   const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
     <div class="sheet-body">
@@ -7474,8 +7481,9 @@ let sheetReturnFocusEl = null;
 function openOverlayA11y(){
   if(document.getElementById('overlay').classList.contains('open')) return;
   sheetReturnFocusEl = document.activeElement;
+  const exempt = ['overlay','techPopover','recoPopover','cmpAddPopover'];
   Array.from(document.body.children).forEach(el=>{
-    if(el.id==='overlay') return;
+    if(exempt.includes(el.id)) return;
     el.setAttribute('inert','');
   });
 }
@@ -7748,7 +7756,7 @@ function openCompareSheet(){
   `).join('');
 
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <div class="cmp-wrap">
       <div class="cmp-header">
         <h2>제품 비교</h2>
@@ -7943,7 +7951,7 @@ function renderFinderStep(){
       <span class="fo-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
     </div>`).join('');
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <div class="finder-wrap">
       <div class="finder-progress">${progress}</div>
       <div class="finder-step-label">STEP ${finderState.step+1} / ${FINDER_STEPS.length}</div>
@@ -8002,7 +8010,7 @@ function renderFinderResults(){
   const cards = top3.map(cardHtml).join('');
   const restCards = rest.map((r,i)=>cardHtml(r,i+3)).join('');
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <button class="prev floating" onclick="finderResultsBack()">← 이전</button>
     <div class="finder-wrap finder-results">
       <h2>당신에게 맞는 라켓 TOP ${top3.length}</h2>
@@ -8025,7 +8033,7 @@ function finderShowDetail(idx){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <div class="sheet-floating-bar"><button class="back floating" onclick="renderFinderResults()">← 진단 결과</button></div>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
@@ -8104,6 +8112,7 @@ function showRecoPopover(evt, idx){
   evt.stopPropagation();
   const p = P[idx];
   const pop = document.getElementById('recoPopover');
+  pop._returnFocus = evt.target;
   const groups = Object.entries(p.reco).map(([label, names])=>{
     const items = names.map(name=>{
       const sp = P.find(x=>x.c==='bad' && x.s==='string' && x.name===name);
@@ -8143,11 +8152,14 @@ function showRecoPopover(evt, idx){
   pop.style.transformOrigin = origin;
   pop.style.display = 'block';
   pop.classList.add('pop-open');
+  pop.querySelector('.rp-close').focus();
 }
 function closeRecoPopover(){
   const pop = document.getElementById('recoPopover');
   pop.classList.remove('pop-open');
   setTimeout(()=>{ pop.style.display = 'none'; }, 160);
+  if(pop._returnFocus && document.body.contains(pop._returnFocus)) pop._returnFocus.focus({preventScroll:true});
+  pop._returnFocus = null;
 }
 document.addEventListener('click', (e)=>{
   const pop = document.getElementById('recoPopover');
@@ -8158,6 +8170,7 @@ document.addEventListener('click', (e)=>{
 function showCmpAddPopover(evt){
   evt.stopPropagation();
   const pop = document.getElementById('cmpAddPopover');
+  pop._returnFocus = evt.target;
   document.getElementById('cmpAddSearch').value = '';
   renderCmpAddList('');
   const rect = evt.target.getBoundingClientRect();
@@ -8181,6 +8194,8 @@ function closeCmpAddPopover(){
   const pop = document.getElementById('cmpAddPopover');
   pop.classList.remove('pop-open');
   setTimeout(()=>{ pop.style.display = 'none'; }, 160);
+  if(pop._returnFocus && document.body.contains(pop._returnFocus)) pop._returnFocus.focus({preventScroll:true});
+  pop._returnFocus = null;
 }
 function renderCmpAddList(q){
   const list = document.getElementById('cmpAddList');
@@ -8245,7 +8260,7 @@ function renderStringFinderStep(){
       <span class="fo-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
     </div>`).join('');
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <div class="finder-wrap">
       <div class="finder-progress">${progress}</div>
       <div class="finder-step-label">STEP ${stringFinderState.step+1} / ${STRING_FINDER_STEPS.length}</div>
@@ -8304,7 +8319,7 @@ function renderStringFinderResults(){
   const cards = top3.map(cardHtml).join('');
   const restCards = rest.map((r,i)=>cardHtml(r,i+3)).join('');
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <button class="prev floating" onclick="stringFinderResultsBack()">← 이전</button>
     <div class="finder-wrap finder-results">
       <h2>당신에게 맞는 스트링 TOP ${top3.length}</h2>
@@ -8327,7 +8342,7 @@ function stringFinderShowDetail(idx){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
-    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <div class="sheet-floating-bar"><button class="back floating" onclick="renderStringFinderResults()">← 진단 결과</button></div>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
     ${galleryStripHtml(p)}
@@ -8356,7 +8371,11 @@ window.addEventListener('popstate', ()=>{
   if(document.getElementById('overlay').classList.contains('open')) closeSheet(true);
 });
 document.addEventListener('keydown', e=>{
-  if(e.key==='Escape' && document.getElementById('overlay').classList.contains('open')) closeSheet();
+  if(e.key!=='Escape') return;
+  if(document.getElementById('techPopover').classList.contains('pop-open')){ closeTechPopover(); return; }
+  if(document.getElementById('recoPopover').classList.contains('pop-open')){ closeRecoPopover(); return; }
+  if(document.getElementById('cmpAddPopover').classList.contains('pop-open')){ closeCmpAddPopover(); return; }
+  if(document.getElementById('overlay').classList.contains('open')){ closeSheet(); return; }
 });
 
 document.getElementById('searchInput').addEventListener('input', e=>{
