@@ -896,7 +896,12 @@
     background:#eaf1ff;color:var(--blue);font-size:var(--fs-10);font-weight:800;
     cursor:pointer;vertical-align:middle;line-height:1;
     border:none;padding:0;font-family:inherit;transition:transform .1s ease;
+    position:relative;
   }
+  /* the visible circle is 14px, well under the ~24px minimum comfortable tap
+     target; expand the invisible hit area without affecting layout or the
+     table's tight line spacing */
+  .tech-info::before{ content:''; position:absolute; inset:-7px; }
   .tech-info:active{transform:scale(.85);}
   #techPopover{
     position:fixed;z-index:200;max-width:260px;background:var(--navy-deep);color:#fff;
