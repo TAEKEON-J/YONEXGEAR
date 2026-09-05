@@ -498,7 +498,11 @@
     position:fixed;inset:0;background:rgba(8,15,35,.55);z-index:100;
     display:flex;align-items:flex-end;justify-content:center;
     opacity:0;visibility:hidden;pointer-events:none;
-    transition:opacity .55s var(--ease),visibility 0s linear .55s;
+    /* closing fades out much faster than opening: the old sheet content is
+       still in the DOM during the fade, so a slow close leaves it visibly
+       double-exposed against the page underneath - a long fade reads as a
+       flicker/ghost rather than a smooth dismiss */
+    transition:opacity .22s ease-out,visibility 0s linear .22s;
   }
   .overlay.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .55s var(--ease);}
   @media(min-width:720px){.overlay{align-items:center;}}
