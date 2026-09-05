@@ -878,7 +878,7 @@
     display:block;width:100%;margin-top:8px;padding:12px;border-radius:10px;border:1.5px solid var(--line);
     background:#fff;color:var(--muted);font-weight:700;font-size:var(--fs-13);cursor:pointer;
   }
-  .fr-section-divider{margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line);}
+  .fr-section-divider{margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line);font-size:var(--fs-12);font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;}
 
   footer{
     text-align:center;color:var(--muted);font-size:var(--fs-11-5);padding:30px 16px 56px;
@@ -8058,7 +8058,7 @@ function renderFinderResults(){
       <h2>당신에게 맞는 라켓 TOP ${top3.length}</h2>
       <p class="fr-sub">${finderState.level} · ${finderState.style} · ${finderState.want} 선호 · ${finderState.weight} 라켓 기준 추천</p>
       ${cards || '<p style="color:var(--muted);font-size:13px;">조건에 맞는 라켓을 찾지 못했어요.</p>'}
-      ${restCards ? `<div class="fr-section-divider"></div>${restCards}` : ''}
+      ${restCards ? `<div class="fr-section-divider">이런 라켓도 잘 맞아요</div>${restCards}` : ''}
       <button class="finder-restart" onclick="openFinderSheet()">다시 진단하기</button>
     </div>
   `;
@@ -8367,7 +8367,7 @@ function renderStringFinderResults(){
       <h2>당신에게 맞는 스트링 TOP ${top3.length}</h2>
       <p class="fr-sub">${stringFinderState.primary} 우선 · ${stringFinderState.secondary} 다음 · ${stringFinderState.gauge} 굵기 기준 추천</p>
       ${cards || '<p style="color:var(--muted);font-size:13px;">조건에 맞는 스트링을 찾지 못했어요.</p>'}
-      ${restCards ? `<div class="fr-section-divider"></div>${restCards}` : ''}
+      ${restCards ? `<div class="fr-section-divider">이런 스트링도 잘 맞아요</div>${restCards}` : ''}
       <button class="finder-restart" onclick="openStringFinderSheet()">다시 진단하기</button>
     </div>
   `;
