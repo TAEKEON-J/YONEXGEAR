@@ -7508,6 +7508,10 @@ function openOverlayA11y(){
     if(exempt.includes(el.id)) return;
     el.setAttribute('inert','');
   });
+  // inert blocks clicks/focus on the background but not touch-scroll, so a swipe
+  // on the dimmed backdrop would otherwise scroll the page behind the sheet
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
 }
 function focusSheetContent(){
   setTimeout(()=>{
@@ -7519,6 +7523,8 @@ function focusSheetContent(){
 }
 function closeOverlayA11y(){
   Array.from(document.body.children).forEach(el=> el.removeAttribute('inert'));
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
   if(sheetReturnFocusEl && document.body.contains(sheetReturnFocusEl)){
     sheetReturnFocusEl.focus({preventScroll:true});
   }
