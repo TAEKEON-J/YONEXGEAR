@@ -102,6 +102,17 @@
   }
   .hero-cats button:not(:first-child)::before{content:'·';margin:0 10px;color:rgba(255,255,255,.35);font-weight:400;}
   .hero-cats button:hover{color:#fff;}
+  /* on short viewports (phone landscape) the bottom-anchored text stack is taller
+     than the available height, clipping the top badge off-screen with no way to
+     scroll to it; tighten spacing so everything fits */
+  @media(max-height:500px){
+    .hero{ padding:18px 26px 22px; }
+    .hero-badge-row{ margin-bottom:6px; }
+    .hero-title{ margin:2px 0 10px; }
+    .hero-sub{ margin-top:8px; }
+    .hero-stats{ margin-bottom:14px; }
+    .hero-cta{ margin-bottom:12px; }
+  }
   @media print{ .hero{display:none !important;} }
 
   @keyframes heroTextIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
