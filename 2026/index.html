@@ -7431,17 +7431,99 @@ function swipeHeroImage(dir){
   const thumbs = document.querySelectorAll('.gallery-thumb');
   setHeroImage(heroGalleryImgs[heroGalleryIdx], thumbs[heroGalleryIdx], heroGalleryIdx);
 }
-let heroTouchStartX = null;
+let heroTouchStartX = null, heroTouchStartY = null;
 document.addEventListener('touchstart', (e)=>{
-  heroTouchStartX = e.target.closest('.sheet-hero') ? e.touches[0].clientX : null;
+  const onHero = e.target.closest('.sheet-hero');
+  heroTouchStartX = onHero ? e.touches[0].clientX : null;
+  heroTouchStartY = onHero ? e.touches[0].clientY : null;
 }, {passive:true});
 document.addEventListener('touchend', (e)=>{
   if(heroTouchStartX===null) return;
   const dx = e.changedTouches[0].clientX - heroTouchStartX;
-  heroTouchStartX = null;
-  if(Math.abs(dx) < 40) return;
+  const dy = e.changedTouches[0].clientY - heroTouchStartY;
+  heroTouchStartX = null; heroTouchStartY = null;
+  if(Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
   swipeHeroImage(dx < 0 ? 1 : -1);
 }, {passive:true});
+
+/* ---- sheet drag-to-dismiss (touch only; from the very top of the sheet's
+   own scroll, so it never fights normal scrolling) ---- */
+(function initSheetDragToDismiss(){
+  const sheet = document.getElementById('sheet');
+  const overlay = document.getElementById('overlay');
+  const COMMIT_PX = 8;       // movement before we commit to a drag (vs a tap)
+  const DISMISS_PX = 120;    // distance past which we dismiss regardless of speed
+  const DISMISS_VELOCITY = 0.35; // px/ms - a quick flick dismisses even if short
+  let tracking = false, dragging = false;
+  let startX = 0, startY = 0, currentY = 0;
+  let lastT = 0, lastY = 0, peakVelocity = 0; // peak, not last-instant: a natural
+                                               // slight slow-down right at lift-off
+                                               // shouldn't hide a real flick
+
+  function reset(){ tracking = false; dragging = false; currentY = 0; peakVelocity = 0; }
+
+  function cleanupInlineStyle(){
+    sheet.style.transition = '';
+    sheet.style.transform = '';
+    sheet.style.willChange = '';
+  }
+
+  sheet.addEventListener('touchstart', (e)=>{
+    if(!overlay.classList.contains('open')) return;
+    if(e.touches.length !== 1) return;
+    if(sheet.scrollTop > 0) return;
+    // don't hijack taps on interactive controls, even if the finger wobbles
+    if(e.target.closest('button, a, input, textarea, select, [role="button"], [contenteditable]')) return;
+    tracking = true; dragging = false;
+    const t = e.touches[0];
+    startX = t.clientX; startY = t.clientY;
+    lastT = e.timeStamp; lastY = t.clientY;
+  }, {passive:true});
+
+  sheet.addEventListener('touchmove', (e)=>{
+    if(!tracking) return;
+    const t = e.touches[0];
+    const dy = t.clientY - startY;
+    const dx = t.clientX - startX;
+    if(!dragging){
+      if(Math.abs(dy) < COMMIT_PX && Math.abs(dx) < COMMIT_PX) return;
+      if(dy <= 0 || Math.abs(dx) > Math.abs(dy)){ reset(); return; } // upward/horizontal: not ours
+      dragging = true;
+      sheet.style.willChange = 'transform';
+      sheet.style.transition = 'none';
+    }
+    e.preventDefault();
+    const dt = e.timeStamp - lastT;
+    if(dt > 0) peakVelocity = Math.max(peakVelocity, (t.clientY - lastY) / dt);
+    lastT = e.timeStamp; lastY = t.clientY;
+    currentY = Math.max(0, dy);
+    sheet.style.transform = `translate3d(0,${currentY}px,0)`;
+  }, {passive:false});
+
+  function finishDrag(){
+    if(!tracking){ return; }
+    if(!dragging){ reset(); return; }
+    const shouldDismiss = currentY > DISMISS_PX || peakVelocity > DISMISS_VELOCITY;
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion){
+      cleanupInlineStyle();
+    } else {
+      sheet.style.transition = `transform ${shouldDismiss ? '.22s' : '.28s'} cubic-bezier(.32,.72,0,1)`;
+      sheet.style.transform = shouldDismiss ? 'translate3d(0,100%,0)' : 'translate3d(0,0,0)';
+      const onEnd = (ev)=>{
+        if(ev.propertyName !== 'transform') return;
+        sheet.removeEventListener('transitionend', onEnd);
+        cleanupInlineStyle();
+      };
+      sheet.addEventListener('transitionend', onEnd);
+    }
+    if(shouldDismiss) closeSheet(); // fires concurrently with the slide-out
+    reset();
+  }
+
+  sheet.addEventListener('touchend', finishDrag, {passive:true});
+  sheet.addEventListener('touchcancel', finishDrag, {passive:true});
+})();
 function openSheet(p){
   const overlay = document.getElementById('overlay');
   const sheet = document.getElementById('sheet');
