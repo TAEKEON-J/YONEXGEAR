@@ -7424,7 +7424,6 @@ function openSheet(p){
   sheet.classList.remove('cmp-mode');
   setHeroGallery(p);
   const perfHtml = stringPerfInfographicHtml(p);
-  const rows = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
   sheet.innerHTML = `
     <div class="sheet-floating-bar"><button class="x floating" onclick="closeSheet()" aria-label="닫기">✕</button></div>
     <div class="sheet-hero" style="background:${p.grad};overflow:hidden;">${sheetHeroContent(p)}</div>
@@ -7436,7 +7435,7 @@ function openSheet(p){
       <div class="desc">${p.desc}</div>
       <div class="sheet-reveal-2">
         ${perfHtml}
-        <table class="specs">${rows}</table>
+        <table class="specs"></table>
         ${detailImgHtml(p)}
         ${machineFeaturesHtml(p)}
         <div class="tags">${(p.tags||[]).map(t=>`<span>#${t}</span>`).join('')}</div>
@@ -7449,6 +7448,13 @@ function openSheet(p){
   history.pushState({sheetOpen:true}, '', location.href);
   sheetHistoryPushed = true;
   focusSheetContent();
+  // spec table layout is expensive (multi-pass table algorithm); build it after
+  // the sheet has already painted so the tap-to-open feels instant
+  requestAnimationFrame(()=>{
+    const table = sheet.querySelector('.specs');
+    if(!table) return;
+    table.innerHTML = Object.entries(p.specs).filter(([k])=> !(perfHtml && k==='성능')).map(([k,v])=>`<tr><td>${specLabelHtml(k)}</td><td>${(p.c==='acc'||k==='색상') ? String(v) : annotateTech(String(v))}</td></tr>`).join('');
+  });
   if(perfHtml){
     setTimeout(()=>{
       sheet.querySelectorAll('.perf-bar-fill').forEach(el=>{ el.style.transform = 'scaleX(' + (el.dataset.pct/100) + ')'; });
@@ -7500,9 +7506,12 @@ function openOverlayA11y(){
   });
 }
 function focusSheetContent(){
-  const sheet = document.getElementById('sheet');
-  const target = sheet.querySelector('[aria-label="닫기"], .x.floating, .back.floating, button, a, input, [tabindex]');
-  (target || sheet).focus({preventScroll:true});
+  setTimeout(()=>{
+    const sheet = document.getElementById('sheet');
+    if(!sheet) return;
+    const target = sheet.querySelector('[aria-label="닫기"], .x.floating, .back.floating, button, a, input, [tabindex]');
+    (target || sheet).focus({preventScroll:true});
+  }, 0);
 }
 function closeOverlayA11y(){
   Array.from(document.body.children).forEach(el=> el.removeAttribute('inert'));
