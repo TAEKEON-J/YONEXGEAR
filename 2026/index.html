@@ -510,22 +510,29 @@
 
   /* ---------- MODAL ---------- */
   .overlay{
-    position:fixed;inset:0;background:rgba(8,15,35,.55);z-index:100;
+    position:fixed;inset:0;background:rgba(8,15,35,0);z-index:100;
     display:flex;align-items:flex-end;justify-content:center;
-    opacity:0;visibility:hidden;pointer-events:none;
-    /* closing fades out much faster than opening: the old sheet content is
-       still in the DOM during the fade, so a slow close leaves it visibly
-       double-exposed against the page underneath - a long fade reads as a
-       flicker/ghost rather than a smooth dismiss */
-    transition:opacity .22s var(--ease),visibility 0s linear .22s;
+    visibility:hidden;pointer-events:none;
+    /* animate background-color, not opacity: opacity on this element would
+       also fade its child .sheet, and the sheet's own content stays in the
+       DOM the whole time - that reads as the closing/opening content being
+       double-exposed against the page underneath. The sheet handles its own
+       entrance/exit below via a real position change instead. */
+    transition:background-color .22s var(--ease),visibility 0s linear .22s;
   }
-  .overlay.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .55s var(--ease);}
+  .overlay.open{background:rgba(8,15,35,.55);visibility:visible;pointer-events:auto;transition:background-color .55s var(--ease);}
   @media(min-width:720px){.overlay{align-items:center;}}
   .sheet{
     background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;
     max-height:88vh;overflow-y:auto;padding:0 0 24px;position:relative;
-    animation:up .45s var(--ease);
+    transform:translate3d(0,100%,0);
+    transition:transform .22s cubic-bezier(.32,.72,0,1);
   }
+  .overlay.open .sheet{
+    transform:translate3d(0,0,0);
+    transition:transform .38s cubic-bezier(.32,.72,0,1);
+  }
+  @media(prefers-reduced-motion:reduce){ .sheet, .overlay.open .sheet{transition:none;} }
   /* drag-to-dismiss affordance: a single ::before covers every sheet variant
      (product detail, series map, compare, finder, racquet guide) without
      touching each one's own markup */
@@ -539,7 +546,6 @@
     .sheet::before{display:none;} /* centered desktop modal, not a bottom sheet */
   }
   @media(min-width:720px){.sheet.cmp-mode{max-width:900px;}}
-  @keyframes up{from{transform:translateY(16px) scale(.99);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
   .finder-wrap,.cmp-wrap{animation:panelIn .35s var(--ease);}
   .smap-tab-body{animation:panelIn .2s var(--ease);}
   .sheet-reveal-2{animation:panelIn .5s var(--ease) .1s both;}
@@ -984,9 +990,6 @@
     /* compare-toggle coachmark: fade only, both directions */
     @keyframes cmpCoachIn{ from{opacity:0} to{opacity:1} }
     .cmp-coach.leaving{ transform:none; }
-
-    /* product/compare sheet entrance: fade only, no rise/scale */
-    @keyframes up{ from{opacity:0} to{opacity:1} }
 
     /* compare/finder panel entrance: fade only, no rise */
     @keyframes panelIn{ from{opacity:0} to{opacity:1} }
@@ -7772,18 +7775,9 @@ function closeOverlayA11y(){
 function closeSheet(fromPopstate){
   clearTimeout(finderAdvanceTimer);
   clearTimeout(stringFinderAdvanceTimer);
-  const sheet = document.getElementById('sheet');
-  // slide the sheet itself off-screen instead of just fading the overlay's
-  // opacity - the old content otherwise stays in the DOM for the whole fade,
-  // visibly double-exposed against the page underneath (a ghosting flicker).
-  // Skip this if a drag-to-dismiss is already driving its own slide/transform.
-  if(!sheet.style.transform){
-    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(!reduceMotion){
-      sheet.style.transition = 'transform .22s cubic-bezier(.32,.72,0,1)';
-      sheet.style.transform = 'translate3d(0,100%,0)';
-    }
-  }
+  // removing 'open' reverts .sheet to its base (off-screen) transform via CSS,
+  // sliding it away - see the .overlay/.sheet rules for why this isn't a
+  // plain opacity fade
   document.getElementById('overlay').classList.remove('open');
   closeOverlayA11y();
   if(sheetHistoryPushed && !fromPopstate){
