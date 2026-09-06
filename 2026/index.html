@@ -811,7 +811,7 @@
 
   /* SHOE TECHNOLOGY (tennis) — full mobile infographic (designer artwork) */
   .rg-shoe-tech-svg-wrap{padding:8px 20px 4px;}
-  .rg-shoe-tech-svg{display:block;width:100%;height:auto;border-radius:14px;}
+  .rg-shoe-tech-svg{display:block;width:100%;height:auto;border-radius:14px;-webkit-user-drag:none;user-select:none;}
   .rg-iso-text{padding:0 20px 22px;}
   .rg-iso-text-tt{padding-top:18px;}
   .rg-iso-full{font-size:var(--fs-12);line-height:1.65;color:var(--ink);font-weight:600;text-align:left;margin:0 0 18px;}
@@ -7333,7 +7333,7 @@ function openTennisSeriesMapSheet(seriesName, tab){
   const sheet = document.getElementById('sheet');
   sheet.classList.remove('cmp-mode');
   sheet.innerHTML = `
-    <div class="smap-wrap">
+    <div class="smap-wrap" data-series="${seriesName}" data-has-tabs="${hasTech?'1':'0'}" data-active-tab="${activeTab}">
       <div class="smap-sticky-top">
         <div class="smap-head">
           <button onclick="closeSheet()" aria-label="뒤로">←</button>
@@ -7354,6 +7354,46 @@ function openTennisSeriesMapSheet(seriesName, tab){
   if(activeTab==='map' && new URLSearchParams(location.search).get('admin')==='1') initTennisMapDrag(seriesName);
   focusSheetContent();
 }
+/* swipe left/right on the SERIES MAP / TECHNOLOGY body to switch tabs, same
+   gesture and edge-bounce feedback as initSeriesHeroSwipe above */
+(function initSmapTabSwipe(){
+  const sheet = document.getElementById('sheet');
+  if(!sheet) return;
+  const order = ['map','tech'];
+  let startX=0, startY=0, tracking=false, dragging=false, wrap=null;
+  sheet.addEventListener('pointerdown', e=>{
+    const body = e.target.closest('.smap-tab-body');
+    wrap = body ? body.closest('.smap-wrap') : null;
+    if(!wrap || wrap.dataset.hasTabs!=='1'){ wrap=null; return; }
+    startX = e.clientX; startY = e.clientY; tracking=true; dragging=false;
+  });
+  sheet.addEventListener('pointermove', e=>{
+    if(!tracking) return;
+    const dx = e.clientX-startX, dy = e.clientY-startY;
+    if(!dragging && Math.abs(dx)>8 && Math.abs(dx)>Math.abs(dy)) dragging = true;
+  });
+  sheet.addEventListener('pointerup', e=>{
+    if(!tracking) return;
+    tracking=false;
+    if(!dragging || !wrap) return;
+    const dx = e.clientX-startX;
+    if(Math.abs(dx)<40) return;
+    const idx = order.indexOf(wrap.dataset.activeTab);
+    const nextIdx = idx + (dx<0 ? 1 : -1);
+    const body = wrap.querySelector('.smap-tab-body');
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(nextIdx<0 || nextIdx>=order.length){
+      if(body && !reduceMotion) body.animate([
+        {transform:'translateX(0)'},
+        {transform:`translateX(${dx<0?-10:10}px)`},
+        {transform:'translateX(0)'}
+      ], {duration:200, easing:'cubic-bezier(.22,1,.36,1)'});
+      return;
+    }
+    openTennisSeriesMapSheet(wrap.dataset.series, order[nextIdx]);
+  });
+  sheet.addEventListener('pointercancel', ()=>{ tracking=false; dragging=false; wrap=null; });
+})();
 function seriesMapShowDetail(idx, seriesName, backKind){
   const p = P[idx];
   setHeroGallery(p);
