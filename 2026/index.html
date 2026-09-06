@@ -8635,6 +8635,12 @@ document.getElementById('overlay').addEventListener('click', e=>{
 window.addEventListener('popstate', ()=>{
   if(document.getElementById('overlay').classList.contains('open')) closeSheet(true);
 });
+/* absorb the first back gesture on the bare catalog page (no sheet open) so a
+   stray edge-swipe doesn't immediately exit to the archive picker one level
+   up - push one extra same-URL history entry on load; landing back on the
+   real entry underneath is an invisible no-op, and only a second back tap
+   actually leaves */
+history.pushState({catalogHome:true}, '', location.href);
 document.addEventListener('keydown', e=>{
   if(e.key!=='Escape') return;
   if(document.getElementById('techPopover').classList.contains('pop-open')){ closeTechPopover(); return; }
