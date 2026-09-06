@@ -511,7 +511,18 @@
     max-height:88vh;overflow-y:auto;padding:0 0 24px;position:relative;
     animation:up .45s var(--ease);
   }
-  @media(min-width:720px){.sheet{border-radius:20px;max-height:80vh;}}
+  /* drag-to-dismiss affordance: a single ::before covers every sheet variant
+     (product detail, series map, compare, finder, racquet guide) without
+     touching each one's own markup */
+  .sheet::before{
+    content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);
+    width:36px;height:4px;border-radius:999px;background:#d1d1d6;
+    box-shadow:0 1px 2px rgba(0,0,0,.12);z-index:6;pointer-events:none;
+  }
+  @media(min-width:720px){
+    .sheet{border-radius:20px;max-height:80vh;}
+    .sheet::before{display:none;} /* centered desktop modal, not a bottom sheet */
+  }
   @media(min-width:720px){.sheet.cmp-mode{max-width:900px;}}
   @keyframes up{from{transform:translateY(16px) scale(.99);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
   .finder-wrap,.cmp-wrap{animation:panelIn .35s var(--ease);}
