@@ -225,18 +225,27 @@
 
   nav.subcats{
     display:flex;gap:20px;overflow-x:auto;padding:0 0 16px 16px;margin-top:0;
-    scrollbar-width:none;
+    scrollbar-width:none;position:relative;
   }
   nav.subcats::-webkit-scrollbar{display:none;}
   nav.subcats button{
     flex:none;white-space:nowrap;background:transparent;color:var(--muted);
     border:none;padding:7px 2px;font-size:var(--fs-13-5);font-weight:700;cursor:pointer;
-    border-bottom:3px solid transparent;transition:color .15s ease,border-bottom-color .15s ease,transform .1s ease;
+    border-bottom:3px solid transparent;transition:color .15s ease,transform .1s ease;
   }
   nav.subcats button:hover{color:var(--ink);}
   nav.subcats button:active{transform:scale(.95);}
-  nav.subcats button.active{color:var(--ink);border-bottom-color:#34c759;}
+  nav.subcats button.active{color:var(--ink);}
   nav.subcats button.active:hover{color:var(--ink);}
+  /* shared bar slides under the active label instead of each button flipping
+     its own border-bottom color - see updateSubcatBar() */
+  .subcat-bar{
+    position:absolute;top:0;left:0;height:3px;width:0;
+    background:#34c759;border-radius:3px;
+    transition:transform .32s var(--ease),width .32s var(--ease);
+    pointer-events:none;
+  }
+  @media(prefers-reduced-motion:reduce){ .subcat-bar{transition:none;} }
 
   nav.cats.has-more, nav.subcats.has-more, .serieswrap.has-more, .cmp-table-wrap.has-more, .filter-mode-tabs.has-more{
     -webkit-mask-image:linear-gradient(to right, black calc(100% - 28px), transparent);
@@ -2891,15 +2900,48 @@ window.addEventListener('resize', ()=>{
 function renderSubNav(){
   const el = document.getElementById('subNav');
   const subs = SUBCATS[state.cat];
-  el.innerHTML = subs.map(s=>`<button data-sub="${s.id}" class="${(!state.q && s.id===state.sub)?'active':''}">${s.label}</button>`).join('');
-  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    state.sub=b.dataset.sub; state.q='';
-    resetFilters();
-    document.getElementById('searchInput').value='';
-    renderAll();
-  });
+  // only rebuild the buttons when the subcategory set actually changed (i.e. the
+  // category switched) - otherwise keep the bar element alive across re-renders
+  // so it can slide instead of teleporting
+  const targetIds = subs.map(s=>s.id).join(',');
+  const currentIds = Array.from(el.querySelectorAll('button')).map(b=>b.dataset.sub).join(',');
+  const rebuilt = currentIds !== targetIds;
+  if(rebuilt){
+    el.innerHTML = `<div class="subcat-bar" id="subcatBar"></div>` + subs.map(s=>`<button data-sub="${s.id}">${s.label}</button>`).join('');
+    el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      state.sub=b.dataset.sub; state.q='';
+      resetFilters();
+      document.getElementById('searchInput').value='';
+      renderAll();
+    });
+  }
+  const activeId = state.q ? null : state.sub;
+  el.querySelectorAll('button').forEach(b=> b.classList.toggle('active', b.dataset.sub===activeId));
+  updateSubcatBar(el, !rebuilt);
   syncScrollFade(el);
 }
+function updateSubcatBar(el, animate){
+  const bar = document.getElementById('subcatBar');
+  if(!bar) return;
+  const activeBtn = el.querySelector('button.active');
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!animate || reduceMotion) bar.style.transition = 'none';
+  if(!activeBtn){
+    bar.style.width = '0px';
+  } else {
+    const navRect = el.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    const x = btnRect.left - navRect.left;
+    const y = btnRect.bottom - navRect.top - 3;
+    bar.style.transform = `translate(${x}px, ${y}px)`;
+    bar.style.width = btnRect.width + 'px';
+  }
+  if(!animate || reduceMotion){ void bar.offsetWidth; bar.style.transition = ''; }
+}
+window.addEventListener('resize', ()=>{
+  const el = document.getElementById('subNav');
+  if(el) updateSubcatBar(el, false);
+});
 function racquetFlex(p){
   return (p.specs && p.specs['탄성']) || null;
 }
