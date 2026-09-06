@@ -200,22 +200,28 @@
   @media print{ .compare-bar{display:none !important;} }
 
   nav.cats{
-    display:flex;gap:10px;overflow-x:auto;padding:0 0 10px;
-    scrollbar-width:none;
+    display:flex;gap:10px;overflow-x:auto;padding:2px 0 10px;
+    scrollbar-width:none;position:relative;
   }
   nav.cats::-webkit-scrollbar{display:none;}
   nav.cats button{
-    flex:none;white-space:nowrap;
-    background:transparent;color:#3d3d40;border:1.5px solid #d2d2d7;
+    flex:none;white-space:nowrap;position:relative;z-index:1;
+    background:transparent;color:#3d3d40;border:1.5px solid transparent;
     padding:8px 17px;border-radius:980px;font-size:var(--fs-13);font-weight:800;cursor:pointer;
     transition:background .15s ease,color .15s ease,border-color .15s ease,transform .1s ease;
   }
-  nav.cats button:hover{color:var(--ink);border-color:#adadb2;}
+  nav.cats button:hover{color:var(--ink);}
   nav.cats button:active{transform:scale(.96);}
-  nav.cats button.active{
-    background:var(--ink);color:#fff;border-color:var(--ink);
+  nav.cats button.active{color:#fff;}
+  /* shared pill slides between tabs instead of each button flipping its own
+     background - see updateCatPill() */
+  .cat-pill{
+    position:absolute;top:2px;left:0;height:0;z-index:0;
+    background:var(--ink);border-radius:980px;
+    transition:transform .38s var(--ease),width .38s var(--ease);
+    pointer-events:none;
   }
-  nav.cats button.active:hover{background:var(--ink);color:#fff;}
+  @media(prefers-reduced-motion:reduce){ .cat-pill{transition:none;} }
 
   nav.subcats{
     display:flex;gap:30px;overflow-x:auto;padding:0 0 16px;margin-top:0;
@@ -2841,15 +2847,47 @@ function resetFilters(){
 }
 function renderCatNav(){
   const el = document.getElementById('catNav');
-  el.innerHTML = CATS.map(c=>`<button data-cat="${c.id}" class="${(!state.q && c.id===state.cat)?'active':''}">${c.label}</button>`).join('');
-  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    state.cat=b.dataset.cat; state.sub=SUBCATS[state.cat][0].id; state.q='';
-    resetFilters();
-    document.getElementById('searchInput').value='';
-    renderAll();
-  });
+  // renderAll() calls this on every state change, but the category list itself
+  // never changes - only rebuild the buttons when they're actually missing, so
+  // the pill element survives re-renders and can slide instead of teleporting
+  const targetIds = CATS.map(c=>c.id).join(',');
+  const currentIds = Array.from(el.querySelectorAll('button')).map(b=>b.dataset.cat).join(',');
+  const rebuilt = currentIds !== targetIds;
+  if(rebuilt){
+    el.innerHTML = `<div class="cat-pill" id="catPill"></div>` + CATS.map(c=>`<button data-cat="${c.id}">${c.label}</button>`).join('');
+    el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      state.cat=b.dataset.cat; state.sub=SUBCATS[state.cat][0].id; state.q='';
+      resetFilters();
+      document.getElementById('searchInput').value='';
+      renderAll();
+    });
+  }
+  const activeId = state.q ? null : state.cat;
+  el.querySelectorAll('button').forEach(b=> b.classList.toggle('active', b.dataset.cat===activeId));
+  updateCatPill(el, !rebuilt);
   syncScrollFade(el);
 }
+function updateCatPill(el, animate){
+  const pill = document.getElementById('catPill');
+  if(!pill) return;
+  const activeBtn = el.querySelector('button.active');
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!animate || reduceMotion) pill.style.transition = 'none';
+  if(!activeBtn){
+    pill.style.width = '0px';
+  } else {
+    const navRect = el.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    pill.style.transform = `translateX(${btnRect.left - navRect.left}px)`;
+    pill.style.width = btnRect.width + 'px';
+    pill.style.height = btnRect.height + 'px';
+  }
+  if(!animate || reduceMotion){ void pill.offsetWidth; pill.style.transition = ''; }
+}
+window.addEventListener('resize', ()=>{
+  const el = document.getElementById('catNav');
+  if(el) updateCatPill(el, false);
+});
 function renderSubNav(){
   const el = document.getElementById('subNav');
   const subs = SUBCATS[state.cat];
