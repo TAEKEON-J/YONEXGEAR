@@ -7735,6 +7735,11 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
 let sheetHistoryPushed = false;
 let sheetReturnFocusEl = null;
 function openOverlayA11y(){
+  // clear any leftover close/drag-dismiss slide before the next sheet's
+  // content renders, so it always starts fresh at rest
+  const sheet = document.getElementById('sheet');
+  sheet.style.transition = '';
+  sheet.style.transform = '';
   if(document.getElementById('overlay').classList.contains('open')) return;
   sheetReturnFocusEl = document.activeElement;
   const exempt = ['overlay','techPopover','recoPopover','cmpAddPopover'];
@@ -7767,6 +7772,18 @@ function closeOverlayA11y(){
 function closeSheet(fromPopstate){
   clearTimeout(finderAdvanceTimer);
   clearTimeout(stringFinderAdvanceTimer);
+  const sheet = document.getElementById('sheet');
+  // slide the sheet itself off-screen instead of just fading the overlay's
+  // opacity - the old content otherwise stays in the DOM for the whole fade,
+  // visibly double-exposed against the page underneath (a ghosting flicker).
+  // Skip this if a drag-to-dismiss is already driving its own slide/transform.
+  if(!sheet.style.transform){
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduceMotion){
+      sheet.style.transition = 'transform .22s cubic-bezier(.32,.72,0,1)';
+      sheet.style.transform = 'translate3d(0,100%,0)';
+    }
+  }
   document.getElementById('overlay').classList.remove('open');
   closeOverlayA11y();
   if(sheetHistoryPushed && !fromPopstate){
