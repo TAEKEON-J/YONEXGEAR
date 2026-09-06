@@ -502,7 +502,7 @@
        still in the DOM during the fade, so a slow close leaves it visibly
        double-exposed against the page underneath - a long fade reads as a
        flicker/ghost rather than a smooth dismiss */
-    transition:opacity .22s ease-out,visibility 0s linear .22s;
+    transition:opacity .22s var(--ease),visibility 0s linear .22s;
   }
   .overlay.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .55s var(--ease);}
   @media(min-width:720px){.overlay{align-items:center;}}
@@ -526,7 +526,7 @@
   @media(min-width:720px){.sheet.cmp-mode{max-width:900px;}}
   @keyframes up{from{transform:translateY(16px) scale(.99);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
   .finder-wrap,.cmp-wrap{animation:panelIn .35s var(--ease);}
-  .smap-tab-body{animation:panelIn .35s var(--ease);}
+  .smap-tab-body{animation:panelIn .2s var(--ease);}
   .sheet-reveal-2{animation:panelIn .5s var(--ease) .1s both;}
   @keyframes panelIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
   .sheet-head{display:none;}
@@ -2464,7 +2464,8 @@ function badgeLabel(b){ return b ? b.replace(/^20(\d{2})/, '$1') : b; }
 function thumbContent(p){
   if(p.img){
     return `<img src="${p.img}" alt="${p.name}" loading="lazy" decoding="async"
-              style="width:100%;height:100%;object-fit:cover;"
+              style="width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s var(--ease);"
+              onload="this.style.opacity=1"
               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'thumb-icon-wrap',innerHTML:iconFor('${p.s}')+'<span class=\\'thumb-label\\'>${p.series}</span>'}))">`;
   }
   return `<div class="thumb-icon-wrap">${iconFor(p.s)}<span class="thumb-label">${p.series}</span></div>`;
@@ -3162,7 +3163,7 @@ function swipeBanner(selector, list, current, applyValue, offset){
       {transform:'translateX(0)'},
       {transform:`translateX(${offset>0?-10:10}px)`},
       {transform:'translateX(0)'}
-    ], {duration:200, easing:'ease-out'});
+    ], {duration:200, easing:'cubic-bezier(.22,1,.36,1)'});
     return;
   }
   const dir = offset>0 ? 1 : -1;
@@ -3188,7 +3189,7 @@ function swipeBanner(selector, list, current, applyValue, offset){
   if(reduceMotion){ finish(); return; }
   hero.style.transform = `translateX(${dir*-16}px)`;
   hero.style.opacity = '0';
-  setTimeout(finish, 160);
+  setTimeout(finish, 180);
 }
 function goToSeriesOffset(offset){
   const info = ((state.cat==='bad' || state.cat==='ten') && state.sub==='racquet' && state.series) ? SERIES_INFO[state.series] : null;
@@ -8522,13 +8523,20 @@ document.addEventListener('keydown', e=>{
   if(document.getElementById('overlay').classList.contains('open')){ closeSheet(); return; }
 });
 
+let searchDebounceTimer;
 document.getElementById('searchInput').addEventListener('input', e=>{
-  state.q = e.target.value.trim();
-  renderCatNav();
-  renderSubNav();
-  renderFilterModeTabs();
-  renderSeriesRow();
-  renderGrid();
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(()=>{
+    // re-read the live value rather than closing over it: if something else
+    // (a category switch) cleared the input while this timer was pending,
+    // this must reflect that instead of overwriting it with a stale query
+    state.q = document.getElementById('searchInput').value.trim();
+    renderCatNav();
+    renderSubNav();
+    renderFilterModeTabs();
+    renderSeriesRow();
+    renderGrid();
+  }, 120);
 });
 
 /* =============== SCROLL TO TOP =============== */
