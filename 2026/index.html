@@ -10,6 +10,12 @@
 <meta property="og:description" content="요넥스 2026 배드민턴·테니스 용품 디지털 카탈로그">
 <meta property="og:image" content="images/header-banner.jpg">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000'/><text x='50' y='69' font-family='Arial,sans-serif' font-weight='900' font-size='58' fill='%238cff5c' text-anchor='middle'>Y</text></svg>">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="YONEX 2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -198,6 +204,36 @@
   .compare-bar .cb-clear:hover{color:#fff;}
   .compare-bar .cb-clear:active{transform:scale(.85);}
   @media print{ .compare-bar{display:none !important;} }
+
+  .install-banner{
+    /* stacked above the .to-top/.compare-bar band (46px tall + 16px margin +
+       8px clearance = 70px), not overlapping it - the top edge is out since
+       header.top is sticky there on every scroll position */
+    position:fixed;left:12px;right:12px;bottom:calc(70px + env(safe-area-inset-bottom));z-index:58;
+    background:var(--ink);color:#fff;border-radius:16px;
+    padding:12px;display:flex;align-items:center;gap:11px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    opacity:0;transform:translateY(16px);pointer-events:none;
+    transition:opacity .3s var(--ease),transform .3s var(--ease);
+  }
+  .install-banner.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .install-banner .ib-icon{width:42px;height:42px;border-radius:11px;flex:none;display:block;}
+  .install-banner .ib-text{flex:1;min-width:0;}
+  .install-banner .ib-title{font-size:var(--fs-13-5);font-weight:800;margin-bottom:2px;}
+  .install-banner .ib-desc{font-size:11.5px;color:#c7c7cc;line-height:1.4;}
+  .install-banner .ib-install{
+    flex:none;background:var(--green);color:var(--ink);font-weight:800;font-size:12.5px;
+    border:none;border-radius:999px;padding:9px 15px;cursor:pointer;white-space:nowrap;
+    transition:transform .1s ease;
+  }
+  .install-banner .ib-install:active{transform:scale(.96);}
+  .install-banner .ib-close{
+    flex:none;background:transparent;border:none;color:#8a8a8a;font-size:15px;line-height:1;cursor:pointer;
+    padding:6px;align-self:flex-start;
+  }
+  .install-banner .ib-close:hover{color:#fff;}
+  @media(prefers-reduced-motion:reduce){ .install-banner{transition:none;} }
+  @media print{ .install-banner{display:none !important;} }
 
   nav.cats{
     display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;
@@ -1124,6 +1160,16 @@
   <div class="cmp-coach-arrow" id="cmpCoachArrow"></div>
   <span class="cmp-coach-text">여기를 눌러 라켓을 비교해보세요</span>
   <button class="cmp-coach-close" onclick="dismissCmpCoach()" aria-label="닫기">✕</button>
+</div>
+
+<div class="install-banner" id="installBanner" role="dialog" aria-label="앱처럼 설치하기">
+  <img class="ib-icon" src="icons/icon-192.png" alt="">
+  <div class="ib-text">
+    <div class="ib-title">앱처럼 설치하기</div>
+    <div class="ib-desc" id="ibDesc">하단 공유 버튼 → "홈 화면에 추가"를 눌러주세요.</div>
+  </div>
+  <button class="ib-install" id="ibInstallBtn" hidden>설치</button>
+  <button class="ib-close" id="ibClose" aria-label="닫기">✕</button>
 </div>
 
 <script>
@@ -8703,6 +8749,52 @@ renderAll();
 if(new URLSearchParams(location.search).get('admin')==='1'){
   document.getElementById('adminBtn').style.display='block';
 }
+
+/* =============== INSTALL BANNER (add to home screen) ===============
+   iOS Safari has no install prompt API, so it gets manual share-sheet
+   instructions; Android/desktop Chrome fire beforeinstallprompt, so it
+   gets a real install button instead. Shown once ever per browser. */
+(function initInstallBanner(){
+  const DISMISS_KEY = 'installBannerDismissed';
+  if(localStorage.getItem(DISMISS_KEY)) return;
+  const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  if(isStandalone) return;
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/.test(ua) && !window.MSStream;
+  const banner = document.getElementById('installBanner');
+  const desc = document.getElementById('ibDesc');
+  const installBtn = document.getElementById('ibInstallBtn');
+  const closeBtn = document.getElementById('ibClose');
+  if(!banner) return;
+
+  function show(){ banner.classList.add('show'); }
+  function hide(remember){
+    banner.classList.remove('show');
+    if(remember) localStorage.setItem(DISMISS_KEY, '1');
+  }
+  closeBtn.addEventListener('click', ()=> hide(true));
+
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt = e;
+    desc.textContent = '앱처럼 설치하고 더 빠르게 이용해보세요.';
+    installBtn.hidden = false;
+    show();
+  });
+  installBtn.addEventListener('click', async ()=>{
+    if(!deferredPrompt) return;
+    installBtn.disabled = true;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    hide(true);
+  });
+  window.addEventListener('appinstalled', ()=> hide(true));
+
+  // iOS never fires beforeinstallprompt - fall back to manual instructions
+  if(isIOS) setTimeout(()=>{ if(!deferredPrompt) show(); }, 1800);
+})();
 </script>
 </body>
 </html>
