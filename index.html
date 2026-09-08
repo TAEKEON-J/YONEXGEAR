@@ -101,8 +101,7 @@
   2. Add a line below, e.g. {year:2027, href:'2027/', status:'live'}.
   3. Save — the new year appears here automatically, newest first.
   status: 'live' = clickable, goes straight to that year's catalog.
-          'soon' = shown as "준비중", still links through so nothing 404s,
-                   but visually marked as not ready yet.
+          'soon' = shown as "준비중", not clickable.
 */
 const YEARS = [
   {year:2026, href:'2026/', status:'live'},
@@ -110,15 +109,19 @@ const YEARS = [
 ];
 
 const el = document.getElementById('yearList');
-el.innerHTML = YEARS.slice().sort((a,b)=>b.year-a.year).map(y=>`
-  <a class="year-card ${y.status}" href="${y.href}">
+el.innerHTML = YEARS.slice().sort((a,b)=>b.year-a.year).map(y=>{
+  const tag = y.status==='live' ? 'a' : 'div';
+  const hrefAttr = y.status==='live' ? ` href="${y.href}"` : '';
+  return `
+  <${tag} class="year-card ${y.status}"${hrefAttr}>
     <div class="yr-left">
       <div class="yr-num">${y.year}</div>
       <div class="yr-label">GEAR CATALOGUE</div>
     </div>
     <div class="yr-action">${y.status==='live' ? '카탈로그 보기 →' : '준비중'}</div>
-  </a>
-`).join('');
+  </${tag}>
+`;
+}).join('');
 </script>
 </body>
 </html>
