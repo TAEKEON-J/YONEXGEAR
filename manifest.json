@@ -1,0 +1,15 @@
+{
+  "name": "YONEX GEAR",
+  "short_name": "YONEX GEAR",
+  "description": "요넥스 배드민턴·테니스 용품 디지털 카탈로그 아카이브",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#1d1d1f",
+  "lang": "ko",
+  "icons": [
+    { "src": "2026/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "2026/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

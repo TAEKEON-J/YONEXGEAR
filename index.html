@@ -10,6 +10,7 @@
 <meta property="og:description" content="요넥스 배드민턴·테니스 용품 디지털 카탈로그 아카이브">
 <link rel="icon" href="logo.jpg">
 <link rel="apple-touch-icon" href="logo.jpg">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1d1d1f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -72,6 +73,33 @@
 
   footer{margin-top:40px;color:var(--sub);font-size:11px;line-height:1.7;max-width:320px;}
 
+  .install-banner{
+    position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:200;
+    background:var(--ink);color:#fff;border-radius:16px;
+    padding:12px;display:flex;align-items:center;gap:11px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    opacity:0;transform:translateY(16px);pointer-events:none;
+    transition:opacity .3s var(--ease),transform .3s var(--ease);
+  }
+  .install-banner.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .install-banner .ib-icon{width:42px;height:42px;border-radius:11px;flex:none;display:block;object-fit:cover;}
+  .install-banner .ib-text{flex:1;min-width:0;text-align:left;}
+  .install-banner .ib-title{font-size:13.5px;font-weight:800;margin-bottom:2px;}
+  .install-banner .ib-desc{font-size:11.5px;color:#c7c7cc;line-height:1.4;}
+  .install-banner .ib-install{
+    flex:none;background:var(--green);color:var(--ink);font-weight:800;font-size:12.5px;
+    border:none;border-radius:999px;padding:9px 15px;cursor:pointer;white-space:nowrap;
+    transition:transform .1s ease;
+  }
+  .install-banner .ib-install:active{transform:scale(.96);}
+  .install-banner .ib-close{
+    flex:none;background:transparent;border:none;color:#8a8a8a;font-size:15px;line-height:1;cursor:pointer;
+    padding:6px;align-self:flex-start;
+  }
+  .install-banner .ib-close:hover{color:#fff;}
+  @media(prefers-reduced-motion:reduce){ .install-banner{transition:none;} }
+  @media print{ .install-banner{display:none !important;} }
+
   @keyframes textIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   .badge-row{animation:textIn .7s var(--ease) both;}
   h1{animation:textIn .7s var(--ease) .1s both;}
@@ -91,6 +119,16 @@
   <div class="years" id="yearList"></div>
 
   <footer>YONEX GEAR CATALOGUE ARCHIVE<br>웹 열람용으로 재구성된 비공식 요약본 · 정확한 정보는 요넥스 공식 채널을 참고하세요.</footer>
+
+  <div class="install-banner" id="installBanner" role="dialog" aria-label="앱처럼 설치하기">
+    <img class="ib-icon" src="logo.jpg" alt="">
+    <div class="ib-text">
+      <div class="ib-title">앱처럼 설치하기</div>
+      <div class="ib-desc" id="ibDesc">하단 공유 버튼 → "홈 화면에 추가"를 눌러주세요.</div>
+    </div>
+    <button class="ib-install" id="ibInstallBtn" hidden>설치</button>
+    <button class="ib-close" id="ibClose" aria-label="닫기">✕</button>
+  </div>
 
 <script>
 /*
@@ -122,6 +160,52 @@ el.innerHTML = YEARS.slice().sort((a,b)=>b.year-a.year).map(y=>{
   </${tag}>
 `;
 }).join('');
+
+/* =============== INSTALL BANNER (add to home screen) ===============
+   iOS Safari has no install prompt API, so it gets manual share-sheet
+   instructions; Android/desktop Chrome fire beforeinstallprompt, so it
+   gets a real install button instead. Shown once ever per browser. */
+(function initInstallBanner(){
+  const DISMISS_KEY = 'installBannerDismissedRoot';
+  if(localStorage.getItem(DISMISS_KEY)) return;
+  const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  if(isStandalone) return;
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/.test(ua) && !window.MSStream;
+  const banner = document.getElementById('installBanner');
+  const desc = document.getElementById('ibDesc');
+  const installBtn = document.getElementById('ibInstallBtn');
+  const closeBtn = document.getElementById('ibClose');
+  if(!banner) return;
+
+  function show(){ banner.classList.add('show'); }
+  function hide(remember){
+    banner.classList.remove('show');
+    if(remember) localStorage.setItem(DISMISS_KEY, '1');
+  }
+  closeBtn.addEventListener('click', ()=> hide(true));
+
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt = e;
+    desc.textContent = '앱처럼 설치하고 더 빠르게 이용해보세요.';
+    installBtn.hidden = false;
+    show();
+  });
+  installBtn.addEventListener('click', async ()=>{
+    if(!deferredPrompt) return;
+    installBtn.disabled = true;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    hide(true);
+  });
+  window.addEventListener('appinstalled', ()=> hide(true));
+
+  // iOS never fires beforeinstallprompt - fall back to manual instructions
+  if(isIOS) setTimeout(()=>{ if(!deferredPrompt) show(); }, 1800);
+})();
 </script>
 </body>
 </html>
